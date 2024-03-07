@@ -1,0 +1,97 @@
+{
+  "app": {
+    "title": "Vue3项目模板",
+    "welcome": "欢迎使用Vue3项目模板"
+  },
+  "exception": {
+    "404": {
+      "title": "404",
+      "description": "抱歉，你访问的页面不存在",
+      "back-home": "返回首页"
+    }
+  },
+  "system": {
+    "notify": "系统提示"
+  },
+  "network": {
+    "code": {
+      "401": "登录已过期，请重新登录"
+    }
+  },
+  "menu": {
+    "dashboard": "首页",
+    "userCenter": "用户中心",
+    "tools": "工具"
+  },
+  "setting": {
+    "language": {
+      "title": "语言",
+      "zhCN": "简体中文",
+      "enUS": "English"
+    },
+    "theme": {
+      "title": "皮肤",
+      "auto": "跟随系统",
+      "dark": "深色主题",
+      "light": "浅色主题",
+      "origin": "默认主题",
+      "blue": "蓝色主题",
+      "green": "绿色主题",
+      "red": "红色主题",
+      "purple": "紫色主题",
+      "cyan": "青色主题",
+      "orange": "橙色主题",
+      "yellow": "黄色主题"
+    },
+    "upload": "上传设置"
+  },
+  "user": {
+    "login": {
+      "title": "登录",
+      "tenant": "租户",
+      "username": "用户名",
+      "password": "密码",
+      "captcha": "验证码",
+      "remember": "记住我",
+      "submit": "登录",
+      "forget": "忘记密码",
+      "nowRegister": "现在注册",
+      "placeholder": {
+        "tenant": "请输入租户",
+        "username": "请输入用户名",
+        "password": "请输入密码",
+        "captcha": "请输入验证码"
+      }
+    },
+    "register": {
+      "title": "注册",
+      "tenant": "租户",
+      "username": "用户名",
+      "email": "邮箱",
+      "password": "密码",
+      "confirm": "确认密码",
+      "captcha": "验证码",
+      "submit": "注册",
+      "haveAccount": "已有用户名? 去登录",
+      "placeholder": {
+        "tenant": "请输入租户",
+        "username": "请输入用户名",
+        "email": "请输入邮箱",
+        "password": "请输入密码",
+        "confirm": "请再次输入密码",
+        "captcha": "请输入验证码"
+      }
+    },
+    "center": {
+      "title": "用户中心"
+    },
+    "alert": {
+      "title": "系统提示"
+    },
+    "logout": "退出登录"
+  },
+  "role": {
+    "admin": "系统管理员",
+    "analyst": "数据分析师"
+  }
+}
