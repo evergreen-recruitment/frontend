@@ -1,0 +1,18 @@
+@import 'theme.scss';
+
+// 滚动条样式
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+  background: rgba(#f5f5f5, 0.2);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(#bababa, 0.5);
+  border-radius: 32px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: rgba(#ffffff, 0.1);
+  border-radius: 32px;
+}

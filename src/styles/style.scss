@@ -1,0 +1,42 @@
+@import 'theme.scss';
+
+:root {
+  --border-radius: 0px;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  position: relative;
+  transition: background-color 0.3s,
+  color 0.3s;
+  @include useTheme {
+    background-color: getModeVar('bgColor');
+    color: getModeVar('infoColor');
+  }
+}
+
+.enter-y {
+  --enter-duration: 0.4s;
+  opacity: 0;
+  transform: translateX(50px);
+  animation: enter-y-animation var(--enter-duration) ease-in-out 0.3s forwards;
+  @for $i from 1 through 20 {
+    &:nth-child(#{$i}) {
+      animation-delay: #{$i * 0.1}s;
+    }
+  }
+  @keyframes enter-y-animation {
+    0% {
+      opacity: 0;
+      transform: translateX(50px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}

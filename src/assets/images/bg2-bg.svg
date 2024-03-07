@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="_图层_2" data-name="图层 2" xmlns="http://www.w3.org/2000/svg"
+     viewBox="0 0 1008.11 600">
+    <defs>
+        <style>
+            .cls-1 {
+            fill: url(#linear-gradient);
+            }
+        </style>
+        <linearGradient id="linear-gradient" x1="1008.11" y1="300" x2="0" y2="300" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#f2f5ff"/>
+            <stop offset=".61" stop-color="#f7f9ff"/>
+            <stop offset="1" stop-color="#fff"/>
+        </linearGradient>
+    </defs>
+    <g id="Text">
+        <path class="cls-1"
+              d="M3.15,600S-45.81,174.6,242.24,207.75c288.04,33.15,276.43-91.47,414.29-156.75,0,0,174.94-92.56,351.58-28.27V600H3.15Z"/>
+    </g>
+</svg>

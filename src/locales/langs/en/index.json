@@ -1,0 +1,97 @@
+{
+  "app": {
+    "title": "Vue3 project template",
+    "welcome": "Welcome to use Vue3 project template!"
+  },
+  "exception": {
+    "404": {
+      "title": "404",
+      "description": "Sorry, the page you visited does not exist",
+      "back-home": "Back Home"
+    }
+  },
+  "system": {
+    "notify": "System prompt"
+  },
+  "network": {
+    "code": {
+      "401": "Login has expired, please log in again"
+    }
+  },
+  "menu": {
+    "dashboard": "Dashboard",
+    "userCenter": "User Center",
+    "tools": "tools"
+  },
+  "setting": {
+    "language": {
+      "title": "Language",
+      "zhCN": "简体中文",
+      "enUS": "English"
+    },
+    "theme": {
+      "title": "Skin",
+      "auto": "Auto",
+      "dark": "Dark",
+      "light": "Light",
+      "origin": "Default",
+      "blue": "Blue",
+      "green": "Green",
+      "red": "Red",
+      "purple": "Purple",
+      "cyan": "Cyan",
+      "orange": "Orange",
+      "yellow": "Yellow"
+    },
+    "upload": "Upload Setting"
+  },
+  "user": {
+    "login": {
+      "title": "Login",
+      "tenant": "Tenant",
+      "username": "Username",
+      "password": "Password",
+      "captcha": "Captcha",
+      "remember": "Remember me",
+      "submit": "Login",
+      "forget": "Forget password",
+      "nowRegister": "Now register",
+      "placeholder": {
+        "tenant": "Please select tenant",
+        "username": "Please enter username",
+        "password": "Please enter password",
+        "captcha": "Please enter captcha"
+      }
+    },
+    "register": {
+      "title": "Register",
+      "tenant": "Tenant",
+      "username": "Username",
+      "email": "Email",
+      "password": "Password",
+      "confirm": "Confirm",
+      "captcha": "Captcha",
+      "submit": "Register",
+      "haveAccount": "Have account? Login now",
+      "placeholder": {
+        "tenant": "Please select tenant",
+        "username": "Please enter username",
+        "email": "Please enter email",
+        "password": "Please enter password",
+        "confirm": "Please enter confirm password",
+        "captcha": "Please enter captcha"
+      }
+    },
+    "center": {
+      "title": "User Center"
+    },
+    "alert": {
+      "title": "Alert Message"
+    },
+    "logout": "Logout"
+  },
+  "role": {
+    "admin": "System Admin",
+    "analyst": "Data analyst"
+  }
+}
