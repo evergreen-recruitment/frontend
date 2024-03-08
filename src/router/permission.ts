@@ -22,7 +22,7 @@ router.beforeEach((to: any, from: any, next: any) => {
       next()
     } else {
       next({
-        path: '/auth/login',
+        path: '/auth/loginByCaptcha',
         // 在login中使用redirect参数跳转到登录前的页面
         query: { redirect: to.fullPath },
       })

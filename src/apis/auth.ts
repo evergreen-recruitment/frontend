@@ -1,18 +1,50 @@
 import request from '@/utils/request'
 
-export type LoginFormType = {
-  username: string
-  password: string
+export type LoginByCaptchaFormType = {
+  phone: string
   code?: string
+  privacy?: boolean // 不传递给后端
   uuid?: string
-  rememberMe?: boolean
 }
 
-export function loginApi(loginForm: LoginFormType) {
-  // '/auth/login'
+export type LoginByPasswordFormType = {
+  phone: string
+  password: string
+  privacy?: boolean // 不传递给后端
+}
+
+export type ForgetPasswordFormType = {
+  phone?: string
+  code?: string
+  newPassword?: string
+  confirmNewPassword?: string
+  uuid?: string
+}
+
+export function loginByCaptchaApi(loginForm: LoginByCaptchaFormType) {
+  delete loginForm.privacy
   return request.Post(
-    'auth/login',
+    'auth/loginByCaptcha',
     loginForm,
+    // @ts-ignore
+    { headers: { 'Content-Type': 'application/json' }, ignoreToken: true },
+  )
+}
+
+export function loginByPasswordApi(loginForm: LoginByPasswordFormType) {
+  delete loginForm.privacy
+  return request.Post(
+    'auth/loginByPassword',
+    loginForm,
+    // @ts-ignore
+    { headers: { 'Content-Type': 'application/json' }, ignoreToken: true },
+  )
+}
+
+export function forgetPasswordApi(forgetPasswordForm: ForgetPasswordFormType) {
+  return request.Post(
+    'auth/forgetPassword',
+    forgetPasswordForm,
     // @ts-ignore
     { headers: { 'Content-Type': 'application/json' }, ignoreToken: true },
   )

@@ -14,24 +14,37 @@ export const constantRouterMap = [
     name: 'authLayout',
     path: '/auth',
     component: AuthLayout,
-    redirect: '/auth/login',
+    redirect: '/auth/loginByCaptcha',
     hidden: true,
     children: [
       {
         name: 'login',
         path: '/auth/login',
+        redirect: '/auth/loginByCaptcha',
+      },
+      {
+        name: 'loginByCaptcha',
+        path: '/auth/loginByCaptcha',
         meta: {
           title: '登录',
         },
-        component: () => import('@/views/auth/login/index.vue'),
+        component: () => import('@/views/auth/loginByCaptcha/index.vue'),
       },
       {
-        name: 'register',
-        path: '/auth/register',
+        name: 'loginByPassword',
+        path: '/auth/loginByPassword',
         meta: {
-          title: '注册',
+          title: '登录',
         },
-        component: () => import('@/views/auth/register/index.vue'),
+        component: () => import('@/views/auth/loginByPassword/index.vue'),
+      },
+      {
+        name: 'forgetPassword',
+        path: '/auth/forgetPassword',
+        meta: {
+          title: '忘记密码',
+        },
+        component: () => import('@/views/auth/forgetPassword/index.vue'),
       },
     ],
   },
