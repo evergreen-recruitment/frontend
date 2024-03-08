@@ -1,12 +1,9 @@
 <script lang="ts" setup>
-import { h, nextTick, reactive, ref } from 'vue'
+import { reactive, ref } from 'vue'
 import { useRequest } from 'alova'
-import { getCodeImgApi, loginByPasswordApi, type LoginByPasswordFormType } from '@/apis/auth'
+import { loginByPasswordApi, type LoginByPasswordFormType } from '@/apis/auth'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores'
-import { notification } from 'ant-design-vue'
-import i18n from '@/locales'
-import { SmileOutlined } from '@ant-design/icons-vue'
 
 const formRef = ref()
 const captchaEnabled = ref(true)
@@ -23,11 +20,12 @@ const rules = reactive({
   password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
   privacy: [
     {
-      required: true,
-      message: '请同意用户协议',
-      trigger: 'blur',
-      type: 'boolean',
-      validator: (rule: any, value: any) => value === true,
+      validator: (rule: any, value: any) => {
+        if (value !== true) {
+          return Promise.reject('请同意用户协议')
+        }
+        return Promise.resolve()
+      },
     },
   ],
 })
@@ -72,13 +70,13 @@ const { loading, send, onSuccess, onError } = useRequest(loginByPasswordApi(form
 
       <a-form-item>
         <a-button :loading="loading" html-type="submit" style="width: 100%; height: 45px" type="primary"
-          >{{ $t('user.login.submit') }}
+        >{{ $t('user.login.submit') }}
         </a-button>
       </a-form-item>
 
       <a-form-item name="privacy">
         <a-checkbox v-model:checked="formState.privacy"
-          >已阅读并同意常青招聘 《用户协议》《隐私政策》，<br />允许常青招聘统一管理本人账号信息
+        >已阅读并同意常青招聘 《用户协议》《隐私政策》，<br />允许常青招聘统一管理本人账号信息
         </a-checkbox>
       </a-form-item>
     </a-form>
