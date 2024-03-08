@@ -4,8 +4,8 @@
   <div class="error-page">
     <a-result status="404" :title="$t('exception.404.title')" :sub-title="$t('exception.404.description')">
       <template #extra>
-        <a-button type="primary">
-          <router-link to="/">{{ $t('exception.404.back-home') }}</router-link>
+        <a-button type="primary" @click="$router.push('/')">
+          {{ $t('exception.404.back-home') }}
         </a-button>
       </template>
     </a-result>

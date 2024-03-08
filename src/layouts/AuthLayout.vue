@@ -30,10 +30,15 @@ const iBackgroundRef = ref<any>(null)
 @import '@/styles/theme.scss';
 
 .i-auth-layout {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  height: 100vh;
+  @apply h-screen flex justify-center items-center;
+
+  @media screen and (max-width: 1280px) {
+    //height: 100%;
+  }
+
+  @media screen and (max-width: 768px) {
+    height: 100%;
+  }
 
   .i-auth-layout__container {
     display: flex;
@@ -54,39 +59,30 @@ const iBackgroundRef = ref<any>(null)
     }
 
     @media screen and (max-width: 768px) {
-      width: 100%;
-      left: 0;
-      border-radius: 0;
+      @apply w-full h-screen left-0 rounded-none items-center justify-center;
     }
 
     .i-auth-layout__container--left {
       @include useTheme {
         background: linear-gradient(90deg, getColor('primary'), getModeVar('cardBgColor'));
       }
-      color: #ffffff;
-      width: 240px;
-      padding: 10px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-shadow: 0 0 10px rgba(#000, 0.3);
+
+      @media screen and (max-width: 768px) {
+        display: none;
+      }
+      @apply w-[240px] text-white p-[10px] flex flex-col justify-center items-center;
 
       .i-auth-layout__container--left-title {
-        font-size: 40px;
-        font-weight: 600;
-        text-align: center;
-        margin-bottom: 20px;
+        @apply text-4xl font-bold text-center m-5 drop-shadow-md;
       }
 
       .i-auth-layout__container--left-subtitle {
-        font-size: 20px;
-        text-align: center;
+        @apply text-xl drop-shadow-md;
       }
     }
 
     .i-auth-layout__container--form {
-      padding: 20px;
+      @apply p-[20px];
     }
   }
 }

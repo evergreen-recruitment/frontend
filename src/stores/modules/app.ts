@@ -1,10 +1,10 @@
 import { defineStore } from 'pinia'
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { theme } from 'ant-design-vue'
 import type { primaryColorEnumType } from '@/config/theme.config'
 import variables from '@/styles/variables.module.scss'
 import { useI18n } from 'vue-i18n'
-import { syncAsyncRoute } from '@/router'
+import router, { syncAsyncRoute } from '@/router'
 
 /**
  * app 配置 开启持久化
@@ -76,6 +76,25 @@ export const useAppStore = defineStore(
         algorithm: darkMode.value === 'light' ? theme.defaultAlgorithm : theme.darkAlgorithm,
       }
     })
+
+    // 设置屏幕宽度变量
+    function setScreenWidthProperty() {
+      if (router.currentRoute.value.path.includes('/auth')) {
+        document.documentElement.style.setProperty('--screen-width', '1280')
+        return
+      }
+      document.documentElement.style.setProperty(
+        '--screen-width',
+        `${window.innerWidth || document.documentElement.clientWidth}`,
+      )
+    }
+
+    setScreenWidthProperty()
+    window.addEventListener('resize', setScreenWidthProperty)
+    watch(router.currentRoute, () => {
+      setScreenWidthProperty()
+    })
+
     return {
       themeName,
       locale,

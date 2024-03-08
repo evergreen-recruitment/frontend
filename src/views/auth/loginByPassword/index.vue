@@ -70,13 +70,13 @@ const { loading, send, onSuccess, onError } = useRequest(loginByPasswordApi(form
 
       <a-form-item>
         <a-button :loading="loading" html-type="submit" style="width: 100%; height: 45px" type="primary"
-        >{{ $t('user.login.submit') }}
+          >{{ $t('user.login.submit') }}
         </a-button>
       </a-form-item>
 
       <a-form-item name="privacy">
         <a-checkbox v-model:checked="formState.privacy"
-        >已阅读并同意常青招聘 《用户协议》《隐私政策》，<br />允许常青招聘统一管理本人账号信息
+          >已阅读并同意常青招聘 《用户协议》《隐私政策》，<br />允许常青招聘统一管理本人账号信息
         </a-checkbox>
       </a-form-item>
     </a-form>

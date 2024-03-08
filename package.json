@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@ant-design/icons-vue": "^7.0.1",
+    "@antv/g6": "^4.8.24",
     "@guolao/vue-monaco-editor": "^1.5.1",
     "@morev/vue-transitions": "^2.3.6",
     "@types/nprogress": "^0.2.3",

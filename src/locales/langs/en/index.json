@@ -19,7 +19,7 @@
     }
   },
   "menu": {
-    "dashboard": "Dashboard",
+    "home": "Home",
     "userCenter": "User Center",
     "tools": "tools"
   },
