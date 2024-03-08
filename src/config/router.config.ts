@@ -6,7 +6,7 @@ export const constantRouterMap = [
   {
     name: 'basicLayout',
     path: '/',
-    redirect: '/dashboard',
+    redirect: '/home',
     component: BasicLayout,
     children: [],
   },
@@ -78,14 +78,31 @@ export interface IRouter {
 export function getAsyncRouterMap(): IRouter[] {
   return [
     {
-      name: i18n.global?.t('menu.dashboard'),
-      path: '/dashboard',
+      name: i18n.global?.t('menu.home'),
+      path: '/home',
       meta: {
         icon: 'HomeOutlined',
         title: '首页',
-        requireAuth: true,
       },
-      component: () => import('@/views/dashboard/index.vue'),
+      component: () => import('@/views/home/index.vue'),
+    },
+    {
+      name: 'search',
+      path: '/search',
+      meta: {
+        icon: 'SearchOutlined',
+        title: '搜索',
+      },
+      component: () => import('@/views/search/index.vue'),
+    },
+    {
+      name: 'job',
+      path: '/job',
+      meta: {
+        icon: 'ToolOutlined',
+        title: '工作',
+      },
+      component: () => import('@/views/job/index.vue'),
     },
     {
       name: i18n.global?.t('menu.userCenter'),

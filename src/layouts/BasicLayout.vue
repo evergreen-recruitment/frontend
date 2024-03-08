@@ -1,14 +1,25 @@
 <script lang="ts" setup>
-import ILayout from '@/layouts/components/ILayout/ILayout.vue'
+import IHeader from '@/layouts/components/IHeader/IHeader.vue'
+import IFooter from '@/layouts/components/IFooter/IFooter.vue'
 </script>
 <template>
-  <i-layout>
-    <router-view v-slot="{ Component }">
+  <div class="i-layout">
+    <i-header />
+    <router-view v-slot="{ Component }" class="i-layout__inner">
       <transition-slide :offset="[-16, 0]" mode="out-in">
         <component :is="Component" />
       </transition-slide>
     </router-view>
-  </i-layout>
+    <i-footer />
+  </div>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.i-layout {
+  @apply min-h-screen;
+
+  .i-layout__inner {
+    @apply min-h-screen;
+  }
+}
+</style>
