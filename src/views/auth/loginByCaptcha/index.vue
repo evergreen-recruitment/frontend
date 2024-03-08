@@ -24,11 +24,12 @@ const rules = reactive({
   code: [{ required: true, message: '请输入验证码', trigger: 'blur' }],
   privacy: [
     {
-      required: true,
-      message: '请同意用户协议',
-      trigger: 'blur',
-      type: 'boolean',
-      validator: (rule: any, value: any) => value === true,
+      validator: (rule: any, value: any) => {
+        if (value !== true) {
+          return Promise.reject('请同意用户协议')
+        }
+        return Promise.resolve()
+      },
     },
   ],
 })
@@ -88,7 +89,8 @@ nextTick(() => {
 <template>
   <div>
     <div class="i-auth-title">验证码登录/注册</div>
-    <a-form ref="formRef" :label-col="{ span: 5 }" :model="formState" class="login-form" label-align="left">
+    <a-form ref="formRef" :label-col="{ span: 5 }" :rules="rules" :model="formState" class="login-form"
+            label-align="left">
       <a-form-item name="phone">
         <a-input v-model:value="formState.phone" size="large" :placeholder="$t('user.login.placeholder.username')">
           <template #prefix>
@@ -120,7 +122,7 @@ nextTick(() => {
           style="width: 100%; height: 45px; margin-bottom: 5px"
           type="primary"
           @click="login"
-          >{{ $t('user.login.submit') }}
+        >{{ $t('user.login.submit') }}
         </a-button>
 
         <a-button type="text" style="width: 100%; height: 45px">
@@ -131,7 +133,7 @@ nextTick(() => {
 
       <a-form-item name="privacy">
         <a-checkbox v-model:checked="formState.privacy"
-          >已阅读并同意常青招聘 《用户协议》《隐私政策》，<br />允许常青招聘统一管理本人账号信息
+        >已阅读并同意常青招聘 《用户协议》《隐私政策》，<br />允许常青招聘统一管理本人账号信息
         </a-checkbox>
       </a-form-item>
     </a-form>
