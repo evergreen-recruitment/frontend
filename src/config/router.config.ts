@@ -96,13 +96,13 @@ export function getAsyncRouterMap(): IRouter[] {
       component: () => import('@/views/search/index.vue'),
     },
     {
-      name: 'job',
-      path: '/job',
+      name: 'jobDetail',
+      path: '/jobDetail',
       meta: {
         icon: 'ToolOutlined',
-        title: '工作',
+        title: '工作详情',
       },
-      component: () => import('@/views/job/index.vue'),
+      component: () => import('@/views/jobDetail/index.vue'),
     },
     {
       name: i18n.global?.t('menu.userCenter'),
