@@ -258,7 +258,11 @@ const data = reactive([
           @apply w-full h-10 px-5 flex justify-between box-border cursor-pointer leading-10 hover:bg-[rgba(255,255,255,0.7)] hover:text-black;
 
           .layer {
-            @apply absolute top-0 left-[20rem] w-[calc(1280px-20rem)] h-[500px] bg-[rgba(255,255,255,0.2)] backdrop-blur-2xl hidden;
+            @apply absolute top-0 left-[20rem] w-[calc(1280px-20rem)] h-[500px] backdrop-blur-2xl hidden;
+
+            @include useTheme {
+              background: linear-gradient(90deg, #ffffffa0, rgba(getColor('primary'), 0.7));
+            }
 
             .title {
               @apply text-2xl font-bold ml-5 mt-5 mb-5;
