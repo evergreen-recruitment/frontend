@@ -1,35 +1,43 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import type { JobItem } from '@/types/commonTypes'
+import { useAppStore } from '@/stores'
+import variables from '@/styles/variables.module.scss'
+
+defineProps<{
+  job: JobItem
+}>()
+
+const appStore = useAppStore()
+</script>
 
 <template>
-  <div class="job-item">
+  <div class="job-item" @click="$router.push(`/jobDetail/${job.id}`)">
     <div class="top">
       <div class="left">
-        <div class="job-title">Python工程师</div>
+        <div class="job-title">{{ job.title }}</div>
         <div class="other">
-          <div class="job-salary">10k-20k</div>
+          <div class="job-salary">{{ `${job.salary[0]}-${job.salary[1]}` }}</div>
           <div class="job-experience">
-            <a-tag>3-5年</a-tag>
+            <a-tag>{{ job.experience }}</a-tag>
           </div>
           <div class="job-education">
-            <a-tag>本科</a-tag>
+            <a-tag>{{ job.education }}</a-tag>
           </div>
           <div class="job-hr">
-            <a-tag>黄先生</a-tag>
+            <a-tag>{{ job.hr }}</a-tag>
           </div>
         </div>
       </div>
       <div class="right">
-        <div class="company">易邮国际物流</div>
+        <div class="company">{{ job.company }}</div>
+        <div class="address">{{ job.address }}</div>
       </div>
     </div>
     <div class="bottom">
       <div class="job-tags">
-        <a-tag color="blue">Python</a-tag>
-        <a-tag color="blue">Django</a-tag>
-        <a-tag color="blue">Flask</a-tag>
-        <a-tag color="blue">Tornado</a-tag>
+        <a-tag :color="variables[appStore.themeName]" v-for="t in job.tags" :key="t">{{ t }}</a-tag>
       </div>
-      <div class="job-time">发布时间：2021-08-01</div>
+      <div class="job-time">发布时间：{{ job.createTime }}</div>
     </div>
   </div>
 </template>
@@ -38,7 +46,7 @@
 @import '@/styles/theme.scss';
 
 .job-item {
-  @apply mb-5 rounded-2xl shadow-lg overflow-hidden;
+  @apply mb-5 rounded-2xl shadow-lg overflow-hidden cursor-pointer;
 
   @include useTheme {
     background-color: getModeVar('cardBgColor');
@@ -64,17 +72,23 @@
     }
 
     .right {
+      @apply flex flex-col items-end;
       .company {
         @apply text-lg;
+      }
+
+      .address {
+        @apply text-gray-500;
       }
     }
   }
 
   .bottom {
-    @apply h-12 px-5 flex justify-between items-center;
+    @apply h-9 mx-3 px-2 mt-2 mb-2 flex justify-between items-center;
 
     @include useTheme {
-      background: linear-gradient(0deg, rgba(getColor('primary'), 0.2), getModeVar('cardBgColor'));
+      border-top: 2px solid getColor('primary');
+      //background: linear-gradient(0deg, rgba(getColor('primary'), 0.2), getModeVar('cardBgColor'));
     }
 
     .job-tags {

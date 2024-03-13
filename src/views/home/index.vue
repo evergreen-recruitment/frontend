@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
+import type { SimpleJobItem } from '@/types/commonTypes'
+import variables from '@/styles/variables.module.scss'
+import { useAppStore } from '@/stores'
 
 const tabKey = ref('1')
 const hotSearch = ref(['Java工程师', 'SpringBoot', '前端工程师', '测试工程师', '人工智能', '运维'])
@@ -147,6 +150,107 @@ const data = reactive([
     ],
   },
 ])
+
+const jobs = reactive<SimpleJobItem[]>([
+  {
+    id: '1',
+    title: 'Java工程师',
+    salary: ['15k', '25k'],
+    company: '百度',
+    address: '北京',
+    tags: ['Java', 'Spring', 'SpringBoot', 'MySQL'],
+  },
+  {
+    id: '2',
+    title: '前端工程师',
+    salary: ['15k', '25k'],
+    company: '腾讯',
+    address: '深圳',
+    tags: ['JavaScript', 'Vue', 'React', 'Node.js'],
+  },
+  {
+    id: '3',
+    title: '测试工程师',
+    salary: ['15k', '25k'],
+    company: '阿里巴巴',
+    address: '杭州',
+    tags: ['自动化测试', '功能测试', '性能测试', '安全测试'],
+  },
+  {
+    id: '4',
+    title: '运维工程师',
+    salary: ['15k', '25k'],
+    company: '字节跳动',
+    address: '北京',
+    tags: ['Linux', 'Shell', 'Python', 'Docker'],
+  },
+  {
+    id: '5',
+    title: '人工智能工程师',
+    salary: ['15k', '25k'],
+    company: '华为',
+    address: '深圳',
+    tags: ['机器学习', '深度学习', '图像识别', '语音识别'],
+  },
+  {
+    id: '6',
+    title: 'Python工程师',
+    salary: ['15k', '25k'],
+    company: '小米',
+    address: '北京',
+    tags: ['Python', 'Django', 'Flask', 'Tornado'],
+  },
+  {
+    id: '7',
+    title: 'Java工程师',
+    salary: ['15k', '25k'],
+    company: '百度',
+    address: '北京',
+    tags: ['Java', 'Spring', 'SpringBoot', 'MySQL'],
+  },
+  {
+    id: '8',
+    title: '前端工程师',
+    salary: ['15k', '25k'],
+    company: '腾讯',
+    address: '深圳',
+    tags: ['JavaScript', 'Vue', 'React', 'Node.js'],
+  },
+  {
+    id: '9',
+    title: '测试工程师',
+    salary: ['15k', '25k'],
+    company: '阿里巴巴',
+    address: '杭州',
+    tags: ['自动化测试', '功能测试', '性能测试', '安全测试'],
+  },
+  {
+    id: '10',
+    title: '运维工程师',
+    salary: ['15k', '25k'],
+    company: '字节跳动',
+    address: '北京',
+    tags: ['Linux', 'Shell', 'Python', 'Docker'],
+  },
+  {
+    id: '11',
+    title: '人工智能工程师',
+    salary: ['15k', '25k'],
+    company: '华为',
+    address: '深圳',
+    tags: ['机器学习', '深度学习', '图像识别', '语音识别'],
+  },
+  {
+    id: '12',
+    title: 'Python工程师',
+    salary: ['15k', '25k'],
+    company: '小米',
+    address: '北京',
+    tags: ['Python', 'Django', 'Flask', 'Tornado'],
+  },
+])
+
+const appStore = useAppStore()
 </script>
 
 <template>
@@ -157,7 +261,9 @@ const data = reactive([
       <div class="hot-search">
         <div class="title">热门搜索</div>
         <div class="search-list">
-          <a-tag v-for="i in hotSearch" :key="i" class="search-item" color="blue">{{ i }}</a-tag>
+          <a-tag :color="variables[appStore.themeName]" v-for="i in hotSearch" :key="i" class="search-item"
+            >{{ i }}
+          </a-tag>
         </div>
       </div>
     </div>
@@ -198,17 +304,17 @@ const data = reactive([
       <a-tabs v-model:activeKey="tabKey" animated style="width: 1200px; overflow: hidden; padding: 5px 0">
         <a-tab-pane key="1" tab="推荐岗位">
           <div class="job-list">
-            <job-card v-for="i in 12" :key="i" />
+            <job-card v-for="job in jobs" :key="job.id" :job="job" />
           </div>
         </a-tab-pane>
         <a-tab-pane key="2" tab="最新岗位">
           <div class="job-list">
-            <job-card v-for="i in 12" :key="i" />
+            <job-card v-for="job in jobs" :key="job.id" :job="job" />
           </div>
         </a-tab-pane>
         <a-tab-pane key="3" tab="附近岗位">
           <div class="job-list">
-            <job-card v-for="i in 12" :key="i" />
+            <job-card v-for="job in jobs" :key="job.id" :job="job" />
           </div>
         </a-tab-pane>
       </a-tabs>
@@ -228,7 +334,20 @@ const data = reactive([
   @apply mb-10;
 
   .search-panel {
-    @apply w-full h-52 bg-gradient-to-r from-cyan-500 to-blue-500 flex flex-col items-center justify-center;
+    @apply w-full h-64 flex flex-col items-center justify-center;
+
+    @function adjustHue($hsl, $amount) {
+      $hue: hue($hsl) + $amount;
+      $hue: $hue % 360; // 将色相值限制在 0 到 360 之间
+
+      @return adjust-hue($hsl, $hue);
+    }
+
+    @include useTheme {
+      $t: getColor('primary');
+      //background: linear-gradient(135deg, adjust-hue($t, (hue($t)-50)%360), adjust-hue($t, (hue($t)+50)%360));
+      background: linear-gradient(135deg, adjust-hue($t, -30), adjust-hue($t, 30));
+    }
 
     .hot-search {
       @apply w-[1000px] h-20 flex items-center justify-items-start;

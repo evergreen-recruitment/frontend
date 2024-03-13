@@ -47,4 +47,5 @@ syncAsyncRoute()
 export default createRouter({
   history: import.meta.env.SSR ? createMemoryHistory() : createWebHistory(),
   routes: constantRouterMap,
+  scrollBehavior: () => ({ left: 0, top: 0 }),
 })

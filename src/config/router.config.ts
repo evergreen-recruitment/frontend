@@ -63,6 +63,7 @@ export interface IRouterMeta {
   icon: string
   title: string
   requireAuth?: boolean
+  width?: number
   hidden?: boolean
   roles?: string[]
 }
@@ -92,12 +93,13 @@ export function getAsyncRouterMap(): IRouter[] {
       meta: {
         icon: 'SearchOutlined',
         title: '搜索',
+        width: 1280,
       },
       component: () => import('@/views/search/index.vue'),
     },
     {
       name: 'jobDetail',
-      path: '/jobDetail',
+      path: '/jobDetail/:id(\\d+)',
       meta: {
         icon: 'ToolOutlined',
         title: '工作详情',
@@ -111,8 +113,20 @@ export function getAsyncRouterMap(): IRouter[] {
         icon: 'UserOutlined',
         title: '个人中心',
         requireAuth: true,
+        width: 1280,
       },
       component: () => import('@/views/user/center/index.vue'),
+    },
+    {
+      name: 'settings',
+      path: '/settings',
+      meta: {
+        icon: 'SettingOutlined',
+        title: '设置',
+        requireAuth: true,
+        width: 1280,
+      },
+      component: () => import('@/views/settings/index.vue'),
     },
     {
       name: i18n.global?.t('menu.tools'),
