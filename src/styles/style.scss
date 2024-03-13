@@ -20,11 +20,15 @@ a {
   color: inherit;
 }
 
+html,
+body {
+  scroll-behavior: smooth;
+}
+
 body {
   position: relative;
-  transition:
-    background-color 0.3s,
-    color 0.3s;
+  transition: background-color 0.3s,
+  color 0.3s;
   @include useTheme {
     background-color: getModeVar('bgColor');
     color: getModeVar('infoColor');
@@ -34,6 +38,26 @@ body {
   @media screen and (max-width: 1280px) {
     zoom: calc(100% * var(--screen-width) / 1280);
   }
+
+  // loading 的颜色控制
+  @include useTheme {
+    $side-left-color: rgba((adjust-hue(hsl(0, 100%, 70), hue(getColor('primary')))), 1);
+    $side-right-color: rgba((adjust-hue(hsl(0, 100%, 80), hue(getColor('primary')))), 1);
+    $side-top-color: rgba((adjust-hue(hsl(0, 100%, 90), hue(getColor('primary')))), 1);
+
+    .side-left {
+      background-color: $side-left-color;
+    }
+
+    .side-right {
+      background-color: $side-right-color;
+    }
+
+    .side-top {
+      background-color: $side-top-color;
+    }
+  }
+
 }
 
 .enter-y {

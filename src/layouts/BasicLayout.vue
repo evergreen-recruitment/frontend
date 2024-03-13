@@ -1,11 +1,18 @@
 <script lang="ts" setup>
 import IHeader from '@/layouts/components/IHeader/IHeader.vue'
 import IFooter from '@/layouts/components/IFooter/IFooter.vue'
+import router from '@/router'
+
+console.log(router.currentRoute.value.meta.width)
 </script>
 <template>
   <div class="i-layout">
     <i-header />
-    <router-view v-slot="{ Component }" class="i-layout__inner">
+    <router-view
+      v-slot="{ Component }"
+      class="i-layout__inner"
+      :style="{ width: `${router.currentRoute.value.meta.width}px` }"
+    >
       <transition-slide :offset="[-16, 0]" mode="out-in">
         <component :is="Component" />
       </transition-slide>
@@ -19,7 +26,7 @@ import IFooter from '@/layouts/components/IFooter/IFooter.vue'
   @apply min-h-screen;
 
   .i-layout__inner {
-    @apply min-h-screen;
+    @apply min-h-screen mx-auto;
   }
 }
 </style>

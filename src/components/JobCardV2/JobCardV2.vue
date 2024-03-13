@@ -30,10 +30,19 @@ const appStore = useAppStore()
 @import '@/styles/theme.scss';
 
 .job-card {
-  @apply w-72 rounded-lg shadow-md cursor-pointer;
+  @apply w-72 rounded-lg cursor-pointer mt-2;
 
-  @include useTheme {
-    background: getModeVar('cardBgColor');
+  border: 1px solid transparent;
+
+  &:hover {
+    @include useTheme {
+      border: 1px solid getColor('primary');
+      @if getMode() == 'light' {
+        background: rgba(adjust-hue(hsl(0, 50%, 85), hue(getColor('primary'))), 0.8);
+      } @else {
+        background: rgba(adjust-hue(hsl(0, 50%, 15), hue(getColor('primary'))), 0.8);
+      }
+    }
   }
 
   .job-card__header {

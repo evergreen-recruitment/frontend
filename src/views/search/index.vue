@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import JobFilter from '@/components/JobFilter/JobFilter.vue'
-import JobItem from '@/components/JobItem/JobItem.vue'
+import { reactive, ref } from 'vue'
+import type { JobItem } from '@/types/commonTypes'
 
 const cityList = ref([
   '全国',
@@ -21,6 +20,87 @@ const cityList = ref([
   '重庆',
   '其他城市',
 ])
+
+const similarSearch = ref([
+  'java开发',
+  'java初级开发工程师',
+  '程序员',
+  'java后端',
+  'java中级开发工程师',
+  '前端',
+  '码农',
+  '测试',
+  '架构师',
+  '后台开发',
+])
+
+const searchJobList = reactive<JobItem[]>([
+  {
+    id: '1',
+    title: 'Java开发工程师',
+    salary: ['15k', '30k'],
+    experience: '3-5年',
+    education: '本科',
+    hr: '张三',
+    company: '阿里巴巴',
+    description: '负责公司后端开发工作',
+    address: '北京',
+    createTime: '2024-03-11',
+    tags: ['Java', '后端', '高级'],
+  },
+  {
+    id: '2',
+    title: '前端开发工程师',
+    salary: ['10k', '20k'],
+    experience: '1-3年',
+    education: '本科',
+    hr: '李四',
+    company: '腾讯',
+    description: '负责公司前端开发工作',
+    address: '上海',
+    createTime: '2024-03-01',
+    tags: ['前端', '初级'],
+  },
+  {
+    id: '3',
+    title: '测试工程师',
+    salary: ['8k', '15k'],
+    experience: '1-3年',
+    education: '本科',
+    hr: '王五',
+    company: '百度',
+    description: '负责公司测试工作',
+    address: '广州',
+    createTime: '2024-01-01',
+    tags: ['测试', '初级'],
+  },
+  {
+    id: '4',
+    title: '运维工程师',
+    salary: ['10k', '20k'],
+    experience: '3-5年',
+    education: '本科',
+    hr: '赵六',
+    company: '华为',
+    description: '负责公司运维工作',
+    address: '深圳',
+    createTime: '2024-03-02',
+    tags: ['运维', '中级'],
+  },
+  {
+    id: '5',
+    title: '人工智能工程师',
+    salary: ['20k', '40k'],
+    experience: '3-5年',
+    education: '硕士',
+    hr: '小明',
+    company: '小米',
+    description: '负责公司人工智能工作',
+    address: '杭州',
+    createTime: '2024-02-21',
+    tags: ['人工智能', '高级'],
+  },
+])
 </script>
 
 <template>
@@ -37,12 +117,17 @@ const cityList = ref([
 
     <div class="job">
       <div class="job-list block-item">
-        <job-item v-for="i in 10" :key="i" />
+        <job-item v-for="job in searchJobList" :key="job.id" :job="job" />
       </div>
       <div class="job-side block-item">
-        <div class="title">热门搜索</div>
+        <div class="title">相关搜索</div>
         <div class="search-list">
-          <a-tag v-for="i in 10" :key="i" class="search-item" color="blue">{{ i }}</a-tag>
+          <div class="search-item" v-for="item in similarSearch" :key="item">
+            <span>{{ item }}</span>
+            <div class="arrow">
+              <Icon icon="CaretRightOutlined" />
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -53,8 +138,6 @@ const cityList = ref([
 @import '@/styles/theme.scss';
 
 .search-page {
-  @apply w-[1200px] mx-auto;
-
   .search-panel {
     @apply mt-10 mx-auto p-5 pb-10 rounded-2xl shadow-lg;
 
@@ -83,11 +166,11 @@ const cityList = ref([
   .job {
     @apply flex;
     .job-list {
-      @apply w-[1000px];
+      @apply w-[950px];
     }
 
     .job-side {
-      @apply w-[200px] h-fit box-border p-3 ml-5 rounded-2xl shadow-lg;
+      @apply w-[250px] h-fit box-border px-2 py-3 ml-5 rounded-2xl shadow-lg;
 
       @include useTheme {
         background-color: getModeVar('cardBgColor');
@@ -98,9 +181,28 @@ const cityList = ref([
       }
 
       .search-list {
-        @apply flex flex-wrap;
         .search-item {
-          @apply mx-2 my-2;
+          @apply flex box-border items-center justify-between w-full px-2 my-0.5 h-10 rounded-lg cursor-pointer;
+          border: 1px solid transparent;
+
+          &:hover {
+            @include useTheme {
+              border: 1px solid getColor('primary');
+              @if getMode() == 'light' {
+                background: rgba(adjust-hue(hsl(0, 50%, 85), hue(getColor('primary'))), 0.8);
+              } @else {
+                background: rgba(adjust-hue(hsl(0, 50%, 15), hue(getColor('primary'))), 0.8);
+              }
+            }
+          }
+
+          span {
+            @apply cursor-pointer;
+          }
+
+          .arrow {
+            @apply ml-2;
+          }
         }
       }
     }
