@@ -30,7 +30,7 @@ const appStore = useAppStore()
 @import '@/styles/theme.scss';
 
 .job-card {
-  @apply w-72 rounded-lg shadow-md cursor-pointer;
+  @apply w-72 rounded-[var(--border-radius)] shadow-md cursor-pointer;
 
   @include useTheme {
     background: getModeVar('cardBgColor');

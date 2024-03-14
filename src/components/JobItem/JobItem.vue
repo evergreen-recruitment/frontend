@@ -46,7 +46,7 @@ const appStore = useAppStore()
 @import '@/styles/theme.scss';
 
 .job-item {
-  @apply mb-5 rounded-2xl shadow-lg overflow-hidden cursor-pointer;
+  @apply mb-5 rounded-[var(--border-radius)] shadow-lg overflow-hidden cursor-pointer;
 
   @include useTheme {
     background-color: getModeVar('cardBgColor');

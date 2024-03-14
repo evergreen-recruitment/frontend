@@ -74,7 +74,6 @@ const searchJobList = reactive<JobItem[]>([
   },
 ])
 
-
 const jobs = reactive<SimpleJobItem[]>([
   {
     id: '1',
@@ -124,61 +123,14 @@ const jobs = reactive<SimpleJobItem[]>([
     address: '北京',
     tags: ['Python', 'Django', 'Flask', 'Tornado'],
   },
-  {
-    id: '7',
-    title: 'Java工程师',
-    salary: ['15k', '25k'],
-    company: '百度',
-    address: '北京',
-    tags: ['Java', 'Spring', 'SpringBoot', 'MySQL'],
-  },
-  {
-    id: '8',
-    title: '前端工程师',
-    salary: ['15k', '25k'],
-    company: '腾讯',
-    address: '深圳',
-    tags: ['JavaScript', 'Vue', 'React', 'Node.js'],
-  },
-  {
-    id: '9',
-    title: '测试工程师',
-    salary: ['15k', '25k'],
-    company: '阿里巴巴',
-    address: '杭州',
-    tags: ['自动化测试', '功能测试', '性能测试', '安全测试'],
-  },
-  {
-    id: '10',
-    title: '运维工程师',
-    salary: ['15k', '25k'],
-    company: '字节跳动',
-    address: '北京',
-    tags: ['Linux', 'Shell', 'Python', 'Docker'],
-  },
-  {
-    id: '11',
-    title: '人工智能工程师',
-    salary: ['15k', '25k'],
-    company: '华为',
-    address: '深圳',
-    tags: ['机器学习', '深度学习', '图像识别', '语音识别'],
-  },
-  {
-    id: '12',
-    title: 'Python工程师',
-    salary: ['15k', '25k'],
-    company: '小米',
-    address: '北京',
-    tags: ['Python', 'Django', 'Flask', 'Tornado'],
-  },
 ])
 const id = ref(router.currentRoute.value.params.id)
+// 监听路由变化
 watchEffect(() => {
   id.value = router.currentRoute.value.params.id
 })
 const job = computed(() => searchJobList.find((item) => item.id === id.value) || searchJobList[0])
-
+// echarts配置
 const option1 = reactive({
   legend: {
     top: 'bottom',
@@ -321,7 +273,7 @@ const option1 = reactive({
       @apply w-[calc(100%-300px)] box-border;
 
       .job-detail__description {
-        @apply rounded-2xl shadow-lg p-5;
+        @apply rounded-[var(--border-radius)] shadow-lg p-5;
 
         @include useTheme {
           background-color: getModeVar('cardBgColor');
@@ -347,7 +299,7 @@ const option1 = reactive({
       }
 
       .job-detail__stack {
-        @apply mt-5 h-[600px] rounded-2xl shadow-lg p-5;
+        @apply mt-5 h-[600px] rounded-[var(--border-radius)] shadow-lg p-5;
 
         @include useTheme {
           background-color: getModeVar('cardBgColor');
@@ -360,14 +312,11 @@ const option1 = reactive({
         .job-detail__stack--title {
           @apply text-2xl font-bold;
         }
-
       }
-
     }
 
     .job-detail__side {
-
-      @apply rounded-2xl shadow-lg p-5;
+      @apply rounded-[var(--border-radius)] shadow-lg p-5;
 
       @include useTheme {
         background-color: getModeVar('cardBgColor');
