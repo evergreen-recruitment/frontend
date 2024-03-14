@@ -3,6 +3,7 @@
 :root {
   --border-radius: 0px;
   --screen-width: 1280;
+  --min-screen-width: 1280;
 }
 
 @font-face {
@@ -27,8 +28,9 @@ body {
 
 body {
   position: relative;
-  transition: background-color 0.3s,
-  color 0.3s;
+  transition:
+    background-color 0.3s,
+    color 0.3s;
   @include useTheme {
     background-color: getModeVar('bgColor');
     color: getModeVar('infoColor');
@@ -36,7 +38,7 @@ body {
 
   // 当页面宽度小于 1280px 时，缩放页面
   @media screen and (max-width: 1280px) {
-    zoom: calc(100% * var(--screen-width) / 1280);
+    zoom: calc(100% * var(--screen-width) / var(--min-screen-width));
   }
 
   // loading 的颜色控制
@@ -57,7 +59,6 @@ body {
       background-color: $side-top-color;
     }
   }
-
 }
 
 .enter-y {

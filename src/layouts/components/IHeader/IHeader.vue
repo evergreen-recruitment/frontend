@@ -86,7 +86,7 @@ const links = reactive([
                 <router-link to="/userCenter">&nbsp;用户中心</router-link>
               </a-menu-item>
               <a-menu-item key="2">
-                <Icon icon="UserOutlined" />
+                <Icon icon="SettingOutlined" />
                 <router-link to="/settings">&nbsp;系统设置</router-link>
               </a-menu-item>
               <a-menu-divider />
@@ -137,8 +137,9 @@ const links = reactive([
       @apply flex items-center;
 
       .i-header__logo {
-        font: 400 30px hanyiyongzisonghei,
-        serif;
+        font:
+          400 30px hanyiyongzisonghei,
+          serif;
       }
 
       .i-header__menu {
@@ -169,7 +170,7 @@ const links = reactive([
     .i-header__inner-right {
       @apply flex items-center space-x-4;
       .i-header__login {
-        @apply text-sm cursor-pointer px-2 py-1 rounded-md transition-colors;
+        @apply text-sm cursor-pointer px-2 py-1 rounded-[var(--border-radius)] transition-colors;
 
         @include useTheme {
           @if (getMode() == 'dark') {

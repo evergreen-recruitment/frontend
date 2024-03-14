@@ -30,7 +30,7 @@ const appStore = useAppStore()
 @import '@/styles/theme.scss';
 
 .job-card {
-  @apply w-72 rounded-lg cursor-pointer mt-2;
+  @apply w-72 rounded-[var(--border-radius)] cursor-pointer mt-2;
 
   border: 1px solid transparent;
 

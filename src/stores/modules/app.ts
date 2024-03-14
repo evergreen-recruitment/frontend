@@ -78,9 +78,20 @@ export const useAppStore = defineStore(
     })
 
     // 设置屏幕宽度变量
+    const minScreenWidth = ref(1280)
+    const minScreenWidthComp = computed({
+      get() {
+        return minScreenWidth.value
+      },
+      set(val) {
+        document.documentElement.style.setProperty('--min-screen-width', String(val))
+        minScreenWidth.value = val
+      },
+    })
+
     function setScreenWidthProperty() {
       if (router.currentRoute.value.path.includes('/auth')) {
-        document.documentElement.style.setProperty('--screen-width', '1280')
+        document.documentElement.style.setProperty('--screen-width', String(minScreenWidthComp))
         return
       }
       document.documentElement.style.setProperty(
@@ -95,6 +106,9 @@ export const useAppStore = defineStore(
       setScreenWidthProperty()
     })
 
+    // 设置Token过期时间
+    const tokenExpires = ref(1) // 1小时
+
     return {
       themeName,
       locale,
@@ -103,6 +117,9 @@ export const useAppStore = defineStore(
       themeConfig,
       darkModeRef, // 用于持久化 可怜的computed无法持久化
       darkMode,
+      minScreenWidth,
+      minScreenWidthComp,
+      tokenExpires,
     }
   },
   {

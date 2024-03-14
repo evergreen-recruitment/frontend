@@ -454,7 +454,7 @@ const appStore = useAppStore()
     @apply min-h-[60vh] h-[700px];
 
     .graph {
-      @apply w-full h-full rounded-2xl shadow-md;
+      @apply w-full h-full rounded-[var(--border-radius)] shadow-md;
 
       @include useTheme {
         background: getModeVar('cardBgColor');

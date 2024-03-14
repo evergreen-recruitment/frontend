@@ -139,7 +139,7 @@ const searchJobList = reactive<JobItem[]>([
 
 .search-page {
   .search-panel {
-    @apply mt-10 mx-auto p-5 pb-10 rounded-2xl shadow-lg;
+    @apply mt-10 mx-auto p-5 pb-10 rounded-[var(--border-radius)] shadow-lg;
 
     @include useTheme {
       background-color: getModeVar('cardBgColor');
@@ -170,7 +170,7 @@ const searchJobList = reactive<JobItem[]>([
     }
 
     .job-side {
-      @apply w-[250px] h-fit box-border px-2 py-3 ml-5 rounded-2xl shadow-lg;
+      @apply w-[250px] h-fit box-border px-2 py-3 ml-5 rounded-[var(--border-radius)] shadow-lg;
 
       @include useTheme {
         background-color: getModeVar('cardBgColor');
@@ -182,7 +182,7 @@ const searchJobList = reactive<JobItem[]>([
 
       .search-list {
         .search-item {
-          @apply flex box-border items-center justify-between w-full px-2 my-0.5 h-10 rounded-lg cursor-pointer;
+          @apply flex box-border items-center justify-between w-full px-2 my-0.5 h-10 rounded-[var(--border-radius)] cursor-pointer;
           border: 1px solid transparent;
 
           &:hover {
