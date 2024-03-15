@@ -2,8 +2,8 @@
 
 :root {
   --border-radius: 0px;
-  --screen-width: 1280;
-  --min-screen-width: 1280;
+  --screen-width: 1280px;
+  --min-screen-width: 1280px;
 }
 
 @font-face {
@@ -36,27 +36,18 @@ body {
     color: getModeVar('infoColor');
   }
 
-  // 当页面宽度小于 1280px 时，缩放页面
-  @media screen and (max-width: 1280px) {
-    zoom: calc(100% * var(--screen-width) / var(--min-screen-width));
-  }
-
   // loading 的颜色控制
   @include useTheme {
-    $side-left-color: rgba((adjust-hue(hsl(0, 100%, 70), hue(getColor('primary')))), 1);
-    $side-right-color: rgba((adjust-hue(hsl(0, 100%, 80), hue(getColor('primary')))), 1);
-    $side-top-color: rgba((adjust-hue(hsl(0, 100%, 90), hue(getColor('primary')))), 1);
-
     .side-left {
-      background-color: $side-left-color;
+      background-color: rgba((adjust-hue(hsl(0, 100%, 70%), hue(getColor('primary')))), 1);
     }
 
     .side-right {
-      background-color: $side-right-color;
+      background-color: rgba((adjust-hue(hsl(0, 100%, 80%), hue(getColor('primary')))), 1);
     }
 
     .side-top {
-      background-color: $side-top-color;
+      background-color: rgba((adjust-hue(hsl(0, 100%, 90%), hue(getColor('primary')))), 1);
     }
   }
 }

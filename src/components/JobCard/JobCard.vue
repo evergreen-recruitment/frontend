@@ -31,6 +31,9 @@ const appStore = useAppStore()
 
 .job-card {
   @apply w-72 rounded-[var(--border-radius)] shadow-md cursor-pointer;
+  @include useTheme {
+    border: 1px solid rgba(getColor('primary'), 0.7);
+  }
 
   @include useTheme {
     background: getModeVar('cardBgColor');

@@ -70,7 +70,7 @@ const links = reactive([
       </div>
       <div v-if="!userStore.token" class="i-header__inner-right i-header__inner-not-login">
         <a href="#" class="nav-item"> 我是招聘人 </a>
-        <a href="#" class="nav-item"> 我是求职者 </a>
+        <router-link to="/auth/loginByCaptcha" class="nav-item"> 我是求职者 </router-link>
         <div class="i-header__login" @click="$router.push('/auth/loginByCaptcha')">登录 | 注册</div>
       </div>
       <div v-else class="i-header__inner-right i-header__inner-already-login">
@@ -111,10 +111,10 @@ const links = reactive([
   @include useTheme {
     @if (getMode() == 'dark') {
       @apply text-white;
-      background: rgba((adjust-hue(hsl(0, 50%, 10), hue(getColor('primary')))), 0.8);
+      background: rgba((adjust-hue(hsl(0, 50%, 10%), hue(getColor('primary')))), 0.8);
     } @else {
       @apply text-gray-800;
-      background: rgba((adjust-hue(hsl(0, 50%, 90), hue(getColor('primary')))), 0.8);
+      background: rgba((adjust-hue(hsl(0, 50%, 90%), hue(getColor('primary')))), 0.8);
     }
   }
 

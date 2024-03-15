@@ -11,10 +11,12 @@ const radiusMarks = ref({
   20: '20px',
 })
 
+const max = ref(1400)
+
 const minWidthMarks = ref({
   1024: '1024px',
   1280: '1280px',
-  1920: '1920px',
+  1400: '1400px',
 })
 </script>
 
@@ -57,7 +59,7 @@ const minWidthMarks = ref({
       <div class="setting-page__inner--color-mode">
         <i-page-header title="最小宽度" sub-title="设置系统的最小屏幕宽度，用于适配各种不同的屏幕尺寸" />
         <div class="setting-page__inner--min-width__content setting-item__content">
-          <a-slider v-model:value="appStore.minScreenWidthComp" :marks="minWidthMarks" :min="1024" :max="1920" />
+          <a-slider v-model:value="appStore.minScreenWidthComp" :marks="minWidthMarks" :min="1024" :max="max" />
         </div>
       </div>
 
@@ -78,6 +80,7 @@ const minWidthMarks = ref({
 
 .setting-page {
   @apply rounded-[var(--border-radius)] shadow-md my-5;
+  min-height: 0 !important;
 
   @include useTheme {
     background: getModeVar('cardBgColor');

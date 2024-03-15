@@ -38,9 +38,9 @@ const appStore = useAppStore()
     @include useTheme {
       border: 1px solid getColor('primary');
       @if getMode() == 'light' {
-        background: rgba(adjust-hue(hsl(0, 50%, 85), hue(getColor('primary'))), 0.8);
+        background: rgba(adjust-hue(hsl(0, 50%, 85%), hue(getColor('primary'))), 0.8);
       } @else {
-        background: rgba(adjust-hue(hsl(0, 50%, 15), hue(getColor('primary'))), 0.8);
+        background: rgba(adjust-hue(hsl(0, 50%, 15%), hue(getColor('primary'))), 0.8);
       }
     }
   }

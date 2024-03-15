@@ -222,7 +222,7 @@ const option1 = reactive({
     @apply sticky top-12 w-full h-48 text-white flex items-center justify-center z-10;
 
     @include useTheme {
-      background: rgba((adjust-hue(hsl(0, 50%, 20), hue(getColor('primary')))), 1);
+      background: rgba((adjust-hue(hsl(0, 50%, 20%), hue(getColor('primary')))), 1);
     }
 
     .job-detail__banner--inner {

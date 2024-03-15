@@ -256,14 +256,16 @@ const appStore = useAppStore()
 <template>
   <div class="home-page">
     <div class="search-panel">
-      <job-search />
-      <!--热门搜索-->
-      <div class="hot-search">
-        <div class="title">热门搜索</div>
-        <div class="search-list">
-          <a-tag :color="variables[appStore.themeName]" v-for="i in hotSearch" :key="i" class="search-item"
-            >{{ i }}
-          </a-tag>
+      <div class="search-panel__inner">
+        <job-search />
+        <!--热门搜索-->
+        <div class="hot-search">
+          <div class="title">热门搜索</div>
+          <div class="search-list">
+            <a-tag :color="variables[appStore.themeName]" v-for="i in hotSearch" :key="i" class="search-item"
+              >{{ i }}
+            </a-tag>
+          </div>
         </div>
       </div>
     </div>
@@ -336,29 +338,26 @@ const appStore = useAppStore()
   .search-panel {
     @apply w-full h-64 flex flex-col items-center justify-center;
 
-    @function adjustHue($hsl, $amount) {
-      $hue: hue($hsl) + $amount;
-      $hue: $hue % 360; // 将色相值限制在 0 到 360 之间
-
-      @return adjust-hue($hsl, $hue);
-    }
-
     @include useTheme {
       $t: getColor('primary');
       //background: linear-gradient(135deg, adjust-hue($t, (hue($t)-50)%360), adjust-hue($t, (hue($t)+50)%360));
       background: linear-gradient(135deg, adjust-hue($t, -30), adjust-hue($t, 30));
     }
 
-    .hot-search {
-      @apply w-[1000px] h-20 flex items-center justify-items-start;
-      .title {
-        @apply text-white text-xl;
-      }
+    .search-panel__inner {
+      @apply w-[calc(var(--min-screen-width)-80px)];
 
-      .search-list {
-        @apply flex items-center justify-center;
-        .search-item {
-          @apply mx-2;
+      .hot-search {
+        @apply w-[1000px] h-20 flex items-center justify-items-start;
+        .title {
+          @apply text-white text-xl;
+        }
+
+        .search-list {
+          @apply flex items-center justify-center;
+          .search-item {
+            @apply mx-2;
+          }
         }
       }
     }
@@ -438,9 +437,9 @@ const appStore = useAppStore()
   }
 
   .job-recommend {
-    @apply p-10;
+    @apply box-border;
     .job-list {
-      --card-width: 18rem;
+      --card-width: 17.5rem;
       --card-height: 10rem;
       width: 100%;
       display: grid;

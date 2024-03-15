@@ -166,11 +166,11 @@ const searchJobList = reactive<JobItem[]>([
   .job {
     @apply flex;
     .job-list {
-      @apply w-[950px];
+      @apply w-[calc(14/19*100%)];
     }
 
     .job-side {
-      @apply w-[250px] h-fit box-border px-2 py-3 ml-5 rounded-[var(--border-radius)] shadow-lg;
+      @apply w-[calc(5/19*100%)] h-fit box-border px-2 py-3 ml-5 rounded-[var(--border-radius)] shadow-lg;
 
       @include useTheme {
         background-color: getModeVar('cardBgColor');
@@ -189,9 +189,9 @@ const searchJobList = reactive<JobItem[]>([
             @include useTheme {
               border: 1px solid getColor('primary');
               @if getMode() == 'light' {
-                background: rgba(adjust-hue(hsl(0, 50%, 85), hue(getColor('primary'))), 0.8);
+                background: rgba(adjust-hue(hsl(0, 50%, 85%), hue(getColor('primary'))), 0.8);
               } @else {
-                background: rgba(adjust-hue(hsl(0, 50%, 15), hue(getColor('primary'))), 0.8);
+                background: rgba(adjust-hue(hsl(0, 50%, 15%), hue(getColor('primary'))), 0.8);
               }
             }
           }
