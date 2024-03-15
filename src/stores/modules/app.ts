@@ -77,33 +77,46 @@ export const useAppStore = defineStore(
       }
     })
 
-    // 设置屏幕宽度变量
     const minScreenWidth = ref(1280)
     const minScreenWidthComp = computed({
       get() {
         return minScreenWidth.value
       },
       set(val) {
-        document.documentElement.style.setProperty('--min-screen-width', String(val))
+        document.documentElement.style.setProperty('--min-screen-width', `${val}px`)
         minScreenWidth.value = val
       },
     })
 
-    function setScreenWidthProperty() {
-      if (router.currentRoute.value.path.includes('/auth')) {
-        document.documentElement.style.setProperty('--screen-width', String(minScreenWidthComp))
-        return
-      }
+    function setBodyZoom() {
+      const body = document.body as HTMLBodyElement
+      const screenWidth = window.innerWidth || document.documentElement.clientWidth
       document.documentElement.style.setProperty(
         '--screen-width',
-        `${window.innerWidth || document.documentElement.clientWidth}`,
+        `${screenWidth}
+        px`,
       )
+
+      // zoom 不是标准的CSS, 不建议使用，但是兼容性还行
+      if (router.currentRoute.value.path.includes('/auth')) {
+        // @ts-ignore
+        body.style.zoom = '1'
+        return
+      }
+      if (screenWidth < minScreenWidthComp.value) {
+        const zoomValue = (screenWidth / minScreenWidthComp.value) * 100
+        // @ts-ignore
+        body.style.zoom = `${zoomValue}% `
+      } else {
+        // @ts-ignore
+        body.style.zoom = '100%'
+      }
     }
 
-    setScreenWidthProperty()
-    window.addEventListener('resize', setScreenWidthProperty)
+    setBodyZoom()
+    window.addEventListener('resize', setBodyZoom)
     watch(router.currentRoute, () => {
-      setScreenWidthProperty()
+      setBodyZoom()
     })
 
     // 设置Token过期时间

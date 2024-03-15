@@ -20,12 +20,14 @@
 
 <style scoped lang="scss">
 .job-search-bar {
+  @apply w-full;
+
   .title {
     @apply text-white text-3xl font-bold text-center mb-5;
   }
 
   .search {
-    @apply w-[1100px] flex justify-center items-center;
+    @apply w-full max-w-[var(--min-screen-width)] flex justify-center items-center;
   }
 }
 </style>

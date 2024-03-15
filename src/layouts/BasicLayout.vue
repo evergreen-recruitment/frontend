@@ -2,8 +2,6 @@
 import IHeader from '@/layouts/components/IHeader/IHeader.vue'
 import IFooter from '@/layouts/components/IFooter/IFooter.vue'
 import router from '@/router'
-
-console.log(router.currentRoute.value.meta.width)
 </script>
 <template>
   <div class="i-layout">
