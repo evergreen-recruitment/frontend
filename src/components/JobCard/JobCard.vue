@@ -11,7 +11,7 @@ const appStore = useAppStore()
 </script>
 
 <template>
-  <div class="job-card" @click="$router.push(`/jobDetail/${job.id}`)">
+  <div class="job-card card" @click="$router.push(`/jobDetail/${job.id}`)">
     <div class="job-card__header">
       <div class="job-card__header--title">{{ job.title }}</div>
       <div class="job-card__header--salary">{{ `${job.salary[0]}-${job.salary[1]}` }}</div>
@@ -31,9 +31,6 @@ const appStore = useAppStore()
 
 .job-card {
   @apply w-72 rounded-[var(--border-radius)] shadow-md cursor-pointer;
-  @include useTheme {
-    border: 1px solid rgba(getColor('primary'), 0.7);
-  }
 
   @include useTheme {
     background: getModeVar('cardBgColor');

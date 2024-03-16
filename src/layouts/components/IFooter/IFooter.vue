@@ -22,8 +22,13 @@
 </template>
 
 <style lang="scss" scoped>
+@import '@/styles/theme.scss';
 .footer {
-  @apply w-full mt-5 bg-[#151515];
+  @apply w-full mt-5;
+
+  @include useTheme {
+    background: rgba((adjust-hue(hsl(0, 40%, 5%), hue(getColor('primary')))), 1);
+  }
 
   a {
     @apply no-underline;
@@ -56,7 +61,9 @@
   }
 
   .footer-down {
-    background: #212121;
+    @include useTheme {
+      background: rgba((adjust-hue(hsl(0, 40%, 10%), hue(getColor('primary')))), 1);
+    }
     padding: 26px 0;
     font-size: 14px;
     line-height: 24px;

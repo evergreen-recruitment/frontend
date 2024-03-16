@@ -1,256 +1,33 @@
 <script setup lang="ts">
-import { reactive, ref } from 'vue'
-import type { SimpleJobItem } from '@/types/commonTypes'
+import { onMounted, ref } from 'vue'
 import variables from '@/styles/variables.module.scss'
 import { useAppStore } from '@/stores'
-
-const tabKey = ref('1')
-const hotSearch = ref(['Java工程师', 'SpringBoot', '前端工程师', '测试工程师', '人工智能', '运维'])
-const data = reactive([
-  {
-    name: '后端开发',
-    children: [
-      {
-        name: 'Java',
-      },
-      {
-        name: 'PHP',
-      },
-      {
-        name: 'Python',
-      },
-      {
-        name: 'Node.js',
-      },
-      {
-        name: 'Go',
-      },
-      {
-        name: 'C++',
-      },
-      {
-        name: 'C#',
-      },
-      {
-        name: '其他',
-      },
-    ],
-  },
-  {
-    name: '前端/移动开发',
-    children: [
-      {
-        name: '前端开发工程师',
-      },
-      {
-        name: 'Android',
-      },
-      {
-        name: 'IOS',
-      },
-      {
-        name: 'U3D',
-      },
-      {
-        name: 'UE4',
-      },
-      {
-        name: 'Cocos',
-      },
-      {
-        name: '技术美术',
-      },
-    ],
-  },
-  {
-    name: '测试',
-    children: [
-      {
-        name: '测试工程师',
-      },
-      {
-        name: '自动化测试',
-      },
-      {
-        name: '功能测试',
-      },
-      {
-        name: '性能测试',
-      },
-      {
-        name: '安全测试',
-      },
-      {
-        name: '游戏测试',
-      },
-      {
-        name: '硬件测试',
-      },
-      {
-        name: '其他',
-      },
-    ],
-  },
-  {
-    name: '运维/技术支持',
-    children: [
-      {
-        name: '运维工程师',
-      },
-      {
-        name: '运维开发工程师',
-      },
-      {
-        name: '网络工程师',
-      },
-      {
-        name: '系统工程师',
-      },
-      {
-        name: 'IT技术支持',
-      },
-      {
-        name: '系统管理员',
-      },
-      {
-        name: '数据库管理员',
-      },
-      {
-        name: '其他',
-      },
-    ],
-  },
-  {
-    name: '人工智能',
-    children: [
-      {
-        name: '机器学习',
-      },
-      {
-        name: '深度学习',
-      },
-      {
-        name: '图像识别',
-      },
-      {
-        name: '语音识别',
-      },
-      {
-        name: '算法工程师',
-      },
-      {
-        name: '数据挖掘',
-      },
-      {
-        name: '自然语言处理',
-      },
-      {
-        name: '其他',
-      },
-    ],
-  },
-])
-
-const jobs = reactive<SimpleJobItem[]>([
-  {
-    id: '1',
-    title: 'Java工程师',
-    salary: ['15k', '25k'],
-    company: '百度',
-    address: '北京',
-    tags: ['Java', 'Spring', 'SpringBoot', 'MySQL'],
-  },
-  {
-    id: '2',
-    title: '前端工程师',
-    salary: ['15k', '25k'],
-    company: '腾讯',
-    address: '深圳',
-    tags: ['JavaScript', 'Vue', 'React', 'Node.js'],
-  },
-  {
-    id: '3',
-    title: '测试工程师',
-    salary: ['15k', '25k'],
-    company: '阿里巴巴',
-    address: '杭州',
-    tags: ['自动化测试', '功能测试', '性能测试', '安全测试'],
-  },
-  {
-    id: '4',
-    title: '运维工程师',
-    salary: ['15k', '25k'],
-    company: '字节跳动',
-    address: '北京',
-    tags: ['Linux', 'Shell', 'Python', 'Docker'],
-  },
-  {
-    id: '5',
-    title: '人工智能工程师',
-    salary: ['15k', '25k'],
-    company: '华为',
-    address: '深圳',
-    tags: ['机器学习', '深度学习', '图像识别', '语音识别'],
-  },
-  {
-    id: '6',
-    title: 'Python工程师',
-    salary: ['15k', '25k'],
-    company: '小米',
-    address: '北京',
-    tags: ['Python', 'Django', 'Flask', 'Tornado'],
-  },
-  {
-    id: '7',
-    title: 'Java工程师',
-    salary: ['15k', '25k'],
-    company: '百度',
-    address: '北京',
-    tags: ['Java', 'Spring', 'SpringBoot', 'MySQL'],
-  },
-  {
-    id: '8',
-    title: '前端工程师',
-    salary: ['15k', '25k'],
-    company: '腾讯',
-    address: '深圳',
-    tags: ['JavaScript', 'Vue', 'React', 'Node.js'],
-  },
-  {
-    id: '9',
-    title: '测试工程师',
-    salary: ['15k', '25k'],
-    company: '阿里巴巴',
-    address: '杭州',
-    tags: ['自动化测试', '功能测试', '性能测试', '安全测试'],
-  },
-  {
-    id: '10',
-    title: '运维工程师',
-    salary: ['15k', '25k'],
-    company: '字节跳动',
-    address: '北京',
-    tags: ['Linux', 'Shell', 'Python', 'Docker'],
-  },
-  {
-    id: '11',
-    title: '人工智能工程师',
-    salary: ['15k', '25k'],
-    company: '华为',
-    address: '深圳',
-    tags: ['机器学习', '深度学习', '图像识别', '语音识别'],
-  },
-  {
-    id: '12',
-    title: 'Python工程师',
-    salary: ['15k', '25k'],
-    company: '小米',
-    address: '北京',
-    tags: ['Python', 'Django', 'Flask', 'Tornado'],
-  },
-])
+import {
+  getHomeCategoryApi,
+  getHomeKnowledgeGraphApi,
+  getHomeNearbyJobsApi,
+  getHomeNewJobsApi,
+  getHomeRecommendApi,
+  getHotSearchApi,
+} from '@/apis/home'
 
 const appStore = useAppStore()
+const tabKey = ref('1')
+const category = ref()
+const hotSearch = ref()
+const recommendJobList = ref()
+const newJobList = ref()
+const nearbyJobList = ref()
+const knowledgeGraphData = ref()
+
+onMounted(async () => {
+  category.value = await getHomeCategoryApi()
+  hotSearch.value = await getHotSearchApi()
+  recommendJobList.value = await getHomeRecommendApi()
+  newJobList.value = await getHomeNewJobsApi()
+  nearbyJobList.value = await getHomeNearbyJobsApi()
+  knowledgeGraphData.value = await getHomeKnowledgeGraphApi()
+})
 </script>
 
 <template>
@@ -272,7 +49,7 @@ const appStore = useAppStore()
     <div class="banner">
       <div class="left-side">
         <div class="menu">
-          <div class="menu-item" v-for="item in data" :key="item.name">
+          <div class="menu-item" v-for="item in category" :key="item.name">
             <span>{{ item.name }}</span>
             <div class="arrow">
               <Icon icon="CaretRightOutlined" />
@@ -306,17 +83,17 @@ const appStore = useAppStore()
       <a-tabs v-model:activeKey="tabKey" animated style="width: 1200px; overflow: hidden; padding: 5px 0">
         <a-tab-pane key="1" tab="推荐岗位">
           <div class="job-list">
-            <job-card v-for="job in jobs" :key="job.id" :job="job" />
+            <job-card v-for="job in recommendJobList" :key="job.id" :job="job" />
           </div>
         </a-tab-pane>
         <a-tab-pane key="2" tab="最新岗位">
           <div class="job-list">
-            <job-card v-for="job in jobs" :key="job.id" :job="job" />
+            <job-card v-for="job in newJobList" :key="job.id" :job="job" />
           </div>
         </a-tab-pane>
         <a-tab-pane key="3" tab="附近岗位">
           <div class="job-list">
-            <job-card v-for="job in jobs" :key="job.id" :job="job" />
+            <job-card v-for="job in nearbyJobList" :key="job.id" :job="job" />
           </div>
         </a-tab-pane>
       </a-tabs>
@@ -324,7 +101,7 @@ const appStore = useAppStore()
     <div class="knowledge-graph block-item">
       <div class="title">相关职位(知识图谱分析)</div>
       <div class="sub-title">跟据大数据和算法分析得出</div>
-      <knowledge-graph class="graph" />
+      <knowledge-graph v-if="knowledgeGraphData" class="graph" :data="knowledgeGraphData" />
     </div>
   </div>
 </template>
@@ -340,8 +117,19 @@ const appStore = useAppStore()
 
     @include useTheme {
       $t: getColor('primary');
-      //background: linear-gradient(135deg, adjust-hue($t, (hue($t)-50)%360), adjust-hue($t, (hue($t)+50)%360));
-      background: linear-gradient(135deg, adjust-hue($t, -30), adjust-hue($t, 30));
+      @if getMode() == 'dark' {
+        background: linear-gradient(
+          135deg,
+          adjust-hue(hsl(0, 70%, 30%), hue(adjust-hue($t, -30))),
+          adjust-hue(hsl(0, 70%, 30%), hue(adjust-hue($t, 30)))
+        );
+      } @else {
+        background: linear-gradient(
+          135deg,
+          adjust-hue(hsl(0, 70%, 50%), hue(adjust-hue($t, -30))),
+          adjust-hue(hsl(0, 70%, 50%), hue(adjust-hue($t, 30)))
+        );
+      }
     }
 
     .search-panel__inner {
@@ -439,13 +227,16 @@ const appStore = useAppStore()
   .job-recommend {
     @apply box-border;
     .job-list {
+      @apply grid gap-[15px] w-[calc(100%-1rem)];
       --card-width: 17.5rem;
       --card-height: 10rem;
-      width: 100%;
-      display: grid;
       grid-template-columns: repeat(auto-fit, minmax(var(--card-width), 1fr));
       grid-template-rows: auto;
-      gap: 15px;
+      //gap: 15px;
+    }
+
+    :deep(.ant-tabs-content-holder) {
+      @apply p-2;
     }
   }
 

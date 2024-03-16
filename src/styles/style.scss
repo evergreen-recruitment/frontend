@@ -4,6 +4,7 @@
   --border-radius: 0px;
   --screen-width: 1280px;
   --min-screen-width: 1280px;
+  --show-border-op: 0.5;
 }
 
 @font-face {
@@ -71,5 +72,25 @@ body {
       opacity: 1;
       transform: translateY(0);
     }
+  }
+}
+
+// 通用卡片样式
+.card {
+  @apply shadow-md rounded-[var(--border-radius)];
+  @include useTheme {
+    border: 1px solid rgba(getColor('primary'), var(--show-border-op));
+  }
+}
+
+// g6交互提示样式
+.g6-tooltip {
+  padding: 10px 6px;
+  border-radius: var(--border-radius);
+  @include useTheme {
+    border: 2px solid rgba(getColor('primary'), var(--show-border-op));
+    background-color: getModeVar('cardBgColor');
+    color: getModeVar('textColor');
+    box-shadow: 0 0 10px 0 rgba(getColor('primary'), 0.6);
   }
 }
