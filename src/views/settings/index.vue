@@ -21,7 +21,7 @@ const minWidthMarks = ref({
 </script>
 
 <template>
-  <div class="setting-page">
+  <div class="setting-page card">
     <div class="setting-page__title">设置</div>
     <div class="setting-page__inner">
       <div class="setting-page__inner--dark-mode">
@@ -56,16 +56,23 @@ const minWidthMarks = ref({
         </div>
       </div>
 
-      <div class="setting-page__inner--color-mode">
+      <div class="setting-page__inner--show-border">
+        <i-page-header title="显示卡片边框" sub-title="设置是否显示卡片的边框" />
+        <div class="setting-page__inner--show-border__content setting-item__content">
+          <a-switch v-model:checked="appStore.showCardBorderComp" checked-children="开" un-checked-children="关" />
+        </div>
+      </div>
+
+      <div class="setting-page__inner--min-width">
         <i-page-header title="最小宽度" sub-title="设置系统的最小屏幕宽度，用于适配各种不同的屏幕尺寸" />
         <div class="setting-page__inner--min-width__content setting-item__content">
           <a-slider v-model:value="appStore.minScreenWidthComp" :marks="minWidthMarks" :min="1024" :max="max" />
         </div>
       </div>
 
-      <div class="setting-page__inner--color-mode">
+      <div class="setting-page__inner--token-keep">
         <i-page-header title="Token保留天数" sub-title="设置登录用户的Token保留天数，以控制登录" />
-        <div class="setting-page__inner--min-width__content setting-item__content">
+        <div class="setting-page__inner--token-keep__content setting-item__content">
           <a-input-number v-model:value="appStore.tokenExpires" :min="1" :max="7">
             <template #addonAfter>天</template>
           </a-input-number>

@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { computed, reactive, ref, watchEffect } from 'vue'
+import { onMounted, reactive, ref, watchEffect } from 'vue'
 import type { JobItem, SimpleJobItem } from '@/types/commonTypes'
 import router from '@/router'
 import { useAppStore } from '@/stores'
 import JobCardV2 from '@/components/JobCardV2/JobCardV2.vue'
+import { getJobDetail } from '@/apis/jobDetail'
 
 const appStore = useAppStore()
 const searchJobList = reactive<JobItem[]>([
@@ -124,12 +125,13 @@ const jobs = reactive<SimpleJobItem[]>([
     tags: ['Python', 'Django', 'Flask', 'Tornado'],
   },
 ])
-const id = ref(router.currentRoute.value.params.id)
+const id = ref(Number(router.currentRoute.value.params.id))
+const job = ref<any>()
 // 监听路由变化
-watchEffect(() => {
-  id.value = router.currentRoute.value.params.id
+watchEffect(async () => {
+  id.value = Number(router.currentRoute.value.params.id)
+  job.value = await getJobDetail(id.value)
 })
-const job = computed(() => searchJobList.find((item) => item.id === id.value) || searchJobList[0])
 // echarts配置
 const option1 = reactive({
   legend: {
@@ -146,17 +148,20 @@ const option1 = reactive({
         borderRadius: 8,
       },
       data: [
-        { value: 40, name: 'rose 1' },
-        { value: 38, name: 'rose 2' },
-        { value: 32, name: 'rose 3' },
-        { value: 30, name: 'rose 4' },
-        { value: 28, name: 'rose 5' },
-        { value: 26, name: 'rose 6' },
-        { value: 22, name: 'rose 7' },
-        { value: 18, name: 'rose 8' },
+        { value: 40, name: 'Java' },
+        { value: 38, name: 'Spring' },
+        { value: 32, name: 'Spring Boot' },
+        { value: 30, name: 'MySQL' },
+        { value: 28, name: 'MyBatis Plus' },
+        { value: 26, name: 'Redis' },
+        { value: 22, name: 'RabbitMQ' },
+        { value: 18, name: 'Spring Cloud' },
       ],
     },
   ],
+})
+onMounted(async () => {
+  console.log(await getJobDetail(1))
 })
 </script>
 
@@ -184,7 +189,7 @@ const option1 = reactive({
     </div>
     <div class="job-detail__main">
       <div class="job-detail__content">
-        <div class="job-detail__description">
+        <div class="job-detail__description card">
           <div class="job-detail__description--title">职位描述</div>
           <a-divider />
           <div class="job-detail__description--content">
@@ -199,12 +204,12 @@ const option1 = reactive({
             <span>{{ job.hr }}&nbsp;</span>
           </div>
         </div>
-        <div class="job-detail__stack">
+        <div class="job-detail__stack card">
           <div class="job-detail__stack--title">技术栈要求可视化</div>
           <i-charts :option="option1" />
         </div>
       </div>
-      <div class="job-detail__side">
+      <div class="job-detail__side card">
         <div class="job-detail__side--title">相似岗位</div>
         <div class="job-detail__side--job-list">
           <job-card-v2 v-for="job in jobs" :key="job.id" :job="job" />
@@ -299,14 +304,14 @@ const option1 = reactive({
       }
 
       .job-detail__stack {
-        @apply mt-5 h-[600px] rounded-[var(--border-radius)] shadow-lg p-5;
+        @apply mt-5 h-[700px] rounded-[var(--border-radius)] shadow-lg p-5;
 
         @include useTheme {
           background-color: getModeVar('cardBgColor');
         }
 
         :deep(.chart) {
-          @apply h-[550px];
+          @apply h-[650px];
         }
 
         .job-detail__stack--title {

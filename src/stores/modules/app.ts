@@ -77,6 +77,20 @@ export const useAppStore = defineStore(
       }
     })
 
+    // 设置是否显示卡片边框
+    const showCardBorder = ref(true)
+    const showCardBorderComp = computed({
+      get() {
+        document.documentElement.style.setProperty('--show-border-op', showCardBorder.value ? '0.5' : '0')
+        return showCardBorder.value
+      },
+      set(val) {
+        showCardBorder.value = val
+        document.documentElement.style.setProperty('--show-border-op', val ? '0.5' : '0')
+      },
+    })
+
+    // 设置最小屏幕宽度
     const minScreenWidth = ref(1280)
     const minScreenWidthComp = computed({
       get() {
@@ -130,6 +144,8 @@ export const useAppStore = defineStore(
       themeConfig,
       darkModeRef, // 用于持久化 可怜的computed无法持久化
       darkMode,
+      showCardBorder,
+      showCardBorderComp,
       minScreenWidth,
       minScreenWidthComp,
       tokenExpires,

@@ -11,7 +11,7 @@ const appStore = useAppStore()
 </script>
 
 <template>
-  <div class="job-item" @click="$router.push(`/jobDetail/${job.id}`)">
+  <div class="job-item card" @click="$router.push(`/jobDetail/${job.id}`)">
     <div class="top">
       <div class="left">
         <div class="job-title">{{ job.title }}</div>

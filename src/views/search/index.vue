@@ -105,7 +105,7 @@ const searchJobList = reactive<JobItem[]>([
 
 <template>
   <div class="search-page">
-    <div class="search-panel">
+    <div class="search-panel card">
       <job-search />
       <div class="city-list">
         <router-link class="city" to="/search" v-for="c in cityList" :key="c">{{ c }}</router-link>
@@ -119,7 +119,7 @@ const searchJobList = reactive<JobItem[]>([
       <div class="job-list block-item">
         <job-item v-for="job in searchJobList" :key="job.id" :job="job" />
       </div>
-      <div class="job-side block-item">
+      <div class="job-side block-item card">
         <div class="title">相关搜索</div>
         <div class="search-list">
           <div class="search-item" v-for="item in similarSearch" :key="item">
