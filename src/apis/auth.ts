@@ -21,6 +21,22 @@ export type ForgetPasswordFormType = {
   uuid?: string
 }
 
+export type CaptchaResponse = {
+  uuid?: string
+  img?: string
+  captchaEnabled?: boolean
+}
+
+export type CompleteUserInfoFormType = {
+  avatar: string
+  userAccount: string
+  realName: string
+  userPassword: string
+  reUserPassword: string
+  email: string
+  gender: number | null
+}
+
 export function loginByCaptchaApi(loginForm: LoginByCaptchaFormType) {
   delete loginForm.privacy
   return request.Post(
@@ -50,10 +66,8 @@ export function forgetPasswordApi(forgetPasswordForm: ForgetPasswordFormType) {
   )
 }
 
-export type CaptchaResponse = {
-  uuid?: string
-  img?: string
-  captchaEnabled?: boolean
+export function completeUserInfoApi(data: any) {
+  return request.Post('auth/completeUserInfo', data)
 }
 
 export function getCodeImgApi() {

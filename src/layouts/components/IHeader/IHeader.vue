@@ -20,8 +20,8 @@ const links = reactive([
   {
     id: '3',
     title: '公司',
-    path: '/',
-    outer: true,
+    path: '/company',
+    outer: false,
   },
   {
     id: '4',
@@ -70,7 +70,7 @@ const links = reactive([
       </div>
       <div v-if="!userStore.token" class="i-header__inner-right i-header__inner-not-login">
         <a href="#" class="nav-item"> 我是招聘人 </a>
-        <router-link to="/auth/loginByCaptcha" class="nav-item"> 我是求职者 </router-link>
+        <router-link to="/auth/loginByCaptcha" class="nav-item"> 我是求职者</router-link>
         <div class="i-header__login" @click="$router.push('/auth/loginByCaptcha')">登录 | 注册</div>
       </div>
       <div v-else class="i-header__inner-right i-header__inner-already-login">
