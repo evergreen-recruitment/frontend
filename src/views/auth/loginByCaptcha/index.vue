@@ -41,8 +41,11 @@ const { loading, send, onSuccess, onError } = useRequest(loginByCaptchaApi(formS
 
 onSuccess((event) => {
   const data = event.data as any
-  console.log('data', data)
   if (data) {
+    if (data?.isFirstLogin) {
+      router.push('/auth/completeInfo')
+      return
+    }
     userStore.token = data.token
     userStore.userInfo = data.userVO
     // 获取当前路由的参数, 跳转到指定页面

@@ -46,6 +46,14 @@ export const constantRouterMap = [
         },
         component: () => import('@/views/auth/forgetPassword/index.vue'),
       },
+      {
+        name: 'completeInfo',
+        path: '/auth/completeInfo',
+        meta: {
+          title: '完善信息',
+        },
+        component: () => import('@/views/auth/completeInfo/index.vue'),
+      },
     ],
   },
   {
@@ -96,6 +104,16 @@ export function getAsyncRouterMap(): IRouter[] {
         width: 1280,
       },
       component: () => import('@/views/search/index.vue'),
+    },
+    {
+      name: 'company',
+      path: '/company',
+      meta: {
+        icon: 'BankOutlined',
+        title: '公司',
+        width: 1280,
+      },
+      component: () => import('@/views/company/index.vue'),
     },
     {
       name: 'jobDetail',
