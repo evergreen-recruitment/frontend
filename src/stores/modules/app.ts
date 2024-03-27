@@ -56,7 +56,7 @@ export const useAppStore = defineStore(
       },
     })
     // 主题名称
-    const themeName = ref<primaryColorEnumType>('cyan')
+    const themeName = ref<primaryColorEnumType>('origin')
     // 主题配置
     const borderRadius = ref(7)
     const themeConfig = computed(() => {
@@ -136,6 +136,9 @@ export const useAppStore = defineStore(
     // 设置Token过期时间
     const tokenExpires = ref(1) // 1小时
 
+    // 设置岗位是否通过新窗口打开
+    const openInNewWindow = ref(true)
+
     return {
       themeName,
       locale,
@@ -149,6 +152,7 @@ export const useAppStore = defineStore(
       minScreenWidth,
       minScreenWidthComp,
       tokenExpires,
+      openInNewWindow,
     }
   },
   {

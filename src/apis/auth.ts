@@ -3,14 +3,14 @@ import request from '@/utils/request'
 export type LoginByCaptchaFormType = {
   phone: string
   code?: string
-  privacy?: boolean // 不传递给后端
+  privacy?: boolean
   uuid?: string
 }
 
 export type LoginByPasswordFormType = {
   phone: string
   password: string
-  privacy?: boolean // 不传递给后端
+  privacy?: boolean
 }
 
 export type ForgetPasswordFormType = {
@@ -37,6 +37,10 @@ export type CompleteUserInfoFormType = {
   gender: number | null
 }
 
+/**
+ * 通过验证码登录
+ * @param loginForm 登录表单
+ */
 export function loginByCaptchaApi(loginForm: LoginByCaptchaFormType) {
   delete loginForm.privacy
   return request.Post(
@@ -47,6 +51,10 @@ export function loginByCaptchaApi(loginForm: LoginByCaptchaFormType) {
   )
 }
 
+/**
+ * 通过密码登录
+ * @param loginForm 登录表单
+ */
 export function loginByPasswordApi(loginForm: LoginByPasswordFormType) {
   delete loginForm.privacy
   return request.Post(
@@ -57,6 +65,10 @@ export function loginByPasswordApi(loginForm: LoginByPasswordFormType) {
   )
 }
 
+/**
+ * 忘记密码
+ * @param forgetPasswordForm 忘记密码表单
+ */
 export function forgetPasswordApi(forgetPasswordForm: ForgetPasswordFormType) {
   return request.Post(
     'auth/forgetPassword',
@@ -66,10 +78,34 @@ export function forgetPasswordApi(forgetPasswordForm: ForgetPasswordFormType) {
   )
 }
 
-export function completeUserInfoApi(data: any) {
-  return request.Post('auth/completeUserInfo', data)
+/**
+ * 完善用户信息
+ * @param completeInfoForm 完善用户信息表单
+ */
+export function completeUserInfoApi(completeInfoForm: CompleteUserInfoFormType) {
+  return request.Post(
+    'auth/completeUserInfo',
+    completeInfoForm,
+    // @ts-ignore
+    { headers: { 'Content-Type': 'application/json' }, ignoreToken: true },
+  )
 }
 
+/**
+ * 发送短信验证码
+ * @param phone
+ */
+export function sendSMSApi(phone: string) {
+  return request.Get(
+    'auth/sendSMS',
+    //@ts-ignore
+    { params: { phone }, ignoreToken: true },
+  )
+}
+
+/**
+ * 获取验证码图片
+ */
 export function getCodeImgApi() {
   // '/auth/captchaImage'
   return request

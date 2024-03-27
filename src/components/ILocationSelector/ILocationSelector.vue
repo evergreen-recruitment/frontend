@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 import type { CascaderProps } from 'ant-design-vue'
 import type { ShowSearchType } from 'ant-design-vue/es/cascader'
-import pcCode from './map/pc-code.json'
+import city from './map/city.json'
 
 const value = ref()
 
@@ -16,7 +16,7 @@ function convertNameCodeToLabelValue(data: any) {
   })
 }
 
-const options = convertNameCodeToLabelValue(pcCode) as CascaderProps['options']
+const options = convertNameCodeToLabelValue(city) as CascaderProps['options']
 
 const filter: ShowSearchType['filter'] = (inputValue, path) => {
   return path.some((option) => option.label.toLowerCase().indexOf(inputValue.toLowerCase()) > -1)

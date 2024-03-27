@@ -126,7 +126,7 @@ const jobs = reactive<SimpleJobItem[]>([
   },
 ])
 const id = ref(Number(router.currentRoute.value.params.id))
-const job = ref<any>()
+const job = ref<any>(jobs[0])
 // 监听路由变化
 watchEffect(async () => {
   id.value = Number(router.currentRoute.value.params.id)

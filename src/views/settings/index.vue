@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useAppStore } from '@/stores'
 import { ref } from 'vue'
+import INavigator from '@/components/INavigator/INavigator.vue'
 
 const appStore = useAppStore()
 
@@ -69,7 +70,12 @@ const minWidthMarks = ref({
           <a-slider v-model:value="appStore.minScreenWidthComp" :marks="minWidthMarks" :min="1024" :max="max" />
         </div>
       </div>
-
+      <div class="setting-page__inner--outer-link">
+        <i-page-header title="是否开启默认打开链接为外链" sub-title="设置元素的打开方式，是否为从新窗口打开" />
+        <div class="setting-page__inner--outer-link__content setting-item__content">
+          <a-switch v-model:checked="appStore.openInNewWindow" checked-children="开" un-checked-children="关" />
+        </div>
+      </div>
       <div class="setting-page__inner--token-keep">
         <i-page-header title="Token保留天数" sub-title="设置登录用户的Token保留天数，以控制登录" />
         <div class="setting-page__inner--token-keep__content setting-item__content">

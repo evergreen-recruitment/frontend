@@ -22,7 +22,7 @@ export function getHomeBannerApi() {
 export function getHomeCategoryApi() {
   return request
     .Get(
-      'home/category',
+      '/job/home/category',
       // @ts-ignore
       { headers: { 'Content-Type': 'application/json' }, ignoreToken: true },
     )
@@ -92,7 +92,7 @@ export function getHomeNearbyJobsApi() {
 export function getHomeKnowledgeGraphApi() {
   return request
     .Get(
-      'home/knowledgeGraph',
+      '/job/home/knowledgeGraph',
       // @ts-ignore
       { headers: { 'Content-Type': 'application/json' }, ignoreToken: true },
     )
