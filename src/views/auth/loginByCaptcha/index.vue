@@ -1,13 +1,11 @@
 <script lang="ts" setup>
-import { nextTick, reactive, ref } from 'vue'
+import { reactive, ref } from 'vue'
 import { useRequest } from 'alova'
-import { getCodeImgApi, loginByCaptchaApi, type LoginByCaptchaFormType } from '@/apis/auth'
+import { loginByCaptchaApi, type LoginByCaptchaFormType } from '@/apis/auth'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores'
 
 const formRef = ref()
-const captchaEnabled = ref(true)
-const codeUrl = ref('')
 
 const formState = reactive<LoginByCaptchaFormType>({
   phone: '13667777777',
@@ -34,7 +32,7 @@ const rules = reactive({
 const router = useRouter()
 const userStore = useUserStore()
 
-const { loading, send, onSuccess, onError } = useRequest(loginByCaptchaApi(formState), {
+const { loading, send, onSuccess } = useRequest(loginByCaptchaApi(formState), {
   // 默认不发出
   immediate: false,
 })
@@ -42,20 +40,16 @@ const { loading, send, onSuccess, onError } = useRequest(loginByCaptchaApi(formS
 onSuccess((event) => {
   const data = event.data as any
   if (data) {
+    userStore.token = data.token
+    userStore.userInfo = data.userVO
     if (data?.isFirstLogin) {
       router.push('/auth/completeInfo')
       return
     }
-    userStore.token = data.token
-    userStore.userInfo = data.userVO
     // 获取当前路由的参数, 跳转到指定页面
     const { redirect } = router.currentRoute.value.query
     router.push((redirect as string) || '/')
   }
-})
-
-onError((event) => {
-  getCode()
 })
 
 async function login() {
@@ -63,21 +57,6 @@ async function login() {
     send(true)
   })
 }
-
-async function getCode() {
-  const res = await getCodeImgApi()
-  captchaEnabled.value = res.captchaEnabled === undefined ? true : res.captchaEnabled
-  if (captchaEnabled.value) {
-    codeUrl.value = 'data:image/gif;base64,' + res.img
-    formState.uuid = res.uuid || ''
-  }
-}
-
-nextTick(() => {
-  if (captchaEnabled.value) {
-    getCode()
-  }
-})
 </script>
 
 <template>

@@ -76,8 +76,8 @@ const beforeUpload = (file: UploadProps['fileList'][number]) => {
       class="complete-info-form"
       label-align="left"
     >
-      <a-row :gutter="10" style="align-items: end">
-        <a-col :span="12">
+      <a-row :gutter="0" style="align-items: end">
+        <a-col :span="8">
           <a-form-item name="avatar" label="头像">
             <a-upload
               v-model:file-list="fileList"
@@ -97,7 +97,7 @@ const beforeUpload = (file: UploadProps['fileList'][number]) => {
             </a-upload>
           </a-form-item>
         </a-col>
-        <a-col :span="12">
+        <a-col :span="16">
           <a-form-item name="realName" label="姓名">
             <a-input v-model:value="formState.realName" placeholder="请输入真实姓名">
               <template #prefix>

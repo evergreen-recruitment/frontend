@@ -11,7 +11,7 @@ const appStore = useAppStore()
 </script>
 
 <template>
-  <div class="job-item card" @click="$router.push(`/jobDetail/${job.id}`)">
+  <i-navigator class="job-item card" :to="`/jobDetail/${job.id}`" open-in-new-window>
     <div class="top">
       <div class="left">
         <div class="job-title">{{ job.title }}</div>
@@ -39,7 +39,7 @@ const appStore = useAppStore()
       </div>
       <div class="job-time">发布时间：{{ job.createTime }}</div>
     </div>
-  </div>
+  </i-navigator>
 </template>
 
 <style scoped lang="scss">

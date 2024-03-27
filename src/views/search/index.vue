@@ -3,22 +3,66 @@ import { reactive, ref } from 'vue'
 import type { JobItem } from '@/types/commonTypes'
 
 const cityList = ref([
-  '全国',
-  '北京',
-  '上海',
-  '广州',
-  '深圳',
-  '杭州',
-  '天津',
-  '西安',
-  '苏州',
-  '武汉',
-  '厦门',
-  '长沙',
-  '成都',
-  '郑州',
-  '重庆',
-  '其他城市',
+  {
+    code: 100010000,
+    name: '全国',
+  },
+  {
+    code: 101010100,
+    name: '北京',
+  },
+  {
+    code: 101020100,
+    name: '上海',
+  },
+  {
+    code: 101280100,
+    name: '广州',
+  },
+  {
+    code: 101280600,
+    name: '深圳',
+  },
+  {
+    code: 101210100,
+    name: '杭州',
+  },
+  {
+    code: 101030100,
+    name: '天津',
+  },
+  {
+    code: 101110100,
+    name: '西安',
+  },
+  {
+    code: 101190400,
+    name: '苏州',
+  },
+  {
+    code: 101200100,
+    name: '武汉',
+  },
+  {
+    code: 101230200,
+    name: '厦门',
+  },
+  {
+    code: 101250100,
+    name: '长沙',
+  },
+  {
+    code: 101270100,
+    name: '成都',
+  },
+  {
+    code: 101180100,
+    name: '郑州',
+  },
+  {
+    code: 101040100,
+    name: '重庆',
+  },
 ])
 
 const similarSearch = ref([
@@ -108,7 +152,10 @@ const searchJobList = reactive<JobItem[]>([
     <div class="search-panel card">
       <job-search />
       <div class="city-list">
-        <router-link class="city" to="/search" v-for="c in cityList" :key="c">{{ c }}</router-link>
+        <router-link class="city" :to="{ name: 'search', query: { city: c.code } }" v-for="c in cityList" :key="c.code">
+          {{ c.name }}
+        </router-link>
+        <router-link class="city" to="/search">其他城市</router-link>
       </div>
       <div class="filter-panel block-item">
         <job-filter />

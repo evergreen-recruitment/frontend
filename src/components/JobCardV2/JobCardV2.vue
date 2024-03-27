@@ -2,6 +2,7 @@
 import type { SimpleJobItem } from '@/types/commonTypes'
 import { useAppStore } from '@/stores'
 import variables from '@/styles/variables.module.scss'
+import INavigator from '@/components/INavigator/INavigator.vue'
 
 defineProps<{
   job: SimpleJobItem
@@ -11,7 +12,7 @@ const appStore = useAppStore()
 </script>
 
 <template>
-  <div class="job-card" @click="$router.push(`/jobDetail/${job.id}`)">
+  <i-navigator class="job-card" :to="`/jobDetail/${job.id}`" open-in-new-window>
     <div class="job-card__header">
       <div class="job-card__header--title">{{ job.title }}</div>
       <div class="job-card__header--salary">{{ `${job.salary[0]}-${job.salary[1]}` }}</div>
@@ -23,7 +24,7 @@ const appStore = useAppStore()
         <a-tag :color="variables[appStore.themeName]" v-for="t in job.tags" :key="t">{{ t }}</a-tag>
       </div>
     </div>
-  </div>
+  </i-navigator>
 </template>
 
 <style scoped lang="scss">

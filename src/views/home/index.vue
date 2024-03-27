@@ -10,6 +10,7 @@ import {
   getHomeRecommendApi,
   getHotSearchApi,
 } from '@/apis/home'
+import INavigator from '@/components/INavigator/INavigator.vue'
 
 const appStore = useAppStore()
 const tabKey = ref('1')
@@ -59,12 +60,17 @@ onMounted(async () => {
                 <span>{{ item.name }}</span>
               </div>
               <div class="content">
-                <div class="menu-item" v-for="i in item.children" :key="i.name">
+                <i-navigator
+                  class="menu-item"
+                  v-for="i in item.children"
+                  :key="i.name"
+                  :to="{ name: 'search', query: { code: i.id } }"
+                >
                   <span>{{ i.name }}</span>
                   <div class="arrow">
                     <Icon icon="CaretRightOutlined" />
                   </div>
-                </div>
+                </i-navigator>
               </div>
             </div>
           </div>
