@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { useUserStore } from '@/stores'
+import { useAppStore, useUserStore } from '@/stores'
 import { reactive } from 'vue'
+import { getAssetsFile } from '@/utils/utils'
 
 const userStore = useUserStore()
-
+const appStore = useAppStore()
 const links = reactive([
   {
     id: '1',
@@ -43,7 +44,16 @@ const links = reactive([
     <div class="i-header__inner">
       <div class="i-header__inner-left">
         <div class="i-header__logo">
-          <router-link to="/">常青招聘</router-link>
+          <a href="/">
+            <img
+              :src="
+                appStore.darkMode == 'light'
+                  ? getAssetsFile('images/logo1-black.png')
+                  : getAssetsFile('images/logo1-white.png')
+              "
+              alt=""
+            />
+          </a>
         </div>
         <div class="i-header__menu">
           <a-popover trigger="click" placement="bottom">
@@ -137,9 +147,23 @@ const links = reactive([
       @apply flex items-center;
 
       .i-header__logo {
-        font:
-          400 30px hanyiyongzisonghei,
-          serif;
+        a {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 100%;
+          margin: 0 5px 0 10px;
+          @media screen and (max-width: 1280px) {
+            margin: 0 5px;
+          }
+
+          img {
+            height: 50px;
+            width: 100%;
+            object-fit: cover;
+            object-position: left center;
+          }
+        }
       }
 
       .i-header__menu {

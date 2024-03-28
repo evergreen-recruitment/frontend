@@ -1,9 +1,15 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import { getAssetsFile } from '@/utils/utils'
+</script>
 
 <template>
   <div class="footer">
     <div class="footer-logo">
-      <div class="title">常青招聘</div>
+      <div class="title">
+        <a href="/">
+          <img :src="getAssetsFile('images/logo1-white.png')" alt="" />
+        </a>
+      </div>
     </div>
     <div class="footer-down">
       <div class="inner">
@@ -23,6 +29,7 @@
 
 <style lang="scss" scoped>
 @import '@/styles/theme.scss';
+
 .footer {
   @apply w-full mt-5;
 
@@ -47,15 +54,24 @@
       display: flex;
       justify-content: flex-start;
       max-width: 1200px;
-      color: #ffffff;
-      font:
-        400 40px hanyiyongzisonghei,
-        serif;
       //text-shadow: 0 0 10px #fff;
 
-      @media screen and (max-width: 768px) {
+      a {
+        display: flex;
         justify-content: center;
-        font-size: 18px;
+        align-items: center;
+        height: 100%;
+        margin: 0 5px 0 10px;
+        @media screen and (max-width: 1280px) {
+          margin: 0 5px;
+        }
+
+        img {
+          height: 70px;
+          width: 100%;
+          object-fit: cover;
+          object-position: left center;
+        }
       }
     }
   }

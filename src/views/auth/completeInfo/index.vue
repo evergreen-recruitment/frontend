@@ -4,6 +4,7 @@ import Icon from '@/components/Icon/Icon.vue'
 import type { UploadChangeParam, UploadProps } from 'ant-design-vue'
 import { message } from 'ant-design-vue'
 import type { CompleteUserInfoFormType } from '@/apis/auth'
+import ILocationSelector from '@/components/ILocationSelector/ILocationSelector.vue'
 
 const fileList = ref([])
 const avatarUploadLoading = ref(false)
@@ -13,6 +14,7 @@ const formState = reactive<CompleteUserInfoFormType>({
   avatar: '',
   userAccount: '',
   realName: '',
+  address: [''],
   userPassword: '',
   reUserPassword: '',
   email: '',
@@ -21,6 +23,7 @@ const formState = reactive<CompleteUserInfoFormType>({
 const rules = reactive({
   userAccount: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
   realName: [{ required: true, message: '请输入真实姓名', trigger: 'blur' }],
+  address: [{ required: true, message: '请输入地址', trigger: 'blur' }],
   userPassword: [{ required: true, message: '请输入密码', trigger: 'blur' }],
   reUserPassword: [{ required: true, message: '请再次输入密码', trigger: 'blur' }],
   email: [{ required: true, message: '请输入邮箱', trigger: 'blur' }],
@@ -121,6 +124,10 @@ const beforeUpload = (file: UploadProps['fileList'][number]) => {
           <a-radio value="0">男</a-radio>
           <a-radio value="1">女</a-radio>
         </a-radio-group>
+      </a-form-item>
+
+      <a-form-item name="address" label="地址">
+        <i-location-selector v-model:value="formState.address" />
       </a-form-item>
 
       <a-form-item name="userPassword" label="密码">
