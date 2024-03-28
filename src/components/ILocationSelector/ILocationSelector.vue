@@ -1,10 +1,14 @@
 <script setup lang="ts">
-import { ref } from 'vue'
 import type { CascaderProps } from 'ant-design-vue'
 import type { ShowSearchType } from 'ant-design-vue/es/cascader'
 import city from './map/city.json'
+import { useVModel } from '@vueuse/core'
 
-const value = ref()
+const emit = defineEmits(['update:value'])
+const props = defineProps<{
+  value: string[]
+}>()
+const propsValue = useVModel(props, 'value', emit)
 
 function convertNameCodeToLabelValue(data: any) {
   return data.map((item: any) => {
@@ -24,7 +28,12 @@ const filter: ShowSearchType['filter'] = (inputValue, path) => {
 </script>
 
 <template>
-  <a-cascader v-model:value="value" :show-search="{ filter }" :options="options" placeholder="选择位置(可输入搜索)" />
+  <a-cascader
+    v-model:value="propsValue"
+    :show-search="{ filter }"
+    :options="options"
+    placeholder="选择位置(可输入搜索)"
+  />
 </template>
 
 <style scoped lang="scss"></style>

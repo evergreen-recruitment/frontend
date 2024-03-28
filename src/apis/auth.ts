@@ -28,9 +28,10 @@ export type CaptchaResponse = {
 }
 
 export type CompleteUserInfoFormType = {
-  avatar: string
+  avatar?: string
   userAccount: string
   realName: string
+  address: string[]
   userPassword: string
   reUserPassword: string
   email: string
@@ -44,7 +45,7 @@ export type CompleteUserInfoFormType = {
 export function loginByCaptchaApi(loginForm: LoginByCaptchaFormType) {
   delete loginForm.privacy
   return request.Post(
-    'auth/loginByCaptcha',
+    'user/login/phone',
     loginForm,
     // @ts-ignore
     { headers: { 'Content-Type': 'application/json' }, ignoreToken: true },
@@ -58,7 +59,7 @@ export function loginByCaptchaApi(loginForm: LoginByCaptchaFormType) {
 export function loginByPasswordApi(loginForm: LoginByPasswordFormType) {
   delete loginForm.privacy
   return request.Post(
-    'auth/loginByPassword',
+    'user/login/password',
     loginForm,
     // @ts-ignore
     { headers: { 'Content-Type': 'application/json' }, ignoreToken: true },
@@ -71,7 +72,7 @@ export function loginByPasswordApi(loginForm: LoginByPasswordFormType) {
  */
 export function forgetPasswordApi(forgetPasswordForm: ForgetPasswordFormType) {
   return request.Post(
-    'auth/forgetPassword',
+    'user/forget',
     forgetPasswordForm,
     // @ts-ignore
     { headers: { 'Content-Type': 'application/json' }, ignoreToken: true },
@@ -84,10 +85,21 @@ export function forgetPasswordApi(forgetPasswordForm: ForgetPasswordFormType) {
  */
 export function completeUserInfoApi(completeInfoForm: CompleteUserInfoFormType) {
   return request.Post(
-    'auth/completeUserInfo',
+    'user/fill/requireinfo',
     completeInfoForm,
     // @ts-ignore
     { headers: { 'Content-Type': 'application/json' }, ignoreToken: true },
+  )
+}
+
+/**
+ * 判断是否完善用户信息
+ */
+export function isCompleteUserInfoApi() {
+  return request.Get(
+    'user/has/dorequired',
+    // @ts-ignore
+    { ignoreToken: true },
   )
 }
 
@@ -97,9 +109,21 @@ export function completeUserInfoApi(completeInfoForm: CompleteUserInfoFormType) 
  */
 export function sendSMSApi(phone: string) {
   return request.Get(
-    'auth/sendSMS',
+    'user/phone/send',
     //@ts-ignore
     { params: { phone }, ignoreToken: true },
+  )
+}
+
+/**
+ * 退出登录
+ */
+export function logoutApi() {
+  return request.Post(
+    'user/logout',
+    {},
+    // @ts-ignore
+    { ignoreToken: true },
   )
 }
 
