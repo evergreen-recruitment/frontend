@@ -5,7 +5,7 @@ export type SearchFormType = {
 }
 export function searchApi(searchForm: SearchFormType) {
   return request.Post(
-    'search',
+    '/job/search',
     searchForm,
     // @ts-ignore
     { headers: { 'Content-Type': 'application/json' }, ignoreToken: true },

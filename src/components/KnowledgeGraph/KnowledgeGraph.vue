@@ -1,11 +1,17 @@
 <script setup lang="ts">
-import { onMounted } from 'vue'
+import { onMounted, onUnmounted } from 'vue'
 import type { Graph, GraphData, NodeConfig } from '@antv/g6'
 import G6 from '@antv/g6'
+import { useAppStore } from '@/stores'
+import { primaryColorEnum } from '@/config/theme.config'
 
 const props = defineProps<{
   data: GraphData
+  showMinimap?: boolean
+  zoom?: number
 }>()
+
+const appStore = useAppStore()
 
 function addStyleProperty(data: any) {
   data.nodes.forEach((node: NodeConfig) => {
@@ -32,8 +38,8 @@ function addStyleProperty(data: any) {
   })
 }
 
+addStyleProperty(props.data)
 onMounted(() => {
-  addStyleProperty(props.data)
   const container = document.querySelector('.graph-container') as HTMLElement
   const width = container.offsetWidth
   const height = container.offsetHeight || 500
@@ -45,7 +51,7 @@ onMounted(() => {
     container: container as string | HTMLElement,
     width,
     height,
-    plugins: [minimap],
+    plugins: props.showMinimap ? [minimap] : [],
     minZoom: 0.5,
     maxZoom: 3,
     layout: {
@@ -71,7 +77,20 @@ onMounted(() => {
       },
     },
     modes: {
-      default: ['drag-canvas', 'zoom-canvas', 'tooltip'],
+      default: [
+        'drag-canvas',
+        'zoom-canvas',
+        {
+          type: 'tooltip',
+          formatText: function (model) {
+            return `${model.label}<br/>
+                    类型: ${model.type === 'stack' ? '技术栈' : '相关岗位'}<br/>
+                    ${model.type === 'similar-job' ? `相关度${((model.size as number) / 180).toFixed(2)}<br/>` : ''}
+                    双击跳转搜索
+                   `
+          },
+        },
+      ],
     },
   }) as Graph
 
@@ -80,10 +99,18 @@ onMounted(() => {
     nodes,
     edges: props.data.edges?.map(function (edge: any, i: any) {
       edge.id = 'edge' + i
+      edge.label = edge.type === 'stack' ? '需要的技术栈' : '相关岗位'
+      edge.labelCfg = {
+        style: {
+          fill: primaryColorEnum[appStore.themeName],
+        },
+      }
       return Object.assign({}, edge)
     }),
   })
   graph.render()
+
+  graph.zoom(props.zoom || 1, { x: 200, y: 200 })
 
   graph.on('node:dragstart', function (e) {
     graph.layout()
@@ -95,6 +122,11 @@ onMounted(() => {
   graph.on('node:dragend', function (e: any) {
     e.item.get('model').fx = null
     e.item.get('model').fy = null
+  })
+  graph.on('node:dblclick', function (e: any) {
+    const nodeData = e.item.get('model')
+    const searchURL = `/search?keyword=${encodeURIComponent(nodeData.label)}`
+    window.open(searchURL, '_blank')
   })
 
   if (typeof window !== 'undefined') {
@@ -115,10 +147,16 @@ onMounted(() => {
     model.fy = e.y
   }
 })
+
+onUnmounted(() => {
+  if (typeof window !== 'undefined') {
+    window.onresize = null
+  }
+})
 </script>
 
 <template>
-  <div class="graph-container card"></div>
+  <div class="graph-container"></div>
 </template>
 
 <style scoped lang="scss">
