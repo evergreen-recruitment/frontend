@@ -48,7 +48,7 @@ const request = createAlova({
       router.push('/login')
       return
     }
-    method.config.headers['satoken'] = `${userStore.token}`
+    method.config.headers.satoken = `${userStore.token}`
   },
   // 全局的响应拦截器
   responded: {

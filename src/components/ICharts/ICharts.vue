@@ -74,16 +74,16 @@ const optionComputed = computed(() => {
   }
   if (!o.tooltip) {
     return o
-  } else {
-    o.tooltip = {
-      ...o.tooltip,
-      backgroundColor: appStore.darkMode === 'light' ? '#fff' : '#000',
-      borderColor: appStore.darkMode === 'light' ? '#fff' : '#000',
-      textStyle: {
-        color: appStore.darkMode === 'light' ? '#000' : '#fff',
-      },
-    }
   }
+  o.tooltip = {
+    ...o.tooltip,
+    backgroundColor: appStore.darkMode === 'light' ? '#fff' : '#000',
+    borderColor: appStore.darkMode === 'light' ? '#fff' : '#000',
+    textStyle: {
+      color: appStore.darkMode === 'light' ? '#000' : '#fff',
+    },
+  }
+
   return o
 })
 </script>

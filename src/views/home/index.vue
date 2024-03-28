@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { onMounted, reactive, ref } from 'vue'
 import variables from '@/styles/variables.module.scss'
 import { useAppStore } from '@/stores'
 import {
@@ -20,6 +20,10 @@ const recommendJobList = ref()
 const newJobList = ref()
 const nearbyJobList = ref()
 const knowledgeGraphData = ref()
+const searchState = reactive({
+  keyword: '',
+  city: '',
+})
 
 onMounted(async () => {
   category.value = await getHomeCategoryApi()
@@ -35,16 +39,25 @@ onMounted(async () => {
   <div class="home-page">
     <div class="search-panel">
       <div class="search-panel__inner">
-        <job-search />
+        <job-search v-model:keyword="searchState.keyword" />
         <!--热门搜索-->
         <div class="hot-search">
           <div class="title">热门搜索</div>
           <div class="search-list">
-            <a-tag :color="variables[appStore.themeName]" v-for="i in hotSearch" :key="i" class="search-item"
-              >{{ i }}
+            <a-tag :color="variables[appStore.themeName]" v-for="i in hotSearch" :key="i" class="search-item">
+              <i-navigator :to="{ name: 'search', query: { keyword: i } }">
+                {{ i }}
+              </i-navigator>
             </a-tag>
           </div>
         </div>
+      </div>
+    </div>
+    <div class="knowledge-graph block-item">
+      <div class="title">你最有概率投递的岗位(知识图谱分析)</div>
+      <div class="sub-title">跟据大数据和算法分析得出</div>
+      <div class="graph-cot card">
+        <knowledge-graph v-if="knowledgeGraphData" class="graph" :data="knowledgeGraphData" show-minimap />
       </div>
     </div>
     <div class="banner">
@@ -64,7 +77,7 @@ onMounted(async () => {
                   class="menu-item"
                   v-for="i in item.children"
                   :key="i.name"
-                  :to="{ name: 'search', query: { code: i.id } }"
+                  :to="{ name: 'search', query: { jobId: i.id } }"
                 >
                   <span>{{ i.name }}</span>
                   <div class="arrow">
@@ -104,11 +117,6 @@ onMounted(async () => {
         </a-tab-pane>
       </a-tabs>
     </div>
-    <div class="knowledge-graph block-item">
-      <div class="title">相关职位(知识图谱分析)</div>
-      <div class="sub-title">跟据大数据和算法分析得出</div>
-      <knowledge-graph v-if="knowledgeGraphData" class="graph" :data="knowledgeGraphData" />
-    </div>
   </div>
 </template>
 
@@ -126,14 +134,14 @@ onMounted(async () => {
       @if getMode() == 'dark' {
         background: linear-gradient(
           135deg,
-          adjust-hue(hsl(0, 70%, 30%), hue(adjust-hue($t, -30))),
-          adjust-hue(hsl(0, 70%, 30%), hue(adjust-hue($t, 30)))
+          adjust-hue(hsl(0, 30%, 30%), hue(adjust-hue($t, -30))),
+          adjust-hue(hsl(0, 30%, 30%), hue(adjust-hue($t, 30)))
         );
       } @else {
         background: linear-gradient(
           135deg,
-          adjust-hue(hsl(0, 70%, 50%), hue(adjust-hue($t, -30))),
-          adjust-hue(hsl(0, 70%, 50%), hue(adjust-hue($t, 30)))
+          adjust-hue(hsl(0, 30%, 50%), hue(adjust-hue($t, -30))),
+          adjust-hue(hsl(0, 30%, 50%), hue(adjust-hue($t, 30)))
         );
       }
     }
@@ -249,7 +257,7 @@ onMounted(async () => {
   .knowledge-graph {
     @apply min-h-[60vh] h-[700px];
 
-    .graph {
+    .graph-cot {
       @apply w-full h-full rounded-[var(--border-radius)] shadow-md;
 
       @include useTheme {

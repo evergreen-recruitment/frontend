@@ -1,7 +1,16 @@
 <script setup lang="ts">
-import { reactive, ref } from 'vue'
+import { onMounted, reactive, ref, watchEffect } from 'vue'
 import type { JobItem } from '@/types/commonTypes'
+import INavigator from '@/components/INavigator/INavigator.vue'
+import router from '@/router'
+import KnowledgeGraph from '@/components/KnowledgeGraph/KnowledgeGraph.vue'
+import { getHomeKnowledgeGraphApi } from '@/apis/home'
+import type { GraphData } from '@antv/g6'
 
+const searchState = reactive({
+  keyword: '',
+  city: '',
+})
 const cityList = ref([
   {
     code: 100010000,
@@ -145,12 +154,19 @@ const searchJobList = reactive<JobItem[]>([
     tags: ['人工智能', '高级'],
   },
 ])
+const knowledgeGraphData = ref<GraphData>()
+watchEffect(() => {
+  searchState.keyword = (router.currentRoute.value.query.keyword as string) || ''
+})
+onMounted(async () => {
+  knowledgeGraphData.value = await getHomeKnowledgeGraphApi()
+})
 </script>
 
 <template>
   <div class="search-page">
     <div class="search-panel card">
-      <job-search />
+      <job-search v-model:keyword="searchState.keyword" />
       <div class="city-list">
         <router-link class="city" :to="{ name: 'search', query: { city: c.code } }" v-for="c in cityList" :key="c.code">
           {{ c.name }}
@@ -166,14 +182,25 @@ const searchJobList = reactive<JobItem[]>([
       <div class="job-list block-item">
         <job-item v-for="job in searchJobList" :key="job.id" :job="job" />
       </div>
-      <div class="job-side block-item card">
-        <div class="title">相关搜索</div>
-        <div class="search-list">
-          <div class="search-item" v-for="item in similarSearch" :key="item">
-            <span>{{ item }}</span>
-            <div class="arrow">
-              <Icon icon="CaretRightOutlined" />
-            </div>
+      <div class="job-side block-item">
+        <div class="graph-cot card">
+          <knowledge-graph v-if="knowledgeGraphData" class="graph" :data="knowledgeGraphData" :zoom="0.5" />
+        </div>
+        <div class="other-search card">
+          <div class="title">相关搜索</div>
+          <div class="search-list">
+            <i-navigator
+              class="search-item"
+              v-for="item in similarSearch"
+              :key="item"
+              :to="{ name: 'search', query: { keyword: item } }"
+              open-in-new-window
+            >
+              <span>{{ item }}</span>
+              <div class="arrow">
+                <Icon icon="CaretRightOutlined" />
+              </div>
+            </i-navigator>
           </div>
         </div>
       </div>
@@ -212,43 +239,55 @@ const searchJobList = reactive<JobItem[]>([
 
   .job {
     @apply flex;
+    .graph-cot {
+      @apply w-full h-[300px] mb-7 rounded-[var(--border-radius)] shadow-md;
+
+      @include useTheme {
+        background: getModeVar('cardBgColor');
+      }
+    }
+
     .job-list {
       @apply w-[calc(14/19*100%)];
     }
 
     .job-side {
-      @apply w-[calc(5/19*100%)] h-fit box-border px-2 py-3 ml-5 rounded-[var(--border-radius)] shadow-lg;
+      @apply w-[calc(5/19*100%)] h-fit ml-5;
 
-      @include useTheme {
-        background-color: getModeVar('cardBgColor');
-      }
+      .other-search {
+        @apply shadow-lg box-border px-2 py-3;
 
-      .title {
-        @apply text-lg font-bold;
-      }
+        @include useTheme {
+          background-color: getModeVar('cardBgColor');
+        }
 
-      .search-list {
-        .search-item {
-          @apply flex box-border items-center justify-between w-full px-2 my-0.5 h-10 rounded-[var(--border-radius)] cursor-pointer;
-          border: 1px solid transparent;
+        .title {
+          @apply text-lg font-bold;
+        }
 
-          &:hover {
-            @include useTheme {
-              border: 1px solid getColor('primary');
-              @if getMode() == 'light' {
-                background: rgba(adjust-hue(hsl(0, 50%, 85%), hue(getColor('primary'))), 0.8);
-              } @else {
-                background: rgba(adjust-hue(hsl(0, 50%, 15%), hue(getColor('primary'))), 0.8);
+        .search-list {
+          .search-item {
+            @apply flex box-border items-center justify-between w-full px-2 my-0.5 h-10 rounded-[var(--border-radius)] cursor-pointer;
+            border: 1px solid transparent;
+
+            &:hover {
+              @include useTheme {
+                border: 1px solid getColor('primary');
+                @if getMode() == 'light' {
+                  background: rgba(adjust-hue(hsl(0, 50%, 85%), hue(getColor('primary'))), 0.8);
+                } @else {
+                  background: rgba(adjust-hue(hsl(0, 50%, 15%), hue(getColor('primary'))), 0.8);
+                }
               }
             }
-          }
 
-          span {
-            @apply cursor-pointer;
-          }
+            span {
+              @apply cursor-pointer;
+            }
 
-          .arrow {
-            @apply ml-2;
+            .arrow {
+              @apply ml-2;
+            }
           }
         }
       }
