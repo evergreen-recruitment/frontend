@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, reactive, ref } from 'vue'
+import { onMounted, onUnmounted, reactive, ref } from 'vue'
 import variables from '@/styles/variables.module.scss'
 import { useAppStore } from '@/stores'
 import {
@@ -26,12 +26,35 @@ const searchState = reactive({
 })
 
 onMounted(async () => {
+  const footer = document.querySelector('.footer') as HTMLElement
+  footer.style.top = '100vh'
   category.value = await getHomeCategoryApi()
   hotSearch.value = await getHotSearchApi()
   recommendJobList.value = await getHomeRecommendApi()
   newJobList.value = await getHomeNewJobsApi()
   nearbyJobList.value = await getHomeNearbyJobsApi()
   knowledgeGraphData.value = await getHomeKnowledgeGraphApi()
+})
+
+onUnmounted(() => {
+  const footer = document.querySelector('.footer') as HTMLElement
+  footer.style.top = '0'
+})
+
+// 监听页面滚动事件
+window.addEventListener('scroll', () => {
+  const scrollTop = document.documentElement.scrollTop || document.body.scrollTop
+  const scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight
+  const clientHeight = document.documentElement.clientHeight || document.body.clientHeight
+
+  // 设置 --blur 和 --opacity 变量
+  const homePageBottom = document.querySelector('.mask') as HTMLElement | null
+  const blurPercent = scrollTop / clientHeight > 1 ? 1 : scrollTop / clientHeight
+  const opacityPercent = scrollTop / clientHeight > 0.6 ? 0.6 : scrollTop / clientHeight
+  homePageBottom?.style.setProperty('--blur', `${blurPercent * 10}px`)
+  homePageBottom?.style.setProperty('--opacity', `${opacityPercent}`)
+
+  console.log(scrollTop, scrollHeight, clientHeight)
 })
 </script>
 
@@ -53,69 +76,78 @@ onMounted(async () => {
         </div>
       </div>
     </div>
-    <div class="knowledge-graph block-item">
-      <div class="title">你最有概率投递的岗位(知识图谱分析)</div>
-      <div class="sub-title">跟据大数据和算法分析得出</div>
-      <div class="graph-cot card">
-        <knowledge-graph v-if="knowledgeGraphData" class="graph" :data="knowledgeGraphData" show-minimap />
+    <div class="mask"></div>
+    <div class="home-page-bottom">
+      <div class="knowledge-graph block-item">
+        <div class="title">你最有概率投递的岗位(知识图谱分析)</div>
+        <div class="sub-title">根据大数据和算法分析得出</div>
+        <div class="graph-cot card">
+          <knowledge-graph
+            v-if="knowledgeGraphData"
+            class="graph"
+            :data="knowledgeGraphData"
+            show-minimap
+            show-legend
+          />
+        </div>
       </div>
-    </div>
-    <div class="banner">
-      <div class="left-side">
-        <div class="menu">
-          <div class="menu-item" v-for="item in category" :key="item.name">
-            <span>{{ item.name }}</span>
-            <div class="arrow">
-              <Icon icon="CaretRightOutlined" />
-            </div>
-            <div class="layer">
-              <div class="title">
-                <span>{{ item.name }}</span>
+      <div class="banner">
+        <div class="left-side">
+          <div class="menu">
+            <div class="menu-item" v-for="item in category" :key="item.name">
+              <span>{{ item.name }}</span>
+              <div class="arrow">
+                <Icon icon="CaretRightOutlined" />
               </div>
-              <div class="content">
-                <i-navigator
-                  class="menu-item"
-                  v-for="i in item.children"
-                  :key="i.name"
-                  :to="{ name: 'search', query: { jobId: i.id } }"
-                >
-                  <span>{{ i.name }}</span>
-                  <div class="arrow">
-                    <Icon icon="CaretRightOutlined" />
-                  </div>
-                </i-navigator>
+              <div class="layer">
+                <div class="title">
+                  <span>{{ item.name }}</span>
+                </div>
+                <div class="content">
+                  <i-navigator
+                    class="menu-item"
+                    v-for="i in item.children"
+                    :key="i.name"
+                    :to="{ name: 'search', query: { jobId: i.id } }"
+                  >
+                    <span>{{ i.name }}</span>
+                    <div class="arrow">
+                      <Icon icon="CaretRightOutlined" />
+                    </div>
+                  </i-navigator>
+                </div>
               </div>
             </div>
           </div>
         </div>
+        <a-carousel autoplay>
+          <div class="carousel-item">常青招聘</div>
+          <div class="carousel-item">常青招聘</div>
+          <div class="carousel-item">常青招聘</div>
+          <div class="carousel-item">常青招聘</div>
+        </a-carousel>
       </div>
-      <a-carousel autoplay>
-        <div class="carousel-item">常青招聘</div>
-        <div class="carousel-item">常青招聘</div>
-        <div class="carousel-item">常青招聘</div>
-        <div class="carousel-item">常青招聘</div>
-      </a-carousel>
-    </div>
-    <div class="job-recommend block-item">
-      <div class="title">推荐岗位</div>
-      <div class="sub-title">通过人工智能分析推荐最适合你的岗位</div>
-      <a-tabs v-model:activeKey="tabKey" animated style="width: 1200px; overflow: hidden; padding: 5px 0">
-        <a-tab-pane key="1" tab="推荐岗位">
-          <div class="job-list">
-            <job-card v-for="job in recommendJobList" :key="job.id" :job="job" />
-          </div>
-        </a-tab-pane>
-        <a-tab-pane key="2" tab="最新岗位">
-          <div class="job-list">
-            <job-card v-for="job in newJobList" :key="job.id" :job="job" />
-          </div>
-        </a-tab-pane>
-        <a-tab-pane key="3" tab="附近岗位">
-          <div class="job-list">
-            <job-card v-for="job in nearbyJobList" :key="job.id" :job="job" />
-          </div>
-        </a-tab-pane>
-      </a-tabs>
+      <div class="job-recommend block-item">
+        <div class="title">推荐岗位</div>
+        <div class="sub-title">通过人工智能分析推荐最适合你的岗位</div>
+        <a-tabs v-model:activeKey="tabKey" animated style="width: 1200px; overflow: hidden; padding: 5px 0">
+          <a-tab-pane key="1" tab="推荐岗位">
+            <div class="job-list">
+              <job-card v-for="job in recommendJobList" :key="job.id" :job="job" />
+            </div>
+          </a-tab-pane>
+          <a-tab-pane key="2" tab="最新岗位">
+            <div class="job-list">
+              <job-card v-for="job in newJobList" :key="job.id" :job="job" />
+            </div>
+          </a-tab-pane>
+          <a-tab-pane key="3" tab="附近岗位">
+            <div class="job-list">
+              <job-card v-for="job in nearbyJobList" :key="job.id" :job="job" />
+            </div>
+          </a-tab-pane>
+        </a-tabs>
+      </div>
     </div>
   </div>
 </template>
@@ -124,10 +156,22 @@ onMounted(async () => {
 @import '@/styles/theme.scss';
 
 .home-page {
-  @apply mb-10;
+  @apply mb-10 relative;
+
+  .mask {
+    --blur: 0px;
+    --opacity: 0;
+    @apply fixed top-0 left-0 w-[100vw] h-[100vh] bg-amber-50 pointer-events-none;
+    backdrop-filter: blur(var(--blur));
+    //transition: background 0.3s ease-in-out, backdrop-filter 0.3s ease-in-out;
+
+    @include useTheme {
+      background: rgba(getModeVar('bg1color'), var(--opacity));
+    }
+  }
 
   .search-panel {
-    @apply w-full h-64 flex flex-col items-center justify-center;
+    @apply fixed w-full h-[100vh] flex flex-col items-center justify-center z-0;
 
     @include useTheme {
       $t: getColor('primary');
@@ -165,111 +209,115 @@ onMounted(async () => {
     }
   }
 
-  .banner {
-    @apply relative w-[1280px] h-[500px] mx-auto mt-10;
+  .home-page-bottom {
+    @apply relative top-[100vh] w-full flex flex-col items-center justify-center;
 
-    .left-side {
-      @apply absolute w-80 h-full py-5 box-border bg-black bg-opacity-50 z-[1] backdrop-blur-3xl;
+    .banner {
+      @apply relative w-[1280px] h-[500px] mx-auto mt-10;
 
-      .menu {
-        @apply text-white;
+      .left-side {
+        @apply absolute w-80 h-full py-5 box-border bg-black bg-opacity-50 z-[1] backdrop-blur-3xl;
 
-        .menu-item {
-          @apply w-full h-10 px-5 flex justify-between box-border cursor-pointer leading-10 hover:bg-[rgba(255,255,255,0.7)] hover:text-black;
+        .menu {
+          @apply text-white;
 
-          .layer {
-            @apply absolute top-0 left-[20rem] w-[calc(1280px-20rem)] h-[500px] backdrop-blur-2xl hidden;
+          .menu-item {
+            @apply w-full h-10 px-5 flex justify-between box-border cursor-pointer leading-10 hover:bg-[rgba(255,255,255,0.7)] hover:text-black;
 
-            @include useTheme {
-              background: linear-gradient(90deg, #ffffffa0, rgba(getColor('primary'), 0.7));
+            .layer {
+              @apply absolute top-0 left-[20rem] w-[calc(1280px-20rem)] h-[500px] backdrop-blur-2xl hidden;
+
+              @include useTheme {
+                background: linear-gradient(90deg, #ffffffa0, rgba(getColor('primary'), 0.7));
+              }
+
+              .title {
+                @apply text-2xl font-bold ml-5 mt-5 mb-5;
+              }
+
+              .content {
+                @apply flex flex-wrap;
+                .menu-item {
+                  @apply w-1/3 h-10 px-5 flex justify-between box-border cursor-pointer leading-10 hover:bg-[rgba(255,255,255,0.4)] hover:text-black;
+                }
+              }
             }
 
-            .title {
-              @apply text-2xl font-bold ml-5 mt-5 mb-5;
-            }
-
-            .content {
-              @apply flex flex-wrap;
-              .menu-item {
-                @apply w-1/3 h-10 px-5 flex justify-between box-border cursor-pointer leading-10 hover:bg-[rgba(255,255,255,0.4)] hover:text-black;
+            &:hover {
+              .layer {
+                @apply block;
               }
             }
           }
+        }
+      }
 
-          &:hover {
-            .layer {
-              @apply block;
-            }
+      .ant-carousel {
+        @apply w-full h-full;
+      }
+
+      :deep(.slick-slide) {
+        @apply w-full h-[500px] text-center flex items-center justify-center overflow-hidden;
+
+        $colors: (
+          2: linear-gradient(135deg, #a1c4fd, #c2e9fb),
+          3: linear-gradient(135deg, #ff9a9e, #fad0c4),
+          4: linear-gradient(135deg, #f6d365, #fda085),
+          5: linear-gradient(135deg, #a8e063, #56ab2f),
+        );
+
+        @for $i from 0 through 5 {
+          &:nth-child(#{$i}) {
+            background: map-get($colors, $i) !important;
           }
         }
       }
     }
 
-    .ant-carousel {
-      @apply w-full h-full;
+    .block-item {
+      @apply my-5 mx-auto w-[1200px] flex flex-col items-center justify-center;
+      .title {
+        @apply text-3xl font-bold text-center mb-5;
+      }
+
+      .sub-title {
+        @apply text-gray-500 mb-5;
+      }
     }
 
-    :deep(.slick-slide) {
-      @apply w-full h-[500px] text-center flex items-center justify-center overflow-hidden;
+    .job-recommend {
+      @apply box-border;
+      .job-list {
+        @apply grid gap-[15px] w-[calc(100%-1rem)];
+        --card-width: 17.5rem;
+        --card-height: 10rem;
+        grid-template-columns: repeat(auto-fit, minmax(var(--card-width), 1fr));
+        grid-template-rows: auto;
+        //gap: 15px;
+      }
 
-      $colors: (
-        2: linear-gradient(135deg, #a1c4fd, #c2e9fb),
-        3: linear-gradient(135deg, #ff9a9e, #fad0c4),
-        4: linear-gradient(135deg, #f6d365, #fda085),
-        5: linear-gradient(135deg, #a8e063, #56ab2f),
-      );
+      :deep(.ant-tabs-content-holder) {
+        @apply p-2;
+      }
+    }
 
-      @for $i from 0 through 5 {
-        &:nth-child(#{$i}) {
-          background: map-get($colors, $i) !important;
+    .knowledge-graph {
+      @apply h-[700px];
+
+      .graph-cot {
+        @apply w-full h-full rounded-[var(--border-radius)] shadow-md;
+
+        @include useTheme {
+          background: rgba(getModeVar('cardBgColor'), 0.9);
         }
       }
     }
-  }
 
-  .block-item {
-    @apply my-5 mx-auto w-[1200px] flex flex-col items-center justify-center;
-    .title {
-      @apply text-3xl font-bold text-center mb-5;
+    .carousel-item {
+      font:
+        400 70px hanyiyongzisonghei,
+        serif;
     }
-
-    .sub-title {
-      @apply text-gray-500 mb-5;
-    }
-  }
-
-  .job-recommend {
-    @apply box-border;
-    .job-list {
-      @apply grid gap-[15px] w-[calc(100%-1rem)];
-      --card-width: 17.5rem;
-      --card-height: 10rem;
-      grid-template-columns: repeat(auto-fit, minmax(var(--card-width), 1fr));
-      grid-template-rows: auto;
-      //gap: 15px;
-    }
-
-    :deep(.ant-tabs-content-holder) {
-      @apply p-2;
-    }
-  }
-
-  .knowledge-graph {
-    @apply min-h-[60vh] h-[700px];
-
-    .graph-cot {
-      @apply w-full h-full rounded-[var(--border-radius)] shadow-md;
-
-      @include useTheme {
-        background: getModeVar('cardBgColor');
-      }
-    }
-  }
-
-  .carousel-item {
-    font:
-      400 70px hanyiyongzisonghei,
-      serif;
   }
 }
 </style>

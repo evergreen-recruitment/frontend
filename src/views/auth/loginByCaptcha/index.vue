@@ -104,16 +104,33 @@ async function login() {
           >{{ $t('user.login.submit') }}
         </a-button>
 
-        <a-button type="text" style="width: 100%; height: 45px">
-          <Icon icon="WechatOutlined" />
-          <span>微信登录注册</span>
-        </a-button>
+        <!--微信登录，支付宝登录，QQ登录，-->
+        <div class="i-oauth-login-panel">
+          <div class="i-auth-login-btn weixin-login">
+            <a-button class="i-oauth-login-btn-inner" type="text">
+              <Icon icon="WechatOutlined" size="20" />
+            </a-button>
+            <span>微信登录</span>
+          </div>
+
+          <div class="i-auth-login-btn weixin-login">
+            <a-button class="i-oauth-login-btn-inner" type="text">
+              <Icon icon="AlipayCircleOutlined" size="20" />
+            </a-button>
+            <span>支付宝登录</span>
+          </div>
+
+          <div class="i-auth-login-btn weixin-login">
+            <a-button class="i-oauth-login-btn-inner" type="text">
+              <Icon icon="QqOutlined" size="20" />
+            </a-button>
+            <span>QQ登录</span>
+          </div>
+        </div>
       </a-form-item>
 
       <a-form-item name="privacy">
-        <a-checkbox v-model:checked="formState.privacy"
-          >已阅读并同意常青招聘 《用户协议》《隐私政策》，<br />允许常青招聘统一管理本人账号信息
-        </a-checkbox>
+        <a-checkbox v-model:checked="formState.privacy"> 已阅读并同意常青招聘 《用户协议》《隐私政策》 </a-checkbox>
       </a-form-item>
     </a-form>
   </div>
@@ -122,5 +139,15 @@ async function login() {
 <style lang="scss" scoped>
 .i-auth-title {
   @apply text-3xl font-bold text-center m-5 drop-shadow-md;
+}
+
+.i-oauth-login-panel {
+  @apply flex justify-around;
+  .i-auth-login-btn {
+    @apply flex flex-col items-center justify-center;
+    .i-oauth-login-btn-inner {
+      @apply text-center w-[50px] h-[50px] rounded-[50%];
+    }
+  }
 }
 </style>

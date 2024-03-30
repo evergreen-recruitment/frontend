@@ -2,43 +2,48 @@
 import { onMounted, onUnmounted } from 'vue'
 import type { Graph, GraphData, NodeConfig } from '@antv/g6'
 import G6 from '@antv/g6'
-import { useAppStore } from '@/stores'
 import { primaryColorEnum } from '@/config/theme.config'
+import { useAppStore } from '@/stores'
 
+const appStore = useAppStore()
 const props = defineProps<{
   data: GraphData
   showMinimap?: boolean
+  showLegend?: boolean
   zoom?: number
 }>()
 
-const appStore = useAppStore()
-
-function addStyleProperty(data: any) {
-  data.nodes.forEach((node: NodeConfig) => {
-    node.style = {}
-    if (node.type === 'job') {
-      node.style = {
-        fill: '#5B8FF9',
-        stroke: '#5B8FF9',
-        shadowColor: 'rgba(0,0,0,0.15)',
-      }
-    } else if (node.type === 'similar-job') {
-      node.style = {
-        fill: '#61DDAA',
-        stroke: '#61DDAA',
-        shadowColor: 'rgba(0,0,0,0.15)',
-      }
-    } else if (node.type === 'stack') {
-      node.style = {
-        fill: '#F6BD16',
-        stroke: '#F6BD16',
-        shadowColor: 'rgba(0,0,0,0.15)',
-      }
-    }
-  })
+const typeConfigs = {
+  job: {
+    style: {
+      fill: '#5B8FF990',
+      stroke: '#5B8FF9',
+      shadowColor: 'rgba(0,0,0,0.15)',
+    },
+  },
+  'similar-job': {
+    style: {
+      fill: '#61DDAA90',
+      stroke: '#61DDAA',
+      shadowColor: 'rgba(0,0,0,0.15)',
+    },
+  },
+  stack: {
+    style: {
+      fill: '#F6BD1690',
+      stroke: '#F6BD16',
+      shadowColor: 'rgba(0,0,0,0.15)',
+    },
+  },
 }
 
-addStyleProperty(props.data)
+// @ts-ignore
+props.data.nodes.forEach((node: NodeConfig) => {
+  if (!node.legendType) return
+  // @ts-ignore
+  node = Object.assign(node, { ...typeConfigs[node.type] })
+})
+
 onMounted(() => {
   const container = document.querySelector('.graph-container') as HTMLElement
   const width = container.offsetWidth
@@ -47,11 +52,78 @@ onMounted(() => {
     size: [100, 100],
     className: 'minimap',
   })
+
+  const legendData = {
+    nodes: [
+      {
+        id: 'job',
+        label: '最合适岗位',
+        order: 4,
+        ...typeConfigs['job'],
+      },
+      {
+        id: 'similar-job',
+        label: '相似岗位',
+        order: 0,
+        ...typeConfigs['similar-job'],
+      },
+      {
+        id: 'stack',
+        label: '技术栈',
+        order: 2,
+        ...typeConfigs['stack'],
+      },
+    ],
+  }
+
+  const legend = new G6.Legend({
+    data: legendData,
+    align: 'center',
+    layout: 'horizontal', // vertical
+    position: 'bottom-right',
+    vertiSep: 12,
+    horiSep: 24,
+    offsetY: -120,
+    offsetX: -170,
+    padding: [4, 16, 8, 16],
+    containerStyle: {
+      fill: '#cccccc90',
+      lineWidth: 1,
+    },
+    title: '图例',
+    titleConfig: {
+      position: 'center',
+      offsetX: 0,
+      offsetY: 12,
+    },
+    filter: {
+      enable: true,
+      multiple: true,
+      trigger: 'click',
+      graphActiveState: 'activeByLegend',
+      graphInactiveState: 'inactiveByLegend',
+      filterFunctions: {
+        job: (d) => {
+          return d.type === 'job'
+        },
+        'similar-job': (d) => {
+          return d.type === 'similar-job'
+        },
+        stack: (d) => {
+          return d.type === 'stack'
+        },
+      },
+    },
+  })
+
+  // const pluginList = [props.showMinimap ? minimap : null, props.showLegend ? legend : null].filter(Boolean)
+  const pluginList = [minimap, legend]
+
   const graph = new G6.Graph({
     container: container as string | HTMLElement,
     width,
     height,
-    plugins: props.showMinimap ? [minimap] : [],
+    plugins: pluginList,
     minZoom: 0.5,
     maxZoom: 3,
     layout: {
@@ -99,7 +171,10 @@ onMounted(() => {
     nodes,
     edges: props.data.edges?.map(function (edge: any, i: any) {
       edge.id = 'edge' + i
-      edge.label = edge.type === 'stack' ? '需要的技术栈' : '相关岗位'
+
+      /* 边配置 弃用 */
+
+      edge.label = edge.type === 'stack' ? '相关技术栈' : '相关岗位'
       edge.labelCfg = {
         style: {
           fill: primaryColorEnum[appStore.themeName],

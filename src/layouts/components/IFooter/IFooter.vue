@@ -31,7 +31,7 @@ import { getAssetsFile } from '@/utils/utils'
 @import '@/styles/theme.scss';
 
 .footer {
-  @apply w-full mt-5;
+  @apply relative w-full mt-5 z-[99];
 
   @include useTheme {
     background: rgba((adjust-hue(hsl(0, 40%, 5%), hue(getColor('primary')))), 1);
