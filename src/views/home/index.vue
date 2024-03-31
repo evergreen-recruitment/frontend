@@ -34,6 +34,9 @@ onMounted(async () => {
   newJobList.value = await getHomeNewJobsApi()
   nearbyJobList.value = await getHomeNearbyJobsApi()
   knowledgeGraphData.value = await getHomeKnowledgeGraphApi()
+
+  // 初始化页面时使用一次
+  scrollEvent()
 })
 
 onUnmounted(() => {
@@ -42,8 +45,7 @@ onUnmounted(() => {
   window.removeEventListener('scroll', () => {})
 })
 
-// 监听页面滚动事件
-window.addEventListener('scroll', () => {
+function scrollEvent() {
   const scrollTop = document.documentElement.scrollTop || document.body.scrollTop
   const scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight
   const clientHeight = document.documentElement.clientHeight || document.body.clientHeight
@@ -65,7 +67,10 @@ window.addEventListener('scroll', () => {
 
   homePageBottom?.style.setProperty('--blur', `${blurPercent * 10}px`)
   homePageBottom?.style.setProperty('--opacity', `${opacityPercent}`)
-})
+}
+
+// 监听页面滚动事件
+window.addEventListener('scroll', scrollEvent)
 </script>
 
 <template>
@@ -224,7 +229,7 @@ window.addEventListener('scroll', () => {
     --blur: 0;
     --top: calc(50vh - 120px);
     --shadow-opacity: 0;
-    @apply fixed top-[var(--top)] z-[10] w-full p-5;
+    @apply fixed top-[var(--top)] z-[10] w-full p-5 box-border;
 
     backdrop-filter: blur(var(--blur));
     //box-shadow: 0 5px 10px rgba(0, 0, 0, var(--shadow-opacity));

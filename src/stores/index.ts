@@ -9,5 +9,6 @@ pinia.use(persist)
 // 默认导出，给 main.ts 使用
 export default pinia
 
+export * from './modules/status'
 export * from './modules/user'
 export * from './modules/app'

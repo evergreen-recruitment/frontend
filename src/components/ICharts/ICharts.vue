@@ -22,6 +22,10 @@ import {
   SankeyChart,
   ScatterChart,
 } from 'echarts/charts'
+// @ts-ignore
+import { Bar3DChart } from 'echarts-gl/charts'
+// @ts-ignore
+import { Grid3DComponent } from 'echarts-gl/components'
 import {
   CalendarComponent,
   GridComponent,
@@ -48,6 +52,7 @@ use([
   CandlestickChart,
   BoxplotChart,
   SankeyChart,
+  Bar3DChart,
   TooltipComponent,
   VisualMapComponent,
   TitleComponent,
@@ -55,6 +60,7 @@ use([
   ToolboxComponent,
   MarkLineComponent,
   CalendarComponent,
+  Grid3DComponent,
 ])
 const props = defineProps<{
   option: any

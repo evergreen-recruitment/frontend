@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { useAppStore, useUserStore } from '@/stores'
+import { useAppStore, useStatusStore, useUserStore } from '@/stores'
 import { reactive } from 'vue'
 import { getAssetsFile } from '@/utils/utils'
 import INavigator from '@/components/INavigator/INavigator.vue'
 
+const statusStore = useStatusStore()
 const userStore = useUserStore()
 const appStore = useAppStore()
 const links = reactive([
@@ -58,29 +59,27 @@ const links = reactive([
         </div>
         <div class="i-header__menu">
           <a-popover trigger="click" placement="bottom">
-            <a class="location nav-item" href="#">
-              <span>南昌</span>
+            <a class="location" href="#">
+              <span>{{ statusStore.city.name.split(',')[1] }}</span>
               <span>[切换]</span>
             </a>
             <template #content>
-              <i-location-selector />
+              <i-location-selector v-model:value="statusStore.city.code" v-model:text="statusStore.city.name" />
             </template>
           </a-popover>
-          <template v-for="i in links">
-            <a href="#" class="nav-item" v-if="i.outer" :key="i.title"> {{ i.title }} </a>
-            <router-link
-              v-else
-              :to="i.path"
-              :class="['nav-item', $router.currentRoute.value.path === i.path ? 'active-nav-item' : '']"
-              :key="i.id"
-            >
-              {{ i.title }}
-            </router-link>
-          </template>
+          <i-navigator
+            v-for="i in links"
+            :to="i.path"
+            class="nav-item"
+            :class="[$router.currentRoute.value.path === i.path ? 'active-nav-item' : '']"
+            :open-in-new-window="i.outer"
+          >
+            {{ i.title }}
+          </i-navigator>
         </div>
       </div>
       <div v-if="!userStore.token" class="i-header__inner-right i-header__inner-not-login">
-        <i-navigator to="/empAuth/login" class="nav-item" open-in-new-window> 我是招聘人 </i-navigator>
+        <i-navigator to="/empAuth/login" class="nav-item" open-in-new-window> 我是招聘人</i-navigator>
         <i-navigator to="/auth/loginByCaptcha" class="nav-item" open-in-new-window> 我是求职者</i-navigator>
         <i-navigator class="i-header__login" to="/auth/loginByCaptcha" open-in-new-window>登录 | 注册</i-navigator>
       </div>
@@ -97,11 +96,19 @@ const links = reactive([
                 <router-link to="/userCenter">&nbsp;用户中心</router-link>
               </a-menu-item>
               <a-menu-item key="2">
+                <Icon icon="UserOutlined" />
+                <router-link to="/userCenter">&nbsp;投递信息</router-link>
+              </a-menu-item>
+              <a-menu-item key="3">
                 <Icon icon="SettingOutlined" />
                 <router-link to="/settings">&nbsp;系统设置</router-link>
               </a-menu-item>
               <a-menu-divider />
-              <a-menu-item key="3">
+              <a-menu-item key="4">
+                <Icon icon="SettingOutlined" />
+                <router-link to="/empAuth/login" @click="userStore.logout()">&nbsp;切换到招聘者</router-link>
+              </a-menu-item>
+              <a-menu-item key="5">
                 <Icon icon="LogoutOutlined" />
                 <router-link to="/" @click="userStore.logout()">&nbsp;退出</router-link>
               </a-menu-item>
@@ -118,7 +125,7 @@ const links = reactive([
 
 .i-header {
   --shadow-opacity: 0.1;
-  @apply sticky w-full top-0 h-[55px] flex items-center justify-between px-4 backdrop-blur-xl  z-10;
+  @apply sticky w-full top-0 h-[55px] flex items-center justify-between px-4 backdrop-blur-xl z-10 box-border;
 
   box-shadow: 0 2px 8px 0 rgba(0, 0, 0, var(--shadow-opacity));
 
@@ -171,10 +178,10 @@ const links = reactive([
       }
 
       .i-header__menu {
-        @apply flex items-center ml-4 space-x-4;
+        @apply flex items-center ml-4 space-x-3;
 
         .location {
-          @apply relative flex items-center justify-center;
+          @apply relative flex items-center justify-center p-0;
           span:nth-child(1) {
             @include useTheme {
               @apply text-lg;
@@ -184,7 +191,13 @@ const links = reactive([
         }
 
         .nav-item {
-          @apply text-sm transition-colors;
+          @apply px-2 py-1 text-sm transition-colors rounded-[var(--border-radius)] cursor-pointer;
+
+          &:hover {
+            @include useTheme {
+              background: rgba(getModeVar('infoColor'), 0.1);
+            }
+          }
         }
 
         .active-nav-item {

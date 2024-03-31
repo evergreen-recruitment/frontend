@@ -39,7 +39,7 @@ const typeConfigs = {
 
 // @ts-ignore
 props.data.nodes.forEach((node: NodeConfig) => {
-  if (!node.legendType) return
+  if (!node.type) return
   // @ts-ignore
   node = Object.assign(node, { ...typeConfigs[node.type] })
 })
@@ -81,10 +81,6 @@ onMounted(() => {
     align: 'center',
     layout: 'horizontal', // vertical
     position: 'bottom-right',
-    // vertiSep: 12,
-    // horiSep: 24,
-    // offsetY: -120,
-    // offsetX: -170,
     padding: [4, 16, 8, 16],
     containerStyle: {
       fill: '#cccccc90',
@@ -126,6 +122,7 @@ onMounted(() => {
     plugins: pluginList,
     minZoom: 0.5,
     maxZoom: 3,
+    animate: true,
     layout: {
       type: 'force',
       preventOverlap: true,
@@ -174,7 +171,7 @@ onMounted(() => {
 
       /* 边配置 弃用 */
 
-      edge.label = edge.type === 'stack' ? '相关技术栈' : '相关岗位'
+      // edge.label = edge.type === 'stack' ? '相关技术栈' : '相关岗位'
       edge.labelCfg = {
         style: {
           fill: primaryColorEnum[appStore.themeName],

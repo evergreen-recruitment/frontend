@@ -11,7 +11,9 @@ const iBackgroundRef = ref<any>(null)
       <i-background ref="iBackgroundRef" />
       <div class="i-auth-layout__container">
         <div class="i-auth-layout__container--left">
-          <div class="i-auth-layout__container--left-title">常青招聘</div>
+          <div class="i-auth-layout__container--left-title">
+            <img src="@/assets/images/logo1-white.png" style="width: 250px; object-fit: cover" />
+          </div>
           <div class="i-auth-layout__container--left-subtitle">欢迎使用常青招聘</div>
         </div>
         <router-view v-slot="{ Component }" class="i-auth-layout__container--form">

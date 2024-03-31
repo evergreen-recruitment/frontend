@@ -5,6 +5,7 @@ import router from '@/router'
 import { useAppStore } from '@/stores'
 import JobCardV2 from '@/components/JobCardV2/JobCardV2.vue'
 import { getJobDetail } from '@/apis/jobDetail'
+import I3DProgressBar from '@/components/I3DProgressBar/I3DProgressBar.vue'
 
 const appStore = useAppStore()
 const searchJobList = reactive<JobItem[]>([
@@ -74,7 +75,15 @@ const searchJobList = reactive<JobItem[]>([
     tags: ['人工智能', '高级'],
   },
 ])
-
+const companyInfo = reactive({
+  name: '京东乾石',
+  logo: 'https://img.bosszhipin.com/beijin/mcs/chatphoto/20190318/ee5cdd8ce3fcaff15bcd0bc322457de3d04025c6db993a34b2372a1fcb5e06a2_s.jpg',
+  address: '北京通州区京东总部2号楼B座',
+  description: '京东物流智能供应链产业平台，立足物流科技，发展智能供应链软件、技术及服务',
+  scale: '10000人以上',
+  stage: '上市公司',
+  industry: '电商',
+})
 const jobs = reactive<SimpleJobItem[]>([
   {
     id: '1',
@@ -206,13 +215,48 @@ onMounted(async () => {
         </div>
         <div class="job-detail__stack card">
           <div class="job-detail__stack--title">技术栈要求可视化</div>
+          <a-divider />
           <i-charts :option="option1" />
         </div>
+        <div class="job-detail__company-info card">
+          <div class="job-detail__company-info--title">公司信息</div>
+          <a-divider />
+          <div class="job-detail__company-info--content">
+            <div class="simple-info">
+              <div class="left">
+                <div class="logo">
+                  <img :src="companyInfo.logo" />
+                </div>
+              </div>
+              <div class="right">
+                <div class="title">{{ companyInfo.name }}</div>
+                <div class="address">地址：{{ companyInfo.address }}</div>
+              </div>
+            </div>
+            <div class="description">{{ companyInfo.description }}</div>
+            <div class="tag-list">
+              <a-tag class="scale" color="cyan">{{ companyInfo.scale }}</a-tag>
+              <a-tag class="stage" color="orange">{{ companyInfo.stage }}</a-tag>
+              <a-tag class="industry" color="pink">{{ companyInfo.industry }}</a-tag>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="job-detail__side card">
-        <div class="job-detail__side--title">相似岗位</div>
-        <div class="job-detail__side--job-list">
-          <job-card-v2 v-for="job in jobs" :key="job.id" :job="job" />
+      <div class="job-detail__side">
+        <div class="job-detail__side--ability-ranking card">
+          <div class="job-detail__side--title">能力排名</div>
+          <a-divider />
+          <div class="job-detail__side--ranking">
+            <div class="title">你的能力在该岗位的应聘者中排名</div>
+            <i3-d-progress-bar :progress="5" />
+          </div>
+        </div>
+        <div class="job-detail__side--similar-job card">
+          <div class="job-detail__side--title">相似岗位</div>
+          <a-divider />
+          <div class="job-detail__side--job-list">
+            <job-card-v2 v-for="job in jobs" :key="job.id" :job="job" />
+          </div>
         </div>
       </div>
     </div>
@@ -304,7 +348,7 @@ onMounted(async () => {
       }
 
       .job-detail__stack {
-        @apply mt-5 h-[700px] rounded-[var(--border-radius)] shadow-lg p-5;
+        @apply mt-5 h-[720px] rounded-[var(--border-radius)] shadow-lg p-5 mb-4;
 
         @include useTheme {
           background-color: getModeVar('cardBgColor');
@@ -318,22 +362,90 @@ onMounted(async () => {
           @apply text-2xl font-bold;
         }
       }
+
+      .job-detail__company-info {
+        @apply rounded-[var(--border-radius)] shadow-lg p-5 mb-4;
+
+        @include useTheme {
+          background-color: getModeVar('cardBgColor');
+        }
+
+        .job-detail__company-info--title {
+          @apply text-2xl font-bold mb-4;
+        }
+
+        .job-detail__company-info--content {
+          @apply p-5;
+
+          .simple-info {
+            @apply flex;
+
+            .left {
+              @apply flex items-center justify-center mr-2 w-16 h-16 mb-5;
+              .logo {
+                @apply w-full h-full;
+                img {
+                  @apply w-full object-cover;
+                }
+              }
+            }
+
+            .right {
+              @apply flex flex-col items-start justify-around;
+
+              .title {
+                @apply text-xl font-semibold mb-2;
+              }
+
+              .address {
+                @apply text-sm mb-4;
+              }
+            }
+          }
+
+          .description {
+            @apply text-base mb-4;
+          }
+
+          .tag-list {
+            @apply mt-5 flex space-x-2;
+            a-tag {
+              @apply rounded-full px-3 py-1 text-sm;
+            }
+          }
+        }
+      }
     }
 
     .job-detail__side {
-      @apply rounded-[var(--border-radius)] shadow-lg p-5;
+      @apply relative ml-5;
 
-      @include useTheme {
-        background-color: getModeVar('cardBgColor');
-      }
-
-      @apply w-72 ml-5;
       .job-detail__side--title {
         @apply text-2xl font-bold;
       }
 
-      .job-detail__side--job-list {
-        @apply mt-5;
+      .job-detail__side--ability-ranking {
+        @apply rounded-[var(--border-radius)] shadow-lg p-5 mb-4;
+
+        @include useTheme {
+          background-color: getModeVar('cardBgColor');
+        }
+
+        .job-detail__side--ranking {
+          @apply relative;
+        }
+      }
+
+      .job-detail__side--similar-job {
+        @apply rounded-[var(--border-radius)] shadow-lg p-5;
+
+        @include useTheme {
+          background-color: getModeVar('cardBgColor');
+        }
+
+        .job-detail__side--job-list {
+          @apply mt-5;
+        }
       }
     }
   }

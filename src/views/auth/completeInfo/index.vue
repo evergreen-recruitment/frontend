@@ -76,7 +76,7 @@ function submitCompleteInfo(e: any) {
 
 onMounted(() => {
   const container = document.querySelector('.i-auth-layout__container') as HTMLElement | null
-  container?.style.setProperty('width', '820px', 'important')
+  container?.style.setProperty('width', '850px', 'important')
 })
 onUnmounted(() => {
   const container = document.querySelector('.i-auth-layout__container') as HTMLElement | null
@@ -135,16 +135,22 @@ onUnmounted(() => {
         </a-input>
       </a-form-item>
 
-      <a-form-item name="gender" label="性别">
-        <a-radio-group v-model:value="formState.gender">
-          <a-radio value="0">男</a-radio>
-          <a-radio value="1">女</a-radio>
-        </a-radio-group>
-      </a-form-item>
+      <a-row :gutter="2">
+        <a-col :span="10">
+          <a-form-item name="gender" label="性别">
+            <a-radio-group v-model:value="formState.gender">
+              <a-radio value="0">男</a-radio>
+              <a-radio value="1">女</a-radio>
+            </a-radio-group>
+          </a-form-item>
+        </a-col>
 
-      <a-form-item name="address" label="地址">
-        <i-location-selector v-model:value="formState.address" />
-      </a-form-item>
+        <a-col :span="14">
+          <a-form-item name="address" label="地址">
+            <i-location-selector v-model:value="formState.address" />
+          </a-form-item>
+        </a-col>
+      </a-row>
 
       <a-form-item name="userPassword" label="密码">
         <a-input-password v-model:value="formState.userPassword" placeholder="请输入用户密码">
