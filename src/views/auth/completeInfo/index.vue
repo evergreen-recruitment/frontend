@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { reactive, ref } from 'vue'
+import { onMounted, onUnmounted, reactive, ref } from 'vue'
 import Icon from '@/components/Icon/Icon.vue'
 import type { UploadChangeParam, UploadProps } from 'ant-design-vue'
 import { message } from 'ant-design-vue'
 import type { CompleteUserInfoFormType } from '@/apis/auth'
 import ILocationSelector from '@/components/ILocationSelector/ILocationSelector.vue'
+import router from '@/router'
 
 const fileList = ref([])
 const avatarUploadLoading = ref(false)
@@ -18,6 +19,7 @@ const formState = reactive<CompleteUserInfoFormType>({
   userPassword: '',
   reUserPassword: '',
   email: '',
+  applyStatus: 0,
   gender: null,
 })
 const rules = reactive({
@@ -26,7 +28,7 @@ const rules = reactive({
   address: [{ required: true, message: '请输入地址', trigger: 'blur' }],
   userPassword: [{ required: true, message: '请输入密码', trigger: 'blur' }],
   reUserPassword: [{ required: true, message: '请再次输入密码', trigger: 'blur' }],
-  email: [{ required: true, message: '请输入邮箱', trigger: 'blur' }],
+  applyStatus: [{ required: true, message: '请选择求职状态', trigger: 'blur' }],
   gender: [{ required: true, message: '选择性别', trigger: 'blur' }],
 })
 
@@ -36,7 +38,7 @@ function getBase64(img: Blob, callback: (base64Url: string) => void) {
   reader.readAsDataURL(img)
 }
 
-const handleChange = (info: UploadChangeParam) => {
+function handleChange(info: UploadChangeParam) {
   if (info.file.status === 'uploading') {
     avatarUploadLoading.value = true
     return
@@ -55,7 +57,7 @@ const handleChange = (info: UploadChangeParam) => {
 }
 
 // @ts-ignore
-const beforeUpload = (file: UploadProps['fileList'][number]) => {
+function beforeUpload(file: UploadProps['fileList'][number]) {
   const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png'
   if (!isJpgOrPng) {
     message.error('你只能上传一般图片文件!')
@@ -66,6 +68,20 @@ const beforeUpload = (file: UploadProps['fileList'][number]) => {
   }
   return isJpgOrPng && isLt2M
 }
+
+function submitCompleteInfo(e: any) {
+  e.preventDefault()
+  router.push('/auth/uploadApplication')
+}
+
+onMounted(() => {
+  const container = document.querySelector('.i-auth-layout__container') as HTMLElement | null
+  container?.style.setProperty('width', '820px', 'important')
+})
+onUnmounted(() => {
+  const container = document.querySelector('.i-auth-layout__container') as HTMLElement | null
+  container?.style.removeProperty('width')
+})
 </script>
 
 <template>
@@ -146,13 +162,37 @@ const beforeUpload = (file: UploadProps['fileList'][number]) => {
         </a-input-password>
       </a-form-item>
 
+      <a-form-item name="email" label="邮箱">
+        <a-input v-model:value="formState.email" placeholder="请输入邮箱">
+          <template #prefix>
+            <Icon icon="MailOutlined" />
+          </template>
+        </a-input>
+      </a-form-item>
+
+      <a-form-item name="applyStatus" label="求职状态">
+        <!--<a-input v-model:value="formState.applyStatus" placeholder="请选择求职状态">-->
+        <!--  <template #prefix>-->
+        <!--    <Icon icon="MailOutlined" />-->
+        <!--  </template>-->
+        <!--</a-input>-->
+        <a-select v-model:value="formState.applyStatus" placeholder="请选择求职状态">
+          <a-select-option :value="0">在职，看看新机会</a-select-option>
+          <a-select-option :value="1">离职，可立即上岗</a-select-option>
+          <a-select-option :value="2">在职，暂无跳槽打算</a-select-option>
+          <a-select-option :value="3">在校学生，暂无工作经验</a-select-option>
+        </a-select>
+      </a-form-item>
+
       <a-form-item>
         <router-link to="/auth/loginByPassword" style="float: left">使用密码登录？</router-link>
         <router-link to="/auth/forgetPassword" style="float: right">忘记密码</router-link>
       </a-form-item>
 
       <a-form-item>
-        <a-button :loading="loading" html-type="submit" type="primary" @click="$router.push('/')"> 提交</a-button>
+        <a-button :loading="loading" html-type="submit" type="primary" style="width: 100%" @click="submitCompleteInfo">
+          提交
+        </a-button>
       </a-form-item>
     </a-form>
   </div>
@@ -160,7 +200,11 @@ const beforeUpload = (file: UploadProps['fileList'][number]) => {
 
 <style scoped lang="scss">
 .complete-info {
-  width: 600px;
+  width: calc(100% - 270px);
+
+  @media screen and (max-width: 768px) {
+    width: 100%;
+  }
 
   .i-auth-title {
     @apply text-3xl font-bold text-center m-5 drop-shadow-md;

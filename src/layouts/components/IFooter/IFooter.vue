@@ -1,21 +1,24 @@
 <script lang="ts" setup>
 import { getAssetsFile } from '@/utils/utils'
+import INavigator from '@/components/INavigator/INavigator.vue'
 </script>
 
 <template>
   <div class="footer">
     <div class="footer-logo">
       <div class="title">
-        <a href="/">
+        <i-navigator to="/">
           <img :src="getAssetsFile('images/logo1-white.png')" alt="" />
-        </a>
+        </i-navigator>
       </div>
     </div>
     <div class="footer-down">
       <div class="inner">
         <div class="left">
           <div>友情链接：<a href="/">Vue.js官网</a></div>
-          <div><a href="/">常青大学生智慧招聘平台</a></div>
+          <div>
+            <i-navigator to="/">常青大学生智慧招聘平台</i-navigator>
+          </div>
           <div>Created by pepedd 2024</div>
         </div>
         <div class="right">

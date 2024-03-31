@@ -2,6 +2,7 @@
 import { useAppStore, useUserStore } from '@/stores'
 import { reactive } from 'vue'
 import { getAssetsFile } from '@/utils/utils'
+import INavigator from '@/components/INavigator/INavigator.vue'
 
 const userStore = useUserStore()
 const appStore = useAppStore()
@@ -79,9 +80,9 @@ const links = reactive([
         </div>
       </div>
       <div v-if="!userStore.token" class="i-header__inner-right i-header__inner-not-login">
-        <a href="#" class="nav-item"> 我是招聘人 </a>
-        <router-link to="/auth/loginByCaptcha" class="nav-item"> 我是求职者</router-link>
-        <div class="i-header__login" @click="$router.push('/auth/loginByCaptcha')">登录 | 注册</div>
+        <i-navigator to="/empAuth/login" class="nav-item" open-in-new-window> 我是招聘人 </i-navigator>
+        <i-navigator to="/auth/loginByCaptcha" class="nav-item" open-in-new-window> 我是求职者</i-navigator>
+        <i-navigator class="i-header__login" to="/auth/loginByCaptcha" open-in-new-window>登录 | 注册</i-navigator>
       </div>
       <div v-else class="i-header__inner-right i-header__inner-already-login">
         <a-dropdown trigger="click">
@@ -116,7 +117,10 @@ const links = reactive([
 @import '@/styles/theme.scss';
 
 .i-header {
-  @apply sticky top-0 h-12 shadow-md flex items-center justify-between px-4 backdrop-blur-xl  z-10;
+  --shadow-opacity: 0.1;
+  @apply sticky w-full top-0 h-[55px] flex items-center justify-between px-4 backdrop-blur-xl  z-10;
+
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, var(--shadow-opacity));
 
   @include useTheme {
     @if (getMode() == 'dark') {

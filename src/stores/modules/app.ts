@@ -112,11 +112,16 @@ export const useAppStore = defineStore(
       )
 
       // zoom 不是标准的CSS, 不建议使用，但是兼容性还行
-      if (router.currentRoute.value.path.includes('/auth')) {
-        // @ts-ignore
-        body.style.zoom = '1'
-        return
+      const exceptRoutes = ['/auth', '/empAuth', '404']
+      // 遍历设置
+      for (const route of exceptRoutes) {
+        if (router.currentRoute.value.path.includes(route)) {
+          // @ts-ignore
+          body.style.zoom = '1'
+          return
+        }
       }
+
       if (screenWidth < minScreenWidthComp.value) {
         const zoomValue = (screenWidth / minScreenWidthComp.value) * 100
         // @ts-ignore
@@ -156,6 +161,6 @@ export const useAppStore = defineStore(
     }
   },
   {
-    persist: false,
+    persist: true,
   },
 )

@@ -60,7 +60,7 @@ async function login() {
 </script>
 
 <template>
-  <div>
+  <div class="login-by-captcha">
     <div class="i-auth-title">验证码登录/注册</div>
     <a-form
       ref="formRef"
@@ -130,23 +130,31 @@ async function login() {
       </a-form-item>
 
       <a-form-item name="privacy">
-        <a-checkbox v-model:checked="formState.privacy"> 已阅读并同意常青招聘 《用户协议》《隐私政策》 </a-checkbox>
+        <a-checkbox v-model:checked="formState.privacy"> 已阅读并同意常青招聘 《用户协议》《隐私政策》</a-checkbox>
       </a-form-item>
     </a-form>
   </div>
 </template>
 
 <style lang="scss" scoped>
-.i-auth-title {
-  @apply text-3xl font-bold text-center m-5 drop-shadow-md;
-}
+.login-by-captcha {
+  width: calc(100% - 270px);
 
-.i-oauth-login-panel {
-  @apply flex justify-around;
-  .i-auth-login-btn {
-    @apply flex flex-col items-center justify-center;
-    .i-oauth-login-btn-inner {
-      @apply text-center w-[50px] h-[50px] rounded-[50%];
+  @media screen and (max-width: 768px) {
+    width: 100%;
+  }
+
+  .i-auth-title {
+    @apply text-3xl font-bold text-center m-5 drop-shadow-md;
+  }
+
+  .i-oauth-login-panel {
+    @apply flex justify-around;
+    .i-auth-login-btn {
+      @apply flex flex-col items-center justify-center;
+      .i-oauth-login-btn-inner {
+        @apply text-center w-[50px] h-[50px] rounded-[50%];
+      }
     }
   }
 }

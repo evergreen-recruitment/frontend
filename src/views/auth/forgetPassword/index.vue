@@ -34,7 +34,7 @@ const { loading, send, onSuccess, onError } = useRequest(forgetPasswordApi(formS
 </script>
 
 <template>
-  <div>
+  <div class="forget-password">
     <div class="i-auth-title">忘记密码</div>
     <a-form ref="formRef" :label-col="{ span: 5 }" :model="formState" class="login-form" label-align="left">
       <a-form-item name="phone">
@@ -94,7 +94,14 @@ const { loading, send, onSuccess, onError } = useRequest(forgetPasswordApi(formS
 </template>
 
 <style lang="scss" scoped>
-.i-auth-title {
-  @apply text-3xl font-bold text-center m-5 drop-shadow-md;
+.forget-password {
+  width: calc(100% - 270px);
+
+  @media screen and (max-width: 768px) {
+    width: 100%;
+  }
+  .i-auth-title {
+    @apply text-3xl font-bold text-center m-5 drop-shadow-md;
+  }
 }
 </style>

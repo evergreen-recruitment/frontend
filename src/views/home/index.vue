@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, reactive, ref } from 'vue'
-import variables from '@/styles/variables.module.scss'
-import { useAppStore } from '@/stores'
+import { useAppStore, useUserStore } from '@/stores'
 import {
   getHomeCategoryApi,
   getHomeKnowledgeGraphApi,
@@ -10,8 +9,8 @@ import {
   getHomeRecommendApi,
   getHotSearchApi,
 } from '@/apis/home'
-import INavigator from '@/components/INavigator/INavigator.vue'
 
+const userStore = useUserStore()
 const appStore = useAppStore()
 const tabKey = ref('1')
 const category = ref()
@@ -20,6 +19,7 @@ const recommendJobList = ref()
 const newJobList = ref()
 const nearbyJobList = ref()
 const knowledgeGraphData = ref()
+const delivered = ref(false)
 const searchState = reactive({
   keyword: '',
   city: '',
@@ -27,7 +27,7 @@ const searchState = reactive({
 
 onMounted(async () => {
   const footer = document.querySelector('.footer') as HTMLElement
-  footer.style.top = '100vh'
+  footer.style.top = 'calc(100vh - 58px)'
   category.value = await getHomeCategoryApi()
   hotSearch.value = await getHotSearchApi()
   recommendJobList.value = await getHomeRecommendApi()
@@ -39,6 +39,7 @@ onMounted(async () => {
 onUnmounted(() => {
   const footer = document.querySelector('.footer') as HTMLElement
   footer.style.top = '0'
+  window.removeEventListener('scroll', () => {})
 })
 
 // 监听页面滚动事件
@@ -47,51 +48,91 @@ window.addEventListener('scroll', () => {
   const scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight
   const clientHeight = document.documentElement.clientHeight || document.body.clientHeight
 
-  // 设置 --blur 和 --opacity 变量
+  // 设置 搜索框的顶部距离 --blur 和 --opacity 变量
+  const searchBar = document.querySelector('.search-bar') as HTMLElement | null
   const homePageBottom = document.querySelector('.mask') as HTMLElement | null
-  const blurPercent = scrollTop / clientHeight > 1 ? 1 : scrollTop / clientHeight
-  const opacityPercent = scrollTop / clientHeight > 0.6 ? 0.6 : scrollTop / clientHeight
+  const header = document.querySelector('.i-header') as HTMLElement | null
+
+  const blurPercent = Number((scrollTop / clientHeight > 1 ? 1 : scrollTop / clientHeight).toFixed(2))
+  const opacityPercent = Number((scrollTop / clientHeight > 0.8 ? 0.8 : scrollTop / clientHeight).toFixed(2))
+  const searchBarPercent = Number((scrollTop / clientHeight > 1 ? 1 : scrollTop / clientHeight).toFixed(2))
+
+  searchBar?.style.setProperty('--top', `calc((50vh - 120px) * ${1 - searchBarPercent} + 55px)`)
+  searchBar?.style.setProperty('--opacity', `${opacityPercent}`)
+  searchBar?.style.setProperty('--blur', `${searchBarPercent * 10}px`)
+  searchBar?.style.setProperty('--shadow-opacity', `${opacityPercent * 0.2}`)
+  header?.style.setProperty('--shadow-opacity', `${(1 - opacityPercent) * 0.2}`)
+
   homePageBottom?.style.setProperty('--blur', `${blurPercent * 10}px`)
   homePageBottom?.style.setProperty('--opacity', `${opacityPercent}`)
-
-  console.log(scrollTop, scrollHeight, clientHeight)
 })
 </script>
 
 <template>
   <div class="home-page">
+    <job-search-home class="search-bar" v-model:keyword="searchState.keyword" />
     <div class="search-panel">
       <div class="search-panel__inner">
-        <job-search v-model:keyword="searchState.keyword" />
         <!--热门搜索-->
-        <div class="hot-search">
-          <div class="title">热门搜索</div>
-          <div class="search-list">
-            <a-tag :color="variables[appStore.themeName]" v-for="i in hotSearch" :key="i" class="search-item">
-              <i-navigator :to="{ name: 'search', query: { keyword: i } }">
-                {{ i }}
-              </i-navigator>
-            </a-tag>
-          </div>
-        </div>
+        <!--<div class="hot-search">-->
+        <!--  <div class="title">热门搜索</div>-->
+        <!--  <div class="search-list">-->
+        <!--    <a-tag :color="variables[appStore.themeName]" v-for="i in hotSearch" :key="i" class="search-item">-->
+        <!--      <i-navigator :to="{ name: 'search', query: { keyword: i } }">-->
+        <!--        {{ i }}-->
+        <!--      </i-navigator>-->
+        <!--    </a-tag>-->
+        <!--  </div>-->
+        <!--</div>-->
       </div>
     </div>
     <div class="mask"></div>
     <div class="home-page-bottom">
-      <div class="knowledge-graph block-item">
-        <div class="title">你最有概率投递的岗位(知识图谱分析)</div>
-        <div class="sub-title">根据大数据和算法分析得出</div>
-        <div class="graph-cot card">
-          <knowledge-graph
-            v-if="knowledgeGraphData"
-            class="graph"
-            :data="knowledgeGraphData"
-            show-minimap
-            show-legend
-          />
+      <div class="user-panel block-item">
+        <div class="user-aside">
+          <div class="user-info">
+            <div class="avatar">
+              <img src="@/assets/images/logo.png" alt="avatar" />
+            </div>
+            <div class="name">常青招聘</div>
+            <div class="desc">大学生智慧招聘平台</div>
+          </div>
+          <div class="user-action">
+            <i-navigator to="/auth/loginByCaptcha" class="action-item">
+              <Icon icon="UserOutlined" />
+              <span>登录</span>
+            </i-navigator>
+            <i-navigator to="/auth/loginByCaptcha" class="action-item">
+              <Icon icon="UserAddOutlined" />
+              <span>注册</span>
+            </i-navigator>
+          </div>
+        </div>
+        <div class="knowledge-graph">
+          <div class="title">你最有概率投递的岗位(知识图谱分析)</div>
+          <div class="sub-title">根据大数据和算法分析得出</div>
+          <div class="graph-cot card">
+            <div v-if="!userStore.token" class="not-login">
+              <div class="title">未登录</div>
+              <div class="desc"></div>
+            </div>
+            <!--<div v-if="!delivered" class="not-login">-->
+            <!--  <div class="title">未登录</div>-->
+            <!--  <div class="desc"></div>-->
+            <!--</div>-->
+            <knowledge-graph
+              v-else-if="knowledgeGraphData"
+              class="graph"
+              :data="knowledgeGraphData"
+              show-minimap
+              show-legend
+            />
+          </div>
         </div>
       </div>
       <div class="banner">
+        <div class="title">我们有全面的IT分类岗位</div>
+        <div class="sub-title">包含83个细分领域</div>
         <div class="left-side">
           <div class="menu">
             <div class="menu-item" v-for="item in category" :key="item.name">
@@ -121,10 +162,18 @@ window.addEventListener('scroll', () => {
           </div>
         </div>
         <a-carousel autoplay>
-          <div class="carousel-item">常青招聘</div>
-          <div class="carousel-item">常青招聘</div>
-          <div class="carousel-item">常青招聘</div>
-          <div class="carousel-item">常青招聘</div>
+          <div class="carousel-item">
+            <img src="@/assets/images/logo1-white.png" alt="" style="width: 300px; height: auto; object-fit: cover" />
+          </div>
+          <div class="carousel-item">
+            <img src="@/assets/images/logo1-white.png" alt="" style="width: 300px; height: auto; object-fit: cover" />
+          </div>
+          <div class="carousel-item">
+            <img src="@/assets/images/logo1-white.png" alt="" style="width: 300px; height: auto; object-fit: cover" />
+          </div>
+          <div class="carousel-item">
+            <img src="@/assets/images/logo1-white.png" alt="" style="width: 300px; height: auto; object-fit: cover" />
+          </div>
         </a-carousel>
       </div>
       <div class="job-recommend block-item">
@@ -161,7 +210,7 @@ window.addEventListener('scroll', () => {
   .mask {
     --blur: 0px;
     --opacity: 0;
-    @apply fixed top-0 left-0 w-[100vw] h-[100vh] bg-amber-50 pointer-events-none;
+    @apply fixed top-0 left-0 w-full h-[100vh] bg-amber-50 pointer-events-none;
     backdrop-filter: blur(var(--blur));
     //transition: background 0.3s ease-in-out, backdrop-filter 0.3s ease-in-out;
 
@@ -170,8 +219,29 @@ window.addEventListener('scroll', () => {
     }
   }
 
+  .search-bar {
+    --opacity: 0;
+    --blur: 0;
+    --top: calc(50vh - 120px);
+    --shadow-opacity: 0;
+    @apply fixed top-[var(--top)] z-[10] w-full p-5;
+
+    backdrop-filter: blur(var(--blur));
+    //box-shadow: 0 5px 10px rgba(0, 0, 0, var(--shadow-opacity));
+
+    @include useTheme {
+      @if (getMode() == 'dark') {
+        @apply text-white;
+        background: rgba((adjust-hue(hsl(0, 50%, 10%), hue(getColor('primary')))), var(--opacity));
+      } @else {
+        @apply text-gray-800;
+        background: rgba((adjust-hue(hsl(0, 50%, 90%), hue(getColor('primary')))), var(--opacity));
+      }
+    }
+  }
+
   .search-panel {
-    @apply fixed w-full h-[100vh] flex flex-col items-center justify-center z-0;
+    @apply fixed w-full top-[-20vh]  h-[120vh] flex flex-col items-center justify-center z-0;
 
     @include useTheme {
       $t: getColor('primary');
@@ -194,7 +264,7 @@ window.addEventListener('scroll', () => {
       @apply w-[calc(var(--min-screen-width)-80px)];
 
       .hot-search {
-        @apply w-[1000px] h-20 flex items-center justify-items-start;
+        @apply relative w-[1000px] top-[50px] h-20 flex items-center justify-items-start;
         .title {
           @apply text-white text-xl;
         }
@@ -215,8 +285,18 @@ window.addEventListener('scroll', () => {
     .banner {
       @apply relative w-[1280px] h-[500px] mx-auto mt-10;
 
+      .title {
+        @apply text-3xl font-bold text-center mb-5;
+      }
+
+      .sub-title {
+        @apply text-gray-500 mb-5 text-center;
+      }
+
       .left-side {
-        @apply absolute w-80 h-full py-5 box-border bg-black bg-opacity-50 z-[1] backdrop-blur-3xl;
+        @apply absolute w-80 h-full py-5 box-border z-[1] backdrop-blur-3xl;
+
+        background: rgba((adjust-hue(hsl(0, 50%, 10%), hue(getColor('primary')))), 0.8);
 
         .menu {
           @apply text-white;
@@ -301,22 +381,55 @@ window.addEventListener('scroll', () => {
       }
     }
 
-    .knowledge-graph {
-      @apply h-[700px];
+    .user-panel {
+      @apply relative flex flex-row items-center justify-between overflow-auto h-[530px] px-2;
 
-      .graph-cot {
-        @apply w-full h-full rounded-[var(--border-radius)] shadow-md;
+      .user-aside {
+        @apply flex flex-col items-center justify-between mx-auto;
+        .user-info {
+          @apply flex flex-col items-center;
+          .avatar {
+            @apply w-20 h-20 rounded-full overflow-hidden;
+            img {
+              @apply w-full h-full object-cover;
+            }
+          }
 
-        @include useTheme {
-          background: rgba(getModeVar('cardBgColor'), 0.9);
+          .name {
+            @apply text-2xl font-bold ml-5;
+          }
+
+          .desc {
+            @apply text-gray-500;
+          }
+        }
+
+        .user-action {
+          @apply flex items-center;
+          .action-item {
+            @apply flex items-center justify-center w-20 h-10 mx-2 rounded-md cursor-pointer;
+            span {
+              @apply ml-2;
+            }
+          }
         }
       }
-    }
 
-    .carousel-item {
-      font:
-        400 70px hanyiyongzisonghei,
-        serif;
+      .knowledge-graph {
+        @apply relative flex flex-col items-center justify-center h-[500px] w-[70%];
+
+        .graph-cot {
+          @apply relative w-full h-full rounded-[var(--border-radius)] shadow-md;
+
+          @include useTheme {
+            background: rgba(getModeVar('cardBgColor'), 0.9);
+          }
+
+          .not-login {
+            @apply flex items-center justify-center w-full h-full text-2xl;
+          }
+        }
+      }
     }
   }
 }

@@ -1,5 +1,6 @@
 import BasicLayout from '@/layouts/BasicLayout.vue'
 import AuthLayout from '@/layouts/AuthLayout.vue'
+import EmpAuthLayout from '@/layouts/EmpAuthLayout.vue'
 import i18n from '@/locales'
 
 export const constantRouterMap = [
@@ -53,6 +54,47 @@ export const constantRouterMap = [
           title: '完善信息',
         },
         component: () => import('@/views/auth/completeInfo/index.vue'),
+      },
+      {
+        name: 'uploadApplication',
+        path: '/auth/uploadApplication',
+        meta: {
+          title: '上传简历',
+        },
+        component: () => import('@/views/auth/uploadApplication/index.vue'),
+      },
+    ],
+  },
+  {
+    name: 'empAuthLayout',
+    path: '/empAuth',
+    component: EmpAuthLayout,
+    redirect: '/empAuth/login',
+    hidden: true,
+    children: [
+      {
+        name: 'empLogin',
+        path: '/empAuth/login',
+        meta: {
+          title: '招聘者登录',
+        },
+        component: () => import('@/views/empAuth/login/index.vue'),
+      },
+      {
+        name: 'empRegister',
+        path: '/empAuth/register',
+        meta: {
+          title: '招聘者注册',
+        },
+        component: () => import('@/views/empAuth/register/index.vue'),
+      },
+      {
+        name: 'empForget',
+        path: '/empAuth/forget',
+        meta: {
+          title: '招聘者忘记密码',
+        },
+        component: () => import('@/views/empAuth/forget/index.vue'),
       },
     ],
   },

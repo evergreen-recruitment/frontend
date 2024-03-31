@@ -81,10 +81,10 @@ onMounted(() => {
     align: 'center',
     layout: 'horizontal', // vertical
     position: 'bottom-right',
-    vertiSep: 12,
-    horiSep: 24,
-    offsetY: -120,
-    offsetX: -170,
+    // vertiSep: 12,
+    // horiSep: 24,
+    // offsetY: -120,
+    // offsetX: -170,
     padding: [4, 16, 8, 16],
     containerStyle: {
       fill: '#cccccc90',
@@ -116,8 +116,8 @@ onMounted(() => {
     },
   })
 
-  // const pluginList = [props.showMinimap ? minimap : null, props.showLegend ? legend : null].filter(Boolean)
-  const pluginList = [minimap, legend]
+  const pluginList = [props.showMinimap ? minimap : null, props.showLegend ? legend : null].filter(Boolean)
+  // const pluginList = [minimap, legend]
 
   const graph = new G6.Graph({
     container: container as string | HTMLElement,
@@ -254,4 +254,12 @@ onUnmounted(() => {
 //  left: 0;
 //  top: 0;
 //}
+
+:deep(.g6-legend-container) {
+  @apply w-fit h-fit;
+  left: auto !important;
+  top: auto !important;
+  bottom: 20px !important;
+  right: 20px !important;
+}
 </style>

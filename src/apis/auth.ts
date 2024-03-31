@@ -35,6 +35,7 @@ export type CompleteUserInfoFormType = {
   userPassword: string
   reUserPassword: string
   email: string
+  applyStatus: number
   gender: number | null
 }
 
@@ -98,6 +99,14 @@ export function completeUserInfoApi(completeInfoForm: CompleteUserInfoFormType) 
 export function isCompleteUserInfoApi() {
   return request.Get(
     'user/has/dorequired',
+    // @ts-ignore
+    { ignoreToken: true },
+  )
+}
+
+export function isDeliveryApi() {
+  return request.Get(
+    'user/has/delivery',
     // @ts-ignore
     { ignoreToken: true },
   )

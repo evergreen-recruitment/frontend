@@ -40,7 +40,7 @@ const { loading, send, onSuccess, onError } = useRequest(loginByPasswordApi(form
 </script>
 
 <template>
-  <div>
+  <div class="login-by-password">
     <div class="i-auth-title">登录</div>
     <a-form ref="formRef" :label-col="{ span: 5 }" :model="formState" class="login-form" label-align="left">
       <a-form-item name="phone">
@@ -75,14 +75,22 @@ const { loading, send, onSuccess, onError } = useRequest(loginByPasswordApi(form
       </a-form-item>
 
       <a-form-item name="privacy">
-        <a-checkbox v-model:checked="formState.privacy">已阅读并同意常青招聘 《用户协议》《隐私政策》 </a-checkbox>
+        <a-checkbox v-model:checked="formState.privacy">已阅读并同意常青招聘 《用户协议》《隐私政策》</a-checkbox>
       </a-form-item>
     </a-form>
   </div>
 </template>
 
 <style lang="scss" scoped>
-.i-auth-title {
-  @apply text-3xl font-bold text-center m-5 drop-shadow-md;
+.login-by-password {
+  width: calc(100% - 270px);
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+
+  .i-auth-title {
+    @apply text-3xl font-bold text-center m-5 drop-shadow-md;
+  }
 }
 </style>

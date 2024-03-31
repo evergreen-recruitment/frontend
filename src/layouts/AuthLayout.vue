@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import IBackground from '@/layouts/components/IBackground/IBackground.vue'
 import { ref } from 'vue'
-import { useAppStore } from '@/stores'
 
 const iBackgroundRef = ref<any>(null)
 </script>
@@ -40,12 +39,8 @@ const iBackgroundRef = ref<any>(null)
   }
 
   .i-auth-layout__container {
-    display: flex;
-    width: 700px;
-    margin: 0 auto;
-    border-radius: 30px; // 圆角
-    overflow: hidden;
-    transition: background 0.3s ease-in-out;
+    @apply flex w-[740px] mx-auto rounded-[30px] overflow-hidden transition-all;
+
     @include useTheme {
       background: getModeVar('cardBgColor');
     }
@@ -62,6 +57,8 @@ const iBackgroundRef = ref<any>(null)
     }
 
     .i-auth-layout__container--left {
+      @apply w-[270px] text-white p-[10px] flex flex-col justify-center items-center;
+
       @include useTheme {
         background: linear-gradient(90deg, getColor('primary'), getModeVar('cardBgColor'));
       }
@@ -69,7 +66,6 @@ const iBackgroundRef = ref<any>(null)
       @media screen and (max-width: 768px) {
         display: none;
       }
-      @apply w-[270px] text-white p-[10px] flex flex-col justify-center items-center;
 
       .i-auth-layout__container--left-title {
         @apply text-4xl font-bold text-center m-5 drop-shadow-md;
@@ -81,7 +77,7 @@ const iBackgroundRef = ref<any>(null)
     }
 
     .i-auth-layout__container--form {
-      @apply p-[20px];
+      @apply p-[20px] max-h-screen overflow-auto;
     }
   }
 }

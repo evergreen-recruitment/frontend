@@ -5,7 +5,7 @@ import zhCN from 'ant-design-vue/es/locale/zh_CN'
 import enUS from 'ant-design-vue/es/locale/en_US'
 import dayjs from 'dayjs'
 import 'dayjs/locale/zh-cn'
-import { executeAfterImagesLoaded } from '@/utils/utils'
+import { executeAfterImagesLoaded, initSmoothScrolling } from '@/utils/utils'
 
 const lang = {
   zhCN: zhCN,
@@ -23,6 +23,8 @@ nextTick(() => {
     })
   }, 2000)
 })
+// 阻尼滚动
+// initSmoothScrolling()
 </script>
 
 <template>
