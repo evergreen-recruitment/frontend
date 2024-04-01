@@ -83,7 +83,7 @@ onMounted(() => {
     position: 'bottom-right',
     padding: [4, 16, 8, 16],
     containerStyle: {
-      fill: '#cccccc90',
+      fill: 'rgb(133,133,133)',
       lineWidth: 1,
     },
     title: '图例',

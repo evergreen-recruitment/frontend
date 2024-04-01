@@ -227,7 +227,7 @@ window.addEventListener('scroll', scrollEvent)
   .search-bar {
     --opacity: 0;
     --blur: 0;
-    --top: calc(50vh - 120px);
+    --top: calc(50vh - 120px + 55px);
     --shadow-opacity: 0;
     @apply fixed top-[var(--top)] z-[10] w-full p-5 box-border;
 

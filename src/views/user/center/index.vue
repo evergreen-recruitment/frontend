@@ -11,7 +11,7 @@ window.addEventListener('resize', () => {
 
 <template>
   <div class="user-center">
-    <i-card>
+    <i-card class="card">
       <a-tabs v-model:activeKey="activeKey" :tab-position="isMobile ? 'top' : 'left'">
         <a-tab-pane key="1" tab="个人信息">
           <div class="user-info">
@@ -65,27 +65,15 @@ window.addEventListener('resize', () => {
               <a-list-item-meta description="已绑定手机：(86)139****3266" title="密保手机" />
               <a-button type="link">修改</a-button>
             </a-list-item>
-            <a-list-item>
-              <a-list-item-meta description="未设置密保问题，密保问题可有效保护账户安全" title="密保问题" />
-              <a-button type="link">修改</a-button>
-            </a-list-item>
-            <a-list-item>
-              <a-list-item-meta description="已绑定邮箱：ant***sign.com" title="备用邮箱" />
-              <a-button type="link">修改</a-button>
-            </a-list-item>
-            <a-list-item>
-              <a-list-item-meta description="未绑定 MFA 设备，绑定后，可以进行二次确认" title="MFA 设备" />
-              <a-button type="link">修改</a-button>
-            </a-list-item>
           </a-list>
         </a-tab-pane>
         <a-tab-pane key="3" tab="账号绑定">
           <a-page-header title="账号绑定" />
           <a-list>
             <a-list-item>
-              <a-list-item-meta description="当前未绑定淘宝" title="绑定淘宝">
+              <a-list-item-meta description="当前未绑定微信" title="绑定微信">
                 <template #avatar>
-                  <img src="https://gw.alipayobjects.com/zos/rmsportal/udxAbMEhpwthVVcjLXik.png" />
+                  <Icon icon="WechatOutlined" size="40" />
                 </template>
               </a-list-item-meta>
               <a-button type="link">绑定</a-button>
@@ -93,15 +81,15 @@ window.addEventListener('resize', () => {
             <a-list-item>
               <a-list-item-meta description="当前未绑定支付宝" title="绑定支付宝">
                 <template #avatar>
-                  <img src="https://gw.alipayobjects.com/zos/rmsportal/udxAbMEhpwthVVcjLXik.png" />
+                  <Icon icon="AlipayOutlined" size="40" />
                 </template>
               </a-list-item-meta>
               <a-button type="link">绑定</a-button>
             </a-list-item>
             <a-list-item>
-              <a-list-item-meta description="当前未绑定钉钉" title="绑定钉钉">
+              <a-list-item-meta description="当前未绑定QQ" title="绑定QQ">
                 <template #avatar>
-                  <img src="https://gw.alipayobjects.com/zos/rmsportal/udxAbMEhpwthVVcjLXik.png" />
+                  <Icon icon="QqOutlined" size="40" />
                 </template>
               </a-list-item-meta>
               <a-button type="link">绑定</a-button>
@@ -124,23 +112,6 @@ window.addEventListener('resize', () => {
             <a-descriptions-item label="验证时间"> 2023/02/15 15:08</a-descriptions-item>
           </a-descriptions>
         </a-tab-pane>
-        <a-tab-pane key="5" tab="通知设置">
-          <a-page-header title="通知设置" />
-          <a-list item-layout="horizontal">
-            <a-list-item>
-              <a-list-item-meta description="其他用户的消息将以站内信的形式通知" title="账户密码" />
-              <a-switch />
-            </a-list-item>
-            <a-list-item>
-              <a-list-item-meta description="系统消息将以站内信的形式通知" title="系统消息" />
-              <a-switch />
-            </a-list-item>
-            <a-list-item>
-              <a-list-item-meta description="待办任务将以站内信的形式通知" title="待办任务" />
-              <a-switch />
-            </a-list-item>
-          </a-list>
-        </a-tab-pane>
       </a-tabs>
     </i-card>
   </div>
@@ -150,6 +121,7 @@ window.addEventListener('resize', () => {
 @import '@/styles/theme.scss';
 
 .user-center {
+  @apply mt-10;
   $panel-width: calc(500px + 20vw);
   //padding: 20px;
   //@include useTheme {

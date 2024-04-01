@@ -21,6 +21,7 @@ import {
   RadarChart,
   SankeyChart,
   ScatterChart,
+  GaugeChart,
 } from 'echarts/charts'
 // @ts-ignore
 import { Bar3DChart } from 'echarts-gl/charts'
@@ -53,6 +54,7 @@ use([
   BoxplotChart,
   SankeyChart,
   Bar3DChart,
+  GaugeChart,
   TooltipComponent,
   VisualMapComponent,
   TitleComponent,

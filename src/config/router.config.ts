@@ -178,6 +178,17 @@ export function getAsyncRouterMap(): IRouter[] {
       component: () => import('@/views/user/center/index.vue'),
     },
     {
+      name: 'delivery',
+      path: '/delivery',
+      meta: {
+        icon: 'UserOutlined',
+        title: '投递信息',
+        requireAuth: true,
+        width: 1280,
+      },
+      component: () => import('@/views/user/delivery/index.vue'),
+    },
+    {
       name: 'settings',
       path: '/settings',
       meta: {

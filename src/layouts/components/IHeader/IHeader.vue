@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { useAppStore, useStatusStore, useUserStore } from '@/stores'
-import { reactive } from 'vue'
+import { computed, reactive } from 'vue'
 import { getAssetsFile } from '@/utils/utils'
 import INavigator from '@/components/INavigator/INavigator.vue'
 
 const statusStore = useStatusStore()
 const userStore = useUserStore()
+const userInfo = computed(() => userStore.userInfo)
 const appStore = useAppStore()
 const links = reactive([
   {
@@ -86,8 +87,8 @@ const links = reactive([
       <div v-else class="i-header__inner-right i-header__inner-already-login">
         <a-dropdown trigger="click">
           <div class="i-header__avatar">
-            <span>用户&nbsp;</span>
-            <a-avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
+            <span>{{ userInfo.realName }}&nbsp;</span>
+            <a-avatar :src="userInfo.avatar" />
           </div>
           <template #overlay>
             <a-menu>
@@ -97,7 +98,7 @@ const links = reactive([
               </a-menu-item>
               <a-menu-item key="2">
                 <Icon icon="UserOutlined" />
-                <router-link to="/userCenter">&nbsp;投递信息</router-link>
+                <router-link to="/delivery">&nbsp;投递信息</router-link>
               </a-menu-item>
               <a-menu-item key="3">
                 <Icon icon="SettingOutlined" />

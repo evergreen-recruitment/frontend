@@ -248,7 +248,7 @@ onMounted(async () => {
           <a-divider />
           <div class="job-detail__side--ranking">
             <div class="title">你的能力在该岗位的应聘者中排名</div>
-            <i3-d-progress-bar :progress="5" />
+            <i3-d-progress-bar :progress="30" />
           </div>
         </div>
         <div class="job-detail__side--similar-job card">
@@ -268,7 +268,7 @@ onMounted(async () => {
 
 .job-detail {
   .job-detail__banner {
-    @apply sticky top-12 w-full h-48 text-white flex items-center justify-center z-10;
+    @apply sticky top-[55px] w-full h-48 text-white flex items-center justify-center z-10;
 
     @include useTheme {
       background: rgba((adjust-hue(hsl(0, 50%, 20%), hue(getColor('primary')))), 1);
