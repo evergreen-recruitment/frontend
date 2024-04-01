@@ -167,26 +167,59 @@ export function getAsyncRouterMap(): IRouter[] {
       component: () => import('@/views/jobDetail/index.vue'),
     },
     {
-      name: i18n.global?.t('menu.userCenter'),
-      path: '/userCenter',
+      name: 'user',
+      path: '/user',
       meta: {
         icon: 'UserOutlined',
-        title: '个人中心',
+        title: '用户',
         requireAuth: true,
-        width: 1280,
       },
-      component: () => import('@/views/user/center/index.vue'),
-    },
-    {
-      name: 'delivery',
-      path: '/delivery',
-      meta: {
-        icon: 'UserOutlined',
-        title: '投递信息',
-        requireAuth: true,
-        width: 1280,
-      },
-      component: () => import('@/views/user/delivery/index.vue'),
+      children: [
+        {
+          name: i18n.global?.t('menu.userCenter'),
+          path: '/user/center',
+          meta: {
+            icon: 'UserOutlined',
+            title: '个人中心',
+            requireAuth: true,
+            width: 1280,
+          },
+          component: () => import('@/views/user/center/index.vue'),
+        },
+        {
+          name: 'application',
+          path: '/user/application',
+          meta: {
+            icon: 'UserOutlined',
+            title: '个人简历',
+            requireAuth: true,
+            width: 1280,
+          },
+          component: () => import('@/views/user/application/index.vue'),
+        },
+        {
+          name: 'previewApplication',
+          path: '/user/previewApplication',
+          meta: {
+            icon: 'UserOutlined',
+            title: ' 预览在线简历',
+            requireAuth: true,
+            width: 1280,
+          },
+          component: () => import('@/views/user/previewApplication/index.vue'),
+        },
+        {
+          name: 'delivery',
+          path: '/user/delivery',
+          meta: {
+            icon: 'UserOutlined',
+            title: '投递信息',
+            requireAuth: true,
+            width: 1280,
+          },
+          component: () => import('@/views/user/delivery/index.vue'),
+        },
+      ],
     },
     {
       name: 'settings',
@@ -194,7 +227,6 @@ export function getAsyncRouterMap(): IRouter[] {
       meta: {
         icon: 'SettingOutlined',
         title: '设置',
-        requireAuth: true,
         width: 1280,
       },
       component: () => import('@/views/settings/index.vue'),

@@ -16,6 +16,7 @@ const formState = reactive<CompleteUserInfoFormType>({
   userAccount: '',
   realName: '',
   address: [''],
+  age: 20,
   userPassword: '',
   reUserPassword: '',
   email: '',
@@ -26,6 +27,7 @@ const rules = reactive({
   userAccount: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
   realName: [{ required: true, message: '请输入真实姓名', trigger: 'blur' }],
   address: [{ required: true, message: '请输入地址', trigger: 'blur' }],
+  age: [{ required: true, message: '请选择年龄', trigger: 'blur' }],
   userPassword: [{ required: true, message: '请输入密码', trigger: 'blur' }],
   reUserPassword: [{ required: true, message: '请再次输入密码', trigger: 'blur' }],
   applyStatus: [{ required: true, message: '请选择求职状态', trigger: 'blur' }],
@@ -136,7 +138,7 @@ onUnmounted(() => {
       </a-form-item>
 
       <a-row :gutter="2">
-        <a-col :span="10">
+        <a-col :span="12">
           <a-form-item name="gender" label="性别">
             <a-radio-group v-model:value="formState.gender">
               <a-radio value="0">男</a-radio>
@@ -145,12 +147,16 @@ onUnmounted(() => {
           </a-form-item>
         </a-col>
 
-        <a-col :span="14">
-          <a-form-item name="address" label="地址">
-            <i-location-selector v-model:value="formState.address" />
+        <a-col :span="12">
+          <a-form-item name="age" label="年龄">
+            <a-input-number v-model:value="formState.age" :min="1" :max="150" />
           </a-form-item>
         </a-col>
       </a-row>
+
+      <a-form-item name="address" label="地址">
+        <i-location-selector v-model:value="formState.address" />
+      </a-form-item>
 
       <a-form-item name="userPassword" label="密码">
         <a-input-password v-model:value="formState.userPassword" placeholder="请输入用户密码">
@@ -177,16 +183,13 @@ onUnmounted(() => {
       </a-form-item>
 
       <a-form-item name="applyStatus" label="求职状态">
-        <!--<a-input v-model:value="formState.applyStatus" placeholder="请选择求职状态">-->
-        <!--  <template #prefix>-->
-        <!--    <Icon icon="MailOutlined" />-->
-        <!--  </template>-->
-        <!--</a-input>-->
         <a-select v-model:value="formState.applyStatus" placeholder="请选择求职状态">
           <a-select-option :value="0">在职，看看新机会</a-select-option>
-          <a-select-option :value="1">离职，可立即上岗</a-select-option>
-          <a-select-option :value="2">在职，暂无跳槽打算</a-select-option>
-          <a-select-option :value="3">在校学生，暂无工作经验</a-select-option>
+          <a-select-option :value="1">在职，暂无跳槽打算</a-select-option>
+          <a-select-option :value="2">离职，随时到岗</a-select-option>
+          <a-select-option :value="3">在校，月内到岗</a-select-option>
+          <a-select-option :value="4">在校，考虑机会</a-select-option>
+          <a-select-option :value="5">在校，暂不考虑</a-select-option>
         </a-select>
       </a-form-item>
 

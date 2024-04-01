@@ -1,7 +1,9 @@
 <script lang="ts" setup>
-import { useUserStore } from '@/stores'
+import { type UserInfo, useUserStore } from '@/stores'
+import { computed } from 'vue'
 
 const userStore = useUserStore()
+const userInfo = computed<UserInfo>(() => userStore.userInfo)
 
 function logout() {
   userStore.logout()
@@ -13,28 +15,43 @@ function logout() {
     <a-dropdown :trigger="['click']">
       <div class="i-avatar__wrapper">
         <div class="i-avatar__wrapper--icon">
-          <a-avatar :size="40">
-            <template #icon>
-              <Icon icon="UserOutlined" />
-            </template>
-          </a-avatar>
+          <a-avatar :src="userInfo.avatar" :size="40" />
         </div>
         <div class="i-avatar__title">
-          <span class="i-avatar__title--hello">hello, </span>
-          <span class="i-avatar__title--username">username</span>
+          <span class="i-avatar__title--hello">hello,&nbsp;</span>
+          <span class="i-avatar__title--username">{{ userInfo.realName }}</span>
         </div>
       </div>
       <template #overlay>
         <a-menu>
           <a-menu-item key="1">
             <Icon icon="UserOutlined" />
-            <router-link to="/userCenter">&nbsp;{{ $t('user.center.title') }}</router-link>
+            <router-link to="/user/center">&nbsp;用户中心</router-link>
+          </a-menu-item>
+          <a-menu-item key="2">
+            <Icon icon="UserOutlined" />
+            <router-link to="/user/application">&nbsp;个人简历</router-link>
+          </a-menu-item>
+          <a-menu-item key="3">
+            <Icon icon="UserOutlined" />
+            <router-link to="/user/previewApplication">&nbsp;预览在线简历</router-link>
+          </a-menu-item>
+          <a-menu-item key="4">
+            <Icon icon="UserOutlined" />
+            <router-link to="/user/delivery">&nbsp;投递信息</router-link>
+          </a-menu-item>
+          <a-menu-item key="5">
+            <Icon icon="SettingOutlined" />
+            <router-link to="/settings">&nbsp;系统设置</router-link>
           </a-menu-item>
           <a-menu-divider />
-          <a-menu-item key="3">
+          <a-menu-item key="6">
+            <Icon icon="SettingOutlined" />
+            <router-link to="/empAuth/login" @click="userStore.logout()">&nbsp;切换到招聘者</router-link>
+          </a-menu-item>
+          <a-menu-item key="7">
             <Icon icon="LogoutOutlined" />
-            <!--技巧使用 a标签而不是router-link可以刷新页面，如果你需要的话-->
-            <a href="/auth/login" @click="logout">&nbsp;{{ $t('user.logout') }}</a>
+            <router-link to="/" @click="userStore.logout()">&nbsp;退出</router-link>
           </a-menu-item>
         </a-menu>
       </template>
@@ -47,37 +64,27 @@ function logout() {
 
 .i-avatar {
   .i-avatar__wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
+    @apply flex items-center justify-center cursor-pointer;
 
     .i-avatar__wrapper--icon {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 40px;
-      height: 40px;
-      border-radius: 999px;
-      background: #1677ff;
-      box-shadow: 0 0 10px rgba(#1677ff, 0.4);
-      z-index: 2;
+      @apply flex items-center justify-center w-[40px] h-[40px] rounded-full z-[2];
+      @include useTheme {
+        background: getColor('primary');
+        box-shadow: 0 0 10px rgba(getColor('primary'), 0.4);
+      }
     }
 
     .i-avatar__title {
-      display: flex;
-      align-items: center;
-      background: rgba(#1677ff, 0.4);
-      height: 28px;
+      @apply flex items-center h-[20px] rounded-full;
       padding: 5px 10px 5px 25px;
       transform: translateX(-20px);
       font-size: 14px;
-      border-radius: 999px;
-      box-shadow: 0 0 10px rgba(#1677ff, 0.4);
       //color: #1677ff;
       @include useTheme {
+        background: rgba(getColor('primary'), 0.4);
+        box-shadow: 0 0 10px rgba(getColor('primary'), 0.4);
         @if getMode() == 'light' {
-          color: #1677ff;
+          color: getColor('primary');
         } @else {
           color: #fff;
         }
@@ -94,6 +101,7 @@ function logout() {
       .i-avatar__title--username {
         font-weight: 600;
         // 单行省略号
+        //min-width: 50px;
         max-width: 70px;
         overflow: hidden;
         text-overflow: ellipsis;

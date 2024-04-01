@@ -32,6 +32,7 @@ export type CompleteUserInfoFormType = {
   userAccount: string
   realName: string
   address: string[]
+  age: number
   userPassword: string
   reUserPassword: string
   email: string

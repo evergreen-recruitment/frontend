@@ -148,7 +148,7 @@ const option1 = reactive({
   },
   series: [
     {
-      name: 'Nightingale Chart',
+      name: '技术栈要求可视化',
       type: 'pie',
       radius: [50, 250],
       center: ['50%', '50%'],
@@ -159,12 +159,12 @@ const option1 = reactive({
       data: [
         { value: 40, name: 'Java' },
         { value: 38, name: 'Spring' },
-        { value: 32, name: 'Spring Boot' },
+        { value: 32, name: 'Spring Boot', itemStyle: { color: 'gray' } },
         { value: 30, name: 'MySQL' },
         { value: 28, name: 'MyBatis Plus' },
         { value: 26, name: 'Redis' },
         { value: 22, name: 'RabbitMQ' },
-        { value: 18, name: 'Spring Cloud' },
+        { value: 18, name: 'Spring Cloud', itemStyle: { color: 'gray' } },
       ],
     },
   ],
@@ -214,7 +214,12 @@ onMounted(async () => {
           </div>
         </div>
         <div class="job-detail__stack card">
-          <div class="job-detail__stack--title">技术栈要求可视化</div>
+          <div class="job-detail__stack--title">
+            <div class="title">技术栈要求可视化</div>
+            <div class="sub-title">
+              算法分析出该岗位的所需技术栈，大小代表其在该岗位中的权重，<br />灰色部分为你未掌握的技术栈
+            </div>
+          </div>
           <a-divider />
           <i-charts :option="option1" />
         </div>
@@ -359,7 +364,15 @@ onMounted(async () => {
         }
 
         .job-detail__stack--title {
-          @apply text-2xl font-bold;
+          @apply flex items-center space-x-4;
+
+          .title {
+            @apply text-2xl font-bold;
+          }
+
+          .sub-title {
+            @apply text-sm text-gray-500;
+          }
         }
       }
 

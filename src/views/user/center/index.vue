@@ -2,36 +2,32 @@
 import { reactive, ref } from 'vue'
 
 const activeKey = ref('1')
-const isMobile = ref(window.innerWidth < 768)
 const userInfoForm = reactive<any>({})
-window.addEventListener('resize', () => {
-  isMobile.value = window.innerWidth < 768
-})
 </script>
 
 <template>
   <div class="user-center">
     <i-card class="card">
-      <a-tabs v-model:activeKey="activeKey" :tab-position="isMobile ? 'top' : 'left'">
+      <a-tabs v-model:activeKey="activeKey" tab-position="left">
         <a-tab-pane key="1" tab="个人信息">
           <div class="user-info">
             <a-page-header title="个人信息" />
             <div class="container">
               <a-form :label-col="{ span: 5 }" :model="userInfoForm" class="user-info-form" label-align="left">
-                <a-form-item label="邮箱">
-                  <a-input v-model:value="userInfoForm.email" />
-                </a-form-item>
-                <a-form-item label="昵称">
-                  <a-input v-model:value="userInfoForm.nickname" />
+                <a-form-item label="姓名">
+                  <a-input v-model:value="userInfoForm.realName" />
                 </a-form-item>
                 <a-form-item label="个人简介">
                   <a-input v-model:value="userInfoForm.desc" />
+                </a-form-item>
+                <a-form-item label="邮箱">
+                  <a-input v-model:value="userInfoForm.email" />
                 </a-form-item>
                 <a-form-item label="联系电话">
                   <a-input v-model:value="userInfoForm.phone" />
                 </a-form-item>
                 <a-form-item label="所在地区">
-                  <a-input v-model:value="userInfoForm.area" />
+                  <i-location-selector v-model:value="userInfoForm.location" />
                 </a-form-item>
                 <a-form-item>
                   <a-button type="primary">保存</a-button>
@@ -47,7 +43,7 @@ window.addEventListener('resize', () => {
                 <a-upload>
                   <a-button>
                     <Icon icon="UploadOutlined" />
-                    Click to Upload
+                    上传头像
                   </a-button>
                 </a-upload>
               </div>
@@ -108,7 +104,10 @@ window.addEventListener('resize', () => {
           </a-descriptions>
           <a-descriptions bordered title="实名验证">
             <a-descriptions-item label="验证状态">已验证</a-descriptions-item>
-            <a-descriptions-item label="真实姓名"> 姚佳煜</a-descriptions-item>
+            <a-descriptions-item label="真实姓名">
+              张三
+              <a-button type="link">编辑</a-button>
+            </a-descriptions-item>
             <a-descriptions-item label="验证时间"> 2023/02/15 15:08</a-descriptions-item>
           </a-descriptions>
         </a-tab-pane>
@@ -123,11 +122,6 @@ window.addEventListener('resize', () => {
 .user-center {
   @apply mt-10;
   $panel-width: calc(500px + 20vw);
-  //padding: 20px;
-  //@include useTheme {
-  //  background: getModeVar('cardBgColor');
-  //  border: 1px solid getModeVar('borderColor');
-  //}
 
   .user-info {
     .container {
@@ -174,8 +168,10 @@ window.addEventListener('resize', () => {
           width: 100px;
           height: 100px;
           border-radius: 999px;
-          background: #1677ff;
-          box-shadow: 0 0 10px rgba(#1677ff, 0.4);
+          @include useTheme {
+            background: getColor('primary');
+            box-shadow: 0 0 10px rgba(getColor('primary'), 0.4);
+          }
           display: flex;
           justify-content: center;
           align-items: center;
@@ -184,13 +180,6 @@ window.addEventListener('resize', () => {
           margin-bottom: 20px;
         }
       }
-    }
-  }
-
-  :deep(.ant-tabs-content) {
-    width: $panel-width;
-    @media screen and (max-width: 768px) {
-      width: 100%;
     }
   }
 }

@@ -41,7 +41,7 @@ const { loading, send, onSuccess, onError } = useRequest(loginByPasswordApi(form
 
 <template>
   <div class="login-by-password">
-    <div class="i-auth-title">登录</div>
+    <div class="i-auth-title">密码登录</div>
     <a-form ref="formRef" :label-col="{ span: 5 }" :model="formState" class="login-form" label-align="left">
       <a-form-item name="phone">
         <a-input v-model:value="formState.phone" size="large" :placeholder="$t('user.login.placeholder.username')">

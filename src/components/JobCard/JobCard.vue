@@ -2,12 +2,39 @@
 import type { SimpleJobItem } from '@/types/commonTypes'
 import { useAppStore } from '@/stores'
 import variables from '@/styles/variables.module.scss'
+import { onMounted } from 'vue'
 
 defineProps<{
   job: SimpleJobItem
 }>()
 
 const appStore = useAppStore()
+
+// TODO
+// onMounted(() => {
+//   const multiple = 5
+//   const element = document.querySelector('.job-card') as HTMLElement
+//
+//   function transformElement(x: number, y: number) {
+//     let box = element.getBoundingClientRect()
+//     let calcX = -(y - box.y - box.height / 2) / multiple
+//     let calcY = (x - box.x - box.width / 2) / multiple
+//
+//     element.style.transform = 'rotateX(' + calcX + 'deg) ' + 'rotateY(' + calcY + 'deg)'
+//   }
+//
+//   element.addEventListener('mousemove', (e) => {
+//     window.requestAnimationFrame(function () {
+//       transformElement(e.clientX, e.clientY)
+//     })
+//   })
+//
+//   element.addEventListener('mouseleave', (e) => {
+//     window.requestAnimationFrame(function () {
+//       element.style.transform = 'rotateX(0) rotateY(0)'
+//     })
+//   })
+// })
 </script>
 
 <template>
@@ -31,6 +58,8 @@ const appStore = useAppStore()
 
 .job-card {
   @apply w-72 rounded-[var(--border-radius)] shadow-md cursor-pointer;
+  //transform-style: preserve-3d;
+  //transition: all 0.2s;
 
   @include useTheme {
     background: getModeVar('cardBgColor');

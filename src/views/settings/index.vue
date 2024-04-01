@@ -92,7 +92,7 @@ const minWidthMarks = ref({
 @import '@/styles/theme.scss';
 
 .setting-page {
-  @apply rounded-[var(--border-radius)] shadow-md my-5;
+  @apply rounded-[var(--border-radius)] shadow-md mt-10;
   min-height: 0 !important;
 
   @include useTheme {

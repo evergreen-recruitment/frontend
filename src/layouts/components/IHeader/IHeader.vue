@@ -3,6 +3,7 @@ import { useAppStore, useStatusStore, useUserStore } from '@/stores'
 import { computed, reactive } from 'vue'
 import { getAssetsFile } from '@/utils/utils'
 import INavigator from '@/components/INavigator/INavigator.vue'
+import IAvatar from '@/layouts/components/IAvatar/IAvatar.vue'
 
 const statusStore = useStatusStore()
 const userStore = useUserStore()
@@ -30,14 +31,14 @@ const links = reactive([
   {
     id: '4',
     title: 'APP',
-    path: '/',
-    outer: true,
+    path: '#',
+    outer: false,
   },
   {
     id: '5',
     title: '社区',
-    path: '/',
-    outer: true,
+    path: '#',
+    outer: false,
   },
 ])
 </script>
@@ -85,37 +86,7 @@ const links = reactive([
         <i-navigator class="i-header__login" to="/auth/loginByCaptcha" open-in-new-window>登录 | 注册</i-navigator>
       </div>
       <div v-else class="i-header__inner-right i-header__inner-already-login">
-        <a-dropdown trigger="click">
-          <div class="i-header__avatar">
-            <span>{{ userInfo.realName }}&nbsp;</span>
-            <a-avatar :src="userInfo.avatar" />
-          </div>
-          <template #overlay>
-            <a-menu>
-              <a-menu-item key="1">
-                <Icon icon="UserOutlined" />
-                <router-link to="/userCenter">&nbsp;用户中心</router-link>
-              </a-menu-item>
-              <a-menu-item key="2">
-                <Icon icon="UserOutlined" />
-                <router-link to="/delivery">&nbsp;投递信息</router-link>
-              </a-menu-item>
-              <a-menu-item key="3">
-                <Icon icon="SettingOutlined" />
-                <router-link to="/settings">&nbsp;系统设置</router-link>
-              </a-menu-item>
-              <a-menu-divider />
-              <a-menu-item key="4">
-                <Icon icon="SettingOutlined" />
-                <router-link to="/empAuth/login" @click="userStore.logout()">&nbsp;切换到招聘者</router-link>
-              </a-menu-item>
-              <a-menu-item key="5">
-                <Icon icon="LogoutOutlined" />
-                <router-link to="/" @click="userStore.logout()">&nbsp;退出</router-link>
-              </a-menu-item>
-            </a-menu>
-          </template>
-        </a-dropdown>
+        <i-avatar />
       </div>
     </div>
   </div>

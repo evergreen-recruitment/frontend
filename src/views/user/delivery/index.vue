@@ -107,7 +107,13 @@ const echartsOption = reactive({
         show: false,
       },
       data: [
-        { value: 78, name: '已通过' },
+        {
+          value: 78,
+          name: '已通过',
+          itemStyle: {
+            color: 'green',
+          },
+        },
         {
           value: 22,
           name: '未通过',
@@ -141,7 +147,7 @@ const echartsOption = reactive({
             <div class="phone"><Icon icon="PhoneOutlined" />&nbsp; {{ userInfo.phone }}</div>
           </div>
           <div class="to-optimize-application">
-            <a-button type="primary" @click="$router.push('/userCenter')">优化简历</a-button>
+            <a-button type="primary" @click="$router.push('/user/application')">优化简历</a-button>
           </div>
         </div>
         <div class="user-panel-bottom">
@@ -158,10 +164,10 @@ const echartsOption = reactive({
 
       <div class="job-list block-item">
         <a-tabs animated>
-          <a-tab-pane key="1" tab="已投递">
+          <a-tab-pane key="1" :tab="`已投递 (${searchJobList.length})`">
             <job-item v-for="job in searchJobList" :key="job.id" :job="job" />
           </a-tab-pane>
-          <a-tab-pane key="2" tab="待面试">
+          <a-tab-pane key="2" :tab="`待面试 (${searchJobList.length})`">
             <job-item v-for="job in searchJobList" :key="job.id" :job="job" />
           </a-tab-pane>
         </a-tabs>
@@ -286,7 +292,7 @@ const echartsOption = reactive({
     @apply flex flex-col w-[calc(5/19*100%)] space-y-5;
 
     .upload-application {
-      @apply h-fit p-5 pb-10 rounded-[var(--border-radius)] shadow-lg box-border;
+      @apply h-fit p-5 rounded-[var(--border-radius)] shadow-lg box-border;
 
       @include useTheme {
         background-color: getModeVar('cardBgColor');

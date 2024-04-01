@@ -118,7 +118,7 @@ window.addEventListener('scroll', scrollEvent)
           <div class="sub-title">根据大数据和算法分析得出</div>
           <div class="graph-cot card">
             <div v-if="!userStore.token" class="not-login">
-              <div class="title">未登录</div>
+              <div class="title">未登录或未上传简历</div>
               <div class="desc"></div>
             </div>
             <!--<div v-if="!delivered" class="not-login">-->
@@ -138,48 +138,50 @@ window.addEventListener('scroll', scrollEvent)
       <div class="banner">
         <div class="title">我们有全面的IT分类岗位</div>
         <div class="sub-title">包含83个细分领域</div>
-        <div class="left-side">
-          <div class="menu">
-            <div class="menu-item" v-for="item in category" :key="item.name">
-              <span>{{ item.name }}</span>
-              <div class="arrow">
-                <Icon icon="CaretRightOutlined" />
-              </div>
-              <div class="layer">
-                <div class="title">
-                  <span>{{ item.name }}</span>
+        <div class="banner-inner">
+          <div class="left-side">
+            <div class="menu">
+              <div class="menu-item" v-for="item in category" :key="item.name">
+                <span>{{ item.name }}</span>
+                <div class="arrow">
+                  <Icon icon="CaretRightOutlined" />
                 </div>
-                <div class="content">
-                  <i-navigator
-                    class="menu-item"
-                    v-for="i in item.children"
-                    :key="i.name"
-                    :to="{ name: 'search', query: { jobId: i.id } }"
-                  >
-                    <span>{{ i.name }}</span>
-                    <div class="arrow">
-                      <Icon icon="CaretRightOutlined" />
-                    </div>
-                  </i-navigator>
+                <div class="layer">
+                  <div class="title">
+                    <span>{{ item.name }}</span>
+                  </div>
+                  <div class="content">
+                    <i-navigator
+                      class="menu-item"
+                      v-for="i in item.children"
+                      :key="i.name"
+                      :to="{ name: 'search', query: { jobId: i.id } }"
+                    >
+                      <span>{{ i.name }}</span>
+                      <div class="arrow">
+                        <Icon icon="CaretRightOutlined" />
+                      </div>
+                    </i-navigator>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
+          <a-carousel autoplay>
+            <div class="carousel-item">
+              <img src="@/assets/images/logo1-white.png" alt="" style="width: 300px; height: auto; object-fit: cover" />
+            </div>
+            <div class="carousel-item">
+              <img src="@/assets/images/logo1-white.png" alt="" style="width: 300px; height: auto; object-fit: cover" />
+            </div>
+            <div class="carousel-item">
+              <img src="@/assets/images/logo1-white.png" alt="" style="width: 300px; height: auto; object-fit: cover" />
+            </div>
+            <div class="carousel-item">
+              <img src="@/assets/images/logo1-white.png" alt="" style="width: 300px; height: auto; object-fit: cover" />
+            </div>
+          </a-carousel>
         </div>
-        <a-carousel autoplay>
-          <div class="carousel-item">
-            <img src="@/assets/images/logo1-white.png" alt="" style="width: 300px; height: auto; object-fit: cover" />
-          </div>
-          <div class="carousel-item">
-            <img src="@/assets/images/logo1-white.png" alt="" style="width: 300px; height: auto; object-fit: cover" />
-          </div>
-          <div class="carousel-item">
-            <img src="@/assets/images/logo1-white.png" alt="" style="width: 300px; height: auto; object-fit: cover" />
-          </div>
-          <div class="carousel-item">
-            <img src="@/assets/images/logo1-white.png" alt="" style="width: 300px; height: auto; object-fit: cover" />
-          </div>
-        </a-carousel>
       </div>
       <div class="job-recommend block-item">
         <div class="title">推荐岗位</div>
@@ -288,7 +290,7 @@ window.addEventListener('scroll', scrollEvent)
     @apply relative top-[100vh] w-full flex flex-col items-center justify-center;
 
     .banner {
-      @apply relative w-[1280px] h-[500px] mx-auto mt-10;
+      @apply relative w-[1280px] h-auto mx-auto mt-10;
 
       .title {
         @apply text-3xl font-bold text-center mb-5;
@@ -298,62 +300,65 @@ window.addEventListener('scroll', scrollEvent)
         @apply text-gray-500 mb-5 text-center;
       }
 
-      .left-side {
-        @apply absolute w-80 h-full py-5 box-border z-[1] backdrop-blur-3xl;
+      .banner-inner {
+        @apply relative h-full;
+        .left-side {
+          @apply absolute w-80 h-full py-5 box-border z-[1] backdrop-blur-3xl;
 
-        background: rgba((adjust-hue(hsl(0, 50%, 10%), hue(getColor('primary')))), 0.8);
+          background: rgba((adjust-hue(hsl(0, 50%, 10%), hue(getColor('primary')))), 0.8);
 
-        .menu {
-          @apply text-white;
+          .menu {
+            @apply text-white;
 
-          .menu-item {
-            @apply w-full h-10 px-5 flex justify-between box-border cursor-pointer leading-10 hover:bg-[rgba(255,255,255,0.7)] hover:text-black;
+            .menu-item {
+              @apply w-full h-10 px-5 flex justify-between box-border cursor-pointer leading-10 hover:bg-[rgba(255,255,255,0.7)] hover:text-black;
 
-            .layer {
-              @apply absolute top-0 left-[20rem] w-[calc(1280px-20rem)] h-[500px] backdrop-blur-2xl hidden;
+              .layer {
+                @apply absolute top-0 left-[20rem] w-[calc(1280px-20rem)] h-[500px] backdrop-blur-2xl hidden;
 
-              @include useTheme {
-                background: linear-gradient(90deg, #ffffffa0, rgba(getColor('primary'), 0.7));
-              }
+                @include useTheme {
+                  background: linear-gradient(90deg, #ffffffa0, rgba(getColor('primary'), 0.7));
+                }
 
-              .title {
-                @apply text-2xl font-bold ml-5 mt-5 mb-5;
-              }
+                .title {
+                  @apply text-2xl font-bold ml-5 mt-5 mb-5;
+                }
 
-              .content {
-                @apply flex flex-wrap;
-                .menu-item {
-                  @apply w-1/3 h-10 px-5 flex justify-between box-border cursor-pointer leading-10 hover:bg-[rgba(255,255,255,0.4)] hover:text-black;
+                .content {
+                  @apply flex flex-wrap;
+                  .menu-item {
+                    @apply w-1/3 h-10 px-5 flex justify-between box-border cursor-pointer leading-10 hover:bg-[rgba(255,255,255,0.4)] hover:text-black;
+                  }
                 }
               }
-            }
 
-            &:hover {
-              .layer {
-                @apply block;
+              &:hover {
+                .layer {
+                  @apply block;
+                }
               }
             }
           }
         }
-      }
 
-      .ant-carousel {
-        @apply w-full h-full;
-      }
+        .ant-carousel {
+          @apply w-full h-full;
+        }
 
-      :deep(.slick-slide) {
-        @apply w-full h-[500px] text-center flex items-center justify-center overflow-hidden;
+        :deep(.slick-slide) {
+          @apply w-full h-[500px] text-center flex items-center justify-center overflow-hidden;
 
-        $colors: (
-          2: linear-gradient(135deg, #a1c4fd, #c2e9fb),
-          3: linear-gradient(135deg, #ff9a9e, #fad0c4),
-          4: linear-gradient(135deg, #f6d365, #fda085),
-          5: linear-gradient(135deg, #a8e063, #56ab2f),
-        );
+          $colors: (
+            2: linear-gradient(135deg, #a1c4fd, #c2e9fb),
+            3: linear-gradient(135deg, #ff9a9e, #fad0c4),
+            4: linear-gradient(135deg, #f6d365, #fda085),
+            5: linear-gradient(135deg, #a8e063, #56ab2f),
+          );
 
-        @for $i from 0 through 5 {
-          &:nth-child(#{$i}) {
-            background: map-get($colors, $i) !important;
+          @for $i from 0 through 5 {
+            &:nth-child(#{$i}) {
+              background: map-get($colors, $i) !important;
+            }
           }
         }
       }
