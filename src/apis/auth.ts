@@ -1,10 +1,10 @@
 import request from '@/utils/request'
+import { unref } from 'vue'
 
 export type LoginByCaptchaFormType = {
   phone: string
   code?: string
   privacy?: boolean
-  uuid?: string
 }
 
 export type LoginByPasswordFormType = {
@@ -45,7 +45,8 @@ export type CompleteUserInfoFormType = {
  * @param loginForm 登录表单
  */
 export function loginByCaptchaApi(loginForm: LoginByCaptchaFormType) {
-  delete loginForm.privacy
+  loginForm.privacy = undefined
+
   return request.Post(
     'user/login/phone',
     loginForm,
@@ -59,7 +60,8 @@ export function loginByCaptchaApi(loginForm: LoginByCaptchaFormType) {
  * @param loginForm 登录表单
  */
 export function loginByPasswordApi(loginForm: LoginByPasswordFormType) {
-  delete loginForm.privacy
+  loginForm.privacy = undefined
+
   return request.Post(
     'user/login/password',
     loginForm,
@@ -118,11 +120,13 @@ export function isDeliveryApi() {
  * @param phone
  */
 export function sendSMSApi(phone: string) {
-  return request.Get(
-    'user/phone/send',
-    //@ts-ignore
-    { params: { phone }, ignoreToken: true },
-  )
+  return request
+    .Get(
+      'common/phone/send',
+      //@ts-ignore
+      { params: { phone }, ignoreToken: true },
+    )
+    .send(true) as Promise<boolean>
 }
 
 /**

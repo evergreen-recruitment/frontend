@@ -44,6 +44,7 @@ onUnmounted(() => {
   footer.style.top = '0'
   window.removeEventListener('scroll', () => {})
 })
+const titleSize = ref(35)
 
 function scrollEvent() {
   const scrollTop = document.documentElement.scrollTop || document.body.scrollTop
@@ -75,7 +76,7 @@ window.addEventListener('scroll', scrollEvent)
 
 <template>
   <div class="home-page">
-    <job-search-home class="search-bar" v-model:keyword="searchState.keyword" />
+    <job-search-home class="search-bar" v-model:keyword="searchState.keyword" :title-size="titleSize"/>
     <div class="search-panel">
       <div class="search-panel__inner">
         <!--热门搜索-->

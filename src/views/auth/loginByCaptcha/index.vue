@@ -1,17 +1,17 @@
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
 import { useRequest } from 'alova'
-import { loginByCaptchaApi, type LoginByCaptchaFormType } from '@/apis/auth'
+import { loginByCaptchaApi, type LoginByCaptchaFormType, sendSMSApi } from '@/apis/auth'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores'
+import { message } from 'ant-design-vue'
 
 const formRef = ref()
 
 const formState = reactive<LoginByCaptchaFormType>({
-  phone: '13667777777',
-  code: '1234',
+  phone: '15374284973',
+  code: '',
   privacy: false,
-  uuid: '',
 })
 
 const rules = reactive({
@@ -37,15 +37,17 @@ const { loading, send, onSuccess } = useRequest(loginByCaptchaApi(formState), {
   immediate: false,
 })
 
-onSuccess((event) => {
+onSuccess(async (event) => {
   const data = event.data as any
   if (data) {
     userStore.token = data.token
     userStore.userInfo = data.userVO
-    if (data?.isFirstLogin) {
-      router.push('/auth/completeInfo')
-      return
-    }
+    // TODO 待后端修改逻辑
+    // const res = await isCompleteUserInfoApi()
+    router.push('/auth/completeInfo')
+    return
+    // if () {
+    // }
     // 获取当前路由的参数, 跳转到指定页面
     const { redirect } = router.currentRoute.value.query
     router.push((redirect as string) || '/')
@@ -53,9 +55,27 @@ onSuccess((event) => {
 })
 
 async function login() {
-  formRef.value.validate().then(() => {
-    send(true)
-  })
+  // formRef.value.validate().then(() => {
+  // })
+  send(true)
+}
+
+const countdown = ref(0)
+
+async function sendCode() {
+  const res = await sendSMSApi(formState.phone)
+  console.log(res)
+  if (res !== true) {
+    message.error('发送失败')
+    return
+  }
+  countdown.value = 60
+  const timer = setInterval(() => {
+    countdown.value--
+    if (countdown.value <= 0) {
+      clearInterval(timer)
+    }
+  }, 1000)
 }
 </script>
 
@@ -84,7 +104,9 @@ async function login() {
             <Icon icon="SecurityScanOutlined" />
           </template>
           <template #suffix>
-            <a-button type="link">发送验证码</a-button>
+            <a-button type="link" @click="sendCode" :disabled="countdown > 0">
+              {{ countdown > 0 ? `${countdown}秒后重发` : '发送验证码' }}
+            </a-button>
           </template>
         </a-input>
       </a-form-item>
