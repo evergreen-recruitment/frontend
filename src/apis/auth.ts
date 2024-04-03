@@ -1,22 +1,22 @@
 import request from '@/utils/request'
-import { unref } from 'vue'
 
 export type LoginByCaptchaFormType = {
   phone: string
-  code?: string
+  verifyCode?: string
   privacy?: boolean
+  uuid?: string
 }
 
 export type LoginByPasswordFormType = {
-  phone: string
-  password: string
+  userAccount: string
+  userPassword: string
   privacy?: boolean
 }
 
 export type ForgetPasswordFormType = {
   phone?: string
-  code?: string
-  newPassword?: string
+  verifyCode?: string
+  userPassword?: string
   confirmNewPassword?: string
   uuid?: string
 }
@@ -28,13 +28,14 @@ export type CaptchaResponse = {
 }
 
 export type CompleteUserInfoFormType = {
+  userId?: string
   avatar?: string
   userAccount: string
   realName: string
   address: string[]
-  age: number
+  age: number | null
   userPassword: string
-  reUserPassword: string
+  reUserPassword: string | null
   email: string
   applyStatus: number
   gender: number | null
@@ -45,8 +46,6 @@ export type CompleteUserInfoFormType = {
  * @param loginForm 登录表单
  */
 export function loginByCaptchaApi(loginForm: LoginByCaptchaFormType) {
-  loginForm.privacy = undefined
-
   return request.Post(
     'user/login/phone',
     loginForm,
@@ -60,8 +59,6 @@ export function loginByCaptchaApi(loginForm: LoginByCaptchaFormType) {
  * @param loginForm 登录表单
  */
 export function loginByPasswordApi(loginForm: LoginByPasswordFormType) {
-  loginForm.privacy = undefined
-
   return request.Post(
     'user/login/password',
     loginForm,
@@ -88,12 +85,14 @@ export function forgetPasswordApi(forgetPasswordForm: ForgetPasswordFormType) {
  * @param completeInfoForm 完善用户信息表单
  */
 export function completeUserInfoApi(completeInfoForm: CompleteUserInfoFormType) {
-  return request.Post(
-    'user/fill/requireinfo',
-    completeInfoForm,
-    // @ts-ignore
-    { headers: { 'Content-Type': 'application/json' }, ignoreToken: true },
-  )
+  return request
+    .Post(
+      'user/fill/requireinfo',
+      completeInfoForm,
+      // @ts-ignore
+      { headers: { 'Content-Type': 'application/json' }, ignoreToken: true },
+    )
+    .send(true) as Promise<boolean>
 }
 
 /**

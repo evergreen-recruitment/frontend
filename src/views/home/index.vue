@@ -76,7 +76,7 @@ window.addEventListener('scroll', scrollEvent)
 
 <template>
   <div class="home-page">
-    <job-search-home class="search-bar" v-model:keyword="searchState.keyword" :title-size="titleSize"/>
+    <job-search-home class="search-bar" v-model:keyword="searchState.keyword" :title-size="titleSize" />
     <div class="search-panel">
       <div class="search-panel__inner">
         <!--热门搜索-->

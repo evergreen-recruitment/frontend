@@ -10,13 +10,13 @@ const formRef = ref()
 
 const formState = reactive<LoginByCaptchaFormType>({
   phone: '15374284973',
-  code: '',
+  verifyCode: '',
   privacy: false,
 })
 
 const rules = reactive({
   phone: [{ required: true, message: '请输入手机号', trigger: 'blur' }],
-  code: [{ required: true, message: '请输入验证码', trigger: 'blur' }],
+  verifyCode: [{ required: true, message: '请输入验证码', trigger: 'blur' }],
   privacy: [
     {
       validator: (rule: any, value: any) => {
@@ -31,7 +31,6 @@ const rules = reactive({
 
 const router = useRouter()
 const userStore = useUserStore()
-
 const { loading, send, onSuccess } = useRequest(loginByCaptchaApi(formState), {
   // 默认不发出
   immediate: false,
@@ -44,7 +43,12 @@ onSuccess(async (event) => {
     userStore.userInfo = data.userVO
     // TODO 待后端修改逻辑
     // const res = await isCompleteUserInfoApi()
-    router.push('/auth/completeInfo')
+    router.push({
+      name: '/auth/completeInfo',
+      params: {
+        userId: data.userVO.userId,
+      },
+    })
     return
     // if () {
     // }
@@ -55,9 +59,10 @@ onSuccess(async (event) => {
 })
 
 async function login() {
-  // formRef.value.validate().then(() => {
-  // })
-  send(true)
+  formRef.value.validate().then(() => {
+    formState.privacy = undefined
+    send(true)
+  })
 }
 
 const countdown = ref(0)
@@ -98,8 +103,8 @@ async function sendCode() {
         </a-input>
       </a-form-item>
 
-      <a-form-item name="code">
-        <a-input v-model:value="formState.code" size="large" :placeholder="$t('user.login.placeholder.password')">
+      <a-form-item name="verifyCode">
+        <a-input v-model:value="formState.verifyCode" size="large" :placeholder="$t('user.login.placeholder.password')">
           <template #prefix>
             <Icon icon="SecurityScanOutlined" />
           </template>

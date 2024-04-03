@@ -11,4 +11,5 @@ export default pinia
 
 export * from './modules/status'
 export * from './modules/user'
+export * from './modules/employee'
 export * from './modules/app'

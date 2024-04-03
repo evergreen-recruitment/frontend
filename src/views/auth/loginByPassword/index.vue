@@ -10,14 +10,14 @@ const captchaEnabled = ref(true)
 const codeUrl = ref('')
 
 const formState = reactive<LoginByPasswordFormType>({
-  phone: '13667777777',
-  password: '1234',
+  userAccount: '15707951130',
+  userPassword: '123456',
   privacy: false,
 })
 
 const rules = reactive({
-  phone: [{ required: true, message: '请输入手机号', trigger: 'blur' }],
-  password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
+  userAccount: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
+  userPassword: [{ required: true, message: '请输入密码', trigger: 'blur' }],
   privacy: [
     {
       validator: (rule: any, value: any) => {
@@ -37,23 +37,52 @@ const { loading, send, onSuccess, onError } = useRequest(loginByPasswordApi(form
   // 默认不发出
   immediate: false,
 })
+
+onSuccess(async (event) => {
+  const data = event.data as any
+  if (data) {
+    userStore.token = data.token
+    userStore.userInfo = data.userVO
+    // 获取当前路由的参数, 跳转到指定页面
+    const { redirect } = router.currentRoute.value.query
+    router.push((redirect as string) || '/')
+  }
+})
+
+async function login() {
+  formRef.value.validate().then(() => {
+    formState.privacy = undefined
+    send(true)
+  })
+}
 </script>
 
 <template>
   <div class="login-by-password">
     <div class="i-auth-title">密码登录</div>
-    <a-form ref="formRef" :label-col="{ span: 5 }" :model="formState" class="login-form" label-align="left">
-      <a-form-item name="phone">
-        <a-input v-model:value="formState.phone" size="large" :placeholder="$t('user.login.placeholder.username')">
+    <a-form
+      ref="formRef"
+      :label-col="{ span: 5 }"
+      :model="formState"
+      class="login-form"
+      label-align="left"
+      :rules="rules"
+    >
+      <a-form-item name="userAccount">
+        <a-input
+          v-model:value="formState.userAccount"
+          size="large"
+          :placeholder="$t('user.login.placeholder.username')"
+        >
           <template #prefix>
-            <Icon icon="PhoneOutlined" />
+            <Icon icon="UserOutlined" />
           </template>
         </a-input>
       </a-form-item>
 
-      <a-form-item name="password">
+      <a-form-item name="userPassword">
         <a-input-password
-          v-model:value="formState.password"
+          v-model:value="formState.userPassword"
           size="large"
           :placeholder="$t('user.login.placeholder.password')"
         >
@@ -69,8 +98,8 @@ const { loading, send, onSuccess, onError } = useRequest(loginByPasswordApi(form
       </a-form-item>
 
       <a-form-item>
-        <a-button :loading="loading" html-type="submit" style="width: 100%; height: 45px" type="primary"
-          >{{ $t('user.login.submit') }}
+        <a-button :loading="loading" html-type="submit" style="width: 100%; height: 45px" type="primary" @click="login">
+          {{ $t('user.login.submit') }}
         </a-button>
       </a-form-item>
 

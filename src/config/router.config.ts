@@ -1,6 +1,7 @@
 import BasicLayout from '@/layouts/BasicLayout.vue'
 import AuthLayout from '@/layouts/AuthLayout.vue'
 import EmpAuthLayout from '@/layouts/EmpAuthLayout.vue'
+import EmpBasicLayout from '@/layouts/EmpBasicLayout.vue'
 import i18n from '@/locales'
 
 export const constantRouterMap = [
@@ -95,6 +96,42 @@ export const constantRouterMap = [
           title: '招聘者忘记密码',
         },
         component: () => import('@/views/empAuth/forget/index.vue'),
+      },
+    ],
+  },
+  {
+    name: 'empBasicLayout',
+    path: '/emp',
+    component: EmpBasicLayout,
+    redirect: '/emp/home',
+    hidden: true,
+    children: [
+      {
+        name: '招聘者首页',
+        path: '/emp/home',
+        meta: {
+          icon: 'ToolOutlined',
+          title: '招聘者首页',
+        },
+        component: () => import('@/views/empViews/home/index.vue'),
+      },
+      {
+        name: '发布岗位',
+        path: '/emp/postJob',
+        meta: {
+          icon: 'ToolOutlined',
+          title: '发布岗位',
+        },
+        component: () => import('@/views/empViews/home/index.vue'),
+      },
+      {
+        name: '岗位数据',
+        path: '/emp/jobData',
+        meta: {
+          icon: 'ToolOutlined',
+          title: '岗位数据',
+        },
+        component: () => import('@/views/empViews/home/index.vue'),
       },
     ],
   },

@@ -112,7 +112,7 @@ export const useAppStore = defineStore(
       )
 
       // zoom 不是标准的CSS, 不建议使用，但是兼容性还行
-      const exceptRoutes = ['/auth', '/empAuth', '404']
+      const exceptRoutes = ['/auth', '/empAuth', '/emp', '404']
       // 遍历设置
       for (const route of exceptRoutes) {
         if (router.currentRoute.value.path.includes(route)) {

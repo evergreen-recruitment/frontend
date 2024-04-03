@@ -1,7 +1,8 @@
 {
   "app": {
-    "title": "Vue3项目模板",
-    "welcome": "欢迎使用Vue3项目模板"
+    "title": "常青招聘",
+    "welcome": "欢迎使用Vue3项目模板",
+    "bottom": "常青招聘"
   },
   "exception": {
     "404": {

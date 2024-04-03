@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
+import router from '@/router'
 
 const formRef = ref()
 const formState = reactive({
@@ -10,6 +11,10 @@ const rules = reactive({
   empAccount: [{ required: true, message: '请输入账号', trigger: 'blur' }],
   empPassword: [{ required: true, message: '请输入密码', trigger: 'blur' }],
 })
+
+function login() {
+  router.push('/emp/home')
+}
 </script>
 
 <template>
@@ -38,7 +43,7 @@ const rules = reactive({
       </a-form-item>
 
       <a-form-item>
-        <a-button type="primary" style="width: 100%; height: 45px">登录</a-button>
+        <a-button type="primary" style="width: 100%; height: 45px" @click="login">登录</a-button>
       </a-form-item>
     </a-form>
   </div>

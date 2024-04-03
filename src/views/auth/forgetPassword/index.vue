@@ -6,21 +6,19 @@ import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores'
 
 const formRef = ref()
-const captchaEnabled = ref(true)
-const codeUrl = ref('')
 
 const formState = reactive<ForgetPasswordFormType>({
-  phone: '13667777777',
-  code: '1234',
-  newPassword: '1234',
-  confirmNewPassword: '1234',
+  phone: '15707951130',
+  verifyCode: '',
+  userPassword: '',
+  confirmNewPassword: '',
   uuid: '',
 })
 
 const rules = reactive({
   phone: [{ required: true, message: '请输入手机号', trigger: 'blur' }],
-  code: [{ required: true, message: '请输入验证码', trigger: 'blur' }],
-  newPassword: [{ required: true, message: '请输入新密码', trigger: 'blur' }],
+  verifyCode: [{ required: true, message: '请输入验证码', trigger: 'blur' }],
+  userPassword: [{ required: true, message: '请输入新密码', trigger: 'blur' }],
   confirmNewPassword: [{ required: true, message: '请确认新密码', trigger: 'blur' }],
 })
 
@@ -36,7 +34,14 @@ const { loading, send, onSuccess, onError } = useRequest(forgetPasswordApi(formS
 <template>
   <div class="forget-password">
     <div class="i-auth-title">忘记密码</div>
-    <a-form ref="formRef" :label-col="{ span: 5 }" :model="formState" class="login-form" label-align="left">
+    <a-form
+      ref="formRef"
+      :label-col="{ span: 5 }"
+      :model="formState"
+      class="login-form"
+      label-align="left"
+      :rules="rules"
+    >
       <a-form-item name="phone">
         <a-input v-model:value="formState.phone" size="large" :placeholder="$t('user.login.placeholder.username')">
           <template #prefix>
@@ -45,8 +50,8 @@ const { loading, send, onSuccess, onError } = useRequest(forgetPasswordApi(formS
         </a-input>
       </a-form-item>
 
-      <a-form-item name="code">
-        <a-input v-model:value="formState.code" size="large" :placeholder="$t('user.login.placeholder.password')">
+      <a-form-item name="verifyCode">
+        <a-input v-model:value="formState.verifyCode" size="large" :placeholder="$t('user.login.placeholder.password')">
           <template #prefix>
             <Icon icon="SecurityScanOutlined" />
           </template>
@@ -56,9 +61,9 @@ const { loading, send, onSuccess, onError } = useRequest(forgetPasswordApi(formS
         </a-input>
       </a-form-item>
 
-      <a-form-item name="newPassword">
+      <a-form-item name="userPassword">
         <a-input-password
-          v-model:value="formState.newPassword"
+          v-model:value="formState.userPassword"
           size="large"
           :placeholder="$t('user.login.placeholder.password')"
         >
@@ -85,8 +90,8 @@ const { loading, send, onSuccess, onError } = useRequest(forgetPasswordApi(formS
       </a-form-item>
 
       <a-form-item>
-        <a-button :loading="loading" html-type="submit" style="width: 100%; height: 45px" type="primary"
-          >重置密码
+        <a-button :loading="loading" html-type="submit" style="width: 100%; height: 45px" type="primary">
+          重置密码
         </a-button>
       </a-form-item>
     </a-form>
@@ -100,6 +105,7 @@ const { loading, send, onSuccess, onError } = useRequest(forgetPasswordApi(formS
   @media screen and (max-width: 768px) {
     width: 100%;
   }
+
   .i-auth-title {
     @apply text-3xl font-bold text-center m-5 drop-shadow-md;
   }

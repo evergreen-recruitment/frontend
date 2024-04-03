@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
-export type UserInfo = {
+export type EmpInfo = {
   userId?: string
   avatar?: string
   userAccount?: string
@@ -15,11 +15,11 @@ export type UserInfo = {
   createTime?: string
 }
 
-export const useUserStore = defineStore(
-  'userStore',
+export const useEmpStore = defineStore(
+  'empStore',
   () => {
     const token = ref<string>('')
-    const userInfo = ref<UserInfo>({
+    const empInfo = ref<EmpInfo>({
       userId: '1774709828510330882',
       avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
       realName: '何嘉炜',
@@ -34,11 +34,11 @@ export const useUserStore = defineStore(
     })
     const logout = () => {
       token.value = ''
-      userInfo.value = {}
+      empInfo.value = {}
     }
     return {
       token,
-      userInfo,
+      empInfo,
       logout,
     }
   },

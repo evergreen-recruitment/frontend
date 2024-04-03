@@ -4,9 +4,12 @@ import Icon from '@/components/Icon/Icon.vue'
 import type { UploadChangeParam, UploadProps } from 'ant-design-vue'
 import { message } from 'ant-design-vue'
 import type { CompleteUserInfoFormType } from '@/apis/auth'
+import { completeUserInfoApi, isCompleteUserInfoApi } from '@/apis/auth'
 import ILocationSelector from '@/components/ILocationSelector/ILocationSelector.vue'
 import router from '@/router'
+import { useUserStore } from '@/stores'
 
+const userStore = useUserStore()
 const fileList = ref([])
 const avatarUploadLoading = ref(false)
 const loading = ref(false)
@@ -16,7 +19,7 @@ const formState = reactive<CompleteUserInfoFormType>({
   userAccount: '',
   realName: '',
   address: [''],
-  age: 20,
+  age: null,
   userPassword: '',
   reUserPassword: '',
   email: '',
@@ -72,13 +75,31 @@ function beforeUpload(file: UploadProps['fileList'][number]) {
 }
 
 function submitCompleteInfo(e: any) {
-  e.preventDefault()
-  router.push('/auth/uploadApplication')
+  formRef.value.validate().then(async () => {
+    // loading.value = true
+    // @ts-ignore
+    formState.userId = userStore.userInfo?.userId
+    formState.reUserPassword = null
+    const res = await completeUserInfoApi(formState)
+    if (res !== true) {
+      message.error('提交失败')
+      loading.value = false
+      return
+    }
+    message.success('提交成功')
+    router.push('/auth/uploadApplication')
+  })
 }
 
-onMounted(() => {
+onMounted(async () => {
   const container = document.querySelector('.i-auth-layout__container') as HTMLElement | null
   container?.style.setProperty('width', '850px', 'important')
+
+  // 获取用户id查询是否填写过信息
+  const res = await isCompleteUserInfoApi()
+  if (res !== true) {
+    router.push('/')
+  }
 })
 onUnmounted(() => {
   const container = document.querySelector('.i-auth-layout__container') as HTMLElement | null
@@ -129,7 +150,7 @@ onUnmounted(() => {
         </a-col>
       </a-row>
 
-      <a-form-item name="userAccount" label="用户">
+      <a-form-item name="userAccount" label="用户名">
         <a-input v-model:value="formState.userAccount" placeholder="请输入用户名">
           <template #prefix>
             <Icon icon="UserOutlined" />

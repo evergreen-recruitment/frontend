@@ -1,7 +1,8 @@
 {
   "app": {
-    "title": "Vue3 project template",
-    "welcome": "Welcome to use Vue3 project template!"
+    "title": "Evergreen Hire",
+    "welcome": "Welcome to use Vue3 project template!",
+    "bottom": "Evergreen Hire"
   },
   "exception": {
     "404": {
