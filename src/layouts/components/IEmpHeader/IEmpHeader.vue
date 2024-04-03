@@ -40,7 +40,6 @@ const propsMenuCollapsed = useVModel(props, 'menuCollapsed', emit)
           <Icon icon="MenuOutlined" />
         </a-button>
         <div class="logo">
-          <!--<div class="logo-icon"></div>-->
           <div class="title">{{ $t('app.title') }}</div>
         </div>
       </div>
@@ -167,14 +166,6 @@ const propsMenuCollapsed = useVModel(props, 'menuCollapsed', emit)
 
         @media screen and (max-width: 768px) {
           display: none;
-        }
-
-        .logo-icon {
-          width: 40px;
-          height: 40px;
-          margin-right: 10px;
-          background: url('@/assets/images/logo-blue.png') no-repeat left center;
-          background-size: cover;
         }
 
         .title {
