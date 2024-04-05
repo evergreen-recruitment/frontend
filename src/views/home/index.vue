@@ -84,7 +84,7 @@ window.addEventListener('scroll', scrollEvent)
         <!--  <div class="title">热门搜索</div>-->
         <!--  <div class="search-list">-->
         <!--    <a-tag :color="variables[appStore.themeName]" v-for="i in hotSearch" :key="i" class="search-item">-->
-        <!--      <i-navigator :to="{ name: 'search', query: { keyword: i } }">-->
+        <!--      <i-navigator :to="{ name: 'jobSearch', query: { keyword: i } }">-->
         <!--        {{ i }}-->
         <!--      </i-navigator>-->
         <!--    </a-tag>-->
@@ -156,7 +156,7 @@ window.addEventListener('scroll', scrollEvent)
                       class="menu-item"
                       v-for="i in item.children"
                       :key="i.name"
-                      :to="{ name: 'search', query: { jobId: i.id } }"
+                      :to="{ name: 'jobSearch', query: { jobId: i.id } }"
                     >
                       <span>{{ i.name }}</span>
                       <div class="arrow">

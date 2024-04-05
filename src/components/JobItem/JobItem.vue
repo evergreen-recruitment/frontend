@@ -1,43 +1,43 @@
 <script setup lang="ts">
-import type { JobItem } from '@/types/commonTypes'
 import { useAppStore } from '@/stores'
 import variables from '@/styles/variables.module.scss'
+import type { SimpleJobItemType } from '@/apis/job'
 
 defineProps<{
-  job: JobItem
+  job: SimpleJobItemType
 }>()
 
 const appStore = useAppStore()
 </script>
 
 <template>
-  <i-navigator class="job-item card" :to="`/jobDetail/${job.id}`" open-in-new-window>
+  <i-navigator class="job-item card" :to="{ name: 'jobDetail', query: { jobId: job.id } }" open-in-new-window>
     <div class="top">
       <div class="left">
         <div class="job-title">{{ job.title }}</div>
         <div class="other">
-          <div class="job-salary">{{ `${job.salary[0]}-${job.salary[1]}` }}</div>
+          <div class="job-salary">{{ job.salary }}</div>
           <div class="job-experience">
             <a-tag>{{ job.experience }}</a-tag>
           </div>
           <div class="job-education">
             <a-tag>{{ job.education }}</a-tag>
           </div>
-          <div class="job-hr">
-            <a-tag>{{ job.hr }}</a-tag>
-          </div>
+          <!--<div class="job-hr">-->
+          <!--  <a-tag>{{ job.employeeVO?.realName || '招聘者' }}</a-tag>-->
+          <!--</div>-->
         </div>
       </div>
       <div class="right">
-        <div class="company">{{ job.company }}</div>
-        <div class="address">{{ job.address }}</div>
+        <div class="company">{{ job.companyName }}</div>
+        <div class="address">{{ job.cityName }}</div>
       </div>
     </div>
     <div class="bottom">
       <div class="job-tags">
-        <a-tag :color="variables[appStore.themeName]" v-for="t in job.tags" :key="t">{{ t }}</a-tag>
+        <a-tag :color="variables[appStore.themeName]" v-for="t in job.jobSkills" :key="t">{{ t }}</a-tag>
       </div>
-      <div class="job-time">发布时间：{{ job.createTime }}</div>
+      <div class="job-time">更新时间：{{ job.updateTime }}</div>
     </div>
   </i-navigator>
 </template>

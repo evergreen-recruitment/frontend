@@ -1,12 +1,11 @@
 <script setup lang="ts">
 import { computed, reactive } from 'vue'
-import type { JobItem } from '@/types/commonTypes'
 import { useAppStore, type UserInfo, useUserStore } from '@/stores'
 
 const userStore = useUserStore()
 const userInfo = computed<UserInfo>(() => userStore.userInfo)
 const appStore = useAppStore()
-const searchJobList = reactive<JobItem[]>([
+const searchJobList = reactive<any[]>([
   {
     id: '1',
     title: 'Java开发工程师',
@@ -85,7 +84,7 @@ const echartsOption = reactive({
       avoidLabelOverlap: false,
       itemStyle: {
         borderRadius: 10,
-        borderColor: appStore.darkMode === 'light' ? '#000' : '#fff',
+        borderColor: appStore.darkMode === 'light' ? '#999' : '#fff',
         borderWidth: 2,
       },
       label: {

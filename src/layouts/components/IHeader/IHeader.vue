@@ -19,7 +19,7 @@ const links = reactive([
   {
     id: '2',
     title: '搜索',
-    path: '/search',
+    path: '/job/search',
     outer: false,
   },
   {

@@ -175,16 +175,6 @@ export function getAsyncRouterMap(): IRouter[] {
       component: () => import('@/views/home/index.vue'),
     },
     {
-      name: 'search',
-      path: '/search',
-      meta: {
-        icon: 'SearchOutlined',
-        title: '搜索',
-        width: 1280,
-      },
-      component: () => import('@/views/search/index.vue'),
-    },
-    {
       name: 'company',
       path: '/company',
       meta: {
@@ -195,13 +185,23 @@ export function getAsyncRouterMap(): IRouter[] {
       component: () => import('@/views/company/index.vue'),
     },
     {
+      name: 'jobSearch',
+      path: '/job/search',
+      meta: {
+        icon: 'SearchOutlined',
+        title: '搜索',
+        width: 1280,
+      },
+      component: () => import('@/views/job/search/index.vue'),
+    },
+    {
       name: 'jobDetail',
-      path: '/jobDetail/:id(\\d+)',
+      path: '/job/detail',
       meta: {
         icon: 'ToolOutlined',
         title: '工作详情',
       },
-      component: () => import('@/views/jobDetail/index.vue'),
+      component: () => import('@/views/job/detail/index.vue'),
     },
     {
       name: 'user',

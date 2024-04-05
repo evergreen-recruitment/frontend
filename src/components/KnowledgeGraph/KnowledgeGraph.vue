@@ -197,7 +197,7 @@ onMounted(() => {
   })
   graph.on('node:dblclick', function (e: any) {
     const nodeData = e.item.get('model')
-    const searchURL = `/search?keyword=${encodeURIComponent(nodeData.label)}`
+    const searchURL = `/job/search?keyword=${encodeURIComponent(nodeData.label)}`
     window.open(searchURL, '_blank')
   })
 

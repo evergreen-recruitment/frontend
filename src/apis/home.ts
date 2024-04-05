@@ -1,4 +1,4 @@
-import request from '@/utils/request'
+import request, { alovaInstance } from '@/utils/request'
 import type { GraphData } from '@antv/g6'
 
 /**
@@ -34,13 +34,14 @@ export function getHomeCategoryApi() {
  * 类型 待补充
  */
 export function getHotSearchApi() {
-  return request
-    .Get(
-      'home/hotSearch',
-      // @ts-ignore
-      { headers: { 'Content-Type': 'application/json' }, ignoreToken: true },
-    )
-    .send(true) as Promise<any>
+  // return request
+  //   .Get(
+  //     'job/hotSearch',
+  //     // @ts-ignore
+  //     { headers: { 'Content-Type': 'application/json' }, ignoreToken: true },
+  //   )
+  //   .send(true) as Promise<any>
+  return alovaInstance.Get('https://dev.usemock.com/65ca29236309cc7a37766f77/job/hotSearch').send(true) as Promise<any>
 }
 
 /**
@@ -48,13 +49,14 @@ export function getHotSearchApi() {
  * 类型 待补充
  */
 export function getHomeRecommendApi() {
-  return request
-    .Get(
-      'home/recommend',
-      // @ts-ignore
-      { headers: { 'Content-Type': 'application/json' }, ignoreToken: true },
-    )
-    .send(true) as Promise<any>
+  // return request
+  //   .Get(
+  //     'job/recommend',
+  //     // @ts-ignore
+  //     { headers: { 'Content-Type': 'application/json' }, ignoreToken: true },
+  //   )
+  //   .send(true) as Promise<any>
+  return alovaInstance.Get('https://dev.usemock.com/65ca29236309cc7a37766f77/job/recommend').send(true) as Promise<any>
 }
 
 /**
@@ -64,7 +66,7 @@ export function getHomeRecommendApi() {
 export function getHomeNewJobsApi() {
   return request
     .Get(
-      'home/newJobs',
+      'job/newJobs',
       // @ts-ignore
       { headers: { 'Content-Type': 'application/json' }, ignoreToken: true },
     )
@@ -76,13 +78,16 @@ export function getHomeNewJobsApi() {
  * 类型 待补充
  */
 export function getHomeNearbyJobsApi() {
-  return request
-    .Get(
-      'home/nearbyJobs',
-      // @ts-ignore
-      { headers: { 'Content-Type': 'application/json' }, ignoreToken: true },
-    )
-    .send(true) as Promise<any>
+  // return request
+  //   .Get(
+  //     'job/nearbyJobs',
+  //     // @ts-ignore
+  //     { headers: { 'Content-Type': 'application/json' }, ignoreToken: true },
+  //   )
+  //   .send(true) as Promise<any>
+  return alovaInstance
+    .Get('https://dev.usemock.com/65ca29236309cc7a37766f77/job/nearbyJobs')
+    .send(true) as Promise<GraphData>
 }
 
 /**
@@ -90,11 +95,14 @@ export function getHomeNearbyJobsApi() {
  * 类型 待补充
  */
 export function getHomeKnowledgeGraphApi() {
-  return request
-    .Get(
-      '/job/home/knowledgeGraph',
-      // @ts-ignore
-      { headers: { 'Content-Type': 'application/json' }, ignoreToken: true },
-    )
+  // return request
+  //   .Get(
+  //     '/job/home/knowledgeGraph',
+  //     // @ts-ignore
+  //     { headers: { 'Content-Type': 'application/json' }, ignoreToken: true },
+  //   )
+  //   .send(true) as Promise<GraphData>
+  return alovaInstance
+    .Get('https://dev.usemock.com/65ca29236309cc7a37766f77/job/knowledgeGraph')
     .send(true) as Promise<GraphData>
 }

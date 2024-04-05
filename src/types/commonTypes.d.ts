@@ -1,22 +1,19 @@
-export type SimpleJobItem = {
-  id: string
-  title: string
-  company: string
-  salary: [string?, string]
-  address: string
-  tags: string[]
+export type PageType<T> = {
+  records: T[]
+  total: number
+  size: number
+  current: number
+  orders: any[]
+  optimizeCountSql: boolean
+  searchCount: boolean
+  countId?: any
+  maxLimit?: any
+  pages: number
 }
 
-export type JobItem = {
-  id: string
-  title: string
-  company: string
-  salary: string[]
-  experience: string
-  description: string
-  education: string
-  address: string
-  tags: string[]
-  hr: string
-  createTime: string
+export type PageRequestType = {
+  current: number
+  pageSize: number
+  sortField: string
+  sortOrder: string
 }

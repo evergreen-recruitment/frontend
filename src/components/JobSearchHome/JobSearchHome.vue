@@ -17,7 +17,7 @@ const propsKeyword = useVModel(props, 'keyword', emit)
       <a-input-group compact>
         <a-input v-model:value="propsKeyword" size="large" placeholder="请输入职位关键词" enter-button="Search">
           <template #suffix>
-            <i-navigator :to="{ name: 'search', query: { keyword: keyword } }">
+            <i-navigator :to="{ name: 'jobSearch', query: { keyword: keyword } }">
               <a-button type="primary" size="large">搜索</a-button>
             </i-navigator>
           </template>

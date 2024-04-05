@@ -1,27 +1,27 @@
 <script setup lang="ts">
-import type { SimpleJobItem } from '@/types/commonTypes'
 import { useAppStore } from '@/stores'
 import variables from '@/styles/variables.module.scss'
 import INavigator from '@/components/INavigator/INavigator.vue'
+import type { SimpleJobItemType } from '@/apis/job'
 
 defineProps<{
-  job: SimpleJobItem
+  job: SimpleJobItemType
 }>()
 
 const appStore = useAppStore()
 </script>
 
 <template>
-  <i-navigator class="job-card" :to="`/jobDetail/${job.id}`" open-in-new-window>
+  <i-navigator class="job-card" :to="{ name: 'jobDetail', query: { jobId: job.id } }" open-in-new-window>
     <div class="job-card__header">
       <div class="job-card__header--title">{{ job.title }}</div>
       <div class="job-card__header--salary">{{ `${job.salary[0]}-${job.salary[1]}` }}</div>
     </div>
     <div class="job-card__content">
-      <div class="job-card__content--company">{{ job.company }}</div>
-      <div class="job-card__content--address">{{ job.address }}</div>
+      <div class="job-card__content--company">{{ job.companyName }}</div>
+      <div class="job-card__content--address">{{ job.cityName }}</div>
       <div class="job-card__content--tags">
-        <a-tag :color="variables[appStore.themeName]" v-for="t in job.tags" :key="t">{{ t }}</a-tag>
+        <a-tag :color="variables[appStore.themeName]" v-for="t in job.jobSkills" :key="t">{{ t }}</a-tag>
       </div>
     </div>
   </i-navigator>

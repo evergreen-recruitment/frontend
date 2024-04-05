@@ -1,7 +1,7 @@
-// 设置禁止元素选中
-document.onselectstart = function () {
-  return false
-}
+// // 设置禁止元素选中
+// document.onselectstart = function () {
+//   return false
+// }
 
 // 自定义开始加载事件
 const startEvent = new CustomEvent('loading')

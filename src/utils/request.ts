@@ -45,11 +45,46 @@ const request = createAlova({
     }
     if (!userStore.token) {
       message.error('请先登录')
-      router.push('/login')
+      router.push('/auth/login')
       return
     }
     method.config.headers.satoken = `${userStore.token}`
   },
+  // 全局的响应拦截器
+  responded: {
+    onSuccess: async (response, method) => {
+      let json
+      try {
+        json = await response.json()
+      } catch (e) {
+        message.error('序列化失败')
+        throw new Error('序列化失败')
+      }
+      const msg = json?.msg || errCode[json?.code as keyof typeof errCode]
+      if (json.code !== 200) {
+        if (json.code === 401) {
+          userStore.logout()
+          router.push('/auth/login')
+        }
+        if (msg) {
+          message.error(msg)
+          throw new Error(msg)
+        }
+      }
+      if (msg) {
+        message.success(msg)
+      }
+      return json.data || json
+    },
+    onError: async (error, method) => {
+      message.error(error.message)
+    },
+  },
+})
+
+const alovaInstance = createAlova({
+  statesHook: VueHook,
+  requestAdapter: GlobalFetch(),
   // 全局的响应拦截器
   responded: {
     onSuccess: async (response, method) => {
@@ -81,5 +116,7 @@ const request = createAlova({
     },
   },
 })
+
+export { alovaInstance }
 
 export default request
