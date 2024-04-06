@@ -1,6 +1,6 @@
 // 用于配置主题色
 export const primaryColorEnum = {
-  origin: '#1890FF',
+  origin: '#e877d7',
   red: '#F5222D',
   orange: '#FA541C',
   yellow: '#FAAD14',

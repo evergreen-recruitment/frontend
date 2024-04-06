@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { onMounted, reactive, ref, watchEffect } from 'vue'
+import { onMounted, reactive, ref, shallowRef, watchEffect } from 'vue'
 import INavigator from '@/components/INavigator/INavigator.vue'
 import router from '@/router'
 import KnowledgeGraph from '@/components/KnowledgeGraph/KnowledgeGraph.vue'
 import { getHomeKnowledgeGraphApi } from '@/apis/home'
 import type { GraphData } from '@antv/g6'
 import { type CityItemType, getHotCities } from '@/apis/city'
-import type { SimpleJobItemType } from '@/apis/job'
+import type { JobFilterType, SimpleJobItemType } from '@/apis/job'
 import { jobSearchApi } from '@/apis/job'
 
 const searchState = reactive({
@@ -15,6 +15,12 @@ const searchState = reactive({
   pageSize: 10,
   sortField: '',
   sortOrder: '',
+})
+const jobFilter = shallowRef<JobFilterType>({
+  jobType: 0,
+  needJobType: 0,
+  experience: 0,
+  salary: 0,
 })
 const hotCities = ref<CityItemType[]>([])
 const knowledgeGraphData = ref<GraphData>()
@@ -35,8 +41,6 @@ let searchJobList = reactive<SimpleJobItemType[]>([])
 watchEffect(async () => {
   searchState.keyword = (router.currentRoute.value.query.keyword as string) || ''
   searchJobList = (await jobSearchApi(searchState)).records
-  console.log(searchJobList)
-  // similarSearch.value = await jobSearchApi(searchState.keyword)
 })
 onMounted(async () => {
   knowledgeGraphData.value = await getHomeKnowledgeGraphApi()
@@ -47,7 +51,7 @@ onMounted(async () => {
 <template>
   <div class="search-page">
     <div class="search-panel card">
-      <job-search v-model:keyword="searchState.keyword" />
+      <job-search v-model:keyword="searchState.keyword" v-model:city="searchState.city" />
       <div class="city-list">
         <router-link
           class="city"
@@ -60,7 +64,7 @@ onMounted(async () => {
         <router-link class="city" to="/job/search">其他城市</router-link>
       </div>
       <div class="filter-panel block-item">
-        <job-filter />
+        <job-filter v-model:job-filter="jobFilter" />
       </div>
     </div>
 
@@ -135,6 +139,8 @@ onMounted(async () => {
 
     .job-list {
       @apply w-[calc(14/19*100%)];
+      column-count: 2;
+      column-gap: 10px;
     }
 
     .job-side {

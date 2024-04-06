@@ -18,7 +18,7 @@ const formState = reactive<CompleteUserInfoFormType>({
   avatar: '',
   userAccount: '',
   realName: '',
-  address: [''],
+  address: [101010000, 101010100],
   age: null,
   userPassword: '',
   reUserPassword: '',

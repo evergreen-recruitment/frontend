@@ -22,7 +22,7 @@ export const useAppStore = defineStore(
       return locale.value
     })
     // 颜色模式
-    const darkModeRef = ref<'auto' | 'dark' | 'light'>('dark')
+    const darkModeRef = ref<'auto' | 'dark' | 'light'>('light')
     const darkModeQuery = window.matchMedia('(prefers-color-scheme: dark)') as MediaQueryList
 
     function handleDarkModeChange() {
@@ -56,7 +56,7 @@ export const useAppStore = defineStore(
       },
     })
     // 主题名称
-    const themeName = ref<primaryColorEnumType>('cyan')
+    const themeName = ref<primaryColorEnumType>('origin')
     // 主题配置
     const borderRadius = ref(7)
     const themeConfig = computed(() => {

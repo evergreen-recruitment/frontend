@@ -5,6 +5,13 @@ export type JobSearchFormType = {
   keyword: string
 }
 
+export type JobFilterType = {
+  jobType: number | null // 职位类型
+  needJobType: number | null // 求职类型
+  experience: number | null // 经验
+  salary: number | null // 薪资
+}
+
 export type JobItemType = {
   id: string
   companyId: string

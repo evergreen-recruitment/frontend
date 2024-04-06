@@ -2,93 +2,124 @@
 import { useAppStore } from '@/stores'
 import variables from '@/styles/variables.module.scss'
 import type { SimpleJobItemType } from '@/apis/job'
+import { getAssetsFile } from '@/utils/utils'
 
 defineProps<{
   job: SimpleJobItemType
 }>()
 
 const appStore = useAppStore()
-
-// TODO
-// onMounted(() => {
-//   const multiple = 5
-//   const element = document.querySelector('.job-card') as HTMLElement
-//
-//   function transformElement(x: number, y: number) {
-//     let box = element.getBoundingClientRect()
-//     let calcX = -(y - box.y - box.height / 2) / multiple
-//     let calcY = (x - box.x - box.width / 2) / multiple
-//
-//     element.style.transform = 'rotateX(' + calcX + 'deg) ' + 'rotateY(' + calcY + 'deg)'
-//   }
-//
-//   element.addEventListener('mousemove', (e) => {
-//     window.requestAnimationFrame(function () {
-//       transformElement(e.clientX, e.clientY)
-//     })
-//   })
-//
-//   element.addEventListener('mouseleave', (e) => {
-//     window.requestAnimationFrame(function () {
-//       element.style.transform = 'rotateX(0) rotateY(0)'
-//     })
-//   })
-// })
 </script>
 
 <template>
-  <i-navigator class="job-card card" :to="{ name: 'jobDetail', query: { jobId: job.id } }" open-in-new-window>
-    <div class="job-card__header">
-      <div class="job-card__header--title">{{ job.title }}</div>
-      <div class="job-card__header--salary">{{ job.salary }}</div>
-    </div>
-    <div class="job-card__content">
-      <div class="job-card__content--company">{{ job.companyName }}</div>
-      <div class="job-card__content--address">{{ job.cityName }}</div>
-      <div class="job-card__content--tags">
-        <a-tag :color="variables[appStore.themeName]" v-for="t in job.jobSkills" :key="t">{{ t }}</a-tag>
+  <div class="job-card-outer">
+    <i-navigator class="job-card" :to="{ name: 'jobDetail', query: { jobId: job.id } }" open-in-new-window>
+      <div class="job-card__header">
+        <div class="job-card__header--title">{{ job.title }}</div>
+        <div class="job-card__header--salary">{{ job.salary }}</div>
       </div>
-    </div>
-  </i-navigator>
+      <div class="job-card__content">
+        <div class="job-card__content--company">
+          <div class="left">
+            <div class="company">{{ job.companyName }}</div>
+            <div class="address">{{ job.cityName }}</div>
+          </div>
+          <div class="right">
+            <img :src="getAssetsFile('images/logo.png')" alt="" />
+          </div>
+        </div>
+        <div class="job-card__content--bottom">
+          <a-tag :color="variables[appStore.themeName]" v-for="t in job.jobLabels" :key="t">{{ t }}</a-tag>
+        </div>
+      </div>
+    </i-navigator>
+  </div>
 </template>
 
 <style scoped lang="scss">
 @import '@/styles/theme.scss';
 
-.job-card {
-  @apply w-72 rounded-[var(--border-radius)] shadow-md cursor-pointer;
-  //transform-style: preserve-3d;
-  //transition: all 0.2s;
+.job-card-outer {
+  @apply relative rounded-[var(--border-radius)];
+  //瀑布流
+  //break-inside: avoid;
+  //margin-bottom: 7px;
 
-  @include useTheme {
-    background: getModeVar('cardBgColor');
-  }
-
-  .job-card__header {
-    @apply flex justify-between items-center px-4 py-2;
-    .job-card__header--title {
-      @apply text-lg font-bold;
-    }
-
-    .job-card__header--salary {
-      @apply text-lg font-bold text-red-500;
+  &::before {
+    @apply w-[70px] h-[70px] right-[10%] top-[10%] absolute rounded-full border-2 border-solid z-[-1];
+    content: '';
+    transition: all 1s;
+    @include useTheme {
+      background: getColor('primary');
     }
   }
 
-  .job-card__content {
-    @apply px-4 py-2;
-    .job-card__content--company {
-      @apply text-lg font-bold;
+  &:hover {
+    @include useTheme {
+      box-shadow: 0px 0px 20px 1px getColor('primary');
     }
 
-    .job-card__content--address {
-      @apply text-gray-500;
+    &::before {
+      transform: translate(-50%, 50%);
+    }
+  }
+
+  .job-card {
+    @apply relative w-72 h-[140px] flex flex-col items-start justify-between rounded-[var(--border-radius)] backdrop-blur-[30px]  shadow-md cursor-pointer;
+    transition: box-shadow 0.3s;
+
+    @include useTheme {
+      &:hover {
+        box-shadow: 0 0 10px 1px getColor('primary');
+      }
+      background: rgba(getModeVar('cardBgColor'), 0.7);
+      //border: 1px solid rgba(getModeVar('textColor'), 0.089);
+      border: 1px solid rgba(getColor('primary'), var(--show-border-op));
     }
 
-    .job-card__content--tags {
-      @apply mt-2;
-      a-tag {
-        @apply mb-2;
+    .job-card__header {
+      @apply w-full box-border flex justify-between items-center px-4 py-2;
+      .job-card__header--title {
+        @apply text-xl font-bold;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        max-width: 170px;
+      }
+
+      .job-card__header--salary {
+        @apply text-base font-bold text-red-500 text-right;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        max-width: 170px;
+      }
+    }
+
+    .job-card__content {
+      @apply w-full px-4 py-2 box-border;
+      .job-card__content--company {
+        @apply w-full flex justify-between items-center;
+        .left {
+          .company {
+            @apply text-base font-bold;
+          }
+
+          .address {
+            @apply text-sm text-gray-500;
+          }
+        }
+
+        .right {
+          @apply w-12 h-12;
+          img {
+            @apply w-full h-full rounded-full;
+          }
+        }
+      }
+
+      .job-card__content--bottom {
+        @apply mt-2;
       }
     }
   }

@@ -1,14 +1,7 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, reactive, ref } from 'vue'
 import { useAppStore, useUserStore } from '@/stores'
-import {
-  getHomeCategoryApi,
-  getHomeKnowledgeGraphApi,
-  getHomeNearbyJobsApi,
-  getHomeNewJobsApi,
-  getHomeRecommendApi,
-  getHotSearchApi,
-} from '@/apis/home'
+import { getHomeCategoryApi, getHomeKnowledgeGraphApi, getHomeNewJobsApi, getHotSearchApi } from '@/apis/home'
 
 const userStore = useUserStore()
 const appStore = useAppStore()
@@ -232,7 +225,7 @@ window.addEventListener('scroll', scrollEvent)
     --blur: 0;
     --top: calc(50vh - 120px + 55px);
     --shadow-opacity: 0;
-    @apply fixed top-[var(--top)] z-[10] w-full p-5 box-border;
+    @apply sticky top-[var(--top)] z-[10] w-full p-5 box-border;
 
     backdrop-filter: blur(var(--blur));
     //box-shadow: 0 5px 10px rgba(0, 0, 0, var(--shadow-opacity));
@@ -383,7 +376,11 @@ window.addEventListener('scroll', scrollEvent)
         --card-width: 17.5rem;
         --card-height: 10rem;
         grid-template-columns: repeat(auto-fit, minmax(var(--card-width), 1fr));
-        grid-template-rows: auto;
+
+        //瀑布流
+        //column-count: 4;
+        //column-gap: 7px;
+
         //gap: 15px;
       }
 

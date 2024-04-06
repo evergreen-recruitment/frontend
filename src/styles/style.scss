@@ -31,33 +31,56 @@ body {
   transition:
     background-color 0.3s,
     color 0.3s;
-  //transform-style: preserve-3d;
-  //perspective: 500px;
+  transform-style: preserve-3d;
+  perspective: 1000px;
   @include useTheme {
     background-color: getModeVar('bgColor');
     color: getModeVar('infoColor');
   }
 
-  // loading 的颜色控制
-  @include useTheme {
-    .side-left {
-      background-color: rgba((adjust-hue(hsl(0, 100%, 70%), hue(getColor('primary')))), 1);
-    }
+  // loading 的控制
 
-    .side-right {
-      background-color: rgba((adjust-hue(hsl(0, 100%, 80%), hue(getColor('primary')))), 1);
-    }
+  //@for $i from 1 through 4 {
+  //  .cell.d-#{$i} {
+  //    animation-delay: $i * 100ms;
+  //  }
+  //}
 
-    .side-top {
-      background-color: rgba((adjust-hue(hsl(0, 100%, 90%), hue(getColor('primary')))), 1);
-    }
-  }
+  //@include useTheme {
+  //  .cell {
+  //    @for $i from 1 through 9 {
+  //      &:nth-child(#{$i}) {
+  //        $cell-color: adjust-hue(hsl(0, 100%, 70%), hue(adjust-hue(getColor('primary'), -40 + $i * 10)));
+  //        animation: 1.5s ripple-#{$i} ease infinite;
+  //        @keyframes ripple-#{$i}-#{$cell-color} {
+  //          0% {
+  //            background-color: transparent;
+  //          }
+  //
+  //          30% {
+  //            background-color: $cell-color;
+  //          }
+  //
+  //          60% {
+  //            background-color: transparent;
+  //          }
+  //
+  //          100% {
+  //            background-color: transparent;
+  //          }
+  //        }
+  //      }
+  //    }
+  //
+  //  }
+  //}
 }
 
 .enter-y {
   --enter-duration: 0.4s;
   opacity: 0;
   transform: translateX(50px);
+  filter: blur(10px);
   animation: enter-y-animation var(--enter-duration) ease-in-out 0.3s forwards;
   @for $i from 1 through 20 {
     &:nth-child(#{$i}) {
@@ -67,10 +90,12 @@ body {
   @keyframes enter-y-animation {
     0% {
       opacity: 0;
+      filter: blur(10px);
       transform: translateX(50px);
     }
     100% {
       opacity: 1;
+      filter: blur(0);
       transform: translateY(0);
     }
   }
@@ -78,8 +103,8 @@ body {
 
 .enter-scale {
   opacity: 0;
-  transform: scale(1.2);
-  backdrop-filter: blur(10px);
+  transform: scale(1.1);
+  filter: blur(10px);
   animation: enter-scale-animation 0.4s ease-in-out 0.3s forwards;
   @for $i from 1 through 20 {
     &:nth-child(#{$i}) {
@@ -89,13 +114,13 @@ body {
   @keyframes enter-scale-animation {
     0% {
       opacity: 0;
-      transform: scale(1.2);
-      backdrop-filter: blur(10px);
+      transform: scale(1.1);
+      filter: blur(10px);
     }
     100% {
       opacity: 1;
       transform: scale(1);
-      backdrop-filter: blur(0);
+      filter: blur(0);
     }
   }
 }

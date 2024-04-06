@@ -7,7 +7,7 @@ import { useVModel } from '@vueuse/core'
 
 const emit = defineEmits(['update:value', 'update:text'])
 const props = defineProps<{
-  value: string[]
+  value: [number, number]
   text?: string
 }>()
 const propsValue = useVModel(props, 'value', emit)

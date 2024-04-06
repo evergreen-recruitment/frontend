@@ -5,6 +5,7 @@ import { loginByCaptchaApi, type LoginByCaptchaFormType, sendSMSApi } from '@/ap
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores'
 import { message } from 'ant-design-vue'
+import INavigator from '@/components/INavigator/INavigator.vue'
 
 const formRef = ref()
 
@@ -87,6 +88,17 @@ async function sendCode() {
 <template>
   <div class="login-by-captcha">
     <div class="i-auth-title">验证码登录/注册</div>
+    <div class="i-change">
+      <div class="tabs">
+        <input type="radio" id="radio-1" name="tabs" checked />
+        <label class="tab" for="radio-1">我是求职者</label>
+        <input type="radio" id="radio-2" name="tabs" />
+        <label class="tab" for="radio-2">
+          <i-navigator to="/empAuth/login">我是招聘人</i-navigator>
+        </label>
+        <span class="glider"></span>
+      </div>
+    </div>
     <a-form
       ref="formRef"
       :label-col="{ span: 5 }"
@@ -164,6 +176,8 @@ async function sendCode() {
 </template>
 
 <style lang="scss" scoped>
+@import '@/styles/theme.scss';
+
 .login-by-captcha {
   width: calc(100% - 270px);
 
@@ -173,6 +187,70 @@ async function sendCode() {
 
   .i-auth-title {
     @apply text-3xl font-bold text-center m-5 drop-shadow-md;
+  }
+
+  .i-change {
+    --tab-width: calc(50% - 8px);
+    --tab-height: 35px;
+    @apply mb-2;
+
+    .tabs {
+      @apply flex relative p-[8px] rounded-full;
+
+      @include useTheme {
+        background: getModeVar('bgColor');
+        color: getModeVar('infoColor');
+      }
+    }
+
+    .tabs * {
+      z-index: 2;
+    }
+
+    input[type='radio'] {
+      display: none;
+    }
+
+    .tab {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: var(--tab-height);
+      width: var(--tab-width);
+      font-size: 1rem;
+      font-weight: 500;
+      border-radius: 99px;
+      cursor: pointer;
+      transition: color 0.15s ease-in;
+    }
+
+    input[type='radio']:checked + label {
+      @include useTheme {
+        color: getColor('primary');
+      }
+    }
+
+    input[id='radio-1']:checked ~ .glider {
+      transform: translateX(0);
+    }
+
+    input[id='radio-2']:checked ~ .glider {
+      transform: translateX(100%);
+    }
+
+    .glider {
+      position: absolute;
+      display: flex;
+      height: var(--tab-height);
+      width: var(--tab-width);
+      z-index: 1;
+      border-radius: 99px;
+      transition: all 0.3s;
+
+      @include useTheme {
+        background: getModeVar('cardBgColor');
+      }
+    }
   }
 
   .i-oauth-login-panel {
