@@ -62,14 +62,17 @@ const selfIntroductionForm = reactive<SelfIntroductionFormType>({
           <div class="right">
             <div class="real-name">{{ userInfo.realName }}</div>
             <div class="info-panel">
-              <div class="gender">{{ userInfo.gender }}</div>
-              <div class="age">{{ userInfo.age }}</div>
+              <div class="gender">{{ userInfo.gender == 1 ? '男' : '女' }}</div>
+              <div class="age">{{ userInfo.age }}岁</div>
               <div class="location">{{ userInfo.address }}</div>
             </div>
             <div class="phone"><Icon icon="PhoneOutlined" />&nbsp; {{ userInfo.phone }}</div>
           </div>
           <div class="to-optimize-application">
             <a-button type="primary" @click="$router.push('/user/previewApplication')">查看在线简历</a-button>
+          </div>
+          <div class="edit-user-info">
+            <a-button type="text" @click="$router.push('/user/center')"> 编辑个人信息</a-button>
           </div>
         </div>
         <div class="user-panel-bottom">
@@ -255,6 +258,10 @@ const selfIntroductionForm = reactive<SelfIntroductionFormType>({
 
         .to-optimize-application {
           @apply absolute right-5 top-5;
+        }
+
+        .edit-user-info {
+          @apply absolute right-5 top-20;
         }
       }
 

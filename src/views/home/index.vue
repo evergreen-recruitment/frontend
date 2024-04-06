@@ -30,9 +30,9 @@ onMounted(async () => {
   footer.style.top = 'calc(100vh - 58px)'
   category.value = await getHomeCategoryApi()
   hotSearch.value = await getHotSearchApi()
-  recommendJobList.value = await getHomeRecommendApi()
+  recommendJobList.value = await getHomeNewJobsApi()
   newJobList.value = await getHomeNewJobsApi()
-  nearbyJobList.value = await getHomeNearbyJobsApi()
+  nearbyJobList.value = await getHomeNewJobsApi()
   knowledgeGraphData.value = await getHomeKnowledgeGraphApi()
 
   // 初始化页面时使用一次

@@ -6,6 +6,7 @@ import INavigator from '@/components/INavigator/INavigator.vue'
 import IAvatar from '@/layouts/components/IAvatar/IAvatar.vue'
 
 const statusStore = useStatusStore()
+statusStore.getAddress()
 const userStore = useUserStore()
 const userInfo = computed(() => userStore.userInfo)
 const appStore = useAppStore()

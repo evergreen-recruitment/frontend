@@ -40,7 +40,7 @@ const appStore = useAppStore()
   <i-navigator class="job-card card" :to="{ name: 'jobDetail', query: { jobId: job.id } }" open-in-new-window>
     <div class="job-card__header">
       <div class="job-card__header--title">{{ job.title }}</div>
-      <div class="job-card__header--salary">{{ `${job.salary[0]}-${job.salary[1]}` }}</div>
+      <div class="job-card__header--salary">{{ job.salary }}</div>
     </div>
     <div class="job-card__content">
       <div class="job-card__content--company">{{ job.companyName }}</div>

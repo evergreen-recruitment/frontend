@@ -28,11 +28,11 @@ function logout() {
       </div>
       <template #overlay>
         <a-menu>
-          <a-menu-item key="1">
+          <a-menu-item key="1" disabled>
             <Icon icon="UserOutlined" />
             <router-link to="/personalInformationManagement">&nbsp;{{ $t('user.center.title') }}</router-link>
           </a-menu-item>
-          <a-menu-item key="2">
+          <a-menu-item key="2" disabled>
             <Icon icon="AlertOutlined" />
             <router-link to="/notificationManagement">&nbsp;{{ $t('user.alert.title') }}</router-link>
           </a-menu-item>
@@ -53,37 +53,27 @@ function logout() {
 
 .i-avatar {
   .i-avatar__wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
+    @apply flex items-center justify-center cursor-pointer;
 
     .i-avatar__wrapper--icon {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 40px;
-      height: 40px;
-      border-radius: 999px;
-      background: #1677ff;
-      box-shadow: 0 0 10px rgba(#1677ff, 0.4);
-      z-index: 2;
+      @apply flex items-center justify-center w-[40px] h-[40px] rounded-full z-[2];
+      @include useTheme {
+        background: getColor('primary');
+        box-shadow: 0 0 10px rgba(getColor('primary'), 0.4);
+      }
     }
 
     .i-avatar__title {
-      display: flex;
-      align-items: center;
-      background: rgba(#1677ff, 0.4);
-      height: 28px;
+      @apply flex items-center h-[20px] rounded-full box-content;
       padding: 5px 10px 5px 25px;
       transform: translateX(-20px);
       font-size: 14px;
-      border-radius: 999px;
-      box-shadow: 0 0 10px rgba(#1677ff, 0.4);
       //color: #1677ff;
       @include useTheme {
+        background: rgba(getColor('primary'), 0.4);
+        box-shadow: 0 0 10px rgba(getColor('primary'), 0.4);
         @if getMode() == 'light' {
-          color: #1677ff;
+          color: getColor('primary');
         } @else {
           color: #fff;
         }
@@ -100,6 +90,7 @@ function logout() {
       .i-avatar__title--username {
         font-weight: 600;
         // 单行省略号
+        //min-width: 50px;
         max-width: 70px;
         overflow: hidden;
         text-overflow: ellipsis;

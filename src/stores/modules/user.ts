@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
+import { getAssetsFile } from '@/utils/utils'
 
 export type UserInfo = {
   userId?: string
@@ -8,7 +9,7 @@ export type UserInfo = {
   realName?: string
   phone?: string
   email?: string
-  gender?: string
+  gender?: number
   age?: number
   address?: string
   applyStatus?: number
@@ -21,12 +22,12 @@ export const useUserStore = defineStore(
     const token = ref<string>('')
     const userInfo = ref<UserInfo>({
       userId: '1774709828510330882',
-      avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
+      avatar: '' || getAssetsFile('/images/default_avatar.png'),
       realName: '何嘉炜',
       userAccount: 'admin',
       phone: '153****4973',
       email: 'pepedd@qq.com',
-      gender: '男',
+      gender: 1,
       age: 20,
       address: '江西省南昌市',
       applyStatus: 1,

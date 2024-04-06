@@ -15,6 +15,7 @@
 a {
   text-decoration: none;
   color: inherit;
+
   &:hover {
     color: inherit;
   }
@@ -71,6 +72,30 @@ body {
     100% {
       opacity: 1;
       transform: translateY(0);
+    }
+  }
+}
+
+.enter-scale {
+  opacity: 0;
+  transform: scale(1.2);
+  backdrop-filter: blur(10px);
+  animation: enter-scale-animation 0.4s ease-in-out 0.3s forwards;
+  @for $i from 1 through 20 {
+    &:nth-child(#{$i}) {
+      animation-delay: #{$i * 0.1}s;
+    }
+  }
+  @keyframes enter-scale-animation {
+    0% {
+      opacity: 0;
+      transform: scale(1.2);
+      backdrop-filter: blur(10px);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1);
+      backdrop-filter: blur(0);
     }
   }
 }

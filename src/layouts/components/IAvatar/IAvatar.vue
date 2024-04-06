@@ -75,7 +75,7 @@ function logout() {
     }
 
     .i-avatar__title {
-      @apply flex items-center h-[20px] rounded-full;
+      @apply flex items-center h-[20px] rounded-full box-content;
       padding: 5px 10px 5px 25px;
       transform: translateX(-20px);
       font-size: 14px;

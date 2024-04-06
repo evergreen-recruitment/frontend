@@ -42,10 +42,11 @@ export type SimpleJobItemType = {
   salary: string
   education: string
   experience: string
-  jobSkills: string
+  jobLabels: string[]
+  jobSkills: string[]
   cityName: string
   areaDistrict: string
-  welfareList: string
+  welfareList: string[]
   updateTime: string
   jobType: number
 }

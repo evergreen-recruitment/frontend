@@ -5,7 +5,9 @@ import IEmpSide from '@/layouts/components/IEmpSide/IEmpSide.vue'
 import IEmpHeader from '@/layouts/components/IEmpHeader/IEmpHeader.vue'
 import type { IRouter } from '@/config/router.config'
 import { constantRouterMap } from '@/config/router.config'
+import { useAppStore } from '@/stores'
 
+const appStore = useAppStore()
 const route = useRoute() // 路由实例
 const router = useRouter() // 路由实例
 const empRoutes = constantRouterMap.find((route) => route.name === 'empBasicLayout')?.children as IRouter[]
@@ -24,8 +26,8 @@ const tabConfig = reactive({
   components: {
     Tabs: {
       borderRadius: 10,
-      colorBgContainer: '#1677ff',
-      colorText: '#4096ff',
+      colorBgContainer: appStore.themeConfig.token.colorPrimary,
+      colorText: appStore.themeConfig.token.colorPrimary,
       colorPrimary: '#fff',
       fontSize: 14,
       padding: 10,
@@ -35,6 +37,7 @@ const tabConfig = reactive({
     },
   },
 })
+console.log(tabConfig)
 
 /**
  * 将菜单列表转换为数组

@@ -1,6 +1,8 @@
 // @ts-nocheck
 import '@/styles/style.scss'
 import '@/styles/common.scss'
+// 通过禁用tailwindcss默认的preflight.css来解决样式冲突问题
+// import '@/styles/preflight.css'
 import { createApp } from 'vue'
 import App from '@/App.vue'
 // 引入andv icon

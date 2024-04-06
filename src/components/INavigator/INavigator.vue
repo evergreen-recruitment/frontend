@@ -8,7 +8,7 @@ const appStore = useAppStore()
 
 const props = defineProps<{
   to: RouteLocationRaw
-  openInNewWindow?: boolean
+  openInNewWindow?: boolean | null | undefined
 }>()
 
 const openType = computed(() => {

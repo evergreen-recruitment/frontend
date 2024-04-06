@@ -3,19 +3,23 @@ import { useAppStore } from '@/stores'
 import variables from '@/styles/variables.module.scss'
 import INavigator from '@/components/INavigator/INavigator.vue'
 import type { SimpleJobItemType } from '@/apis/job'
+import { onMounted } from 'vue'
 
-defineProps<{
+const props = defineProps<{
   job: SimpleJobItemType
 }>()
 
 const appStore = useAppStore()
+onMounted(() => {
+  console.log(props.job)
+})
 </script>
 
 <template>
   <i-navigator class="job-card" :to="{ name: 'jobDetail', query: { jobId: job.id } }" open-in-new-window>
     <div class="job-card__header">
       <div class="job-card__header--title">{{ job.title }}</div>
-      <div class="job-card__header--salary">{{ `${job.salary[0]}-${job.salary[1]}` }}</div>
+      <div class="job-card__header--salary">{{ job.salary }}</div>
     </div>
     <div class="job-card__content">
       <div class="job-card__content--company">{{ job.companyName }}</div>

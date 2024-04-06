@@ -2,11 +2,13 @@
 import { useVModel } from '@vueuse/core'
 import router from '@/router'
 
-const emit = defineEmits(['update:keyword'])
+const emit = defineEmits(['update:keyword', 'update:city'])
 const props = defineProps<{
   keyword: string
+  city: string[]
 }>()
 const propsKeyword = useVModel(props, 'keyword', emit)
+const propsCity = useVModel(props, 'city', emit)
 
 function submit() {
   // @ts-ignore
@@ -21,7 +23,7 @@ function submit() {
       <a-input-group compact>
         <a-input v-model:value="propsKeyword" size="large" placeholder="请输入职位关键词">
           <template #prefix>
-            <i-location-selector />
+            <i-location-selector v-model:value="propsCity" />
           </template>
           <template #suffix>
             <a-button type="primary" size="large" @click="submit">搜索</a-button>

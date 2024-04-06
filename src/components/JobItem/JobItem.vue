@@ -17,11 +17,8 @@ const appStore = useAppStore()
         <div class="job-title">{{ job.title }}</div>
         <div class="other">
           <div class="job-salary">{{ job.salary }}</div>
-          <div class="job-experience">
-            <a-tag>{{ job.experience }}</a-tag>
-          </div>
-          <div class="job-education">
-            <a-tag>{{ job.education }}</a-tag>
+          <div class="job-label">
+            <a-tag v-for="label in job.jobLabels">{{ label }}</a-tag>
           </div>
           <!--<div class="job-hr">-->
           <!--  <a-tag>{{ job.employeeVO?.realName || '招聘者' }}</a-tag>-->

@@ -2,8 +2,7 @@
 import { onMounted, reactive, ref, watchEffect } from 'vue'
 import router from '@/router'
 import { useAppStore } from '@/stores'
-import JobCardV2 from '@/components/JobCardV2/JobCardV2.vue'
-import { getJobDetail, type JobItemType } from '@/apis/job'
+import { getJobDetail, type JobItemType, jobSearchApi, type SimpleJobItemType } from '@/apis/job'
 import I3DProgressBar from '@/components/I3DProgressBar/I3DProgressBar.vue'
 
 const appStore = useAppStore()
@@ -16,61 +15,12 @@ const companyInfo = reactive({
   stage: '上市公司',
   industry: '电商',
 })
-const jobs = reactive<any[]>([
-  {
-    id: '1',
-    title: 'Java工程师',
-    salary: ['15k', '25k'],
-    company: '百度',
-    address: '北京',
-    tags: ['Java', 'Spring', 'SpringBoot', 'MySQL'],
-  },
-  {
-    id: '2',
-    title: '前端工程师',
-    salary: ['15k', '25k'],
-    company: '腾讯',
-    address: '深圳',
-    tags: ['JavaScript', 'Vue', 'React', 'Node.js'],
-  },
-  {
-    id: '3',
-    title: '测试工程师',
-    salary: ['15k', '25k'],
-    company: '阿里巴巴',
-    address: '杭州',
-    tags: ['自动化测试', '功能测试', '性能测试', '安全测试'],
-  },
-  {
-    id: '4',
-    title: '运维工程师',
-    salary: ['15k', '25k'],
-    company: '字节跳动',
-    address: '北京',
-    tags: ['Linux', 'Shell', 'Python', 'Docker'],
-  },
-  {
-    id: '5',
-    title: '人工智能工程师',
-    salary: ['15k', '25k'],
-    company: '华为',
-    address: '深圳',
-    tags: ['机器学习', '深度学习', '图像识别', '语音识别'],
-  },
-  {
-    id: '6',
-    title: 'Python工程师',
-    salary: ['15k', '25k'],
-    company: '小米',
-    address: '北京',
-    tags: ['Python', 'Django', 'Flask', 'Tornado'],
-  },
-])
 const job = ref<JobItemType | null>()
+let sideJobList = reactive<SimpleJobItemType[]>([])
 // 监听路由变化
 watchEffect(async () => {
   job.value = await getJobDetail(router.currentRoute.value.query.jobId as string)
-  console.log(job.value)
+  sideJobList = (await jobSearchApi({ keyword: job.value?.title })).records
 })
 // echarts配置
 const option1 = reactive({
@@ -115,8 +65,8 @@ onMounted(async () => {})
             </div>
           </div>
           <div class="job-info">
-            <div class="job-address">{{ job?.address }}</div>
-            <div class="job-experience">{{ job?.experience }}</div>
+            <div class="job-address">{{ job?.cityName }}</div>
+            <div class="job-labels" v-for="label in job?.jobLabels" :key="label">{{ label }}</div>
           </div>
           <a-button type="primary" size="large" class="apply-job">立即投递</a-button>
         </div>
@@ -125,7 +75,7 @@ onMounted(async () => {})
         </div>
       </div>
     </div>
-    <div class="job-detail__main">
+    <div class="job-detail__main enter-y">
       <div class="job-detail__content">
         <div class="job-detail__description card">
           <div class="job-detail__description--title">职位描述</div>
@@ -138,7 +88,7 @@ onMounted(async () => {})
           </div>
           <a-divider />
           <div class="job-detail__hr">
-            <a-avatar size="large" src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
+            <a-avatar size="large" :src="job?.employeeVO.avatar" />
             <span>{{ job?.employeeVO?.realName || '招聘者' }}&nbsp;</span>
           </div>
         </div>
@@ -188,8 +138,9 @@ onMounted(async () => {})
         <div class="job-detail__side--similar-job card">
           <div class="job-detail__side--title">相似岗位</div>
           <a-divider />
-          <div class="job-detail__side--job-list">
-            <job-card-v2 v-for="job in jobs" :key="job.id" :job="job" />
+          <div v-if="sideJobList" class="job-detail__side--job-list">
+            <job-card-v2 v-for="job in sideJobList" :key="job.id" :job="job" />
+            <!--<div v-for='job in sideJobList' :key='job.id'> {{ job.title}}</div>-->
           </div>
         </div>
       </div>
@@ -230,8 +181,8 @@ onMounted(async () => {})
             @apply text-lg;
           }
 
-          .job-experience {
-            @apply text-lg;
+          .job-labels {
+            @apply text-sm;
           }
         }
 
@@ -250,10 +201,10 @@ onMounted(async () => {})
   }
 
   .job-detail__main {
-    @apply flex justify-between w-[1100px] mx-auto mt-5;
+    @apply flex justify-between w-[1150px] mx-auto mt-5;
 
     .job-detail__content {
-      @apply w-[calc(100%-300px)] box-border;
+      @apply w-[calc(100%-320px)] box-border;
 
       .job-detail__description {
         @apply rounded-[var(--border-radius)] shadow-lg p-5;
@@ -272,7 +223,7 @@ onMounted(async () => {})
           }
 
           .description {
-            @apply text-lg;
+            @apply text-lg whitespace-pre-line;
           }
         }
 
@@ -346,7 +297,7 @@ onMounted(async () => {})
           }
 
           .description {
-            @apply text-base mb-4;
+            @apply text-base mb-4 whitespace-pre-line;
           }
 
           .tag-list {
@@ -360,7 +311,7 @@ onMounted(async () => {})
     }
 
     .job-detail__side {
-      @apply relative ml-5;
+      @apply w-[320px] relative ml-5;
 
       .job-detail__side--title {
         @apply text-2xl font-bold;

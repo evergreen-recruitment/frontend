@@ -21,7 +21,7 @@ nextTick(() => {
     executeAfterImagesLoaded(() => {
       document.dispatchEvent(new CustomEvent('loaded'))
     })
-  }, 2000)
+  }, 300)
 })
 // 阻尼滚动
 // initSmoothScrolling()
