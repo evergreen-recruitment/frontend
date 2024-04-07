@@ -111,7 +111,7 @@ const appStore = useAppStore()
         .right {
           @apply w-12 h-12;
           img {
-            @apply w-full h-full rounded-full object-cover;
+            @apply w-full h-full rounded-full object-cover object-center;
           }
         }
       }

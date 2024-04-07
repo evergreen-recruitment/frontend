@@ -1,12 +1,26 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted, reactive, ref, watchEffect } from 'vue'
+import { computed, onMounted, onUnmounted, reactive, ref, watchEffect } from 'vue'
 import router from '@/router'
 import { useAppStore, useStatusStore } from '@/stores'
-import { getJobDetailApi, type JobItemType, jobSearchApi, type SimpleJobItemType } from '@/apis/job'
+import {
+  CompanyScaleEnum,
+  CompanyStageEnum,
+  getJobDetailApi,
+  type JobItemType,
+  jobSearchApi,
+  type SimpleJobItemType,
+} from '@/apis/job'
 import I3DProgressBar from '@/components/I3DProgressBar/I3DProgressBar.vue'
 
 const appStore = useAppStore()
 const statusStore = useStatusStore()
+// const companyInfo = computed(() => {
+//   return {
+//     scale: CompanyScaleEnum[job.value?.companyVO.scaleId]
+//     stage: CompanyStageEnum[job.value?.companyVO.stageId]
+//     industry: statusStore.industryList[job.value?.companyVO.industryId]
+//   }
+// })
 const job = ref<JobItemType | null>()
 const sideJobList = ref<SimpleJobItemType[]>([])
 // 监听路由变化

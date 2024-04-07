@@ -42,6 +42,7 @@ const request = createAlova({
   requestAdapter: GlobalFetch(),
   // 全局请求拦截器
   beforeRequest(method: Method) {
+    // 解决跨域cookie问题
     method.config.credentials = 'include'
     if (method.config.ignoreToken) {
       return

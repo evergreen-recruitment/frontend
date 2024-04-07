@@ -60,8 +60,8 @@ onSuccess(async (event) => {
     //   })
     // }
     // // 获取当前路由的参数, 跳转到指定页面
-    // const { redirect } = router.currentRoute.value.query
-    // router.push((redirect as string) || '/')
+    const { redirect } = router.currentRoute.value.query
+    router.push((redirect as string) || '/')
   }
 })
 
