@@ -9,7 +9,7 @@ const props = defineProps<{
 
 <template>
   <div class="job-list">
-    <job-item class='' v-for="job in searchJobList" :job="job" :key="job.id" />
+    <job-item class="" v-for="job in searchJobList" :job="job" :key="job.id" />
   </div>
 </template>
 

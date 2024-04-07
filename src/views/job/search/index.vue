@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, reactive, ref, shallowRef, watchEffect } from 'vue'
+import { onMounted, ref, watchEffect } from 'vue'
 import INavigator from '@/components/INavigator/INavigator.vue'
 import router from '@/router'
 import KnowledgeGraph from '@/components/KnowledgeGraph/KnowledgeGraph.vue'
@@ -11,15 +11,16 @@ import { jobSearchApi } from '@/apis/job'
 import { useStatusStore } from '@/stores'
 
 const statusStore = useStatusStore()
-const searchState = reactive<JobSearchFormType>({
+const searchCity = ref(statusStore.city.code)
+const searchState = ref<JobSearchFormType>({
   keyword: '',
-  city: statusStore.city.code,
+  city: statusStore.city.code[1],
   current: 0,
   pageSize: 10,
   sortField: '',
   sortOrder: '',
 })
-const jobFilter = shallowRef<JobFilterType>({
+const jobFilter = ref<JobFilterType>({
   jobType: 0,
   needJobType: 0,
   experience: 0,
@@ -40,20 +41,19 @@ const similarSearch = ref([
   '后台开发',
 ])
 
-let searchJobList = reactive<SimpleJobItemType[]>([])
+const searchJobList = ref<SimpleJobItemType[]>([])
 
 async function getSearchResult() {
-  console.log(searchState.current)
-  searchState.current += 1
-  console.log(searchJobList)
-  const newJobs = await jobSearchApi(searchState)
-  newJobs.records.forEach((job) => {
-    searchJobList.push(job)
-  })
+  searchState.value.current += 1
+  // const newJobs = await jobSearchApi(searchState.value)
+  // newJobs.records.forEach((job) => {
+  //   searchJobList.push(job)
+  // })5
+  searchJobList.value = (await jobSearchApi(searchState.value)).records
 }
 
 watchEffect(async () => {
-  searchState.keyword = (router.currentRoute.value.query.keyword as string) || ''
+  searchState.value.keyword = (router.currentRoute.value.query.keyword as string) || ''
   await getSearchResult()
 })
 onMounted(async () => {
@@ -65,7 +65,7 @@ onMounted(async () => {
 <template>
   <div class="search-page">
     <div class="search-panel card">
-      <job-search v-model:keyword="searchState.keyword" v-model:city="searchState.city" />
+      <job-search v-model:keyword="searchState.keyword" v-model:city="searchCity" />
       <div class="city-list">
         <router-link
           class="city"

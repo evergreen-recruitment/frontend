@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import { getAssetsFile } from '@/utils/utils'
+import { logoutApi } from '@/apis/auth'
 
 export type UserInfo = {
   userId?: string
@@ -22,7 +23,7 @@ export const useUserStore = defineStore(
     const token = ref<string>('')
     const userInfo = ref<UserInfo>({
       userId: '1774709828510330882',
-      avatar: '' || getAssetsFile('/images/default_avatar.png'),
+      avatar: '' || getAssetsFile('images/default_avatar.png'),
       realName: '何嘉炜',
       userAccount: 'admin',
       phone: '153****4973',
@@ -33,10 +34,13 @@ export const useUserStore = defineStore(
       applyStatus: 1,
       createTime: '2024-04-01 16:06:10',
     })
-    const logout = () => {
+
+    async function logout() {
       token.value = ''
       userInfo.value = {}
+      await logoutApi()
     }
+
     return {
       token,
       userInfo,

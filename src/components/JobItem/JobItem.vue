@@ -2,6 +2,7 @@
 import { useAppStore } from '@/stores'
 import variables from '@/styles/variables.module.scss'
 import type { SimpleJobItemType } from '@/apis/job'
+import { formatDateStr } from '../../utils/utils'
 
 defineProps<{
   job: SimpleJobItemType
@@ -29,14 +30,14 @@ const appStore = useAppStore()
         </div>
         <div class="right">
           <div class="company">{{ job.companyName }}</div>
-          <div class="address">{{ job.cityName }}</div>
+          <div class="address">{{ job.cityName }} {{ job.areaDistrict }}</div>
         </div>
       </div>
       <div class="bottom">
         <div class="job-tags">
           <a-tag :color="variables[appStore.themeName]" v-for="t in job.jobSkills" :key="t">{{ t }}</a-tag>
         </div>
-        <div class="job-time">更新时间：<br />{{ job.updateTime }}</div>
+        <div class="job-time">更新时间：<br />{{ formatDateStr(job.updateTime) }}</div>
       </div>
     </i-navigator>
   </div>

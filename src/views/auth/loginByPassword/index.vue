@@ -1,8 +1,10 @@
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
 import { useRequest } from 'alova'
-import { loginByPasswordApi, type LoginByPasswordFormType } from '@/apis/auth'
+import { isCompleteUserInfoApi, loginByPasswordApi, type LoginByPasswordFormType } from '@/apis/auth'
 import { useRouter } from 'vue-router'
+// @ts-ignore
+import VueCookie from 'vue-cookie'
 import { useUserStore } from '@/stores'
 
 const formRef = ref()
@@ -10,7 +12,7 @@ const captchaEnabled = ref(true)
 const codeUrl = ref('')
 
 const formState = reactive<LoginByPasswordFormType>({
-  userAccount: '15707951130',
+  userAccount: '15707951133',
   userPassword: '123456',
   privacy: false,
 })
@@ -43,9 +45,23 @@ onSuccess(async (event) => {
   if (data) {
     userStore.token = data.token
     userStore.userInfo = data.userVO
-    // 获取当前路由的参数, 跳转到指定页面
-    const { redirect } = router.currentRoute.value.query
-    router.push((redirect as string) || '/')
+    // 从cookie中获取satoken
+    setTimeout(async () => {
+      console.log(VueCookie.get('satoken'))
+      const res = await isCompleteUserInfoApi()
+    }, 2000)
+    // const res = await isCompleteUserInfoApi()
+    // if (res === false) {
+    //   router.push({
+    //     name: 'completeInfo',
+    //     query: {
+    //       userId: data.userVO.userId,
+    //     },
+    //   })
+    // }
+    // // 获取当前路由的参数, 跳转到指定页面
+    // const { redirect } = router.currentRoute.value.query
+    // router.push((redirect as string) || '/')
   }
 })
 

@@ -15,3 +15,14 @@ export function getIpAddressApi() {
     )
     .send(true) as Promise<IpAddressType>
 }
+
+export function uploadImageApi(file: File) {
+  return request
+    .Post(
+      '/common/uploadImage',
+      { file },
+      // @ts-ignore
+      { ignoreToken: true },
+    )
+    .send(true) as Promise<string>
+}

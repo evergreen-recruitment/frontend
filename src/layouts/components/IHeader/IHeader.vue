@@ -82,9 +82,9 @@ const links = reactive([
         </div>
       </div>
       <div v-if="!userStore.token" class="i-header__inner-right i-header__inner-not-login">
-        <i-navigator to="/empAuth/login" class="nav-item" open-in-new-window> 我是招聘人</i-navigator>
-        <i-navigator to="/auth/loginByCaptcha" class="nav-item" open-in-new-window> 我是求职者</i-navigator>
-        <i-navigator class="i-header__login" to="/auth/loginByCaptcha" open-in-new-window>登录 | 注册</i-navigator>
+        <i-navigator to="/empAuth/login" class="nav-item"> 我是招聘人</i-navigator>
+        <i-navigator to="/auth/loginByCaptcha" class="nav-item"> 我是求职者</i-navigator>
+        <i-navigator class="i-header__login" to="/auth/loginByCaptcha">登录 | 注册</i-navigator>
       </div>
       <div v-else class="i-header__inner-right i-header__inner-already-login">
         <i-avatar />

@@ -45,8 +45,8 @@ onSuccess(async (event) => {
     // TODO 待后端修改逻辑
     // const res = await isCompleteUserInfoApi()
     router.push({
-      name: '/auth/completeInfo',
-      params: {
+      name: 'completeInfo',
+      query: {
         userId: data.userVO.userId,
       },
     })

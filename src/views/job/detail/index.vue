@@ -32,13 +32,13 @@ const option1 = reactive({
         borderRadius: 8,
       },
       data: [
-        { value: 40, name: 'Java' },
-        { value: 38, name: 'Spring' },
-        { value: 32, name: 'Spring Boot', itemStyle: { color: 'gray' } },
-        { value: 30, name: 'MySQL' },
-        { value: 28, name: 'MyBatis Plus' },
-        { value: 26, name: 'Redis' },
-        { value: 22, name: 'RabbitMQ' },
+        { value: 30, name: 'Java' },
+        { value: 28, name: 'Spring' },
+        { value: 22, name: 'Spring Boot', itemStyle: { color: 'gray' } },
+        { value: 20, name: 'MySQL' },
+        { value: 18, name: 'MyBatis Plus' },
+        { value: 16, name: 'Redis' },
+        { value: 19, name: 'RabbitMQ' },
         { value: 18, name: 'Spring Cloud', itemStyle: { color: 'gray' } },
       ],
     },
@@ -139,6 +139,16 @@ onUnmounted(() => {
           <a-divider />
           <div class="job-detail__side--vote-main">
             <div class="title">请选择好或者不好</div>
+            <div class="btn-group">
+              <a-button>
+                <Icon icon="LikeOutlined" />
+                很好
+              </a-button>
+              <a-button>
+                <Icon icon="DislikeOutlined" />
+                不好
+              </a-button>
+            </div>
           </div>
         </div>
         <div class="job-detail__side--similar-job card">
@@ -339,6 +349,16 @@ onUnmounted(() => {
 
         @include useTheme {
           background-color: getModeVar('cardBgColor');
+        }
+
+        .job-detail__side--vote-main {
+          .title {
+            @apply text-base text-center;
+          }
+
+          .btn-group {
+            @apply mt-5 flex justify-between;
+          }
         }
       }
 

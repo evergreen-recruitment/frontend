@@ -1,4 +1,4 @@
-import { createAlova } from 'alova'
+import { createAlova, Method } from 'alova'
 import { nextTick } from 'vue'
 import GlobalFetch from 'alova/GlobalFetch'
 import VueHook from 'alova/vue'
@@ -25,10 +25,12 @@ if (import.meta.env.MODE === 'development' && useMock) {
 }
 
 const errCode = {
-  401: '登录失效，请重新登录',
-  403: '没有权限',
-  404: '请求地址错误',
-  500: '服务器错误',
+  40000: '请求参数错误',
+  40001: '请求数据为空',
+  40100: '未登录',
+  40101: '无权限',
+  40301: '访问屏蔽',
+  50000: '系统内部异常',
 }
 
 // 创建alova实例
@@ -39,7 +41,8 @@ const request = createAlova({
   // 请求适配器，推荐使用fetch请求适配器
   requestAdapter: GlobalFetch(),
   // 全局请求拦截器
-  beforeRequest(method: any) {
+  beforeRequest(method: Method) {
+    method.config.credentials = 'include'
     if (method.config.ignoreToken) {
       return
     }
@@ -62,10 +65,10 @@ const request = createAlova({
       }
       const msg = json?.msg || errCode[json?.code as keyof typeof errCode]
       if (json.code !== 200) {
-        if (json.code === 401) {
-          userStore.logout()
-          router.push('/auth/login')
-        }
+        // if (json.code === 40100) {
+        //   userStore.logout()
+        //   router.push('/auth/login')
+        // }
         if (msg) {
           message.error(msg)
           throw new Error(msg)
@@ -74,7 +77,10 @@ const request = createAlova({
       if (msg) {
         message.success(msg)
       }
-      return json.data || json
+      if (json.data == undefined) {
+        return json
+      }
+      return json.data
     },
     onError: async (error, method) => {
       message.error(error.message)

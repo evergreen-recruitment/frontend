@@ -49,11 +49,8 @@ function handleChange(info: UploadChangeParam) {
     return
   }
   if (info.file.status === 'done') {
-    // @ts-ignore
-    getBase64(info.file.originFileObj, (base64Url: string) => {
-      formState.avatar = base64Url
-      avatarUploadLoading.value = false
-    })
+    formState.avatar = info.file.response.data
+    avatarUploadLoading.value = false
   }
   if (info.file.status === 'error') {
     avatarUploadLoading.value = false
@@ -97,7 +94,8 @@ onMounted(async () => {
 
   // 获取用户id查询是否填写过信息
   const res = await isCompleteUserInfoApi()
-  if (res !== true) {
+  console.log(res)
+  if (res !== false) {
     router.push('/')
   }
 })
@@ -123,15 +121,18 @@ onUnmounted(() => {
           <a-form-item name="avatar" label="头像">
             <a-upload
               v-model:file-list="fileList"
-              name="avatar"
               list-type="picture-card"
               class="avatar-uploader"
               :show-upload-list="false"
-              action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+              action="http://47.113.185.207:8081/common/uploadImage"
               :before-upload="beforeUpload"
               @change="handleChange"
             >
-              <img v-if="formState.avatar" :src="formState.avatar" alt="avatar" />
+              <img
+                v-if="formState.avatar"
+                :src="formState.avatar"
+                style="width: 100%; height: 100%; object-fit: cover"
+              />
               <div v-else>
                 <Icon v-if="avatarUploadLoading" icon="loading-outlined" :size="30" style="color: #aaaaaa" />
                 <Icon v-else icon="plus-outlined" :size="40" style="color: #aaa" />
@@ -238,6 +239,15 @@ onUnmounted(() => {
 
   .i-auth-title {
     @apply text-3xl font-bold text-center m-5 drop-shadow-md;
+  }
+
+  .complete-info-form {
+    .avatar-uploader {
+      @apply relative overflow-hidden;
+      img {
+        @apply relative z-0;
+      }
+    }
   }
 }
 

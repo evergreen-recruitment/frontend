@@ -99,11 +99,14 @@ export function completeUserInfoApi(completeInfoForm: CompleteUserInfoFormType) 
  * 判断是否完善用户信息
  */
 export function isCompleteUserInfoApi() {
-  return request.Get(
-    'user/has/dorequired',
-    // @ts-ignore
-    { ignoreToken: true },
-  )
+  return request
+    .Post(
+      'user/has/dorequired',
+      { userId: '' },
+      // @ts-ignore
+      { ignoreToken: true },
+    )
+    .send(true) as Promise<boolean>
 }
 
 export function isDeliveryApi() {
@@ -132,7 +135,7 @@ export function sendSMSApi(phone: string) {
  * 退出登录
  */
 export function logoutApi() {
-  return request.Post(
+  return request.Get(
     'user/logout',
     {},
     // @ts-ignore

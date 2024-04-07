@@ -28,8 +28,9 @@ body {
 
 body {
   position: relative;
-  transition: background-color 0.3s,
-  color 0.3s;
+  transition:
+    background-color 0.3s,
+    color 0.3s;
   transform-style: preserve-3d;
   perspective: 1000px;
   @include useTheme {
@@ -161,7 +162,6 @@ body {
       transform: scale(1);
     }
   }
-
 }
 
 // 通用卡片样式

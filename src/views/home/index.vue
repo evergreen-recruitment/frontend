@@ -464,10 +464,10 @@ window.addEventListener('scroll', scrollEvent)
 
           @keyframes scrollToRight {
             0% {
-              transform: translateX(-5%);
+              transform: translateX(45%);
             }
             100% {
-              transform: translateX(45%);
+              transform: translateX(-5%);
             }
           }
         }

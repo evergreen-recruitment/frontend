@@ -3,7 +3,7 @@ import type { PageType } from '@/types/commonTypes'
 
 export type JobSearchFormType = {
   keyword?: string
-  city?: [number,number]
+  city?: number
   current: number
   pageSize?: number
   sortField?: string
