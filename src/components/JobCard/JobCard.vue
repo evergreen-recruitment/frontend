@@ -1,11 +1,9 @@
 <script setup lang="ts">
 import { useAppStore } from '@/stores'
 import variables from '@/styles/variables.module.scss'
-import type { SimpleJobItemType } from '@/apis/job'
-import { getAssetsFile } from '@/utils/utils'
 
 defineProps<{
-  job: SimpleJobItemType
+  job: any
 }>()
 
 const appStore = useAppStore()
@@ -25,7 +23,7 @@ const appStore = useAppStore()
             <div class="address">{{ job.cityName }}</div>
           </div>
           <div class="right">
-            <img :src="getAssetsFile('images/logo.png')" alt="" />
+            <img :src="job.companyVO.logo" alt="" />
           </div>
         </div>
         <div class="job-card__content--bottom">
@@ -113,7 +111,7 @@ const appStore = useAppStore()
         .right {
           @apply w-12 h-12;
           img {
-            @apply w-full h-full rounded-full;
+            @apply w-full h-full rounded-full object-cover;
           }
         }
       }
