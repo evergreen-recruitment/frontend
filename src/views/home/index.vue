@@ -2,27 +2,56 @@
 import { onMounted, onUnmounted, reactive, ref } from 'vue'
 import { useAppStore, useUserStore } from '@/stores'
 import { getHomeCategoryApi, getHomeKnowledgeGraphApi, getHomeNewJobsApi, getHotSearchApi } from '@/apis/home'
+import type { CompanyType } from '@/apis/company'
+import { getHotCompanyApi } from '@/apis/company'
+import INavigator from '@/components/INavigator/INavigator.vue'
 
 const userStore = useUserStore()
 const appStore = useAppStore()
 const tabKey = ref('1')
 const category = ref()
 const hotSearch = ref()
+const hotCompanyList = ref<CompanyType[]>([])
 const recommendJobList = ref()
 const newJobList = ref()
 const nearbyJobList = ref()
 const knowledgeGraphData = ref()
 const delivered = ref(false)
+const hideSearchBarTitle = ref(false)
 const searchState = reactive({
   keyword: '',
   city: '',
 })
 
+let searchBar: HTMLElement | null
+let homePageBottom: HTMLElement | null
+let header: HTMLElement | null
+let searchBarTitle: HTMLElement | null
+
 onMounted(async () => {
+  // const bgPanel = document.querySelector('.search-panel') as HTMLElement
+  // bgPanel.addEventListener('mousewheel', (event: WheelEvent) => {
+  //   if (event.deltaY > 0) {
+  //     if (document.body.clientWidth >= 850) {
+  //       homePageBottom.style.top = '0'
+  //     }
+  //   }
+  // })
+  //
+  // const homePageBottom = document.querySelector('.home-page-bottom') as HTMLElement
+  // homePageBottom.addEventListener('mousewheel', (event: WheelEvent) => {
+  //   if (document.documentElement.scrollTop == 0 && event.deltaY < 0) {
+  //     if (document.body.clientWidth >= 850) {
+  //       homePageBottom.style.top = '100vh'
+  //     }
+  //   }
+  // })
+
   const footer = document.querySelector('.footer') as HTMLElement
   footer.style.top = 'calc(100vh - 58px)'
   category.value = await getHomeCategoryApi()
   hotSearch.value = await getHotSearchApi()
+  hotCompanyList.value = await getHotCompanyApi()
   recommendJobList.value = await getHomeNewJobsApi()
   newJobList.value = await getHomeNewJobsApi()
   nearbyJobList.value = await getHomeNewJobsApi()
@@ -37,7 +66,7 @@ onUnmounted(() => {
   footer.style.top = '0'
   window.removeEventListener('scroll', () => {})
 })
-const titleSize = ref(35)
+const titleSize = ref(40)
 
 function scrollEvent() {
   const scrollTop = document.documentElement.scrollTop || document.body.scrollTop
@@ -45,9 +74,11 @@ function scrollEvent() {
   const clientHeight = document.documentElement.clientHeight || document.body.clientHeight
 
   // 设置 搜索框的顶部距离 --blur 和 --opacity 变量
-  const searchBar = document.querySelector('.search-bar') as HTMLElement | null
-  const homePageBottom = document.querySelector('.mask') as HTMLElement | null
-  const header = document.querySelector('.i-header') as HTMLElement | null
+
+  searchBar = document.querySelector('.search-bar')
+  homePageBottom = document.querySelector('.mask')
+  header = document.querySelector('.i-header')
+  searchBarTitle = document.querySelector('.search-bar .title')
 
   const blurPercent = Number((scrollTop / clientHeight > 1 ? 1 : scrollTop / clientHeight).toFixed(2))
   const opacityPercent = Number((scrollTop / clientHeight > 0.8 ? 0.8 : scrollTop / clientHeight).toFixed(2))
@@ -56,11 +87,22 @@ function scrollEvent() {
   searchBar?.style.setProperty('--top', `calc((50vh - 120px) * ${1 - searchBarPercent} + 55px)`)
   searchBar?.style.setProperty('--opacity', `${opacityPercent}`)
   searchBar?.style.setProperty('--blur', `${searchBarPercent * 10}px`)
-  searchBar?.style.setProperty('--shadow-opacity', `${opacityPercent * 0.2}`)
+  searchBar?.style.setProperty('--shadow-opacity', `${(1 - searchBarPercent) * 0.2}`)
+  searchBarTitle?.style.setProperty('--font-size', `${titleSize.value * (1 - searchBarPercent)}px`)
+
   header?.style.setProperty('--shadow-opacity', `${(1 - opacityPercent) * 0.2}`)
 
   homePageBottom?.style.setProperty('--blur', `${blurPercent * 10}px`)
   homePageBottom?.style.setProperty('--opacity', `${opacityPercent}`)
+
+  // if (searchBarPercent > 0.7) {
+  //   searchBarTitle?.classList.add('title-hidden')
+  //   setTimeout(() => (hideSearchBarTitle.value = true), 500)
+  // } else if (searchBarPercent < 0.2) {
+  //   searchBarTitle?.classList.remove('title-hidden')
+  //   hideSearchBarTitle.value = false
+  //   // setTimeout(() => (hideSearchBarTitle.value = false), 500)
+  // }
 }
 
 // 监听页面滚动事件
@@ -69,8 +111,8 @@ window.addEventListener('scroll', scrollEvent)
 
 <template>
   <div class="home-page">
-    <job-search-home class="search-bar" v-model:keyword="searchState.keyword" :title-size="titleSize" />
-    <div class="search-panel">
+    <job-search-home class="search-bar" v-model:keyword="searchState.keyword" :hide-title="hideSearchBarTitle" />
+    <div v-if="true" class="search-panel">
       <div class="search-panel__inner">
         <!--热门搜索-->
         <!--<div class="hot-search">-->
@@ -177,6 +219,34 @@ window.addEventListener('scroll', scrollEvent)
           </a-carousel>
         </div>
       </div>
+
+      <div class="hot-company block-item">
+        <div class="title">热门公司</div>
+        <div class="sub-title">最热门的互联网公司</div>
+        <div class="hot-company-list">
+          <div class="line-odd">
+            <i-navigator
+              class="company-item"
+              :to="{ name: 'companyDetail', query: { companyId: company.id } }"
+              v-for="company in [...hotCompanyList, ...hotCompanyList]"
+              :key="company.id"
+            >
+              <img :src="company.logo" alt="company.name" />
+            </i-navigator>
+          </div>
+          <div class="line-even">
+            <i-navigator
+              class="company-item"
+              :to="{ name: 'companyDetail', query: { companyId: company.id } }"
+              v-for="company in [...hotCompanyList, ...hotCompanyList]"
+              :key="company.id"
+            >
+              <img :src="company.logo" alt="company.name" />
+            </i-navigator>
+          </div>
+        </div>
+      </div>
+
       <div class="job-recommend block-item">
         <div class="title">推荐岗位</div>
         <div class="sub-title">通过人工智能分析推荐最适合你的岗位</div>
@@ -206,7 +276,7 @@ window.addEventListener('scroll', scrollEvent)
 @import '@/styles/theme.scss';
 
 .home-page {
-  @apply mb-10 relative;
+  @apply mb-10;
 
   .mask {
     --blur: 0px;
@@ -225,8 +295,8 @@ window.addEventListener('scroll', scrollEvent)
     --blur: 0;
     --top: calc(50vh - 120px + 55px);
     --shadow-opacity: 0;
-    @apply sticky top-[var(--top)] z-[10] w-full p-5 box-border;
-
+    @apply sticky top-[var(--top)] z-[9] w-full p-5 box-border;
+    transition: height 0.3s;
     backdrop-filter: blur(var(--blur));
     //box-shadow: 0 5px 10px rgba(0, 0, 0, var(--shadow-opacity));
 
@@ -242,24 +312,24 @@ window.addEventListener('scroll', scrollEvent)
   }
 
   .search-panel {
-    @apply fixed w-full top-[-20vh]  h-[120vh] flex flex-col items-center justify-center z-0;
-
-    @include useTheme {
-      $t: getColor('primary');
-      @if getMode() == 'dark' {
-        background: linear-gradient(
-          135deg,
-          adjust-hue(hsl(0, 30%, 30%), hue(adjust-hue($t, -30))),
-          adjust-hue(hsl(0, 30%, 30%), hue(adjust-hue($t, 30)))
-        );
-      } @else {
-        background: linear-gradient(
-          135deg,
-          adjust-hue(hsl(0, 30%, 50%), hue(adjust-hue($t, -30))),
-          adjust-hue(hsl(0, 30%, 50%), hue(adjust-hue($t, 30)))
-        );
-      }
-    }
+    //@apply fixed w-full top-[-20vh]  h-[120vh] flex flex-col items-center justify-center z-0;
+    //
+    //@include useTheme {
+    //  $t: getColor('primary');
+    //  @if getMode() == 'dark' {
+    //    background: linear-gradient(
+    //      135deg,
+    //      adjust-hue(hsl(0, 30%, 30%), hue(adjust-hue($t, -30))),
+    //      adjust-hue(hsl(0, 30%, 30%), hue(adjust-hue($t, 30)))
+    //    );
+    //  } @else {
+    //    background: linear-gradient(
+    //      135deg,
+    //      adjust-hue(hsl(0, 30%, 50%), hue(adjust-hue($t, -30))),
+    //      adjust-hue(hsl(0, 30%, 50%), hue(adjust-hue($t, 30)))
+    //    );
+    //  }
+    //}
 
     .search-panel__inner {
       @apply w-[calc(var(--min-screen-width)-80px)];
@@ -281,10 +351,11 @@ window.addEventListener('scroll', scrollEvent)
   }
 
   .home-page-bottom {
-    @apply relative top-[100vh] w-full flex flex-col items-center justify-center;
+    @apply relative top-[100vh] w-full overflow-y-auto flex flex-col items-center justify-center;
+    transition: top 0.8s;
 
     .banner {
-      @apply relative w-[1280px] h-auto mx-auto mt-10;
+      @apply relative w-[1280px] h-auto mx-auto my-10;
 
       .title {
         @apply text-3xl font-bold text-center mb-5;
@@ -369,6 +440,58 @@ window.addEventListener('scroll', scrollEvent)
       }
     }
 
+    .hot-company {
+      width: 100vw !important;
+      @apply flex flex-col items-center justify-center mt-4;
+      .hot-company-list {
+        @apply w-fit flex flex-col items-center justify-center space-y-2;
+
+        .company-item {
+          @apply block w-60 h-24 mx-5 flex items-center justify-center rounded-[var(--border-radius)];
+          @include useTheme {
+            background: getModeVar('cardBgColor');
+          }
+        }
+
+        .line-odd {
+          @apply w-full flex items-center justify-center;
+          transform: translateX(0%);
+          animation: scrollToRight 45s infinite linear;
+
+          img {
+            @apply w-20 h-20 mx-5;
+          }
+
+          @keyframes scrollToRight {
+            0% {
+              transform: translateX(-5%);
+            }
+            100% {
+              transform: translateX(45%);
+            }
+          }
+        }
+
+        .line-even {
+          @apply w-full flex items-center justify-center;
+          animation: scrollToRight 60s infinite linear;
+
+          img {
+            @apply w-20 h-20 mx-5;
+          }
+
+          @keyframes scrollToRight {
+            0% {
+              transform: translateX(-5%);
+            }
+            100% {
+              transform: translateX(45%);
+            }
+          }
+        }
+      }
+    }
+
     .job-recommend {
       @apply box-border;
       .job-list {
@@ -397,14 +520,14 @@ window.addEventListener('scroll', scrollEvent)
         .user-info {
           @apply flex flex-col items-center;
           .avatar {
-            @apply w-20 h-20 rounded-full overflow-hidden;
+            @apply w-28 h-28 rounded-full overflow-hidden;
             img {
               @apply w-full h-full object-cover;
             }
           }
 
           .name {
-            @apply text-2xl font-bold ml-5;
+            @apply text-3xl font-bold ml-5 my-2;
           }
 
           .desc {
@@ -415,7 +538,7 @@ window.addEventListener('scroll', scrollEvent)
         .user-action {
           @apply flex items-center;
           .action-item {
-            @apply flex items-center justify-center w-20 h-10 mx-2 rounded-md cursor-pointer;
+            @apply flex items-center justify-center w-20 h-10 mx-2 text-xl rounded-md cursor-pointer;
             span {
               @apply ml-2;
             }

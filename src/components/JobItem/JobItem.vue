@@ -20,6 +20,7 @@ const appStore = useAppStore()
             <div class="job-salary">{{ job.salary }}</div>
             <div class="job-label">
               <a-tag v-for="label in job.jobLabels">{{ label }}</a-tag>
+              <a-tag v-if="job.jobType === 4" :color="variables[appStore.themeName]">实习</a-tag>
             </div>
             <!--<div class="job-hr">-->
             <!--  <a-tag>{{ job.employeeVO?.realName || '招聘者' }}</a-tag>-->

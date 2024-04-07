@@ -1,26 +1,20 @@
 <script setup lang="ts">
-import { onMounted, reactive, ref, watchEffect } from 'vue'
+import { onMounted, onUnmounted, reactive, ref, watchEffect } from 'vue'
 import router from '@/router'
-import { useAppStore } from '@/stores'
-import { getJobDetail, type JobItemType, jobSearchApi, type SimpleJobItemType } from '@/apis/job'
+import { useAppStore, useStatusStore } from '@/stores'
+import { getJobDetailApi, type JobItemType, jobSearchApi, type SimpleJobItemType } from '@/apis/job'
 import I3DProgressBar from '@/components/I3DProgressBar/I3DProgressBar.vue'
 
 const appStore = useAppStore()
-const companyInfo = reactive({
-  name: '京东乾石',
-  logo: 'https://img.bosszhipin.com/beijin/mcs/chatphoto/20190318/ee5cdd8ce3fcaff15bcd0bc322457de3d04025c6db993a34b2372a1fcb5e06a2_s.jpg',
-  address: '北京通州区京东总部2号楼B座',
-  description: '京东物流智能供应链产业平台，立足物流科技，发展智能供应链软件、技术及服务',
-  scale: '10000人以上',
-  stage: '上市公司',
-  industry: '电商',
-})
+const statusStore = useStatusStore()
 const job = ref<JobItemType | null>()
-let sideJobList = reactive<SimpleJobItemType[]>([])
+const sideJobList = ref<SimpleJobItemType[]>([])
 // 监听路由变化
-watchEffect(async () => {
-  job.value = await getJobDetail(router.currentRoute.value.query.jobId as string)
-  sideJobList = (await jobSearchApi({ keyword: job.value?.title })).records
+const routerWatch = watchEffect(async () => {
+  if (router.currentRoute.value.path === '/job/detail' && router.currentRoute.value.query.jobId) {
+    job.value = await getJobDetailApi(router.currentRoute.value.query.jobId as string)
+    sideJobList.value = (await jobSearchApi({ keyword: job.value?.title, pageSize: 5, current: 1 })).records
+  }
 })
 // echarts配置
 const option1 = reactive({
@@ -51,6 +45,9 @@ const option1 = reactive({
   ],
 })
 onMounted(async () => {})
+onUnmounted(() => {
+  routerWatch()
+})
 </script>
 
 <template>
@@ -109,19 +106,21 @@ onMounted(async () => {})
             <div class="simple-info">
               <div class="left">
                 <div class="logo">
-                  <img :src="companyInfo.logo" />
+                  <img :src="job?.companyVO.logo" />
                 </div>
               </div>
               <div class="right">
-                <div class="title">{{ companyInfo.name }}</div>
-                <div class="address">地址：{{ companyInfo.address }}</div>
+                <div class="title">{{ job?.companyVO.name }}</div>
+                <div class="address">地址：{{ job?.companyVO.address }}</div>
               </div>
             </div>
-            <div class="description">{{ companyInfo.description }}</div>
+            <div class="description">{{ job?.companyVO.description }}</div>
             <div class="tag-list">
-              <a-tag class="scale" color="cyan">{{ companyInfo.scale }}</a-tag>
-              <a-tag class="stage" color="orange">{{ companyInfo.stage }}</a-tag>
-              <a-tag class="industry" color="pink">{{ companyInfo.industry }}</a-tag>
+              <a-tag v-if="job?.companyVO.scaleId" class="scale" color="cyan">{{ job?.companyVO.scaleId }}</a-tag>
+              <a-tag v-if="job?.companyVO.stageId" class="stage" color="orange">{{ job?.companyVO.stageId }}</a-tag>
+              <a-tag v-if="job?.companyVO.industryId" class="industry" color="pink">
+                {{ job?.companyVO.industryId }}
+              </a-tag>
             </div>
           </div>
         </div>
@@ -132,15 +131,21 @@ onMounted(async () => {})
           <a-divider />
           <div class="job-detail__side--ranking">
             <div class="title">你的能力在该岗位的应聘者中排名</div>
-            <i3-d-progress-bar :progress="30" />
+            <i3-d-progress-bar :progress="Math.random() * 50 + 50" />
+          </div>
+        </div>
+        <div class="job-detail__side--vote card">
+          <div class="job-detail__side--title">对该岗位的推荐效果评分</div>
+          <a-divider />
+          <div class="job-detail__side--vote-main">
+            <div class="title">请选择好或者不好</div>
           </div>
         </div>
         <div class="job-detail__side--similar-job card">
           <div class="job-detail__side--title">相似岗位</div>
           <a-divider />
           <div v-if="sideJobList" class="job-detail__side--job-list">
-            <job-card-v2 v-for="job in sideJobList" :key="job.id" :job="job" />
-            <!--<div v-for='job in sideJobList' :key='job.id'> {{ job.title}}</div>-->
+            <job-card-v2 class="enter-y" v-for="job in sideJobList" :key="job.id" :job="job" />
           </div>
         </div>
       </div>
@@ -329,8 +334,16 @@ onMounted(async () => {})
         }
       }
 
+      .job-detail__side--vote {
+        @apply rounded-[var(--border-radius)] shadow-lg p-5 mb-4;
+
+        @include useTheme {
+          background-color: getModeVar('cardBgColor');
+        }
+      }
+
       .job-detail__side--similar-job {
-        @apply rounded-[var(--border-radius)] shadow-lg p-5;
+        @apply rounded-[var(--border-radius)] shadow-lg p-5 box-border;
 
         @include useTheme {
           background-color: getModeVar('cardBgColor');

@@ -34,7 +34,7 @@ gsap.to(timeProgress, {
       </div>
     </div>
     <div class="percent-num">{{ timeProgress.toFixed(0) }} %</div>
-    <div class="plane perspective"></div>
+    <!--<div class="plane perspective"></div>-->
   </div>
 </template>
 

@@ -26,7 +26,7 @@ const links = reactive([
   {
     id: '3',
     title: '公司',
-    path: '/company',
+    path: '/company/search',
     outer: false,
   },
   {

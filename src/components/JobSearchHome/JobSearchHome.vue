@@ -5,14 +5,14 @@ import { useVModel } from '@vueuse/core'
 const emit = defineEmits(['update:keyword'])
 const props = defineProps<{
   keyword: string
-  titleSize: number
+  hideTitle?: boolean
 }>()
 const propsKeyword = useVModel(props, 'keyword', emit)
 </script>
 
 <template>
   <div class="job-search-bar">
-    <div class="title" :style="`font-size:${titleSize}px`">搜索你心仪的岗位</div>
+    <div class="title" v-if="!hideTitle">搜索你心仪的岗位</div>
     <div class="search">
       <a-input-group compact>
         <a-input v-model:value="propsKeyword" size="large" placeholder="请输入职位关键词" enter-button="Search">
@@ -32,7 +32,30 @@ const propsKeyword = useVModel(props, 'keyword', emit)
   @apply flex flex-col justify-center items-center w-[calc(var(--min-screen-width)-80px)];
 
   .title {
-    @apply text-5xl font-bold mb-5;
+    --font-size: 35px;
+    @apply font-bold mb-5;
+    font-size: var(--font-size);
+  }
+
+  .title-hidden {
+    animation: hidden 0.5s forwards;
+    @keyframes hidden {
+      0% {
+        opacity: 1;
+        filter: blur(0);
+        transform: scale(1);
+      }
+      50% {
+        opacity: 1;
+        filter: blur(30px);
+        transform: scale(1.2);
+      }
+      100% {
+        opacity: 0;
+        filter: blur(30px);
+        transform: scale(1);
+      }
+    }
   }
 
   .search {

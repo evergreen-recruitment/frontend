@@ -18,7 +18,7 @@ function submit() {
 
 <template>
   <div class="job-search-bar">
-    <div class="title">搜索你心仪的岗位</div>
+    <div class="title">搜索岗位</div>
     <div class="search">
       <a-input-group compact>
         <a-input v-model:value="propsKeyword" size="large" placeholder="请输入职位关键词">

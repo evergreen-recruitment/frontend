@@ -28,15 +28,35 @@ body {
 
 body {
   position: relative;
-  transition:
-    background-color 0.3s,
-    color 0.3s;
+  transition: background-color 0.3s,
+  color 0.3s;
   transform-style: preserve-3d;
   perspective: 1000px;
   @include useTheme {
     background-color: getModeVar('bgColor');
     color: getModeVar('infoColor');
   }
+
+  //@include useTheme {
+  //  $t: getColor('primary');
+  //  @if getMode() == 'dark' {
+  //    background: linear-gradient(
+  //                    135deg,
+  //                    adjust-hue(hsl(0, 30%, 30%), hue(adjust-hue($t, -30))),
+  //                    adjust-hue(hsl(0, 30%, 30%), hue(adjust-hue($t, 30)))
+  //    );
+  //    background-size: cover;
+  //    background-attachment: fixed;
+  //  } @else {
+  //    background: linear-gradient(
+  //                    135deg,
+  //                    adjust-hue(hsl(0, 30%, 50%), hue(adjust-hue($t, -30))),
+  //                    adjust-hue(hsl(0, 30%, 50%), hue(adjust-hue($t, 30)))
+  //    );
+  //    background-size: cover;
+  //    background-attachment: fixed;
+  //  }
+  //}
 
   // loading 的控制
 
@@ -123,6 +143,25 @@ body {
       filter: blur(0);
     }
   }
+}
+
+.enter-scale-noblur {
+  transform: scale(1.1);
+  animation: enter-scale-noblur-animation 0.4s ease-in-out 0.3s forwards;
+  @for $i from 1 through 20 {
+    &:nth-child(#{$i}) {
+      animation-delay: #{$i * 0.1}s;
+    }
+  }
+  @keyframes enter-scale-noblur-animation {
+    0% {
+      transform: scale(1.1);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+
 }
 
 // 通用卡片样式

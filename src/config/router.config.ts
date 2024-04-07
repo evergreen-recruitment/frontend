@@ -175,14 +175,24 @@ export function getAsyncRouterMap(): IRouter[] {
       component: () => import('@/views/home/index.vue'),
     },
     {
-      name: 'company',
-      path: '/company',
+      name: 'companySearch',
+      path: '/company/search',
       meta: {
         icon: 'BankOutlined',
-        title: '公司',
+        title: '公司搜索',
         width: 1280,
       },
-      component: () => import('@/views/company/index.vue'),
+      component: () => import('@/views/company/search/index.vue'),
+    },
+    {
+      name: 'companyDetail',
+      path: '/company/detail',
+      meta: {
+        icon: 'BankOutlined',
+        title: '公司详情',
+        width: 1280,
+      },
+      component: () => import('@/views/company/detail/index.vue'),
     },
     {
       name: 'jobSearch',

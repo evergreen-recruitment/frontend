@@ -2,6 +2,13 @@
 import IHeader from '@/layouts/components/IHeader/IHeader.vue'
 import IFooter from '@/layouts/components/IFooter/IFooter.vue'
 import router from '@/router'
+import { useStatusStore } from '@/stores'
+import { onMounted } from 'vue'
+
+const statusStore = useStatusStore()
+onMounted(async () => {
+  await statusStore.getIndustryList()
+})
 </script>
 <template>
   <div class="i-layout">

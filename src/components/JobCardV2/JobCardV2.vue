@@ -10,13 +10,11 @@ const props = defineProps<{
 }>()
 
 const appStore = useAppStore()
-onMounted(() => {
-  console.log(props.job)
-})
+onMounted(() => {})
 </script>
 
 <template>
-  <i-navigator class="job-card" :to="{ name: 'jobDetail', query: { jobId: job.id } }" open-in-new-window>
+  <i-navigator class="job-card" :to="{ name: 'jobDetail', query: { jobId: job.id } }">
     <div class="job-card__header">
       <div class="job-card__header--title">{{ job.title }}</div>
       <div class="job-card__header--salary">{{ job.salary }}</div>
@@ -35,7 +33,7 @@ onMounted(() => {
 @import '@/styles/theme.scss';
 
 .job-card {
-  @apply w-72 rounded-[var(--border-radius)] cursor-pointer mt-2;
+  @apply rounded-[var(--border-radius)] cursor-pointer mt-2;
 
   border: 1px solid transparent;
 

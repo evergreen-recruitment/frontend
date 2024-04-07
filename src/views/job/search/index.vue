@@ -6,12 +6,15 @@ import KnowledgeGraph from '@/components/KnowledgeGraph/KnowledgeGraph.vue'
 import { getHomeKnowledgeGraphApi } from '@/apis/home'
 import type { GraphData } from '@antv/g6'
 import { type CityItemType, getHotCities } from '@/apis/city'
-import type { JobFilterType, SimpleJobItemType } from '@/apis/job'
+import type { JobFilterType, JobSearchFormType, SimpleJobItemType } from '@/apis/job'
 import { jobSearchApi } from '@/apis/job'
+import { useStatusStore } from '@/stores'
 
-const searchState = reactive({
+const statusStore = useStatusStore()
+const searchState = reactive<JobSearchFormType>({
   keyword: '',
-  city: '',
+  city: statusStore.city.code,
+  current: 0,
   pageSize: 10,
   sortField: '',
   sortOrder: '',
@@ -38,9 +41,20 @@ const similarSearch = ref([
 ])
 
 let searchJobList = reactive<SimpleJobItemType[]>([])
+
+async function getSearchResult() {
+  console.log(searchState.current)
+  searchState.current += 1
+  console.log(searchJobList)
+  const newJobs = await jobSearchApi(searchState)
+  newJobs.records.forEach((job) => {
+    searchJobList.push(job)
+  })
+}
+
 watchEffect(async () => {
   searchState.keyword = (router.currentRoute.value.query.keyword as string) || ''
-  searchJobList = (await jobSearchApi(searchState)).records
+  await getSearchResult()
 })
 onMounted(async () => {
   knowledgeGraphData.value = await getHomeKnowledgeGraphApi()
@@ -69,9 +83,7 @@ onMounted(async () => {
     </div>
 
     <div class="job">
-      <div class="job-list block-item">
-        <job-item class="enter-scale" v-for="job in searchJobList" :job="job" />
-      </div>
+      <job-search-list class="job-l block-item" :search-job-list="searchJobList" @add-page="getSearchResult" />
       <div class="job-side block-item">
         <div class="graph-cot card">
           <knowledge-graph v-if="knowledgeGraphData" class="graph" :data="knowledgeGraphData" :zoom="0.5" />
@@ -137,10 +149,8 @@ onMounted(async () => {
       }
     }
 
-    .job-list {
+    .job-l {
       @apply w-[calc(14/19*100%)];
-      column-count: 2;
-      column-gap: 10px;
     }
 
     .job-side {

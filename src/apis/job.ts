@@ -2,7 +2,12 @@ import request from '@/utils/request'
 import type { PageType } from '@/types/commonTypes'
 
 export type JobSearchFormType = {
-  keyword: string
+  keyword?: string
+  city?: [number,number]
+  current: number
+  pageSize?: number
+  sortField?: string
+  sortOrder?: string
 }
 
 export type JobFilterType = {
@@ -33,6 +38,7 @@ export type JobItemType = {
   jobType: number
   jobStandardName: string
   employeeVO: EmployeeVOType
+  companyVO: CompanyVOType
 }
 
 export type EmployeeVOType = {
@@ -40,6 +46,18 @@ export type EmployeeVOType = {
   realName: string
   avatar: string
   jobIds: string[]
+}
+
+export type CompanyVOType = {
+  id: string
+  name: string
+  logo: string
+  address: string
+  description: string
+  scaleId: number
+  stageId?: any
+  industryId: number
+  jobIds: string
 }
 
 export type SimpleJobItemType = {
@@ -58,7 +76,27 @@ export type SimpleJobItemType = {
   jobType: number
 }
 
-export function getJobDetail(jobId: string) {
+export const CompanyScaleEnum = {
+  0: '0-20人',
+  1: '20-99人',
+  2: '100-499人',
+  3: '500-999人',
+  4: '1000-9999人',
+  5: '10000人以上',
+}
+
+export const CompanyStageEnum = {
+  0: '未融资',
+  1: '天使轮',
+  2: 'A轮',
+  3: 'B轮',
+  4: 'C轮',
+  5: 'D轮及以上',
+  6: '上市公司',
+  7: '不需要融资',
+}
+
+export function getJobDetailApi(jobId: string) {
   return request
     .Get(
       '/job/jobDetail',
