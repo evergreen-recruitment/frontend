@@ -17,9 +17,6 @@ import VueTransitions from '@morev/vue-transitions'
 import '@morev/vue-transitions/styles'
 // monaco editor
 import { install as VueMonacoEditorPlugin } from '@guolao/vue-monaco-editor'
-// 瀑布流
-import V3waterfall from 'v3-waterfall'
-import 'v3-waterfall/dist/style.css'
 
 const app = createApp(App)
 app.use(router)
