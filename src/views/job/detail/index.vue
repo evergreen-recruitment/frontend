@@ -71,7 +71,7 @@ onUnmounted(() => {
             </div>
           </div>
           <div class="job-info">
-            <div class="job-address">{{ job?.cityName }} {{ job?.areaDistrict}}</div>
+            <div class="job-address">{{ job?.cityName }} {{ job?.areaDistrict }}</div>
             <div class="job-labels" v-for="label in job?.jobLabels" :key="label">{{ label }}</div>
           </div>
           <a-button type="primary" size="large" class="apply-job">立即投递</a-button>

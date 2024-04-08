@@ -48,7 +48,8 @@ async function getSearchResult() {
   // const newJobs = await jobSearchApi(searchState.value)
   // newJobs.records.forEach((job) => {
   //   searchJobList.push(job)
-  // })5
+  // })
+  console.log(jobFilterData.value)
   searchJobList.value = (await jobSearchApi(searchState.value)).records
 }
 
