@@ -1,0 +1,5 @@
+/dist
+pnpm-lock.yaml
+components.d.ts
+README.md
+env.d.ts
