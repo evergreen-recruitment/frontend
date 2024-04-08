@@ -134,7 +134,7 @@ export function similarJobsApi(jobStandardId: string) {
 export function getJobCategoryApi() {
   return request
     .Get(
-      '/job/home/category',
+      '/job/category',
       // @ts-ignore
       { headers: { 'Content-Type': 'application/json' }, ignoreToken: true },
     )

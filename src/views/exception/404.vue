@@ -1,8 +1,8 @@
-<script setup lang="ts"></script>
+<script lang="ts" setup></script>
 
 <template>
   <div class="error-page">
-    <a-result status="404" :title="$t('exception.404.title')" :sub-title="$t('exception.404.description')">
+    <a-result :sub-title="$t('exception.404.description')" :title="$t('exception.404.title')" status="404">
       <template #extra>
         <a-button type="primary" @click="$router.push('/')">
           {{ $t('exception.404.back-home') }}
@@ -12,7 +12,7 @@
   </div>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .error-page {
   height: 100vh;
   display: flex;

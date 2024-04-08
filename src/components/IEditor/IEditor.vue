@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { shallowRef } from 'vue'
 import { useVModel } from '@vueuse/core'
 
@@ -46,17 +46,17 @@ function formatCode() {
 <template>
   <div class="i-editor">
     <vue-monaco-editor
-      v-bind="$attrs"
       v-model:value="propsCode"
-      :theme="theme"
       :language="language"
       :options="options"
+      :theme="theme"
+      v-bind="$attrs"
       @mount="handleMount"
     />
   </div>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .i-editor {
   height: 500px;
 }

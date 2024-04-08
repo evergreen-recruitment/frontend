@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { useAppStore } from '@/stores'
 import variables from '@/styles/variables.module.scss'
 
@@ -11,7 +11,7 @@ const appStore = useAppStore()
 
 <template>
   <div class="job-card-outer">
-    <i-navigator class="job-card" :to="{ name: 'jobDetail', query: { jobId: job.id } }" open-in-new-window>
+    <i-navigator :to="{ name: 'jobDetail', query: { jobId: job.id } }" class="job-card" open-in-new-window>
       <div class="job-card__header">
         <div class="job-card__header--title">{{ job.title }}</div>
         <div class="job-card__header--salary">{{ job.salary }}</div>
@@ -27,14 +27,14 @@ const appStore = useAppStore()
           </div>
         </div>
         <div class="job-card__content--bottom">
-          <a-tag :color="variables[appStore.themeName]" v-for="t in job.jobLabels" :key="t">{{ t }}</a-tag>
+          <a-tag v-for="t in job.jobLabels" :key="t" :color="variables[appStore.themeName]">{{ t }}</a-tag>
         </div>
       </div>
     </i-navigator>
   </div>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 @import '@/styles/theme.scss';
 
 .job-card-outer {

@@ -1,16 +1,24 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { useAppStore, useStatusStore, useUserStore } from '@/stores'
 import { computed, reactive } from 'vue'
 import { getAssetsFile } from '@/utils/utils'
 import INavigator from '@/components/INavigator/INavigator.vue'
 import IAvatar from '@/layouts/components/IAvatar/IAvatar.vue'
+import { constantRouterMap, getAsyncRouterMap, type IRouter } from '@/config/router.config'
 
 const statusStore = useStatusStore()
 statusStore.getAddress()
 const userStore = useUserStore()
 const userInfo = computed(() => userStore.userInfo)
 const appStore = useAppStore()
-const links = reactive([
+type LinkType = {
+  id: string
+  title: string
+  path: string
+  outer: boolean
+  icon?: string
+}
+const links = reactive<LinkType[]>([
   {
     id: '1',
     title: '首页',
@@ -19,29 +27,49 @@ const links = reactive([
   },
   {
     id: '2',
+    title: '推荐',
+    path: '/recommend',
+    outer: false,
+  },
+  {
+    id: '3',
     title: '搜索',
     path: '/job/search',
     outer: false,
   },
   {
-    id: '3',
+    id: '4',
     title: '公司',
     path: '/company/search',
     outer: false,
   },
   {
-    id: '4',
+    id: '5',
     title: 'APP',
     path: '#',
     outer: false,
   },
   {
-    id: '5',
+    id: '6',
     title: '社区',
     path: '#',
     outer: false,
   },
 ])
+
+// 获取所有的路由配置
+const allRoutes = [...constantRouterMap, ...getAsyncRouterMap()]
+
+// 遍历 links 数组
+for (let link of links) {
+  // 在所有的路由配置中查找与当前 link 对象 path 属性相同的路由对象
+  const route = allRoutes.find((route) => route.path === link.path) as IRouter
+
+  // 如果找到了路由对象，并且这个路由对象有 meta.icon 属性，那么就将这个属性的值添加到 link 对象中
+  if (route && route.meta && route.meta.icon) {
+    link.icon = route.meta.icon
+  }
+}
 </script>
 
 <template>
@@ -61,29 +89,30 @@ const links = reactive([
           </a>
         </div>
         <div class="i-header__menu">
-          <a-popover trigger="click" placement="bottom">
+          <a-popover placement="bottom" trigger="click">
             <a class="location" href="#">
               <span>{{ statusStore.city.name.split(',')[1] }}</span>
               <span>[切换]</span>
             </a>
             <template #content>
-              <i-location-selector v-model:value="statusStore.city.code" v-model:text="statusStore.city.name" />
+              <i-location-selector v-model:text="statusStore.city.name" v-model:value="statusStore.city.code" />
             </template>
           </a-popover>
           <i-navigator
             v-for="i in links"
-            :to="i.path"
-            class="nav-item"
             :class="[$router.currentRoute.value.path === i.path ? 'active-nav-item' : '']"
             :open-in-new-window="i.outer"
+            :to="i.path"
+            class="nav-item"
           >
+            <Icon v-if="i.icon" :icon="i.icon" />
             {{ i.title }}
           </i-navigator>
         </div>
       </div>
       <div v-if="!userStore.token" class="i-header__inner-right i-header__inner-not-login">
-        <i-navigator to="/empAuth/login" class="nav-item"> 我是招聘人</i-navigator>
-        <i-navigator to="/auth/loginByCaptcha" class="nav-item"> 我是求职者</i-navigator>
+        <i-navigator class="nav-item" to="/empAuth/login"> 我是招聘人</i-navigator>
+        <i-navigator class="nav-item" to="/auth/loginByCaptcha"> 我是求职者</i-navigator>
         <i-navigator class="i-header__login" to="/auth/loginByCaptcha">登录 | 注册</i-navigator>
       </div>
       <div v-else class="i-header__inner-right i-header__inner-already-login">
@@ -93,7 +122,7 @@ const links = reactive([
   </div>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 @import '@/styles/theme.scss';
 
 .i-header {

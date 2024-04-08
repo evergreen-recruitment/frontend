@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { computed, reactive } from 'vue'
 import { useAppStore, type UserInfo, useUserStore } from '@/stores'
 
@@ -181,7 +181,7 @@ const echartsOption = reactive({
         <div class="upload">
           <a-upload action="https://www.mocky.io/v2/5cc8019d300000980a055e76">
             <template #default>
-              <a-button type="primary" style="width: 100%">
+              <a-button style="width: 100%" type="primary">
                 <Icon icon="UploadOutlined" />
                 上传简历
               </a-button>
@@ -198,7 +198,7 @@ const echartsOption = reactive({
   </div>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 @import '@/styles/theme.scss';
 
 .delivery-page {

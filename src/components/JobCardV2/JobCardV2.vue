@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { useAppStore } from '@/stores'
 import variables from '@/styles/variables.module.scss'
 import INavigator from '@/components/INavigator/INavigator.vue'
@@ -14,7 +14,7 @@ onMounted(() => {})
 </script>
 
 <template>
-  <i-navigator class="job-card" :to="{ name: 'jobDetail', query: { jobId: job.id } }">
+  <i-navigator :to="{ name: 'jobDetail', query: { jobId: job.id } }" class="job-card">
     <div class="job-card__header">
       <div class="job-card__header--title">{{ job.title }}</div>
       <div class="job-card__header--salary">{{ job.salary }}</div>
@@ -23,13 +23,13 @@ onMounted(() => {})
       <div class="job-card__content--company">{{ job.companyName }}</div>
       <div class="job-card__content--address">{{ job.cityName }}</div>
       <div class="job-card__content--tags">
-        <a-tag :color="variables[appStore.themeName]" v-for="t in job.jobSkills" :key="t">{{ t }}</a-tag>
+        <a-tag v-for="t in job.jobSkills" :key="t" :color="variables[appStore.themeName]">{{ t }}</a-tag>
       </div>
     </div>
   </i-navigator>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 @import '@/styles/theme.scss';
 
 .job-card {

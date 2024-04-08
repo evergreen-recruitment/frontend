@@ -26,7 +26,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <a-card ref="instance" v-bind="$attrs" class="i-card" style="border-radius: var(--border-radius)">
+  <a-card ref="instance" class="i-card" style="border-radius: var(--border-radius)" v-bind="$attrs">
     <template v-for="(value, name) in $slots" #[name]="slotData">
       <slot :name="name" v-bind="slotData || {}"></slot>
     </template>

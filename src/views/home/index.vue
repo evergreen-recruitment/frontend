@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { onMounted, onUnmounted, reactive, ref } from 'vue'
 import { useAppStore, useStatusStore, useUserStore } from '@/stores'
 import { getHomeKnowledgeGraphApi, getHomeNewJobsApi, getHotSearchApi } from '@/apis/home'
@@ -113,21 +113,15 @@ window.addEventListener('scroll', scrollEvent)
 
 <template>
   <div class="home-page">
-    <job-search-home class="search-bar" v-model:keyword="searchState.keyword" :hide-title="hideSearchBarTitle" />
-    <div v-if="true" class="search-panel">
-      <div class="search-panel__inner">
-        <!--热门搜索-->
-        <!--<div class="hot-search">-->
-        <!--  <div class="title">热门搜索</div>-->
-        <!--  <div class="search-list">-->
-        <!--    <a-tag :color="variables[appStore.themeName]" v-for="i in hotSearch" :key="i" class="search-item">-->
-        <!--      <i-navigator :to="{ name: 'jobSearch', query: { keyword: i } }">-->
-        <!--        {{ i }}-->
-        <!--      </i-navigator>-->
-        <!--    </a-tag>-->
-        <!--  </div>-->
-        <!--</div>-->
-      </div>
+    <job-search-home v-model:keyword="searchState.keyword" :hide-title="hideSearchBarTitle" class="search-bar" />
+    <div v-if="true" class="home-page-background">
+      <!--<div class="circle-group">-->
+      <!--  <div class="circle circle1" style="background-color: #ba9867; opacity: 0.7"></div>-->
+      <!--  <div class="circle circle2" style="background-color: #dfc399; opacity: 0.65"></div>-->
+      <!--  <div class="circle circle3" style="background-color: #896738; opacity: 0.63"></div>-->
+      <!--  <div class="circle circle4" style="background-color: #4e3619; opacity: 0.46"></div>-->
+      <!--  <div class="circle circle5" style="background-color: #ba9867; opacity: 0.5"></div>-->
+      <!--</div>-->
     </div>
     <div class="mask"></div>
     <div class="home-page-bottom">
@@ -135,17 +129,17 @@ window.addEventListener('scroll', scrollEvent)
         <div class="user-aside">
           <div class="user-info">
             <div class="avatar">
-              <img src="@/assets/images/logo.png" alt="avatar" />
+              <img alt="avatar" src="@/assets/images/logo.png" />
             </div>
             <div class="name">常青招聘</div>
             <div class="desc">大学生智慧招聘平台</div>
           </div>
           <div class="user-action">
-            <i-navigator to="/auth/loginByCaptcha" class="action-item">
+            <i-navigator class="action-item" to="/auth/loginByCaptcha">
               <Icon icon="UserOutlined" />
               <span>登录</span>
             </i-navigator>
-            <i-navigator to="/auth/loginByCaptcha" class="action-item">
+            <i-navigator class="action-item" to="/auth/loginByCaptcha">
               <Icon icon="UserAddOutlined" />
               <span>注册</span>
             </i-navigator>
@@ -165,10 +159,10 @@ window.addEventListener('scroll', scrollEvent)
             <!--</div>-->
             <knowledge-graph
               v-else-if="knowledgeGraphData"
-              class="graph"
               :data="knowledgeGraphData"
-              show-minimap
+              class="graph"
               show-legend
+              show-minimap
             />
           </div>
         </div>
@@ -179,7 +173,7 @@ window.addEventListener('scroll', scrollEvent)
         <div class="banner-inner">
           <div class="left-side">
             <div class="menu">
-              <div class="menu-item" v-for="item in category" :key="item.name">
+              <div v-for="item in category" :key="item.name" class="menu-item">
                 <span>{{ item.name }}</span>
                 <div class="arrow">
                   <Icon icon="CaretRightOutlined" />
@@ -190,10 +184,10 @@ window.addEventListener('scroll', scrollEvent)
                   </div>
                   <div class="content">
                     <i-navigator
-                      class="menu-item"
                       v-for="i in item.children"
                       :key="i.name"
                       :to="{ name: 'jobSearch', query: { jobId: i.id } }"
+                      class="menu-item"
                     >
                       <span>{{ i.name }}</span>
                       <div class="arrow">
@@ -207,16 +201,16 @@ window.addEventListener('scroll', scrollEvent)
           </div>
           <a-carousel autoplay>
             <div class="carousel-item">
-              <img src="@/assets/images/logo1-white.png" alt="" style="width: 300px; height: auto; object-fit: cover" />
+              <img alt="" src="@/assets/images/logo1-white.png" style="width: 300px; height: auto; object-fit: cover" />
             </div>
             <div class="carousel-item">
-              <img src="@/assets/images/logo1-white.png" alt="" style="width: 300px; height: auto; object-fit: cover" />
+              <img alt="" src="@/assets/images/logo1-white.png" style="width: 300px; height: auto; object-fit: cover" />
             </div>
             <div class="carousel-item">
-              <img src="@/assets/images/logo1-white.png" alt="" style="width: 300px; height: auto; object-fit: cover" />
+              <img alt="" src="@/assets/images/logo1-white.png" style="width: 300px; height: auto; object-fit: cover" />
             </div>
             <div class="carousel-item">
-              <img src="@/assets/images/logo1-white.png" alt="" style="width: 300px; height: auto; object-fit: cover" />
+              <img alt="" src="@/assets/images/logo1-white.png" style="width: 300px; height: auto; object-fit: cover" />
             </div>
           </a-carousel>
         </div>
@@ -228,20 +222,20 @@ window.addEventListener('scroll', scrollEvent)
         <div class="hot-company-list">
           <div class="line-odd">
             <i-navigator
-              class="company-item"
-              :to="{ name: 'companyDetail', query: { companyId: company.id } }"
               v-for="company in [...hotCompanyList, ...hotCompanyList]"
               :key="company.id"
+              :to="{ name: 'companyDetail', query: { companyId: company.id } }"
+              class="company-item"
             >
               <img :src="company.logo" alt="company.name" />
             </i-navigator>
           </div>
           <div class="line-even">
             <i-navigator
-              class="company-item"
-              :to="{ name: 'companyDetail', query: { companyId: company.id } }"
               v-for="company in [...hotCompanyList, ...hotCompanyList]"
               :key="company.id"
+              :to="{ name: 'companyDetail', query: { companyId: company.id } }"
+              class="company-item"
             >
               <img :src="company.logo" alt="company.name" />
             </i-navigator>
@@ -313,8 +307,8 @@ window.addEventListener('scroll', scrollEvent)
     }
   }
 
-  .search-panel {
-    //@apply fixed w-full top-[-20vh]  h-[120vh] flex flex-col items-center justify-center z-0;
+  .home-page-background {
+    @apply fixed w-full top-[-20vh]  h-[120vh] flex flex-col items-center justify-center z-0;
     //
     //@include useTheme {
     //  $t: getColor('primary');
@@ -333,21 +327,62 @@ window.addEventListener('scroll', scrollEvent)
     //  }
     //}
 
-    .search-panel__inner {
-      @apply w-[calc(var(--min-screen-width)-80px)];
+    .circle-group {
+      @apply h-screen;
+      margin: -180px auto 0;
+      width: 1146px;
+      position: relative;
 
-      .hot-search {
-        @apply relative w-[1000px] top-[50px] h-20 flex items-center justify-items-start;
-        .title {
-          @apply text-white text-xl;
-        }
+      .circle {
+        position: absolute;
+        border-radius: 50%;
+      }
 
-        .search-list {
-          @apply flex items-center justify-center;
-          .search-item {
-            @apply mx-2;
-          }
-        }
+      .circle1 {
+        filter: blur(135px);
+        height: auto;
+        padding-bottom: 46%;
+        width: 46%;
+        top: -16.3%;
+        left: -14.6%;
+      }
+
+      .circle2 {
+        filter: blur(100px);
+        opacity: 0.6;
+        height: auto;
+        padding-bottom: 47.5%;
+        width: 47.5%;
+        top: -26.1%;
+        left: 21.9%;
+      }
+
+      .circle3 {
+        filter: blur(102px);
+        height: auto;
+        padding-bottom: 33.3%;
+        width: 33.3%;
+        top: 51.8%;
+        left: 28.7%;
+      }
+
+      .circle4 {
+        filter: blur(140px);
+        height: auto;
+        padding-bottom: 40%;
+        width: 40%;
+        top: 53.7%;
+        right: 64.8%;
+      }
+
+      .circle5 {
+        filter: blur(136px);
+        height: auto;
+        padding-bottom: 100%;
+        width: 70%;
+        top: 40%;
+        left: 0;
+        opacity: 0.5;
       }
     }
   }

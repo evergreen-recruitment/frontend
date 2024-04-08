@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { type UserInfo, useUserStore } from '@/stores'
 import { computed, reactive, ref } from 'vue'
 import type {
@@ -187,7 +187,7 @@ const selfIntroductionForm = reactive<SelfIntroductionFormType>({
         <div class="upload">
           <a-upload action="https://www.mocky.io/v2/5cc8019d300000980a055e76">
             <template #default>
-              <a-button type="primary" style="width: 100%">
+              <a-button style="width: 100%" type="primary">
                 <Icon icon="UploadOutlined" />
                 上传简历
               </a-button>
@@ -203,7 +203,7 @@ const selfIntroductionForm = reactive<SelfIntroductionFormType>({
   </div>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 @import '@/styles/theme.scss';
 
 .application-page {

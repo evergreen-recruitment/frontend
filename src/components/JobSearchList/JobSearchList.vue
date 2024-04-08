@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import type { SimpleJobItemType } from '@/apis/job'
 
 const emit = defineEmits(['addPage'])
@@ -9,11 +9,11 @@ const props = defineProps<{
 
 <template>
   <div class="job-list">
-    <job-item class="" v-for="job in searchJobList" :job="job" :key="job.id" />
+    <job-item v-for="job in searchJobList" :key="job.id" :job="job" class="" />
   </div>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .job-list {
   column-count: 2;
   column-gap: 10px;

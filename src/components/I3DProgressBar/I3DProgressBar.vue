@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { ref } from 'vue'
 import { gsap } from 'gsap'
 
@@ -38,7 +38,7 @@ gsap.to(timeProgress, {
   </div>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 @import '@/styles/theme.scss';
 
 .i-3d-progress-bar {

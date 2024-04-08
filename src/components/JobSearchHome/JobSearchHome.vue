@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import INavigator from '@/components/INavigator/INavigator.vue'
 import { useVModel } from '@vueuse/core'
 
@@ -12,13 +12,13 @@ const propsKeyword = useVModel(props, 'keyword', emit)
 
 <template>
   <div class="job-search-bar">
-    <div class="title" v-if="!hideTitle">搜索你心仪的岗位</div>
+    <div v-if="!hideTitle" class="title">搜索你心仪的岗位</div>
     <div class="search">
       <a-input-group compact>
-        <a-input v-model:value="propsKeyword" size="large" placeholder="请输入职位关键词" enter-button="Search">
+        <a-input v-model:value="propsKeyword" enter-button="Search" placeholder="请输入职位关键词" size="large">
           <template #suffix>
             <i-navigator :to="{ name: 'jobSearch', query: { keyword: keyword } }">
-              <a-button type="primary" size="large">搜索</a-button>
+              <a-button size="large" type="primary">搜索</a-button>
             </i-navigator>
           </template>
         </a-input>
@@ -27,7 +27,7 @@ const propsKeyword = useVModel(props, 'keyword', emit)
   </div>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .job-search-bar {
   @apply flex flex-col justify-center items-center w-[calc(var(--min-screen-width)-80px)];
 

@@ -1,7 +1,6 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { useAppStore } from '@/stores'
 import { ref } from 'vue'
-import INavigator from '@/components/INavigator/INavigator.vue'
 
 const appStore = useAppStore()
 
@@ -26,7 +25,7 @@ const minWidthMarks = ref({
     <div class="setting-page__title">设置</div>
     <div class="setting-page__inner">
       <div class="setting-page__inner--dark-mode">
-        <i-page-header title="暗亮色模式" sub-title="设置系统的在白天和晚上的展现模式，或者跟随系统" />
+        <i-page-header sub-title="设置系统的在白天和晚上的展现模式，或者跟随系统" title="暗亮色模式" />
         <div class="setting-page__inner--dark-mode__content setting-item__content">
           <a-radio-group v-model:value="appStore.darkMode">
             <a-radio value="auto">跟随系统</a-radio>
@@ -36,13 +35,13 @@ const minWidthMarks = ref({
         </div>
       </div>
       <div class="setting-page__inner--radius">
-        <i-page-header title="圆角设置" sub-title="设置系统的圆角大小" />
+        <i-page-header sub-title="设置系统的圆角大小" title="圆角设置" />
         <div class="setting-page__inner--radius__content setting-item__content">
-          <a-slider v-model:value="appStore.borderRadius" :marks="radiusMarks" :min="0" :max="20" />
+          <a-slider v-model:value="appStore.borderRadius" :marks="radiusMarks" :max="20" :min="0" />
         </div>
       </div>
       <div class="setting-page__inner--color-mode">
-        <i-page-header title="色彩模式" sub-title="设置系统的主题色" />
+        <i-page-header sub-title="设置系统的主题色" title="色彩模式" />
         <div class="setting-page__inner--color-mode__content setting-item__content">
           <a-radio-group v-model:value="appStore.themeName">
             <a-radio value="origin">原色</a-radio>
@@ -58,28 +57,28 @@ const minWidthMarks = ref({
       </div>
 
       <div class="setting-page__inner--show-border">
-        <i-page-header title="显示卡片边框" sub-title="设置是否显示卡片的边框" />
+        <i-page-header sub-title="设置是否显示卡片的边框" title="显示卡片边框" />
         <div class="setting-page__inner--show-border__content setting-item__content">
           <a-switch v-model:checked="appStore.showCardBorderComp" checked-children="开" un-checked-children="关" />
         </div>
       </div>
 
       <div class="setting-page__inner--min-width">
-        <i-page-header title="最小宽度" sub-title="设置系统的最小屏幕宽度，用于适配各种不同的屏幕尺寸" />
+        <i-page-header sub-title="设置系统的最小屏幕宽度，用于适配各种不同的屏幕尺寸" title="最小宽度" />
         <div class="setting-page__inner--min-width__content setting-item__content">
-          <a-slider v-model:value="appStore.minScreenWidthComp" :marks="minWidthMarks" :min="1024" :max="max" />
+          <a-slider v-model:value="appStore.minScreenWidthComp" :marks="minWidthMarks" :max="max" :min="1024" />
         </div>
       </div>
       <div class="setting-page__inner--outer-link">
-        <i-page-header title="是否开启默认打开链接为外链" sub-title="设置元素的打开方式，是否为从新窗口打开" />
+        <i-page-header sub-title="设置元素的打开方式，是否为从新窗口打开" title="是否开启默认打开链接为外链" />
         <div class="setting-page__inner--outer-link__content setting-item__content">
           <a-switch v-model:checked="appStore.openInNewWindow" checked-children="开" un-checked-children="关" />
         </div>
       </div>
       <div class="setting-page__inner--token-keep">
-        <i-page-header title="Token保留天数" sub-title="设置登录用户的Token保留天数，以控制登录" />
+        <i-page-header sub-title="设置登录用户的Token保留天数，以控制登录" title="Token保留天数" />
         <div class="setting-page__inner--token-keep__content setting-item__content">
-          <a-input-number v-model:value="appStore.tokenExpires" :min="1" :max="7">
+          <a-input-number v-model:value="appStore.tokenExpires" :max="7" :min="1">
             <template #addonAfter>天</template>
           </a-input-number>
         </div>
@@ -88,7 +87,7 @@ const minWidthMarks = ref({
   </div>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 @import '@/styles/theme.scss';
 
 .setting-page {

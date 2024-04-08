@@ -74,15 +74,15 @@ async function login() {
       ref="formRef"
       :label-col="{ span: 5 }"
       :model="formState"
+      :rules="rules"
       class="login-form"
       label-align="left"
-      :rules="rules"
     >
       <a-form-item name="userAccount">
         <a-input
           v-model:value="formState.userAccount"
-          size="large"
           :placeholder="$t('user.login.placeholder.username')"
+          size="large"
         >
           <template #prefix>
             <Icon icon="UserOutlined" />
@@ -93,8 +93,8 @@ async function login() {
       <a-form-item name="userPassword">
         <a-input-password
           v-model:value="formState.userPassword"
-          size="large"
           :placeholder="$t('user.login.placeholder.password')"
+          size="large"
         >
           <template #prefix>
             <Icon icon="LockOutlined" />
@@ -103,8 +103,8 @@ async function login() {
       </a-form-item>
 
       <a-form-item>
-        <router-link to="/auth/loginByCaptcha" style="float: left">一键登录注册登录</router-link>
-        <router-link to="/auth/forgetPassword" style="float: right">忘记密码</router-link>
+        <router-link style="float: left" to="/auth/loginByCaptcha">一键登录注册登录</router-link>
+        <router-link style="float: right" to="/auth/forgetPassword">忘记密码</router-link>
       </a-form-item>
 
       <a-form-item>

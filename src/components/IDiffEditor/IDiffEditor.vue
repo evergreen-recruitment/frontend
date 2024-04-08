@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { shallowRef } from 'vue'
 import { useVModel } from '@vueuse/core'
 
@@ -54,17 +54,17 @@ function getModifiedValue() {
 <template>
   <div class="i-diff-editor">
     <vue-monaco-diff-editor
-      v-model:original="propsOriginalCode"
       v-model:modified="propsModifiedCode"
-      :theme="theme"
+      v-model:original="propsOriginalCode"
       :language="language"
       :options="options"
+      :theme="theme"
       @mount="handleMount"
     />
   </div>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .i-diff-editor {
   height: 500px;
 }

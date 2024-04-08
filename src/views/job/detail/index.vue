@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { onMounted, onUnmounted, reactive, ref, watchEffect } from 'vue'
 import router from '@/router'
 import { useAppStore, useStatusStore } from '@/stores'
@@ -72,9 +72,9 @@ onUnmounted(() => {
           </div>
           <div class="job-info">
             <div class="job-address">{{ job?.cityName }} {{ job?.areaDistrict }}</div>
-            <div class="job-labels" v-for="label in job?.jobLabels" :key="label">{{ label }}</div>
+            <div v-for="label in job?.jobLabels" :key="label" class="job-labels">{{ label }}</div>
           </div>
-          <a-button type="primary" size="large" class="apply-job">立即投递</a-button>
+          <a-button class="apply-job" size="large" type="primary">立即投递</a-button>
         </div>
         <div class="job-detail__banner--right">
           <div class="job-salary">{{ job?.salary }}</div>
@@ -94,7 +94,7 @@ onUnmounted(() => {
           </div>
           <a-divider />
           <div class="job-detail__hr">
-            <a-avatar size="large" :src="job?.employeeVO.avatar" />
+            <a-avatar :src="job?.employeeVO.avatar" size="large" />
             <span>{{ job?.employeeVO?.realName || '招聘者' }}&nbsp;</span>
           </div>
         </div>
@@ -164,7 +164,7 @@ onUnmounted(() => {
           <div class="job-detail__side--title">相似岗位</div>
           <a-divider />
           <div v-if="sideJobList" class="job-detail__side--job-list">
-            <job-card-v2 class="enter-y" v-for="job in sideJobList" :key="job.id" :job="job" />
+            <job-card-v2 v-for="job in sideJobList" :key="job.id" :job="job" class="enter-y" />
           </div>
         </div>
       </div>
@@ -172,7 +172,7 @@ onUnmounted(() => {
   </div>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 @import '@/styles/theme.scss';
 
 .job-detail {

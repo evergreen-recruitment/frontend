@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import type { CascaderProps } from 'ant-design-vue'
 import type { ShowSearchType } from 'ant-design-vue/es/cascader'
 // @ts-ignore
@@ -37,12 +37,12 @@ function onChange(_value: any, selectedOptions: any) {
 <template>
   <a-cascader
     v-model:value="propsValue"
-    :show-search="{ filter }"
     :options="options"
+    :show-search="{ filter }"
     expand-trigger="hover"
-    @change="onChange"
     placeholder="选择位置(可输入搜索)"
+    @change="onChange"
   />
 </template>
 
-<style scoped lang="scss"></style>
+<style lang="scss" scoped></style>

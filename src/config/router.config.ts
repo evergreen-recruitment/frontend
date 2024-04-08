@@ -175,6 +175,15 @@ export function getAsyncRouterMap(): IRouter[] {
       component: () => import('@/views/home/index.vue'),
     },
     {
+      name: 'recommend',
+      path: '/recommend',
+      meta: {
+        icon: 'CompassOutlined',
+        title: '推荐',
+      },
+      component: () => import('@/views/recommend/index.vue'),
+    },
+    {
       name: 'companySearch',
       path: '/company/search',
       meta: {

@@ -32,7 +32,7 @@ export type CompleteUserInfoFormType = {
   avatar?: string
   userAccount: string
   realName: string
-  address: [number, number]
+  location: [number, number]
   age: number | null
   userPassword: string
   reUserPassword: string | null

@@ -1,6 +1,5 @@
 import request, { alovaInstance } from '@/utils/request'
 import type { GraphData } from '@antv/g6'
-import type { JobCategoryType } from '@/apis/job'
 
 /**
  * 获取首页轮播图

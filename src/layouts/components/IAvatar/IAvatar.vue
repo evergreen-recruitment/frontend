@@ -15,7 +15,7 @@ function logout() {
     <a-dropdown :trigger="['click']">
       <div class="i-avatar__wrapper">
         <div class="i-avatar__wrapper--icon">
-          <a-avatar :src="userInfo.avatar" :size="40" />
+          <a-avatar :size="40" :src="userInfo.avatar" />
         </div>
         <div class="i-avatar__title">
           <span class="i-avatar__title--hello">hello,&nbsp;</span>

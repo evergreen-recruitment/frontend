@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { onMounted, ref, watchEffect } from 'vue'
 import INavigator from '@/components/INavigator/INavigator.vue'
 import router from '@/router'
@@ -66,13 +66,13 @@ onMounted(async () => {
 <template>
   <div class="search-page">
     <div class="search-panel card">
-      <job-search v-model:keyword="searchState.keyword" v-model:city="searchCity" />
+      <job-search v-model:city="searchCity" v-model:keyword="searchState.keyword" />
       <div class="city-list">
         <router-link
-          class="city"
-          :to="{ name: 'jobSearch', query: { city: c.code } }"
           v-for="c in hotCities"
           :key="c.code"
+          :to="{ name: 'jobSearch', query: { city: c.code } }"
+          class="city"
         >
           {{ c.name }}
         </router-link>
@@ -84,19 +84,19 @@ onMounted(async () => {
     </div>
 
     <div class="job">
-      <job-search-list class="job-l block-item" :search-job-list="searchJobList" @add-page="getSearchResult" />
+      <job-search-list :search-job-list="searchJobList" class="job-l block-item" @add-page="getSearchResult" />
       <div class="job-side block-item">
         <div class="graph-cot card">
-          <knowledge-graph v-if="knowledgeGraphData" class="graph" :data="knowledgeGraphData" :zoom="0.5" />
+          <knowledge-graph v-if="knowledgeGraphData" :data="knowledgeGraphData" :zoom="0.5" class="graph" />
         </div>
         <div class="other-search card">
           <div class="title">相关搜索</div>
           <div class="search-list">
             <i-navigator
-              class="search-item enter-y"
               v-for="item in similarSearch"
               :key="item"
               :to="{ name: 'jobSearch', query: { keyword: item } }"
+              class="search-item enter-y"
               open-in-new-window
             >
               <span>{{ item }}</span>
@@ -111,7 +111,7 @@ onMounted(async () => {
   </div>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 @import '@/styles/theme.scss';
 
 .search-page {

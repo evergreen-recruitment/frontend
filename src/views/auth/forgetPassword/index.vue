@@ -38,12 +38,12 @@ const { loading, send, onSuccess, onError } = useRequest(forgetPasswordApi(formS
       ref="formRef"
       :label-col="{ span: 5 }"
       :model="formState"
+      :rules="rules"
       class="login-form"
       label-align="left"
-      :rules="rules"
     >
       <a-form-item name="phone">
-        <a-input v-model:value="formState.phone" size="large" :placeholder="$t('user.login.placeholder.username')">
+        <a-input v-model:value="formState.phone" :placeholder="$t('user.login.placeholder.username')" size="large">
           <template #prefix>
             <Icon icon="PhoneOutlined" />
           </template>
@@ -51,7 +51,7 @@ const { loading, send, onSuccess, onError } = useRequest(forgetPasswordApi(formS
       </a-form-item>
 
       <a-form-item name="verifyCode">
-        <a-input v-model:value="formState.verifyCode" size="large" :placeholder="$t('user.login.placeholder.password')">
+        <a-input v-model:value="formState.verifyCode" :placeholder="$t('user.login.placeholder.password')" size="large">
           <template #prefix>
             <Icon icon="SecurityScanOutlined" />
           </template>
@@ -64,8 +64,8 @@ const { loading, send, onSuccess, onError } = useRequest(forgetPasswordApi(formS
       <a-form-item name="userPassword">
         <a-input-password
           v-model:value="formState.userPassword"
-          size="large"
           :placeholder="$t('user.login.placeholder.password')"
+          size="large"
         >
           <template #prefix>
             <Icon icon="LockOutlined" />
@@ -76,8 +76,8 @@ const { loading, send, onSuccess, onError } = useRequest(forgetPasswordApi(formS
       <a-form-item name="confirmNewPassword">
         <a-input-password
           v-model:value="formState.confirmNewPassword"
-          size="large"
           :placeholder="$t('user.login.placeholder.password')"
+          size="large"
         >
           <template #prefix>
             <Icon icon="LockOutlined" />
@@ -86,7 +86,7 @@ const { loading, send, onSuccess, onError } = useRequest(forgetPasswordApi(formS
       </a-form-item>
 
       <a-form-item>
-        <router-link to="/auth/loginByCaptcha" style="float: left">返回登录</router-link>
+        <router-link style="float: left" to="/auth/loginByCaptcha">返回登录</router-link>
       </a-form-item>
 
       <a-form-item>

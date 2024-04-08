@@ -29,8 +29,8 @@ onMounted(async () => {
     <i-header />
     <router-view
       v-slot="{ Component }"
-      class="i-layout__inner"
       :style="{ width: `${router.currentRoute.value.meta.width}px` }"
+      class="i-layout__inner"
     >
       <transition-slide :offset="[-16, 0]" mode="out-in">
         <component :is="Component" />

@@ -16,11 +16,11 @@ const propsCollapsed = useVModel(props, 'collapsed', emit)
 
 <template>
   <a-layout-sider
-    v-bind="$attrs"
     v-model:collapsed="propsCollapsed"
+    :style="showLogo ? {} : { height: 'calc(100vh - 114px)' }"
     :theme="appStore.darkMode || 'light'"
     class="i-side"
-    :style="showLogo ? {} : { height: 'calc(100vh - 114px)' }"
+    v-bind="$attrs"
   >
     <div v-if="showLogo" class="i-side__logo">
       <a href="/">
@@ -31,7 +31,7 @@ const propsCollapsed = useVModel(props, 'collapsed', emit)
         />
       </a>
     </div>
-    <i-emp-menu v-bind="$attrs" :menu-list="menuList" :style="showLogo ? {} : { height: 'calc(100vh - 114px)' }" />
+    <i-emp-menu :menu-list="menuList" :style="showLogo ? {} : { height: 'calc(100vh - 114px)' }" v-bind="$attrs" />
   </a-layout-sider>
 </template>
 

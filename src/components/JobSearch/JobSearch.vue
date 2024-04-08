@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { useVModel } from '@vueuse/core'
 import router from '@/router'
 
@@ -21,12 +21,12 @@ function submit() {
     <div class="title">搜索岗位</div>
     <div class="search">
       <a-input-group compact>
-        <a-input v-model:value="propsKeyword" size="large" placeholder="请输入职位关键词">
+        <a-input v-model:value="propsKeyword" placeholder="请输入职位关键词" size="large">
           <template #prefix>
             <i-location-selector v-model:value="propsCity" />
           </template>
           <template #suffix>
-            <a-button type="primary" size="large" @click="submit">搜索</a-button>
+            <a-button size="large" type="primary" @click="submit">搜索</a-button>
           </template>
         </a-input>
       </a-input-group>
@@ -34,7 +34,7 @@ function submit() {
   </div>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .job-search-bar {
   @apply w-full;
 

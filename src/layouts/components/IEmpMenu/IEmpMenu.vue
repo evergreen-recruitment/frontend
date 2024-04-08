@@ -5,7 +5,7 @@ defineProps<{
 </script>
 
 <template>
-  <a-menu class="i-menu" v-bind="$attrs" :inline-indent="15" mode="inline">
+  <a-menu :inline-indent="15" class="i-menu" mode="inline" v-bind="$attrs">
     <!-- 或者使用 mode="inline" -->
     <template v-for="item in menuList" :key="item.path">
       <a-sub-menu v-if="'children' in item" :key="item.path">

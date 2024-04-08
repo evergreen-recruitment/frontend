@@ -13,7 +13,7 @@ defineProps({
 
 <template>
   <div class="i-page-header">
-    <a-page-header v-bind="$attrs" :sub-title="subTitle" :title="title" class="i-page-header__inner" />
+    <a-page-header :sub-title="subTitle" :title="title" class="i-page-header__inner" v-bind="$attrs" />
     <slot></slot>
   </div>
 </template>

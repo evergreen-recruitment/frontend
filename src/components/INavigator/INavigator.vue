@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { useAppStore } from '@/stores'
 import type { RouteLocationRaw } from 'vue-router'
 import { computed } from 'vue'
@@ -23,15 +23,15 @@ const href = computed(() => {
 </script>
 
 <template>
-  <router-link class="i-navigator" v-if="!openType" v-bind="$attrs" :to="to">
+  <router-link v-if="!openType" :to="to" class="i-navigator" v-bind="$attrs">
     <slot></slot>
   </router-link>
-  <a class="i-navigator" v-else :href="href" target="_blank">
+  <a v-else :href="href" class="i-navigator" target="_blank">
     <slot></slot>
   </a>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .i-navigator {
   @apply cursor-pointer block;
 }

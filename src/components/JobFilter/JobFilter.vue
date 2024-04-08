@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import type { JobCategoryType, JobFilterType } from '@/apis/job'
 import { useVModel } from '@vueuse/core'
 import type { CascaderProps } from 'ant-design-vue'
@@ -42,19 +42,19 @@ function handleJobTypeChange(value: number[]) {
   <div class="job-filter">
     <a-space-compact block>
       <a-cascader
-        class="job-type"
-        :show-search="{ filter }"
         :options="options"
+        :show-search="{ filter }"
+        class="job-type"
         expand-trigger="hover"
         placeholder="职位类型"
         @change="handleJobTypeChange"
       />
-      <a-select class="apply-type" v-model="propsJobFilterData.needJobType" placeholder="求职类型">
+      <a-select v-model="propsJobFilterData.needJobType" class="apply-type" placeholder="求职类型">
         <a-select-option value="0">不限</a-select-option>
         <a-select-option value="1">正式</a-select-option>
         <a-select-option value="2">实习</a-select-option>
       </a-select>
-      <a-select class="experience-type" v-model="propsJobFilterData.experience" placeholder="工作经验">
+      <a-select v-model="propsJobFilterData.experience" class="experience-type" placeholder="工作经验">
         <a-select-option value="0">不限</a-select-option>
         <a-select-option value="1">在校生</a-select-option>
         <a-select-option value="2">应届生</a-select-option>
@@ -65,7 +65,7 @@ function handleJobTypeChange(value: number[]) {
         <a-select-option value="7">5-10年</a-select-option>
         <a-select-option value="8">10年以上</a-select-option>
       </a-select>
-      <a-select class="Nature treatment" v-model="propsJobFilterData.salary" placeholder="薪资待遇">
+      <a-select v-model="propsJobFilterData.salary" class="Nature treatment" placeholder="薪资待遇">
         <a-select-option value="0">不限</a-select-option>
         <a-select-option value="1">3k以下</a-select-option>
         <a-select-option value="2">3k-5k</a-select-option>
@@ -78,4 +78,4 @@ function handleJobTypeChange(value: number[]) {
   </div>
 </template>
 
-<style scoped lang="scss"></style>
+<style lang="scss" scoped></style>

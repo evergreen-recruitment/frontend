@@ -226,14 +226,14 @@ onMounted(() => {
       <a-layout style="gap: 1px">
         <i-emp-side
           v-model:collapsed="menuConfig.collapsed"
-          v-model:selected-keys="menuConfig.selectedKeys"
           v-model:open-keys="menuConfig.openKeys"
+          v-model:selected-keys="menuConfig.selectedKeys"
           :collapsible="true"
           :menu-list="menuConfig.menuList"
-          :width="menuConfig.hideSide ? 0 : menuConfig.sideWidth"
           :show-logo="false"
+          :width="menuConfig.hideSide ? 0 : menuConfig.sideWidth"
         />
-        <a-divider type="vertical" v-if="!menuConfig.hideSide" style="height: calc(100vh - 114px)" />
+        <a-divider v-if="!menuConfig.hideSide" style="height: calc(100vh - 114px)" type="vertical" />
         <a-layout class="i-layout__inner">
           <!--使用a-config-provider修改单个组件的样式 TODO-->
           <a-config-provider :theme="tabConfig">
@@ -270,12 +270,12 @@ onMounted(() => {
       placement="left"
     >
       <i-emp-side
-        v-model:selected-keys="menuConfig.selectedKeys"
         v-model:open-keys="menuConfig.openKeys"
+        v-model:selected-keys="menuConfig.selectedKeys"
         :collapsible="false"
         :menu-list="menuConfig.menuList"
-        :width="menuConfig.sideWidth"
         :show-logo="true"
+        :width="menuConfig.sideWidth"
       />
     </a-drawer>
   </div>

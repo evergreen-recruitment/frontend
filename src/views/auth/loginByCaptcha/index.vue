@@ -89,9 +89,9 @@ async function sendCode() {
     <div class="i-auth-title">验证码登录/注册</div>
     <div class="i-change">
       <div class="tabs">
-        <input type="radio" id="radio-1" name="tabs" checked />
+        <input id="radio-1" checked name="tabs" type="radio" />
         <label class="tab" for="radio-1">我是求职者</label>
-        <input type="radio" id="radio-2" name="tabs" />
+        <input id="radio-2" name="tabs" type="radio" />
         <label class="tab" for="radio-2">
           <i-navigator to="/empAuth/login">我是招聘人</i-navigator>
         </label>
@@ -101,13 +101,13 @@ async function sendCode() {
     <a-form
       ref="formRef"
       :label-col="{ span: 5 }"
-      :rules="rules"
       :model="formState"
+      :rules="rules"
       class="login-form"
       label-align="left"
     >
       <a-form-item name="phone">
-        <a-input v-model:value="formState.phone" size="large" :placeholder="$t('user.login.placeholder.username')">
+        <a-input v-model:value="formState.phone" :placeholder="$t('user.login.placeholder.username')" size="large">
           <template #prefix>
             <Icon icon="PhoneOutlined" />
           </template>
@@ -115,12 +115,12 @@ async function sendCode() {
       </a-form-item>
 
       <a-form-item name="verifyCode">
-        <a-input v-model:value="formState.verifyCode" size="large" :placeholder="$t('user.login.placeholder.password')">
+        <a-input v-model:value="formState.verifyCode" :placeholder="$t('user.login.placeholder.password')" size="large">
           <template #prefix>
             <Icon icon="SecurityScanOutlined" />
           </template>
           <template #suffix>
-            <a-button type="link" @click="sendCode" :disabled="countdown > 0">
+            <a-button :disabled="countdown > 0" type="link" @click="sendCode">
               {{ countdown > 0 ? `${countdown}秒后重发` : '发送验证码' }}
             </a-button>
           </template>
@@ -128,8 +128,8 @@ async function sendCode() {
       </a-form-item>
 
       <a-form-item>
-        <router-link to="/auth/loginByPassword" style="float: left">使用密码登录？</router-link>
-        <router-link to="/auth/forgetPassword" style="float: right">忘记密码</router-link>
+        <router-link style="float: left" to="/auth/loginByPassword">使用密码登录？</router-link>
+        <router-link style="float: right" to="/auth/forgetPassword">忘记密码</router-link>
       </a-form-item>
 
       <a-form-item>
@@ -146,21 +146,21 @@ async function sendCode() {
         <div class="i-oauth-login-panel">
           <div class="i-auth-login-btn weixin-login">
             <a-button class="i-oauth-login-btn-inner" type="text">
-              <Icon icon="WechatOutlined" :size="20" />
+              <Icon :size="20" icon="WechatOutlined" />
             </a-button>
             <span>微信登录</span>
           </div>
 
           <div class="i-auth-login-btn weixin-login">
             <a-button class="i-oauth-login-btn-inner" type="text">
-              <Icon icon="AlipayCircleOutlined" :size="20" />
+              <Icon :size="20" icon="AlipayCircleOutlined" />
             </a-button>
             <span>支付宝登录</span>
           </div>
 
           <div class="i-auth-login-btn weixin-login">
             <a-button class="i-oauth-login-btn-inner" type="text">
-              <Icon icon="QqOutlined" :size="20" />
+              <Icon :size="20" icon="QqOutlined" />
             </a-button>
             <span>QQ登录</span>
           </div>

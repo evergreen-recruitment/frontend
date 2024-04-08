@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { useAppStore } from '@/stores'
 import variables from '@/styles/variables.module.scss'
 import type { SimpleJobItemType } from '@/apis/job'
@@ -13,7 +13,7 @@ const appStore = useAppStore()
 
 <template>
   <div class="job-item-outer">
-    <i-navigator class="job-item" :to="{ name: 'jobDetail', query: { jobId: job.id } }" open-in-new-window>
+    <i-navigator :to="{ name: 'jobDetail', query: { jobId: job.id } }" class="job-item" open-in-new-window>
       <div class="top">
         <div class="left">
           <div class="job-title">{{ job.title }}</div>
@@ -35,7 +35,7 @@ const appStore = useAppStore()
       </div>
       <div class="bottom">
         <div class="job-tags">
-          <a-tag :color="variables[appStore.themeName]" v-for="t in job.jobSkills" :key="t">{{ t }}</a-tag>
+          <a-tag v-for="t in job.jobSkills" :key="t" :color="variables[appStore.themeName]">{{ t }}</a-tag>
         </div>
         <div class="job-time">更新时间：<br />{{ formatDateStr(job.updateTime) }}</div>
       </div>
@@ -43,7 +43,7 @@ const appStore = useAppStore()
   </div>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 @import '@/styles/theme.scss';
 
 .job-item-outer {

@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { onMounted, onUnmounted } from 'vue'
 import type { Graph, GraphData, NodeConfig } from '@antv/g6'
 import G6 from '@antv/g6'
@@ -231,7 +231,7 @@ onUnmounted(() => {
   <div class="graph-container"></div>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .graph-container {
   position: relative;
   width: 100%;

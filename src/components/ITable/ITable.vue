@@ -2,7 +2,7 @@
 
 <template>
   <div class="i-table">
-    <a-table v-bind="$attrs" :scroll="{ x: 1200 }" class="i-table__container">
+    <a-table :scroll="{ x: 1200 }" class="i-table__container" v-bind="$attrs">
       <template #title>
         <div class="i-table__title">
           <div class="i-table__title--left">

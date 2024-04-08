@@ -1,6 +1,6 @@
 <template>
   <div class="chart">
-    <v-echart v-bind="$attrs" class="chart" :option="optionComputed" :theme="themeComputed" autoresize />
+    <v-echart :option="optionComputed" :theme="themeComputed" autoresize class="chart" v-bind="$attrs" />
   </div>
 </template>
 
@@ -14,6 +14,7 @@ import {
   BarChart,
   BoxplotChart,
   CandlestickChart,
+  GaugeChart,
   HeatmapChart,
   LineChart,
   MapChart,
@@ -21,7 +22,6 @@ import {
   RadarChart,
   SankeyChart,
   ScatterChart,
-  GaugeChart,
 } from 'echarts/charts'
 // @ts-ignore
 import { Bar3DChart } from 'echarts-gl/charts'
