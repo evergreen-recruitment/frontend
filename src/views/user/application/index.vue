@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import {  useUserStore } from '@/stores'
+import { useUserStore } from '@/stores'
 import { computed, reactive, ref } from 'vue'
 import type {
   CertificateInfoFormType,

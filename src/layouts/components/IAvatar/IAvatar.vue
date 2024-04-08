@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import {  useUserStore } from '@/stores'
+import { useUserStore } from '@/stores'
 import { computed } from 'vue'
 import type { UserInfoType } from '@/apis/user'
 

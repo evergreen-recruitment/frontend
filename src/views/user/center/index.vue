@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
-import {  useUserStore } from '@/stores'
+import { useUserStore } from '@/stores'
 import { findFullLocation } from '@/utils/utils'
 import type { UserInfoType } from '@/apis/user'
 
