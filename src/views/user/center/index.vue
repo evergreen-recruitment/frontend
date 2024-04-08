@@ -1,7 +1,8 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { type UserInfoType, useUserStore } from '@/stores'
+import {  useUserStore } from '@/stores'
 import { findFullLocation } from '@/utils/utils'
+import type { UserInfoType } from '@/apis/user'
 
 const userStore = useUserStore()
 const activeKey = ref('1')

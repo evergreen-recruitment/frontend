@@ -50,7 +50,7 @@ export function loginByCaptchaApi(loginForm: LoginByCaptchaFormType) {
     'user/login/phone',
     loginForm,
     // @ts-ignore
-    { headers: { 'Content-Type': 'application/json' }, ignoreToken: true },
+    { ignoreToken: true },
   )
 }
 
@@ -63,7 +63,7 @@ export function loginByPasswordApi(loginForm: LoginByPasswordFormType) {
     'user/login/password',
     loginForm,
     // @ts-ignore
-    { headers: { 'Content-Type': 'application/json' }, ignoreToken: true },
+    { ignoreToken: true },
   )
 }
 
@@ -76,7 +76,7 @@ export function forgetPasswordApi(forgetPasswordForm: ForgetPasswordFormType) {
     'user/forget',
     forgetPasswordForm,
     // @ts-ignore
-    { headers: { 'Content-Type': 'application/json' }, ignoreToken: true },
+    { ignoreToken: true },
   )
 }
 
@@ -90,7 +90,7 @@ export function completeUserInfoApi(completeInfoForm: CompleteUserInfoFormType) 
       'user/fill/requireinfo',
       completeInfoForm,
       // @ts-ignore
-      { headers: { 'Content-Type': 'application/json' }, ignoreToken: true },
+      { ignoreToken: true },
     )
     .send(true) as Promise<boolean>
 }
@@ -135,12 +135,13 @@ export function sendSMSApi(phone: string) {
  * 退出登录
  */
 export function logoutApi() {
-  return request.Get(
-    'user/logout',
-    {},
-    // @ts-ignore
-    { ignoreToken: true },
-  )
+  return request
+    .Get(
+      'user/logout',
+      // @ts-ignore
+      { ignoreToken: true },
+    )
+    .send(true) as Promise<null>
 }
 
 /**

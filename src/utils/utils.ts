@@ -109,33 +109,32 @@ export function findFullLocation(location: number) {
  * @param name 省市名称
  */
 export function findFullLocationByAnyName(name: string) {
-
-  const path: string[] = [];
+  const path: string[] = []
 
   function traverse(node: any): boolean {
     if (node.name === name) {
-      path.push(node.name);
-      return true;
+      path.push(node.name)
+      return true
     }
 
     if (node.children) {
       for (const child of node.children) {
-        path.push(node.name);
+        path.push(node.name)
         if (traverse(child)) {
-          return true;
+          return true
         }
-        path.pop();
+        path.pop()
       }
     }
 
-    return false;
+    return false
   }
 
   for (const province of map) {
     if (traverse(province)) {
-      break;
+      break
     }
   }
 
-  return path;
+  return path
 }

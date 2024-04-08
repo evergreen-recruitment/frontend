@@ -2,41 +2,39 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import { logoutApi } from '@/apis/auth'
 import { useCookies } from 'vue3-cookies'
+import type { UserInfoType } from '@/apis/user'
 
 const { cookies } = useCookies()
 
-export type UserInfoType = {
-  id?: string
-  avatar?: string
-  userAccount?: string
-  realName?: string
-  phone?: string
-  email?: string
-  gender?: number
-  age?: number
-  location?: number
-  applyStatus?: number
-  createTime?: string
+const expiresTime = 60 * 30 // 自定义过期时间 30 分钟
+
+const cookieStorage: Storage = {
+  getItem(key: string) {
+    // pinia 的持久化插件要求返回字符串
+    return JSON.stringify(cookies.get(key))
+  },
+  setItem(key: string, value: string) {
+    console.log('cookies.set(key, value)', key, value)
+    cookies.set(key, value, expiresTime)
+  },
+  removeItem(key: string) {
+    cookies.remove(key)
+  },
+  clear() {
+    cookies.keys().forEach((key) => {
+      cookies.remove(key)
+    })
+  },
+  key(index: number): string | null {
+    return cookies.keys()[index] || null
+  },
+  length: cookies.keys().length,
 }
 
 export const useUserStore = defineStore(
   'userStore',
   () => {
     const token = ref<string>('')
-    // const userInfo = ref<UserInfo>({
-    //   id: '1774709828510330882',
-    //   avatar: '' || getAssetsFile('images/default_avatar.png'),
-    //   realName: '何嘉炜',
-    //   userAccount: 'admin',
-    //   phone: '153****4973',
-    //   email: 'pepedd@qq.com',
-    //   gender: 1,
-    //   age: 20,
-    //   address: '江西省南昌市',
-    //   applyStatus: 1,
-    //   createTime: '2024-04-01 16:06:10',
-    // })
-
     const userInfo = ref<UserInfoType>({})
 
     async function logout() {
@@ -53,6 +51,9 @@ export const useUserStore = defineStore(
     }
   },
   {
-    persist: true,
+    persist: {
+      storage: cookieStorage,
+      debug: true,
+    },
   },
 )

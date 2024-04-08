@@ -1,25 +1,12 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-
-export type EmpInfo = {
-  userId?: string
-  avatar?: string
-  userAccount?: string
-  realName?: string
-  phone?: string
-  email?: string
-  gender?: string
-  age?: number
-  address?: string
-  applyStatus?: number
-  createTime?: string
-}
+import type { EmpInfoType } from '@/apis/empAuth'
 
 export const useEmpStore = defineStore(
   'empStore',
   () => {
     const token = ref<string>('')
-    const empInfo = ref<EmpInfo>({
+    const empInfo = ref<EmpInfoType>({
       userId: '1774709828510330882',
       avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
       realName: '何嘉炜',

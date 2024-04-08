@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import IBackground from '@/layouts/components/IBackground/IBackground.vue'
 import { ref } from 'vue'
+import INavigator from '@/components/INavigator/INavigator.vue'
 
 const iBackgroundRef = ref<any>(null)
 </script>
@@ -12,7 +13,9 @@ const iBackgroundRef = ref<any>(null)
       <div class="i-auth-layout__container">
         <div class="i-auth-layout__container--left">
           <div class="i-auth-layout__container--left-title">
-            <img src="@/assets/images/logo1-white.png" style="width: 250px; object-fit: cover" />
+            <i-navigator to="/">
+              <img src="@/assets/images/logo1-white.png" style="width: 250px; object-fit: cover" />
+            </i-navigator>
           </div>
           <div class="i-auth-layout__container--left-subtitle">欢迎使用常青招聘</div>
         </div>

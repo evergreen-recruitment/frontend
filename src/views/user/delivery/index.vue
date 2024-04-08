@@ -1,9 +1,10 @@
 <script lang="ts" setup>
 import { computed, onMounted, reactive, ref } from 'vue'
-import { useAppStore, type UserInfoType, useUserStore } from '@/stores'
+import { useAppStore, useUserStore } from '@/stores'
 import { findFullLocation } from '@/utils/utils'
 import type { SimpleJobItemType } from '@/apis/job'
 import { jobSearchApi } from '@/apis/job'
+import type { UserInfoType } from '@/apis/user'
 
 const userStore = useUserStore()
 const userInfo = computed<UserInfoType>(() => userStore.userInfo)

@@ -1,6 +1,7 @@
 <script lang="ts" setup>
-import { type UserInfoType, useUserStore } from '@/stores'
+import {  useUserStore } from '@/stores'
 import { computed } from 'vue'
+import type { UserInfoType } from '@/apis/user'
 
 const userStore = useUserStore()
 const userInfo = computed<UserInfoType>(() => userStore.userInfo)

@@ -52,7 +52,7 @@ async function getSearchResult() {
   searchJobList.value = (await jobSearchApi(searchState.value)).records
 }
 
-const keyword =  watchEffect(async () => {
+const keyword = watchEffect(async () => {
   searchState.value.keyword = (router.currentRoute.value.query.keyword as string) || ''
   await getSearchResult()
 })
@@ -60,9 +60,7 @@ onMounted(async () => {
   knowledgeGraphData.value = await getHomeKnowledgeGraphApi()
   hotCities.value = statusStore.hotCities
 })
-onUnmounted(() => {
-
-})
+onUnmounted(() => {})
 </script>
 
 <template>

@@ -16,7 +16,6 @@ const fileList = ref([])
 const avatarUploadLoading = ref(false)
 const loading = ref(false)
 const formRef = ref()
-console.log(userStore.userInfo.id)
 const formState = reactive<CompleteUserInfoFormType>({
   userId: userStore.userInfo?.id,
   avatar: '',
@@ -222,8 +221,7 @@ onUnmounted(() => {
       </a-form-item>
 
       <a-form-item>
-        <router-link style="float: left" to="/auth/loginByPassword">使用密码登录？</router-link>
-        <router-link style="float: right" to="/auth/forgetPassword">忘记密码</router-link>
+        <router-link style="float: right" to="/" @click.prevent="userStore.logout()">退出登录</router-link>
       </a-form-item>
 
       <a-form-item>

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { type UserInfoType, useUserStore } from '@/stores'
+import {  useUserStore } from '@/stores'
 import { computed, reactive, ref } from 'vue'
 import type {
   CertificateInfoFormType,
@@ -9,6 +9,7 @@ import type {
   WorkExpInfoFormType,
 } from '@/apis/application'
 import { findFullLocation } from '../../../utils/utils'
+import type { UserInfoType } from '@/apis/user'
 
 const userStore = useUserStore()
 const userInfo = computed<UserInfoType>(() => userStore.userInfo)
