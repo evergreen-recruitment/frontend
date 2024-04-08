@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { type UserInfo, useUserStore } from '@/stores'
+import { type UserInfoType, useUserStore } from '@/stores'
 import { computed, reactive, ref } from 'vue'
 import type {
   CertificateInfoFormType,
@@ -8,9 +8,10 @@ import type {
   SkillInfoFormType,
   WorkExpInfoFormType,
 } from '@/apis/application'
+import { findFullLocation } from '../../../utils/utils'
 
 const userStore = useUserStore()
-const userInfo = computed<UserInfo>(() => userStore.userInfo)
+const userInfo = computed<UserInfoType>(() => userStore.userInfo)
 
 const activeKey = ref('1')
 
@@ -64,7 +65,7 @@ const selfIntroductionForm = reactive<SelfIntroductionFormType>({
             <div class="info-panel">
               <div class="gender">{{ userInfo.gender == 1 ? '男' : '女' }}</div>
               <div class="age">{{ userInfo.age }}岁</div>
-              <div class="location">{{ userInfo.address }}</div>
+              <div class="location">{{ findFullLocation(userInfo.location as number)[1].name }}</div>
             </div>
             <div class="phone"><Icon icon="PhoneOutlined" />&nbsp; {{ userInfo.phone }}</div>
           </div>
@@ -221,7 +222,7 @@ const selfIntroductionForm = reactive<SelfIntroductionFormType>({
         @apply relative flex items-center space-x-5 pl-7;
 
         .left {
-          @apply w-24 rounded-full overflow-hidden;
+          @apply w-24 h-24 rounded-full overflow-hidden;
 
           @include useTheme {
             box-shadow: 0 0 10px rgba(getColor('primary'), 1);
@@ -235,7 +236,7 @@ const selfIntroductionForm = reactive<SelfIntroductionFormType>({
             }
 
             img {
-              @apply w-full h-full object-cover;
+              @apply w-full h-full object-cover object-center;
             }
           }
         }

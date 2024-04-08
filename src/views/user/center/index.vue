@@ -1,8 +1,16 @@
 <script lang="ts" setup>
-import { reactive, ref } from 'vue'
+import { ref } from 'vue'
+import { type UserInfoType, useUserStore } from '@/stores'
+import { findFullLocation } from '@/utils/utils'
 
+const userStore = useUserStore()
 const activeKey = ref('1')
-const userInfoForm = reactive<any>({})
+type ModifiedUserInfoType = Omit<UserInfoType, 'location'> & { location: [number, number] }
+const fullPath = findFullLocation(userStore.userInfo.location as number)
+const userInfoForm = ref<ModifiedUserInfoType>({
+  ...userStore.userInfo,
+  location: [fullPath[0].code, fullPath[1].code], // 提供一个初始值
+})
 </script>
 
 <template>
@@ -16,9 +24,6 @@ const userInfoForm = reactive<any>({})
               <a-form :label-col="{ span: 5 }" :model="userInfoForm" class="user-info-form" label-align="left">
                 <a-form-item label="姓名">
                   <a-input v-model:value="userInfoForm.realName" />
-                </a-form-item>
-                <a-form-item label="个人简介">
-                  <a-input v-model:value="userInfoForm.desc" />
                 </a-form-item>
                 <a-form-item label="邮箱">
                   <a-input v-model:value="userInfoForm.email" />
@@ -37,7 +42,10 @@ const userInfoForm = reactive<any>({})
                 <div class="title">
                   <span>头像</span>
                 </div>
-                <div class="avatar-img">
+                <div v-if="userInfoForm.avatar" class="avatar-img">
+                  <img :src="userInfoForm.avatar" alt="" />
+                </div>
+                <div v-else class="avatar-icon">
                   <Icon icon="UserOutlined" />
                 </div>
                 <a-upload>
@@ -69,7 +77,7 @@ const userInfoForm = reactive<any>({})
             <a-list-item>
               <a-list-item-meta description="当前未绑定微信" title="绑定微信">
                 <template #avatar>
-                  <Icon icon="WechatOutlined" size="40" />
+                  <Icon icon="WechatOutlined" :size="40" />
                 </template>
               </a-list-item-meta>
               <a-button type="link">绑定</a-button>
@@ -77,7 +85,7 @@ const userInfoForm = reactive<any>({})
             <a-list-item>
               <a-list-item-meta description="当前未绑定支付宝" title="绑定支付宝">
                 <template #avatar>
-                  <Icon icon="AlipayOutlined" size="40" />
+                  <Icon icon="AlipayOutlined" :size="40" />
                 </template>
               </a-list-item-meta>
               <a-button type="link">绑定</a-button>
@@ -85,7 +93,7 @@ const userInfoForm = reactive<any>({})
             <a-list-item>
               <a-list-item-meta description="当前未绑定QQ" title="绑定QQ">
                 <template #avatar>
-                  <Icon icon="QqOutlined" size="40" />
+                  <Icon icon="QqOutlined" :size="40" />
                 </template>
               </a-list-item-meta>
               <a-button type="link">绑定</a-button>
@@ -165,6 +173,20 @@ const userInfoForm = reactive<any>({})
         }
 
         .avatar-img {
+          width: 100px;
+          height: 100px;
+          border-radius: 999px;
+          overflow: hidden;
+          margin-bottom: 20px;
+
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+          }
+        }
+
+        .avatar-icon {
           width: 100px;
           height: 100px;
           border-radius: 999px;

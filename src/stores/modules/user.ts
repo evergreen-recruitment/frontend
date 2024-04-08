@@ -5,7 +5,7 @@ import { useCookies } from 'vue3-cookies'
 
 const { cookies } = useCookies()
 
-export type UserInfo = {
+export type UserInfoType = {
   id?: string
   avatar?: string
   userAccount?: string
@@ -14,7 +14,7 @@ export type UserInfo = {
   email?: string
   gender?: number
   age?: number
-  address?: string
+  location?: number
   applyStatus?: number
   createTime?: string
 }
@@ -37,7 +37,7 @@ export const useUserStore = defineStore(
     //   createTime: '2024-04-01 16:06:10',
     // })
 
-    const userInfo = ref<UserInfo>({})
+    const userInfo = ref<UserInfoType>({})
 
     async function logout() {
       token.value = ''

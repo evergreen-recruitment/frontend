@@ -5,7 +5,7 @@ export type CityItemType = {
   name: string
 }
 
-export function getHotCities() {
+export function getHotCitiesApi() {
   return request
     .Get(
       '/city/hotCities',

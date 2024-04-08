@@ -20,8 +20,7 @@ onMounted(async () => {
       })
     }
   }
-  await statusStore.getIndustryList()
-  await statusStore.getJobCategory()
+  await statusStore.init()
 })
 </script>
 <template>

@@ -1,11 +1,11 @@
 <script lang="ts" setup>
-import { onMounted, ref, watchEffect } from 'vue'
+import { onMounted, onUnmounted, ref, watchEffect } from 'vue'
 import INavigator from '@/components/INavigator/INavigator.vue'
 import router from '@/router'
 import KnowledgeGraph from '@/components/KnowledgeGraph/KnowledgeGraph.vue'
 import { getHomeKnowledgeGraphApi } from '@/apis/home'
 import type { GraphData } from '@antv/g6'
-import { type CityItemType, getHotCities } from '@/apis/city'
+import { type CityItemType, getHotCitiesApi } from '@/apis/city'
 import type { JobFilterType, JobSearchFormType, SimpleJobItemType } from '@/apis/job'
 import { jobSearchApi } from '@/apis/job'
 import { useStatusStore } from '@/stores'
@@ -49,17 +49,19 @@ async function getSearchResult() {
   // newJobs.records.forEach((job) => {
   //   searchJobList.push(job)
   // })
-  console.log(jobFilterData.value)
   searchJobList.value = (await jobSearchApi(searchState.value)).records
 }
 
-watchEffect(async () => {
+const keyword =  watchEffect(async () => {
   searchState.value.keyword = (router.currentRoute.value.query.keyword as string) || ''
   await getSearchResult()
 })
 onMounted(async () => {
   knowledgeGraphData.value = await getHomeKnowledgeGraphApi()
-  hotCities.value = await getHotCities()
+  hotCities.value = statusStore.hotCities
+})
+onUnmounted(() => {
+
 })
 </script>
 

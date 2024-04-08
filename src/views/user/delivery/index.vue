@@ -1,77 +1,14 @@
 <script lang="ts" setup>
-import { computed, reactive } from 'vue'
-import { useAppStore, type UserInfo, useUserStore } from '@/stores'
+import { computed, onMounted, reactive, ref } from 'vue'
+import { useAppStore, type UserInfoType, useUserStore } from '@/stores'
+import { findFullLocation } from '@/utils/utils'
+import type { SimpleJobItemType } from '@/apis/job'
+import { jobSearchApi } from '@/apis/job'
 
 const userStore = useUserStore()
-const userInfo = computed<UserInfo>(() => userStore.userInfo)
+const userInfo = computed<UserInfoType>(() => userStore.userInfo)
 const appStore = useAppStore()
-const searchJobList = reactive<any[]>([
-  {
-    id: '1',
-    title: 'Java开发工程师',
-    salary: ['15k', '30k'],
-    experience: '3-5年',
-    education: '本科',
-    hr: '张三',
-    company: '阿里巴巴',
-    description: '负责公司后端开发工作',
-    address: '北京',
-    createTime: '2024-03-11',
-    tags: ['Java', '后端', '高级'],
-  },
-  {
-    id: '2',
-    title: '前端开发工程师',
-    salary: ['10k', '20k'],
-    experience: '1-3年',
-    education: '本科',
-    hr: '李四',
-    company: '腾讯',
-    description: '负责公司前端开发工作',
-    address: '上海',
-    createTime: '2024-03-01',
-    tags: ['前端', '初级'],
-  },
-  {
-    id: '3',
-    title: '测试工程师',
-    salary: ['8k', '15k'],
-    experience: '1-3年',
-    education: '本科',
-    hr: '王五',
-    company: '百度',
-    description: '负责公司测试工作',
-    address: '广州',
-    createTime: '2024-01-01',
-    tags: ['测试', '初级'],
-  },
-  {
-    id: '4',
-    title: '运维工程师',
-    salary: ['10k', '20k'],
-    experience: '3-5年',
-    education: '本科',
-    hr: '赵六',
-    company: '华为',
-    description: '负责公司运维工作',
-    address: '深圳',
-    createTime: '2024-03-02',
-    tags: ['运维', '中级'],
-  },
-  {
-    id: '5',
-    title: '人工智能工程师',
-    salary: ['20k', '40k'],
-    experience: '3-5年',
-    education: '硕士',
-    hr: '小明',
-    company: '小米',
-    description: '负责公司人工智能工作',
-    address: '杭州',
-    createTime: '2024-02-21',
-    tags: ['人工智能', '高级'],
-  },
-])
+const searchJobList = ref<SimpleJobItemType[]>([])
 const echartsOption = reactive({
   legend: {
     top: 'bottom',
@@ -124,6 +61,15 @@ const echartsOption = reactive({
     },
   ],
 })
+onMounted(async () => {
+  console.log(userInfo.value.location, findFullLocation(userInfo.value.location as number))
+  searchJobList.value = (
+    await jobSearchApi({
+      current: Math.random() * 2 + 2,
+      pageSize: 10,
+    })
+  ).records
+})
 </script>
 
 <template>
@@ -139,9 +85,9 @@ const echartsOption = reactive({
           <div class="right">
             <div class="real-name">{{ userInfo.realName }}</div>
             <div class="info-panel">
-              <div class="gender">{{ userInfo.gender }}</div>
-              <div class="age">{{ userInfo.age }}</div>
-              <div class="location">{{ userInfo.address }}</div>
+              <div class="gender">{{ userInfo.gender == 1 ? '男' : '女' }}</div>
+              <div class="age">{{ userInfo.age }}岁</div>
+              <div class="location">{{ findFullLocation(userInfo.location as number)[1].name }}</div>
             </div>
             <div class="phone"><Icon icon="PhoneOutlined" />&nbsp; {{ userInfo.phone }}</div>
           </div>
@@ -217,7 +163,7 @@ const echartsOption = reactive({
         @apply relative flex items-center space-x-5 pl-7;
 
         .left {
-          @apply w-24 rounded-full overflow-hidden;
+          @apply w-24 h-24 rounded-full overflow-hidden;
 
           @include useTheme {
             box-shadow: 0 0 10px rgba(getColor('primary'), 1);
@@ -231,7 +177,7 @@ const echartsOption = reactive({
             }
 
             img {
-              @apply w-full h-full object-cover;
+              @apply w-full h-full object-cover object-center;
             }
           }
         }

@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import { type UserInfo, useUserStore } from '@/stores'
+import { type UserInfoType, useUserStore } from '@/stores'
 import { computed } from 'vue'
 
 const userStore = useUserStore()
-const userInfo = computed<UserInfo>(() => userStore.userInfo)
+const userInfo = computed<UserInfoType>(() => userStore.userInfo)
 
 function logout() {
   userStore.logout()

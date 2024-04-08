@@ -7,7 +7,6 @@ import IAvatar from '@/layouts/components/IAvatar/IAvatar.vue'
 import { constantRouterMap, getAsyncRouterMap, type IRouter } from '@/config/router.config'
 
 const statusStore = useStatusStore()
-statusStore.getAddress()
 const userStore = useUserStore()
 const userInfo = computed(() => userStore.userInfo)
 const appStore = useAppStore()

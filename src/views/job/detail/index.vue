@@ -7,13 +7,6 @@ import I3DProgressBar from '@/components/I3DProgressBar/I3DProgressBar.vue'
 
 const appStore = useAppStore()
 const statusStore = useStatusStore()
-// const companyInfo = computed(() => {
-//   return {
-//     scale: CompanyScaleEnum[job.value?.companyVO.scaleId]
-//     stage: CompanyStageEnum[job.value?.companyVO.stageId]
-//     industry: statusStore.industryList[job.value?.companyVO.industryId]
-//   }
-// })
 const job = ref<JobItemType | null>()
 const sideJobList = ref<SimpleJobItemType[]>([])
 // 监听路由变化
@@ -29,6 +22,10 @@ const routerWatch = watchEffect(async () => {
 const option1 = reactive({
   legend: {
     top: 'bottom',
+  },
+  tooltip: {
+    trigger: 'item',
+    formatter: '{a} <br/>{b} : {c} ({d}%)',
   },
   series: [
     {
@@ -144,10 +141,10 @@ onUnmounted(() => {
           </div>
         </div>
         <div class="job-detail__side--vote card">
-          <div class="job-detail__side--title">对该岗位的推荐效果评分</div>
+          <div class="job-detail__side--title">推荐效果评分</div>
           <a-divider />
           <div class="job-detail__side--vote-main">
-            <div class="title">请选择好或者不好</div>
+            <div class="title">对该岗位的推荐效果评分<br />请选择好或者不好</div>
             <div class="btn-group">
               <a-button>
                 <Icon icon="LikeOutlined" />

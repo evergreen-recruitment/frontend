@@ -4,6 +4,7 @@ import { getIpAddressApi, type IpAddressType } from '@/apis/common'
 import { getIndustryListApi, type IndustryListType } from '@/apis/industry'
 import type { JobCategoryType } from '@/apis/job'
 import { getJobCategoryApi } from '@/apis/job'
+import { type CityItemType, getHotCitiesApi } from '@/apis/city'
 
 export const useStatusStore = defineStore(
   'statusStore',
@@ -11,8 +12,9 @@ export const useStatusStore = defineStore(
     const city = ref<IpAddressType>({ name: '北京,北京', code: [101010000, 101010100] })
     const industryList = ref<IndustryListType[]>([])
     const jobCategory = ref<JobCategoryType[]>([])
+    const hotCities = ref<CityItemType[]>([])
 
-    async function getAddress() {
+    async function getIpAddress() {
       city.value = await getIpAddressApi()
     }
 
@@ -24,13 +26,24 @@ export const useStatusStore = defineStore(
       jobCategory.value = await getJobCategoryApi()
     }
 
+    async function getHotCities() {
+      hotCities.value = await getHotCitiesApi()
+    }
+
+    async function init() {
+      await Promise.all([getIpAddress(), getIndustryList(), getJobCategory(), getHotCities()])
+    }
+
     return {
       city,
       industryList,
       jobCategory,
-      getAddress,
+      hotCities,
+      init,
+      getIpAddress,
       getIndustryList,
       getJobCategory,
+      getHotCities,
     }
   },
   {
