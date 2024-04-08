@@ -15,12 +15,12 @@ const searchCity = ref(statusStore.city.code)
 const searchState = ref<JobSearchFormType>({
   keyword: '',
   city: statusStore.city.code[1],
-  current: 0,
+  current: 1,
   pageSize: 10,
   sortField: '',
   sortOrder: '',
 })
-const jobFilter = ref<JobFilterType>({
+const jobFilterData = ref<JobFilterType>({
   jobType: 0,
   needJobType: 0,
   experience: 0,
@@ -44,7 +44,7 @@ const similarSearch = ref([
 const searchJobList = ref<SimpleJobItemType[]>([])
 
 async function getSearchResult() {
-  searchState.value.current += 1
+  // searchState.value.current += 1
   // const newJobs = await jobSearchApi(searchState.value)
   // newJobs.records.forEach((job) => {
   //   searchJobList.push(job)
@@ -78,7 +78,7 @@ onMounted(async () => {
         <router-link class="city" to="/job/search">其他城市</router-link>
       </div>
       <div class="filter-panel block-item">
-        <job-filter v-model:job-filter="jobFilter" />
+        <job-filter v-model:job-filter-data="jobFilterData" />
       </div>
     </div>
 

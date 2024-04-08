@@ -98,11 +98,11 @@ export function completeUserInfoApi(completeInfoForm: CompleteUserInfoFormType) 
 /**
  * 判断是否完善用户信息
  */
-export function isCompleteUserInfoApi() {
+export function isCompleteUserInfoApi(userId?: string) {
   return request
     .Post(
       'user/has/dorequired',
-      { userId: '' },
+      { userId: userId },
       // @ts-ignore
       { ignoreToken: true },
     )

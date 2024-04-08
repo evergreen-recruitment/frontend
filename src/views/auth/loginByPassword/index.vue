@@ -3,8 +3,6 @@ import { reactive, ref } from 'vue'
 import { useRequest } from 'alova'
 import { isCompleteUserInfoApi, loginByPasswordApi, type LoginByPasswordFormType } from '@/apis/auth'
 import { useRouter } from 'vue-router'
-// @ts-ignore
-import VueCookie from 'vue-cookie'
 import { useUserStore } from '@/stores'
 
 const formRef = ref()
@@ -45,21 +43,17 @@ onSuccess(async (event) => {
   if (data) {
     userStore.token = data.token
     userStore.userInfo = data.userVO
-    // 从cookie中获取satoken
-    setTimeout(async () => {
-      console.log(VueCookie.get('satoken'))
-      const res = await isCompleteUserInfoApi()
-    }, 2000)
-    // const res = await isCompleteUserInfoApi()
-    // if (res === false) {
-    //   router.push({
-    //     name: 'completeInfo',
-    //     query: {
-    //       userId: data.userVO.userId,
-    //     },
-    //   })
-    // }
-    // // 获取当前路由的参数, 跳转到指定页面
+    const res = await isCompleteUserInfoApi()
+    if (res === false) {
+      router.push({
+        name: 'completeInfo',
+        query: {
+          userId: data.userVO.id,
+        },
+      })
+      return
+    }
+    // 获取当前路由的参数, 跳转到指定页面
     const { redirect } = router.currentRoute.value.query
     router.push((redirect as string) || '/')
   }

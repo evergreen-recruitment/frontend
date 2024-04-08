@@ -8,13 +8,17 @@ import { completeUserInfoApi, isCompleteUserInfoApi } from '@/apis/auth'
 import ILocationSelector from '@/components/ILocationSelector/ILocationSelector.vue'
 import router from '@/router'
 import { useUserStore } from '@/stores'
+import { uploadImageApi } from '@/apis/common'
+import type { UploadRequestOption } from 'ant-design-vue/es/vc-upload/interface'
 
 const userStore = useUserStore()
 const fileList = ref([])
 const avatarUploadLoading = ref(false)
 const loading = ref(false)
 const formRef = ref()
+console.log(userStore.userInfo.id)
 const formState = reactive<CompleteUserInfoFormType>({
+  userId: userStore.userInfo?.id,
   avatar: '',
   userAccount: '',
   realName: '',
@@ -26,6 +30,7 @@ const formState = reactive<CompleteUserInfoFormType>({
   applyStatus: 0,
   gender: null,
 })
+console.log(formState)
 const rules = reactive({
   userAccount: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
   realName: [{ required: true, message: '请输入真实姓名', trigger: 'blur' }],
@@ -37,19 +42,13 @@ const rules = reactive({
   gender: [{ required: true, message: '选择性别', trigger: 'blur' }],
 })
 
-function getBase64(img: Blob, callback: (base64Url: string) => void) {
-  const reader = new FileReader()
-  reader.addEventListener('load', () => callback(reader.result as string))
-  reader.readAsDataURL(img)
-}
-
 function handleChange(info: UploadChangeParam) {
   if (info.file.status === 'uploading') {
     avatarUploadLoading.value = true
     return
   }
   if (info.file.status === 'done') {
-    formState.avatar = info.file.response.data
+    formState.avatar = info.file.response
     avatarUploadLoading.value = false
   }
   if (info.file.status === 'error') {
@@ -75,8 +74,7 @@ function submitCompleteInfo(e: any) {
   formRef.value.validate().then(async () => {
     // loading.value = true
     // @ts-ignore
-    formState.userId = userStore.userInfo?.userId
-    formState.reUserPassword = null
+    formState.reUserPassword = undefined
     const res = await completeUserInfoApi(formState)
     if (res !== true) {
       message.error('提交失败')
@@ -84,8 +82,18 @@ function submitCompleteInfo(e: any) {
       return
     }
     message.success('提交成功')
-    router.push('/auth/uploadApplication')
+    router.push('/')
+    // router.push('/auth/uploadApplication')
   })
+}
+
+async function customUploadImage(e: UploadRequestOption) {
+  const res = await uploadImageApi(e.file as File)
+  if (res === undefined) {
+    message.error('上传失败')
+    return
+  }
+  // e.onSuccess(e.file)
 }
 
 onMounted(async () => {
@@ -93,8 +101,7 @@ onMounted(async () => {
   container?.style.setProperty('width', '850px', 'important')
 
   // 获取用户id查询是否填写过信息
-  const res = await isCompleteUserInfoApi()
-  console.log(res)
+  const res = await isCompleteUserInfoApi(userStore.userInfo?.id)
   if (res !== false) {
     router.push('/')
   }
@@ -124,7 +131,7 @@ onUnmounted(() => {
               list-type="picture-card"
               class="avatar-uploader"
               :show-upload-list="false"
-              action="http://47.113.185.207:8081/common/uploadImage"
+              :custom-request="customUploadImage"
               :before-upload="beforeUpload"
               @change="handleChange"
             >

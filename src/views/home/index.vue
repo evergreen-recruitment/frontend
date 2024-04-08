@@ -1,15 +1,17 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, reactive, ref } from 'vue'
-import { useAppStore, useUserStore } from '@/stores'
-import { getHomeCategoryApi, getHomeKnowledgeGraphApi, getHomeNewJobsApi, getHotSearchApi } from '@/apis/home'
+import { useAppStore, useStatusStore, useUserStore } from '@/stores'
+import { getHomeKnowledgeGraphApi, getHomeNewJobsApi, getHotSearchApi } from '@/apis/home'
 import type { CompanyType } from '@/apis/company'
 import { getHotCompanyApi } from '@/apis/company'
 import INavigator from '@/components/INavigator/INavigator.vue'
+import type { JobCategoryType } from '@/apis/job'
 
 const userStore = useUserStore()
 const appStore = useAppStore()
+const statusStore = useStatusStore()
 const tabKey = ref('1')
-const category = ref()
+const category = ref<JobCategoryType[]>([])
 const hotSearch = ref()
 const hotCompanyList = ref<CompanyType[]>([])
 const recommendJobList = ref()
@@ -49,7 +51,7 @@ onMounted(async () => {
 
   const footer = document.querySelector('.footer') as HTMLElement
   footer.style.top = 'calc(100vh - 58px)'
-  category.value = await getHomeCategoryApi()
+  category.value = statusStore.jobCategory
   hotSearch.value = await getHotSearchApi()
   hotCompanyList.value = await getHotCompanyApi()
   recommendJobList.value = await getHomeNewJobsApi()

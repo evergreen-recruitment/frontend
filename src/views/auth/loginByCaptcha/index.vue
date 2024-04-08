@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
 import { useRequest } from 'alova'
-import { loginByCaptchaApi, type LoginByCaptchaFormType, sendSMSApi } from '@/apis/auth'
+import { isCompleteUserInfoApi, loginByCaptchaApi, type LoginByCaptchaFormType, sendSMSApi } from '@/apis/auth'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores'
 import { message } from 'ant-design-vue'
@@ -42,17 +42,16 @@ onSuccess(async (event) => {
   if (data) {
     userStore.token = data.token
     userStore.userInfo = data.userVO
-    // TODO 待后端修改逻辑
-    // const res = await isCompleteUserInfoApi()
-    router.push({
-      name: 'completeInfo',
-      query: {
-        userId: data.userVO.userId,
-      },
-    })
-    return
-    // if () {
-    // }
+    const res = await isCompleteUserInfoApi()
+    if (res === false) {
+      router.push({
+        name: 'completeInfo',
+        query: {
+          userId: data.userVO.id,
+        },
+      })
+      return
+    }
     // 获取当前路由的参数, 跳转到指定页面
     const { redirect } = router.currentRoute.value.query
     router.push((redirect as string) || '/')
@@ -147,21 +146,21 @@ async function sendCode() {
         <div class="i-oauth-login-panel">
           <div class="i-auth-login-btn weixin-login">
             <a-button class="i-oauth-login-btn-inner" type="text">
-              <Icon icon="WechatOutlined" size="20" />
+              <Icon icon="WechatOutlined" :size="20" />
             </a-button>
             <span>微信登录</span>
           </div>
 
           <div class="i-auth-login-btn weixin-login">
             <a-button class="i-oauth-login-btn-inner" type="text">
-              <Icon icon="AlipayCircleOutlined" size="20" />
+              <Icon icon="AlipayCircleOutlined" :size="20" />
             </a-button>
             <span>支付宝登录</span>
           </div>
 
           <div class="i-auth-login-btn weixin-login">
             <a-button class="i-oauth-login-btn-inner" type="text">
-              <Icon icon="QqOutlined" size="20" />
+              <Icon icon="QqOutlined" :size="20" />
             </a-button>
             <span>QQ登录</span>
           </div>

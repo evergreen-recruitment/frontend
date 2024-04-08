@@ -17,11 +17,13 @@ export function getIpAddressApi() {
 }
 
 export function uploadImageApi(file: File) {
+  const formData = new FormData()
+  formData.append('file', file)
   return request
     .Post(
       '/common/uploadImage',
-      { file },
-      // @ts-ignore
+      formData,
+      // @ts-ignore 这里不要自己添加Content-Type，会自动识别
       { ignoreToken: true },
     )
     .send(true) as Promise<string>

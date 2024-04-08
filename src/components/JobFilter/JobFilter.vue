@@ -2,17 +2,17 @@
 import type { JobFilterType } from '@/apis/job'
 import { useVModel } from '@vueuse/core'
 
-const emit = defineEmits(['update:jobFilter'])
+const emit = defineEmits(['update:jobFilterData'])
 const props = defineProps<{
-  jobFilter: JobFilterType
+  jobFilterData: JobFilterType
 }>()
 
-const propsJobFilter = useVModel(props, 'jobFilter', emit)
+const propsJobFilterData = useVModel(props, 'jobFilterData', emit)
 </script>
 
 <template>
   <div class="job-filter">
-    <a-tag v-for="item in propsJobFilter" :key="item" closable>{{ item }}</a-tag>
+    <a-tag v-for="item in propsJobFilterData" :key="item" closable>{{ item }}</a-tag>
     <a-space-compact block>
       <a-dropdown class="job-type" trigger="click">
         <a-button> 职位类型</a-button>
@@ -27,7 +27,7 @@ const propsJobFilter = useVModel(props, 'jobFilter', emit)
       <a-dropdown class="apply-type" trigger="click">
         <a-button> 求职类型</a-button>
         <template #overlay>
-          <a-menu v-model:selected-keys="propsJobFilter.needJobType">
+          <a-menu v-model:selected-keys="propsJobFilterData.needJobType">
             <a-menu-item :key="0"> 不限</a-menu-item>
             <a-menu-item :key="1"> 全职</a-menu-item>
             <a-menu-item :key="2"> 兼职</a-menu-item>
@@ -37,7 +37,7 @@ const propsJobFilter = useVModel(props, 'jobFilter', emit)
       <a-dropdown class="experience-type" trigger="click">
         <a-button> 工作经验</a-button>
         <template #overlay>
-          <a-menu v-model:selected-keys="propsJobFilter.experience">
+          <a-menu v-model:selected-keys="propsJobFilterData.experience">
             <a-menu-item :key="0"> 不限</a-menu-item>
             <a-menu-item :key="1"> 在校生</a-menu-item>
             <a-menu-item :key="2"> 应届生</a-menu-item>
@@ -53,7 +53,7 @@ const propsJobFilter = useVModel(props, 'jobFilter', emit)
       <a-dropdown class="Nature treatment" trigger="click">
         <a-button> 薪资待遇</a-button>
         <template #overlay>
-          <a-menu v-model:selected-keys="propsJobFilter.salary">
+          <a-menu v-model:selected-keys="propsJobFilterData.salary">
             <a-menu-item :key="0"> 不限</a-menu-item>
             <a-menu-item :key="1"> 3k以下</a-menu-item>
             <a-menu-item :key="2"> 3k-5k</a-menu-item>

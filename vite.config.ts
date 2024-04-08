@@ -67,13 +67,13 @@ export default defineConfig(({ command, mode }) => {
         '/api': {
           target: env.VITE_API_URL,
           changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/api/, ''),
+          // rewrite: (path) => path.replace(/^\/api/, ''),
         },
       },
     },
     esbuild: {
       // 移除console和debugger
-      // drop: ['console', 'debugger'],
+      drop: ['console', 'debugger'],
     },
   }
 })

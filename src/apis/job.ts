@@ -1,6 +1,12 @@
 import request from '@/utils/request'
 import type { PageType } from '@/types/commonTypes'
 
+export type JobCategoryType = {
+  id: number
+  name: string
+  children: JobCategoryType[]
+}
+
 export type JobSearchFormType = {
   keyword?: string
   city?: number
@@ -119,4 +125,18 @@ export function jobSearchApi(searchForm: JobSearchFormType) {
 
 export function similarJobsApi(jobStandardId: string) {
   return request.Get('/job/similarJobs', { params: { jobStandardId } }).send(true) as Promise<any>
+}
+
+/**
+ * 获取岗位分类
+ * 类型 待补充
+ */
+export function getJobCategoryApi() {
+  return request
+    .Get(
+      '/job/home/category',
+      // @ts-ignore
+      { headers: { 'Content-Type': 'application/json' }, ignoreToken: true },
+    )
+    .send(true) as Promise<JobCategoryType[]>
 }

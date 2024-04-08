@@ -12,11 +12,13 @@ nextTick(() => {
 })
 
 let baseURL
-const useProxy = false // 使用VITE的代理
+const useProxy = true // 使用 代理 代理将后端服务域名代理到前端 开发环境使用 vite进行代理 生产环境使用nginx代理
 const useMock = false // 使用mock数据
 if (import.meta.env.MODE === 'development' && useMock) {
   baseURL = import.meta.env.VITE_API_MOCK
 } else if (import.meta.env.MODE === 'development' && useProxy) {
+  baseURL = import.meta.env.VITE_API_PREFIX
+} else if (import.meta.env.MODE === 'production' && useProxy) {
   baseURL = import.meta.env.VITE_API_PREFIX
 } else {
   // TODO 发布时使用这行，开发时使用VITE的代理
@@ -52,7 +54,6 @@ const request = createAlova({
       router.push('/auth/login')
       return
     }
-    method.config.headers.satoken = `${userStore.token}`
   },
   // 全局的响应拦截器
   responded: {

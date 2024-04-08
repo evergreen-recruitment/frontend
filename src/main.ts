@@ -5,6 +5,7 @@ import '@/styles/common.scss'
 // import '@/styles/preflight.css'
 import { createApp } from 'vue'
 import App from '@/App.vue'
+import VueCookies from 'vue3-cookies'
 // 引入andv icon
 import * as Icons from '@ant-design/icons-vue'
 import Icon from '@/components/Icon/Icon.vue'
@@ -22,6 +23,7 @@ const app = createApp(App)
 app.use(router)
 app.use(pinia)
 app.use(i18n)
+app.use(VueCookies)
 app.use(VueTransitions, {
   // Plugin options (optional, described below)
 })

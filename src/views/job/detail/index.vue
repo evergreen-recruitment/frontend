@@ -1,15 +1,8 @@
 <script setup lang="ts">
-import { computed, onMounted, onUnmounted, reactive, ref, watchEffect } from 'vue'
+import { onMounted, onUnmounted, reactive, ref, watchEffect } from 'vue'
 import router from '@/router'
 import { useAppStore, useStatusStore } from '@/stores'
-import {
-  CompanyScaleEnum,
-  CompanyStageEnum,
-  getJobDetailApi,
-  type JobItemType,
-  jobSearchApi,
-  type SimpleJobItemType,
-} from '@/apis/job'
+import { getJobDetailApi, type JobItemType, jobSearchApi, type SimpleJobItemType } from '@/apis/job'
 import I3DProgressBar from '@/components/I3DProgressBar/I3DProgressBar.vue'
 
 const appStore = useAppStore()
@@ -27,7 +20,9 @@ const sideJobList = ref<SimpleJobItemType[]>([])
 const routerWatch = watchEffect(async () => {
   if (router.currentRoute.value.path === '/job/detail' && router.currentRoute.value.query.jobId) {
     job.value = await getJobDetailApi(router.currentRoute.value.query.jobId as string)
-    sideJobList.value = (await jobSearchApi({ keyword: job.value?.title, pageSize: 5, current: 1 })).records
+    sideJobList.value = (
+      await jobSearchApi({ keyword: job.value?.title, pageSize: 7, current: Math.random() * 10 })
+    ).records
   }
 })
 // echarts配置
@@ -76,7 +71,7 @@ onUnmounted(() => {
             </div>
           </div>
           <div class="job-info">
-            <div class="job-address">{{ job?.cityName }}</div>
+            <div class="job-address">{{ job?.cityName }} {{ job?.areaDistrict}}</div>
             <div class="job-labels" v-for="label in job?.jobLabels" :key="label">{{ label }}</div>
           </div>
           <a-button type="primary" size="large" class="apply-job">立即投递</a-button>

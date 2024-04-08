@@ -2,12 +2,26 @@
 import IHeader from '@/layouts/components/IHeader/IHeader.vue'
 import IFooter from '@/layouts/components/IFooter/IFooter.vue'
 import router from '@/router'
-import { useStatusStore } from '@/stores'
+import { useStatusStore, useUserStore } from '@/stores'
 import { onMounted } from 'vue'
+import { isCompleteUserInfoApi } from '@/apis/auth'
 
 const statusStore = useStatusStore()
+const userStore = useUserStore()
 onMounted(async () => {
+  if (userStore.token) {
+    const res = await isCompleteUserInfoApi(userStore.userInfo?.id)
+    if (res === false) {
+      router.push({
+        name: 'completeInfo',
+        query: {
+          userId: userStore.userInfo.id,
+        },
+      })
+    }
+  }
   await statusStore.getIndustryList()
+  await statusStore.getJobCategory()
 })
 </script>
 <template>

@@ -1,5 +1,6 @@
 import request, { alovaInstance } from '@/utils/request'
 import type { GraphData } from '@antv/g6'
+import type { JobCategoryType } from '@/apis/job'
 
 /**
  * 获取首页轮播图
@@ -9,20 +10,6 @@ export function getHomeBannerApi() {
   return request
     .Get(
       'home/banner',
-      // @ts-ignore
-      { headers: { 'Content-Type': 'application/json' }, ignoreToken: true },
-    )
-    .send(true) as Promise<any>
-}
-
-/**
- * 获取首页分类
- * 类型 待补充
- */
-export function getHomeCategoryApi() {
-  return request
-    .Get(
-      '/job/home/category',
       // @ts-ignore
       { headers: { 'Content-Type': 'application/json' }, ignoreToken: true },
     )
