@@ -2,7 +2,7 @@
 import { useVModel } from '@vueuse/core'
 import router from '@/router'
 
-const emit = defineEmits(['update:keyword', 'update:city'])
+const emit = defineEmits(['update:keyword', 'update:city', 'search'])
 const props = defineProps<{
   keyword: string
   city: string[]
@@ -11,8 +11,13 @@ const propsKeyword = useVModel(props, 'keyword', emit)
 const propsCity = useVModel(props, 'city', emit)
 
 function submit() {
-  // @ts-ignore
-  router.push({ name: 'jobSearch', query: { keyword: propsKeyword } })
+  router.push({
+    path: '/job/search',
+    query: {
+      keyword: propsKeyword.value,
+      city: propsCity.value[1],
+    },
+  })
 }
 </script>
 

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { SimpleJobItemType } from '@/apis/job'
 
-const emit = defineEmits(['addPage'])
+// const emit = defineEmits(['addPage'])
 const props = defineProps<{
   searchJobList: SimpleJobItemType[]
 }>()
@@ -9,7 +9,7 @@ const props = defineProps<{
 
 <template>
   <div class="job-list">
-    <job-item v-for="job in searchJobList" :key="job.id" :job="job" class="" />
+    <job-item v-slide-in="{ enter: true }" v-for="job in searchJobList" :key="job.id" :job="job" class="" />
   </div>
 </template>
 

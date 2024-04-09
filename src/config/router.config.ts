@@ -180,6 +180,7 @@ export function getAsyncRouterMap(): IRouter[] {
       meta: {
         icon: 'CompassOutlined',
         title: '推荐',
+        width: 1280,
       },
       component: () => import('@/views/recommend/index.vue'),
     },

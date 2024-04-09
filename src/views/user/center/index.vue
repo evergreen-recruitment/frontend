@@ -26,6 +26,12 @@ const userInfoForm = ref<ModifiedUserInfoType>({
                 <a-form-item label="姓名">
                   <a-input v-model:value="userInfoForm.realName" />
                 </a-form-item>
+                <a-form-item label="性别">
+                  <a-radio-group v-model:value="userInfoForm.gender">
+                    <a-radio value="0">女</a-radio>
+                    <a-radio value="1">男</a-radio>
+                  </a-radio-group>
+                </a-form-item>
                 <a-form-item label="邮箱">
                   <a-input v-model:value="userInfoForm.email" />
                 </a-form-item>

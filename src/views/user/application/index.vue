@@ -8,7 +8,6 @@ import type {
   SkillInfoFormType,
   WorkExpInfoFormType,
 } from '@/apis/application'
-import { findFullLocation } from '../../../utils/utils'
 import type { UserInfoType } from '@/apis/user'
 
 const userStore = useUserStore()
@@ -54,40 +53,14 @@ const selfIntroductionForm = reactive<SelfIntroductionFormType>({
 <template>
   <div class="application-page">
     <div class="application-page-left">
-      <div class="user-panel card">
-        <div class="user-panel-top">
-          <div class="left">
-            <div class="avatar">
-              <img :src="userInfo?.avatar" />
-            </div>
-          </div>
-          <div class="right">
-            <div class="real-name">{{ userInfo.realName }}</div>
-            <div class="info-panel">
-              <div class="gender">{{ userInfo.gender == 1 ? '男' : '女' }}</div>
-              <div class="age">{{ userInfo.age }}岁</div>
-              <div class="location">{{ findFullLocation(userInfo.location as number)[1].name }}</div>
-            </div>
-            <div class="phone"><Icon icon="PhoneOutlined" />&nbsp; {{ userInfo.phone }}</div>
-          </div>
-          <div class="to-optimize-application">
-            <a-button type="primary" @click="$router.push('/user/previewApplication')">查看在线简历</a-button>
-          </div>
-          <div class="edit-user-info">
-            <a-button type="text" @click="$router.push('/user/center')"> 编辑个人信息</a-button>
-          </div>
-        </div>
-        <div class="user-panel-bottom">
-          <div class="apply-status">
-            <div class="title">求职状态</div>
-            <div class="status">在职-暂不考虑</div>
-          </div>
-          <div class="join-time">
-            <div class="title">加入时间</div>
-            <div class="status">{{ userInfo.createTime }}</div>
-          </div>
-        </div>
-      </div>
+      <user-panel :userInfo="userInfo">
+        <template #float-top>
+          <a-button type="primary" @click="$router.push('/user/previewApplication')">查看在线简历</a-button>
+        </template>
+        <template #float-bottom>
+          <a-button type="text" @click="$router.push('/user/center')"> 编辑个人信息</a-button>
+        </template>
+      </user-panel>
       <i-card class="application-panel card">
         <a-tabs v-model:activeKey="activeKey" tab-position="left">
           <a-tab-pane key="1" tab="工作/实习经历">
@@ -212,81 +185,6 @@ const selfIntroductionForm = reactive<SelfIntroductionFormType>({
   @apply flex space-x-5 mt-10;
   .application-page-left {
     @apply flex flex-col space-y-5 mx-auto w-full;
-    .user-panel {
-      @apply p-5 pb-10 rounded-[var(--border-radius)] shadow-lg box-border;
-
-      @include useTheme {
-        background-color: getModeVar('cardBgColor');
-      }
-
-      .user-panel-top {
-        @apply relative flex items-center space-x-5 pl-7;
-
-        .left {
-          @apply w-24 h-24 rounded-full overflow-hidden;
-
-          @include useTheme {
-            box-shadow: 0 0 10px rgba(getColor('primary'), 1);
-          }
-
-          .avatar {
-            @apply flex items-center justify-center w-full h-full;
-
-            @include useTheme {
-              background: getColor('primary');
-            }
-
-            img {
-              @apply w-full h-full object-cover object-center;
-            }
-          }
-        }
-
-        .right {
-          @apply flex flex-col;
-
-          .real-name {
-            @apply text-5xl mb-5;
-          }
-
-          .info-panel {
-            @apply flex items-center space-x-5;
-          }
-
-          .phone {
-            @apply mt-2;
-          }
-        }
-
-        .to-optimize-application {
-          @apply absolute right-5 top-5;
-        }
-
-        .edit-user-info {
-          @apply absolute right-5 top-20;
-        }
-      }
-
-      .user-panel-bottom {
-        @apply flex justify-between space-x-6 mt-5;
-
-        .title {
-          @apply text-lg font-bold;
-        }
-
-        .status {
-          @apply text-sm text-gray-500 mt-2;
-        }
-
-        .apply-status {
-          @apply flex flex-col items-start justify-center;
-        }
-
-        .join-time {
-          @apply flex flex-col items-start justify-center;
-        }
-      }
-    }
   }
 
   .application-page-right {

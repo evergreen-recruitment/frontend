@@ -1,11 +1,11 @@
 <script lang="ts" setup>
-import { onMounted, onUnmounted, ref, watchEffect } from 'vue'
+import { onMounted, onUnmounted, ref, watch, watchEffect } from 'vue'
 import INavigator from '@/components/INavigator/INavigator.vue'
 import router from '@/router'
 import KnowledgeGraph from '@/components/KnowledgeGraph/KnowledgeGraph.vue'
 import { getHomeKnowledgeGraphApi } from '@/apis/home'
 import type { GraphData } from '@antv/g6'
-import { type CityItemType, getHotCitiesApi } from '@/apis/city'
+import { type CityItemType } from '@/apis/city'
 import type { JobFilterType, JobSearchFormType, SimpleJobItemType } from '@/apis/job'
 import { jobSearchApi } from '@/apis/job'
 import { useStatusStore } from '@/stores'
@@ -44,23 +44,32 @@ const similarSearch = ref([
 const searchJobList = ref<SimpleJobItemType[]>([])
 
 async function getSearchResult() {
-  // searchState.value.current += 1
-  // const newJobs = await jobSearchApi(searchState.value)
-  // newJobs.records.forEach((job) => {
-  //   searchJobList.push(job)
-  // })
+  searchState.value.city = searchCity.value[1]
   searchJobList.value = (await jobSearchApi(searchState.value)).records
 }
 
 const keyword = watchEffect(async () => {
-  searchState.value.keyword = (router.currentRoute.value.query.keyword as string) || ''
-  await getSearchResult()
+  // searchState.value.keyword = (router.currentRoute.value.query.keyword as string) || ''
+  // await getSearchResult()
 })
+
+const keywordWatch = watch(
+  () => router.currentRoute.value.query,
+  async (newVal) => {
+    searchState.value.keyword = newVal.keyword as string
+    // @ts-ignore
+    searchState.value.city = newVal.city as number
+    await getSearchResult()
+  },
+  { immediate: true },
+)
 onMounted(async () => {
   knowledgeGraphData.value = await getHomeKnowledgeGraphApi()
   hotCities.value = statusStore.hotCities
 })
-onUnmounted(() => {})
+onUnmounted(() => {
+  keywordWatch()
+})
 </script>
 
 <template>
@@ -84,7 +93,7 @@ onUnmounted(() => {})
     </div>
 
     <div class="job">
-      <job-search-list :search-job-list="searchJobList" class="job-l block-item" @add-page="getSearchResult" />
+      <job-search-list :search-job-list="searchJobList" class="job-l block-item" />
       <div class="job-side block-item">
         <div class="graph-cot card">
           <knowledge-graph v-if="knowledgeGraphData" :data="knowledgeGraphData" :zoom="0.5" class="graph" />

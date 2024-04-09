@@ -30,15 +30,15 @@ function logout() {
             <router-link to="/user/center">&nbsp;用户中心</router-link>
           </a-menu-item>
           <a-menu-item key="2">
-            <Icon icon="UserOutlined" />
+            <Icon icon="FileTextOutlined" />
             <router-link to="/user/application">&nbsp;个人简历</router-link>
           </a-menu-item>
           <a-menu-item key="3">
-            <Icon icon="UserOutlined" />
+            <Icon icon="EyeOutlined" />
             <router-link to="/user/previewApplication">&nbsp;预览在线简历</router-link>
           </a-menu-item>
           <a-menu-item key="4">
-            <Icon icon="UserOutlined" />
+            <Icon icon="FlagOutlined" />
             <router-link to="/user/delivery">&nbsp;投递信息</router-link>
           </a-menu-item>
           <a-menu-item key="5">
@@ -47,7 +47,7 @@ function logout() {
           </a-menu-item>
           <a-menu-divider />
           <a-menu-item key="6">
-            <Icon icon="SettingOutlined" />
+            <Icon icon="TeamOutlined" />
             <router-link to="/empAuth/login" @click="userStore.logout()">&nbsp;切换到招聘者</router-link>
           </a-menu-item>
           <a-menu-item key="7">
