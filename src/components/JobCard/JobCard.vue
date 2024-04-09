@@ -23,7 +23,7 @@ const appStore = useAppStore()
             <div class="address">{{ job.cityName }}</div>
           </div>
           <div class="right">
-            <img :src="job.companyVO.logo" alt="" />
+            <img v-lazy-load="job.companyVO.logo" alt="" />
           </div>
         </div>
         <div class="job-card__content--bottom">

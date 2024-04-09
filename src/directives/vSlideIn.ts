@@ -1,3 +1,5 @@
+import type { DirectiveBinding } from 'vue'
+
 let DURATION = 500
 const DISTANCE = 100
 const animationMap = new WeakMap()
@@ -15,8 +17,7 @@ const isBelowViewport = (el: HTMLElement) => {
   return rect.top > window.innerHeight
 }
 export default {
-  mounted(el: HTMLElement, binding: any) {
-    console.log(binding.value)
+  mounted(el: HTMLElement, binding: DirectiveBinding) {
     if (!binding.value?.enter && !isBelowViewport(el)) {
       return
     }

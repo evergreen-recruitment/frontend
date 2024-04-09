@@ -4,6 +4,7 @@ import { logoutApi } from '@/apis/auth'
 import { useCookies } from 'vue3-cookies'
 import type { UserInfoType } from '@/apis/user'
 import { getCookieStorage } from '@/stores'
+import { getUserInfoApi } from '@/apis/user'
 
 const { cookies } = useCookies()
 
@@ -15,6 +16,10 @@ export const useUserStore = defineStore(
     const token = ref<string>('')
     const userInfo = ref<UserInfoType>({})
 
+    async function getUserInfo() {
+      userInfo.value = await getUserInfoApi()
+    }
+
     async function logout() {
       token.value = ''
       userInfo.value = {}
@@ -25,6 +30,7 @@ export const useUserStore = defineStore(
     return {
       token,
       userInfo,
+      getUserInfo,
       logout,
     }
   },

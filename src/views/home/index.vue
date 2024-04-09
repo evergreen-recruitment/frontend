@@ -226,7 +226,7 @@ window.addEventListener('scroll', scrollEvent)
               :to="{ name: 'companyDetail', query: { companyId: company.id } }"
               class="company-item"
             >
-              <img :src="company.logo" alt="company.name" />
+              <img v-lazy-load="company.logo" alt="company.name" />
             </i-navigator>
           </div>
           <div class="line-even">
@@ -236,7 +236,7 @@ window.addEventListener('scroll', scrollEvent)
               :to="{ name: 'companyDetail', query: { companyId: company.id } }"
               class="company-item"
             >
-              <img :src="company.logo" alt="company.name" />
+              <img v-lazy-load="company.logo" alt="company.name" />
             </i-navigator>
           </div>
         </div>

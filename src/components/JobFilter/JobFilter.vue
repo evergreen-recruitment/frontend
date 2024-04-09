@@ -41,9 +41,9 @@ function handleJobTypeChange(value: number[]) {
         style="width: 200px"
       />
       <a-select v-model="propsJobFilterData.needJobType" class="apply-type" placeholder="求职类型" style="width: 200px">
-        <a-select-option value="0">不限</a-select-option>
-        <a-select-option value="1">全职</a-select-option>
-        <a-select-option value="2">实习</a-select-option>
+        <a-select-option :value="0">不限</a-select-option>
+        <a-select-option :value="1">全职</a-select-option>
+        <a-select-option :value="2">实习</a-select-option>
       </a-select>
       <a-select
         v-model="propsJobFilterData.experience"
@@ -51,12 +51,12 @@ function handleJobTypeChange(value: number[]) {
         placeholder="工作经验"
         style="width: 200px"
       >
-        <a-select-option value="0">经验不限</a-select-option>
-        <a-select-option value="1">在校/应届</a-select-option>
-        <a-select-option value="2">1-3年</a-select-option>
-        <a-select-option value="3">3-5年</a-select-option>
-        <a-select-option value="4">5-10年</a-select-option>
-        <a-select-option value="5">10年以上</a-select-option>
+        <a-select-option :value="0">经验不限</a-select-option>
+        <a-select-option :value="1">在校/应届</a-select-option>
+        <a-select-option :value="2">1-3年</a-select-option>
+        <a-select-option :value="3">3-5年</a-select-option>
+        <a-select-option :value="4">5-10年</a-select-option>
+        <a-select-option :value="5">10年以上</a-select-option>
       </a-select>
       <a-select
         v-model="propsJobFilterData.salary"
@@ -64,13 +64,13 @@ function handleJobTypeChange(value: number[]) {
         placeholder="薪资待遇"
         style="width: 200px"
       >
-        <a-select-option value="0">不限</a-select-option>
-        <a-select-option value="1">3k以下</a-select-option>
-        <a-select-option value="2">3k-5k</a-select-option>
-        <a-select-option value="3">5k-10k</a-select-option>
-        <a-select-option value="4">10k-20k</a-select-option>
-        <a-select-option value="5">20k-50k</a-select-option>
-        <a-select-option value="6">50k以上</a-select-option>
+        <a-select-option :value="0">不限</a-select-option>
+        <a-select-option :value="1">3k以下</a-select-option>
+        <a-select-option :value="2">3k-5k</a-select-option>
+        <a-select-option :value="3">5k-10k</a-select-option>
+        <a-select-option :value="4">10k-20k</a-select-option>
+        <a-select-option :value="5">20k-50k</a-select-option>
+        <a-select-option :value="6">50k以上</a-select-option>
       </a-select>
     </a-space-compact>
   </div>

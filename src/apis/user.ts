@@ -15,5 +15,5 @@ export type UserInfoType = {
 }
 
 export function getUserInfoApi() {
-  return request.Get('user/info')
+  return request.Get('user/info').send(true) as Promise<UserInfoType>
 }

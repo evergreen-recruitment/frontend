@@ -68,11 +68,13 @@ function beforeUpload(file: UploadProps['fileList'][number]) {
   return isJpgOrPng && isLt2M
 }
 
-function submitCompleteInfo(e: any) {
+async function submitCompleteInfo(e: any) {
   formRef.value.validate().then(async () => {
     // loading.value = true
     // @ts-ignore
     formState.reUserPassword = undefined
+    // @ts-ignore
+    formState.location = formState.location[1]
     const res = await completeUserInfoApi(formState)
     if (res !== true) {
       message.error('提交失败')
@@ -91,7 +93,8 @@ async function customUploadImage(e: UploadRequestOption) {
     message.error('上传失败')
     return
   }
-  // e.onSuccess(e.file)
+  // @ts-ignore
+  e.onSuccess(res, e.file)
 }
 
 onMounted(async () => {
@@ -168,8 +171,8 @@ onUnmounted(() => {
         <a-col :span="12">
           <a-form-item label="性别" name="gender">
             <a-radio-group v-model:value="formState.gender">
-              <a-radio value="0">男</a-radio>
-              <a-radio value="1">女</a-radio>
+              <a-radio :value="0">女</a-radio>
+              <a-radio :value="1">男</a-radio>
             </a-radio-group>
           </a-form-item>
         </a-col>

@@ -10,7 +10,7 @@ lerna-debug.log*
 node_modules
 .DS_Store
 # 提交代码时自动编译，然后自动提交到production分支
-#dist
+dist
 dist-ssr
 dist.zip
 coverage

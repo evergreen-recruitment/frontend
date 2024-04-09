@@ -14,7 +14,6 @@ export function getCookieStorage(cookies, expiresTime: string | number | Date) {
       return JSON.stringify(cookies.get(key))
     },
     setItem(key: string, value: string) {
-      console.log('cookies.set(key, value)', key, value)
       cookies.set(key, value, expiresTime)
     },
     removeItem(key: string) {

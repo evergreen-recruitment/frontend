@@ -22,7 +22,7 @@ export const useAppStore = defineStore(
       return locale.value
     })
     // 颜色模式
-    const darkModeRef = ref<'auto' | 'dark' | 'light'>('light')
+    const darkModeRef = ref<'auto' | 'dark' | 'light'>('dark')
     const darkModeQuery = window.matchMedia('(prefers-color-scheme: dark)') as MediaQueryList
 
     function handleDarkModeChange() {
@@ -161,6 +161,6 @@ export const useAppStore = defineStore(
     }
   },
   {
-    persist: false,
+    persist: true,
   },
 )

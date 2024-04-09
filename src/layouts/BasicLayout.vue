@@ -9,8 +9,9 @@ import { isCompleteUserInfoApi } from '@/apis/auth'
 const statusStore = useStatusStore()
 const userStore = useUserStore()
 onMounted(async () => {
+  await userStore.getUserInfo()
   if (userStore.token) {
-    const res = await isCompleteUserInfoApi(userStore.userInfo?.id)
+    const res = await isCompleteUserInfoApi()
     if (res === false) {
       router.push({
         name: 'completeInfo',

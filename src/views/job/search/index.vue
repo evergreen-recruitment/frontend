@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { onMounted, onUnmounted, ref, watch, watchEffect } from 'vue'
+import { onMounted, onUnmounted, ref, watch } from 'vue'
 import INavigator from '@/components/INavigator/INavigator.vue'
 import router from '@/router'
 import KnowledgeGraph from '@/components/KnowledgeGraph/KnowledgeGraph.vue'
@@ -9,6 +9,7 @@ import { type CityItemType } from '@/apis/city'
 import type { JobFilterType, JobSearchFormType, SimpleJobItemType } from '@/apis/job'
 import { jobSearchApi } from '@/apis/job'
 import { useStatusStore } from '@/stores'
+import { findFullLocation } from '@/utils/utils'
 
 const statusStore = useStatusStore()
 const searchCity = ref(statusStore.city.code)
@@ -48,17 +49,17 @@ async function getSearchResult() {
   searchJobList.value = (await jobSearchApi(searchState.value)).records
 }
 
-const keyword = watchEffect(async () => {
-  // searchState.value.keyword = (router.currentRoute.value.query.keyword as string) || ''
-  // await getSearchResult()
-})
-
 const keywordWatch = watch(
   () => router.currentRoute.value.query,
   async (newVal) => {
-    searchState.value.keyword = newVal.keyword as string
-    // @ts-ignore
-    searchState.value.city = newVal.city as number
+    if (newVal?.keyword) {
+      searchState.value.keyword = newVal?.keyword as string
+    }
+    if (newVal?.city) {
+      // @ts-ignore
+      const fullPath = findFullLocation(Number(newVal?.city))
+      searchCity.value = [fullPath[0].code, fullPath[1].code]
+    }
     await getSearchResult()
   },
   { immediate: true },

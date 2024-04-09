@@ -13,7 +13,9 @@ import router from '@/router'
 import '@/router/permission'
 import pinia from '@/stores'
 import i18n from '@/locales'
+// 自定义指令
 import VSlideIn from '@/directives/vSlideIn'
+import VLazyLoad from '@/directives/vLazyLoad'
 // 过渡动画
 import VueTransitions from '@morev/vue-transitions'
 import '@morev/vue-transitions/styles'
@@ -40,5 +42,5 @@ Object.keys(Icons).forEach((key) => {
   app.component(key, Icons[key])
 })
 app.directive('slide-in', VSlideIn)
-
+app.directive('lazy-load', VLazyLoad)
 app.mount('#app')

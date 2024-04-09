@@ -12,6 +12,7 @@ const userInfoForm = ref<ModifiedUserInfoType>({
   ...userStore.userInfo,
   location: [fullPath[0].code, fullPath[1].code], // 提供一个初始值
 })
+console.log(userInfoForm.value.gender)
 </script>
 
 <template>
@@ -23,22 +24,29 @@ const userInfoForm = ref<ModifiedUserInfoType>({
             <a-page-header title="个人信息" />
             <div class="container">
               <a-form :label-col="{ span: 5 }" :model="userInfoForm" class="user-info-form" label-align="left">
-                <a-form-item label="姓名">
+                <a-form-item label="姓名" name="realName">
                   <a-input v-model:value="userInfoForm.realName" />
                 </a-form-item>
-                <a-form-item label="性别">
+                <a-form-item label="性别" name="gender">
                   <a-radio-group v-model:value="userInfoForm.gender">
-                    <a-radio value="0">女</a-radio>
-                    <a-radio value="1">男</a-radio>
+                    <a-radio :value="0">女</a-radio>
+                    <a-radio :value="1">男</a-radio>
                   </a-radio-group>
                 </a-form-item>
-                <a-form-item label="邮箱">
+                <a-form-item label="邮箱" name="email">
                   <a-input v-model:value="userInfoForm.email" />
                 </a-form-item>
-                <a-form-item label="联系电话">
-                  <a-input v-model:value="userInfoForm.phone" />
+                <a-form-item label="求职状态" name="applyStatus">
+                  <a-select v-model:value="userInfoForm.applyStatus" placeholder="请选择求职状态">
+                    <a-select-option :value="0">在职，看看新机会</a-select-option>
+                    <a-select-option :value="1">在职，暂无跳槽打算</a-select-option>
+                    <a-select-option :value="2">离职，随时到岗</a-select-option>
+                    <a-select-option :value="3">在校，月内到岗</a-select-option>
+                    <a-select-option :value="4">在校，考虑机会</a-select-option>
+                    <a-select-option :value="5">在校，暂不考虑</a-select-option>
+                  </a-select>
                 </a-form-item>
-                <a-form-item label="所在地区">
+                <a-form-item label="所在地区" name="location">
                   <i-location-selector v-model:value="userInfoForm.location" />
                 </a-form-item>
                 <a-form-item>
