@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import INavigator from '@/components/INavigator/INavigator.vue'
 import { useVModel } from '@vueuse/core'
+import router from '@/router'
 
 const emit = defineEmits(['update:keyword'])
 const props = defineProps<{
@@ -8,6 +8,15 @@ const props = defineProps<{
   hideTitle?: boolean
 }>()
 const propsKeyword = useVModel(props, 'keyword', emit)
+
+function submit() {
+  router.push({
+    name: 'jobSearch',
+    query: {
+      keyword: propsKeyword.value,
+    },
+  })
+}
 </script>
 
 <template>
@@ -15,11 +24,15 @@ const propsKeyword = useVModel(props, 'keyword', emit)
     <div v-if="!hideTitle" class="title">搜索你心仪的岗位</div>
     <div class="search">
       <a-input-group compact>
-        <a-input v-model:value="propsKeyword" enter-button="Search" placeholder="请输入职位关键词" size="large">
+        <a-input
+          v-model:value="propsKeyword"
+          enter-button="Search"
+          placeholder="请输入职位关键词"
+          size="large"
+          @keyup.enter="submit"
+        >
           <template #suffix>
-            <i-navigator :to="{ name: 'jobSearch', query: { keyword: keyword } }">
-              <a-button size="large" type="primary">搜索</a-button>
-            </i-navigator>
+            <a-button size="large" type="primary" @click="submit">搜索</a-button>
           </template>
         </a-input>
       </a-input-group>

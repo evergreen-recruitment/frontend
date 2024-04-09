@@ -3,15 +3,17 @@ import type { DirectiveBinding } from 'vue'
 let DURATION = 500
 const DISTANCE = 100
 const animationMap = new WeakMap()
+
 const ob = new IntersectionObserver((entries) => {
   for (const entry of entries) {
     if (entry.isIntersecting) {
       const animation = animationMap.get(entry.target)
       animation.play()
-      ob.unobserve(entry.target)
+      // ob.unobserve(entry.target)
     }
   }
 })
+
 const isBelowViewport = (el: HTMLElement) => {
   const rect = el.getBoundingClientRect()
   return rect.top > window.innerHeight
@@ -19,10 +21,11 @@ const isBelowViewport = (el: HTMLElement) => {
 export default {
   mounted(el: HTMLElement, binding: DirectiveBinding) {
     if (!binding.value?.enter && !isBelowViewport(el)) {
+      // console.log(!binding.value?.enter, !isBelowViewport(el))
       return
     }
     if (binding.value?.enter) {
-      DURATION = Math.random() * 300 + 200
+      DURATION = 300 + 100 * Math.floor(Math.random() * 5)
     }
     const animation = el.animate(
       [

@@ -10,7 +10,7 @@ const captchaEnabled = ref(true)
 const codeUrl = ref('')
 
 const formState = reactive<LoginByPasswordFormType>({
-  userAccount: '15707951133',
+  userAccount: '15374284973',
   userPassword: '123456',
   privacy: false,
 })

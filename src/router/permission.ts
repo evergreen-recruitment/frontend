@@ -15,7 +15,7 @@ nextTick(() => (userStore = useUserStore()))
 router.beforeEach((to: any, from: any, next: any) => {
   NProgress.start()
   if (to.meta.title) {
-    document.title = to.meta.title
+    document.title = `常青招聘 | ${to.meta.title}`
   }
   if (to.meta.requireAuth) {
     if (userStore.token) {

@@ -221,7 +221,7 @@ window.addEventListener('scroll', scrollEvent)
         <div class="hot-company-list">
           <div class="line-odd">
             <i-navigator
-              v-for="company in [...hotCompanyList, ...hotCompanyList]"
+              v-for="company in hotCompanyList.slice(0, hotCompanyList.length / 2)"
               :key="company.id"
               :to="{ name: 'companyDetail', query: { companyId: company.id } }"
               class="company-item"
@@ -231,7 +231,7 @@ window.addEventListener('scroll', scrollEvent)
           </div>
           <div class="line-even">
             <i-navigator
-              v-for="company in [...hotCompanyList, ...hotCompanyList]"
+              v-for="company in hotCompanyList.slice(hotCompanyList.length / 2)"
               :key="company.id"
               :to="{ name: 'companyDetail', query: { companyId: company.id } }"
               class="company-item"
@@ -490,37 +490,38 @@ window.addEventListener('scroll', scrollEvent)
 
         .line-odd {
           @apply w-full flex items-center justify-center;
-          transform: translateX(0%);
-          animation: scrollToRight 45s infinite linear;
+          transform: translateX(-32%);
+          animation: scrollToRightOdd 30s infinite linear;
 
           img {
             @apply w-20 h-20 mx-5;
           }
 
-          @keyframes scrollToRight {
+          @keyframes scrollToRightOdd {
             0% {
-              transform: translateX(45%);
+              transform: translateX(-32%);
             }
             100% {
-              transform: translateX(-5%);
+              transform: translateX(32%);
             }
           }
         }
 
         .line-even {
           @apply w-full flex items-center justify-center;
-          animation: scrollToRight 60s infinite linear;
+          transform: translateX(-32%);
+          animation: scrollToRightEven 45s infinite linear;
 
           img {
             @apply w-20 h-20 mx-5;
           }
 
-          @keyframes scrollToRight {
+          @keyframes scrollToRightEven {
             0% {
-              transform: translateX(-5%);
+              transform: translateX(-32%);
             }
             100% {
-              transform: translateX(45%);
+              transform: translateX(32%);
             }
           }
         }

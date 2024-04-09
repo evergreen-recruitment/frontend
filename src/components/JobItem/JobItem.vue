@@ -37,7 +37,7 @@ const appStore = useAppStore()
         <div class="job-tags">
           <a-tag v-for="t in job.jobSkills" :key="t" :color="variables[appStore.themeName]">{{ t }}</a-tag>
         </div>
-        <div class="job-time">更新时间：<br />{{ formatDateStr(job.updateTime) }}</div>
+        <div class="job-time">更新时间：<br />{{ formatDateStr(job.updateTime).slice(0, 10) }}</div>
       </div>
     </i-navigator>
   </div>
@@ -125,7 +125,7 @@ const appStore = useAppStore()
       }
 
       .job-time {
-        @apply text-sm text-gray-500;
+        @apply text-sm text-gray-500 min-w-[100px] text-right;
       }
     }
   }

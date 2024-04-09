@@ -81,7 +81,7 @@ onUnmounted(() => {
         <router-link
           v-for="c in hotCities"
           :key="c.code"
-          :to="{ name: 'jobSearch', query: { city: c.code } }"
+          :to="{ name: 'jobSearch', query: { ...$router.currentRoute.value.query, city: c.code } }"
           class="city"
         >
           {{ c.name }}

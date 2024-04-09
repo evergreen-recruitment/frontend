@@ -26,7 +26,7 @@ function submit() {
     <div class="title">搜索岗位</div>
     <div class="search">
       <a-input-group compact>
-        <a-input v-model:value="propsKeyword" placeholder="请输入职位关键词" size="large">
+        <a-input v-model:value="propsKeyword" placeholder="请输入职位关键词" size="large" @keyup.enter="submit">
           <template #prefix>
             <i-location-selector v-model:value="propsCity" />
           </template>
