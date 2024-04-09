@@ -181,7 +181,7 @@ onUnmounted(() => {
     }
 
     .job-detail__banner--inner {
-      @apply w-[1100px] h-full flex justify-between items-center box-border;
+      @apply max-w-[calc(var(--min-screen-width)+100px)] px-5 box-border w-full h-full flex justify-between items-center box-border;
 
       .job-detail__banner--left {
         @apply h-[calc(100%-30px)] flex flex-col justify-between space-y-2;
@@ -222,7 +222,7 @@ onUnmounted(() => {
   }
 
   .job-detail__main {
-    @apply flex justify-between w-[1150px] mx-auto mt-5;
+    @apply flex justify-between max-w-[var(--min-screen-width)] w-full mx-auto mt-5;
 
     .job-detail__content {
       @apply w-[calc(100%-320px)] box-border;

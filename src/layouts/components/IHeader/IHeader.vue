@@ -153,7 +153,7 @@ for (let link of links) {
   }
 
   .i-header__inner {
-    @apply flex items-center justify-between max-w-7xl w-full mx-auto;
+    @apply flex items-center justify-between max-w-[calc(var(--min-screen-width)+150px)] w-full mx-auto;
 
     .i-header__inner-left {
       @apply flex items-center;

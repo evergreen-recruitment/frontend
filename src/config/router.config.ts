@@ -150,7 +150,7 @@ export interface IRouterMeta {
   icon: string
   title: string
   requireAuth?: boolean
-  width?: number
+  width?: string
   hidden?: boolean
   roles?: string[]
 }
@@ -171,6 +171,7 @@ export function getAsyncRouterMap(): IRouter[] {
       meta: {
         icon: 'HomeOutlined',
         title: '首页',
+        width: '100%',
       },
       component: () => import('@/views/home/index.vue'),
     },
@@ -180,7 +181,6 @@ export function getAsyncRouterMap(): IRouter[] {
       meta: {
         icon: 'CompassOutlined',
         title: '推荐',
-        width: 1280,
       },
       component: () => import('@/views/recommend/index.vue'),
     },
@@ -190,7 +190,6 @@ export function getAsyncRouterMap(): IRouter[] {
       meta: {
         icon: 'BankOutlined',
         title: '公司搜索',
-        width: 1280,
       },
       component: () => import('@/views/company/search/index.vue'),
     },
@@ -200,7 +199,6 @@ export function getAsyncRouterMap(): IRouter[] {
       meta: {
         icon: 'BankOutlined',
         title: '公司详情',
-        width: 1280,
       },
       component: () => import('@/views/company/detail/index.vue'),
     },
@@ -210,7 +208,6 @@ export function getAsyncRouterMap(): IRouter[] {
       meta: {
         icon: 'SearchOutlined',
         title: '搜索',
-        width: 1280,
       },
       component: () => import('@/views/job/search/index.vue'),
     },
@@ -220,6 +217,7 @@ export function getAsyncRouterMap(): IRouter[] {
       meta: {
         icon: 'ToolOutlined',
         title: '工作详情',
+        width: '100%',
       },
       component: () => import('@/views/job/detail/index.vue'),
     },
@@ -239,7 +237,6 @@ export function getAsyncRouterMap(): IRouter[] {
             icon: 'UserOutlined',
             title: '个人中心',
             requireAuth: true,
-            width: 1280,
           },
           component: () => import('@/views/user/center/index.vue'),
         },
@@ -250,7 +247,6 @@ export function getAsyncRouterMap(): IRouter[] {
             icon: 'UserOutlined',
             title: '个人简历',
             requireAuth: true,
-            width: 1280,
           },
           component: () => import('@/views/user/application/index.vue'),
         },
@@ -261,7 +257,6 @@ export function getAsyncRouterMap(): IRouter[] {
             icon: 'UserOutlined',
             title: ' 预览在线简历',
             requireAuth: true,
-            width: 1280,
           },
           component: () => import('@/views/user/previewApplication/index.vue'),
         },
@@ -272,7 +267,6 @@ export function getAsyncRouterMap(): IRouter[] {
             icon: 'UserOutlined',
             title: '投递信息',
             requireAuth: true,
-            width: 1280,
           },
           component: () => import('@/views/user/delivery/index.vue'),
         },
@@ -284,7 +278,6 @@ export function getAsyncRouterMap(): IRouter[] {
       meta: {
         icon: 'SettingOutlined',
         title: '设置',
-        width: 1280,
       },
       component: () => import('@/views/settings/index.vue'),
     },

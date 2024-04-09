@@ -2,12 +2,20 @@
 import IHeader from '@/layouts/components/IHeader/IHeader.vue'
 import IFooter from '@/layouts/components/IFooter/IFooter.vue'
 import router from '@/router'
-import { useStatusStore, useUserStore } from '@/stores'
-import { onMounted } from 'vue'
+import { useAppStore, useStatusStore, useUserStore } from '@/stores'
+import { computed, onMounted } from 'vue'
 import { isCompleteUserInfoApi } from '@/apis/auth'
 
 const statusStore = useStatusStore()
 const userStore = useUserStore()
+const appStore = useAppStore()
+const containerWidth = computed(() => {
+  return `${
+    router.currentRoute.value.meta?.width === undefined
+      ? `${appStore.minScreenWidthComp}px`
+      : router.currentRoute.value.meta.width
+  }`
+})
 onMounted(async () => {
   await userStore.getUserInfo()
   if (userStore.token) {
@@ -29,7 +37,9 @@ onMounted(async () => {
     <i-header />
     <router-view
       v-slot="{ Component }"
-      :style="{ width: `${router.currentRoute.value.meta.width}px` }"
+      :style="{
+        width: containerWidth,
+      }"
       class="i-layout__inner"
     >
       <transition-slide :offset="[-16, 0]" mode="out-in">

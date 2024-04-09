@@ -91,13 +91,15 @@ function logout() {
         }
       }
 
-      @media screen and (max-width: 1200px) {
-        display: none;
-      }
+      // 不需要移动端适配
 
-      @media screen and (max-width: 768px) {
-        display: none;
-      }
+      //@media screen and (max-width: 1200px) {
+      //  display: none;
+      //}
+      //
+      //@media screen and (max-width: 768px) {
+      //  display: none;
+      //}
 
       .i-avatar__title--username {
         font-weight: 600;
