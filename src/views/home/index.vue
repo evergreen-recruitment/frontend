@@ -31,32 +31,14 @@ let header: HTMLElement | null
 let searchBarTitle: HTMLElement | null
 
 onMounted(async () => {
-  // const bgPanel = document.querySelector('.search-panel') as HTMLElement
-  // bgPanel.addEventListener('mousewheel', (event: WheelEvent) => {
-  //   if (event.deltaY > 0) {
-  //     if (document.body.clientWidth >= 850) {
-  //       homePageBottom.style.top = '0'
-  //     }
-  //   }
-  // })
-  //
-  // const homePageBottom = document.querySelector('.home-page-bottom') as HTMLElement
-  // homePageBottom.addEventListener('mousewheel', (event: WheelEvent) => {
-  //   if (document.documentElement.scrollTop == 0 && event.deltaY < 0) {
-  //     if (document.body.clientWidth >= 850) {
-  //       homePageBottom.style.top = '100vh'
-  //     }
-  //   }
-  // })
-
   const footer = document.querySelector('.footer') as HTMLElement
   footer.style.top = 'calc(100vh - 58px)'
   category.value = statusStore.jobCategory
   hotSearch.value = await getHotSearchApi()
   hotCompanyList.value = await getHotCompanyApi()
-  recommendJobList.value = await getHomeNewJobsApi()
   newJobList.value = await getHomeNewJobsApi()
-  nearbyJobList.value = await getHomeNewJobsApi()
+  recommendJobList.value = newJobList.value
+  nearbyJobList.value = newJobList.value
   knowledgeGraphData.value = await getHomeKnowledgeGraphApi()
 
   // 初始化页面时使用一次
@@ -126,23 +108,52 @@ window.addEventListener('scroll', scrollEvent)
     <div class="mask"></div>
     <div class="home-page-bottom">
       <div v-slide-in class="user-panel block-item">
-        <div class="user-aside">
-          <div class="user-info">
-            <div class="avatar">
-              <img alt="avatar" src="@/assets/images/logo.png" />
+        <div class="user-aside-outer">
+          <div v-if="userStore.token" class="user-aside">
+            <div class="user-info">
+              <div class="avatar">
+                <img alt="avatar" :src="userStore.userInfo?.avatar" />
+              </div>
+              <div class="name">{{ userStore.userInfo.realName }}</div>
+              <div class="desc">{{ userStore.userInfo.email }}</div>
             </div>
-            <div class="name">常青招聘</div>
-            <div class="desc">大学生智慧招聘平台</div>
+            <div class="user-action">
+              <i-navigator class="action-item" to="/user/center">
+                <Icon icon="UserOutlined" />
+                <span>用户中心</span>
+              </i-navigator>
+              <i-navigator class="action-item" to="/user/application">
+                <Icon icon="FileTextOutlined" />
+                <span>个人简历</span>
+              </i-navigator>
+              <i-navigator class="action-item" to="/user/delivery">
+                <Icon icon="FlagOutlined" />
+                <span>投递信息</span>
+              </i-navigator>
+              <i-navigator class="action-item" to="/" @click.prevent="userStore.logout()">
+                <Icon icon="LogoutOutlined" />
+                <span>退出登录</span>
+              </i-navigator>
+            </div>
           </div>
-          <div class="user-action">
-            <i-navigator class="action-item" to="/auth/loginByCaptcha">
-              <Icon icon="UserOutlined" />
-              <span>登录</span>
-            </i-navigator>
-            <i-navigator class="action-item" to="/auth/loginByCaptcha">
-              <Icon icon="UserAddOutlined" />
-              <span>注册</span>
-            </i-navigator>
+          <div v-else class="user-aside-no-login">
+            <div class="user-info">
+              <div class="avatar">
+                <img alt="avatar" src="@/assets/images/logo.png" />
+              </div>
+              <div class="name">常青招聘</div>
+              <div class="desc">大学生智慧招聘平台</div>
+            </div>
+            <div class="user-action">
+              <i-navigator class="action-item" to="/auth/loginByCaptcha">
+                <Icon icon="UserOutlined" />
+                <span>登录</span>
+              </i-navigator>
+              <i-navigator class="action-item" to="/auth/loginByCaptcha">
+                <Icon icon="UserAddOutlined" />
+                <span>注册</span>
+              </i-navigator>
+            </div>
           </div>
         </div>
         <div class="knowledge-graph">
@@ -151,7 +162,9 @@ window.addEventListener('scroll', scrollEvent)
           <div class="graph-cot card">
             <div v-if="!userStore.token" class="not-login">
               <div class="title">未登录或未上传简历</div>
-              <div class="desc"></div>
+              <div class="desc">
+                <a-button type="primary" @click="$router.push('/recommend')">根据指引使用本网址</a-button>
+              </div>
             </div>
             <!--<div v-if="!delivered" class="not-login">-->
             <!--  <div class="title">未登录</div>-->
@@ -186,7 +199,7 @@ window.addEventListener('scroll', scrollEvent)
                     <i-navigator
                       v-for="i in item.children"
                       :key="i.name"
-                      :to="{ name: 'jobSearch', query: { jobId: i.id } }"
+                      :to="{ name: 'jobSearch', query: { jobType: i.id } }"
                       class="menu-item"
                     >
                       <span>{{ i.name }}</span>
@@ -553,6 +566,38 @@ window.addEventListener('scroll', scrollEvent)
 
       .user-aside {
         @apply flex flex-col items-center justify-between mx-auto;
+
+        .user-info {
+          @apply flex flex-col items-center;
+          .avatar {
+            @apply w-28 h-28 rounded-full overflow-hidden;
+            img {
+              @apply w-full h-full object-cover;
+            }
+          }
+
+          .name {
+            @apply text-3xl font-bold ml-5 my-2;
+          }
+
+          .desc {
+            @apply text-gray-500;
+          }
+        }
+
+        .user-action {
+          @apply grid grid-cols-2 grid-rows-2 gap-4;
+          .action-item {
+            @apply flex items-center justify-center w-24 h-10 mx-2 text-sm rounded-md cursor-pointer;
+            span {
+              @apply ml-2;
+            }
+          }
+        }
+      }
+
+      .user-aside-no-login {
+        @apply flex flex-col items-center justify-between mx-auto;
         .user-info {
           @apply flex flex-col items-center;
           .avatar {
@@ -593,7 +638,7 @@ window.addEventListener('scroll', scrollEvent)
           }
 
           .not-login {
-            @apply flex items-center justify-center w-full h-full text-2xl;
+            @apply flex flex-col items-center justify-center w-full h-full text-2xl;
           }
         }
       }

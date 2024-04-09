@@ -6,6 +6,7 @@ import type { UserInfoType } from '@/apis/user'
 
 const userStore = useUserStore()
 const activeKey = ref('1')
+const changePhoneVisible = ref(false)
 type ModifiedUserInfoType = Omit<UserInfoType, 'location'> & { location: [number, number] }
 const fullPath = findFullLocation(userStore.userInfo.location as number)
 const userInfoForm = ref<ModifiedUserInfoType>({
@@ -82,7 +83,23 @@ console.log(userInfoForm.value.gender)
             </a-list-item>
             <a-list-item>
               <a-list-item-meta description="已绑定手机：(86)139****3266" title="密保手机" />
-              <a-button type="link">修改</a-button>
+              <a-popover v-model:open="changePhoneVisible" trigger="click">
+                <template #title>
+                  <h2>发送验证码</h2>
+                </template>
+                <template #content>
+                  <div style="display: flex; flex-direction: column; gap: 10px; width: 230px">
+                    <a-input placeholder="更换的手机号" />
+                    <a-input-search placeholder="发送验证码">
+                      <template #enterButton>
+                        <a-button>发送</a-button>
+                      </template>
+                    </a-input-search>
+                    <a-button type="primary">确认</a-button>
+                  </div>
+                </template>
+                <a-button type="link">修改</a-button>
+              </a-popover>
             </a-list-item>
           </a-list>
         </a-tab-pane>

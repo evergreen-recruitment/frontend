@@ -17,3 +17,9 @@ export type UserInfoType = {
 export function getUserInfoApi() {
   return request.Get('user/info').send(true) as Promise<UserInfoType>
 }
+
+export function uploadApplicationApi(file: File) {
+  const formData = new FormData()
+  formData.append('file', file)
+  return request.Post('/user/uploadApplication', formData).send(true) as Promise<string>
+}

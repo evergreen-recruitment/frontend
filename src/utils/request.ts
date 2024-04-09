@@ -103,20 +103,6 @@ const alovaInstance = createAlova({
         message.error('序列化失败')
         throw new Error('序列化失败')
       }
-      const msg = json?.msg || errCode[json?.code as keyof typeof errCode]
-      if (json.code !== 200) {
-        if (json.code === 401) {
-          userStore.logout()
-          router.push('/login')
-        }
-        if (msg) {
-          message.error(msg)
-          throw new Error(msg)
-        }
-      }
-      if (msg) {
-        message.success(msg)
-      }
       return json.data || json
     },
     onError: async (error, method) => {

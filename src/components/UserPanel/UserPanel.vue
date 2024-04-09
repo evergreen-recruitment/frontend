@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { findFullLocation } from '@/utils/utils'
+import { findFullLocation, formatDateStr } from '@/utils/utils'
 import type { UserInfoType } from '@/apis/user'
 
 const props = defineProps<{
@@ -39,7 +39,7 @@ const props = defineProps<{
         </div>
         <div class="join-time">
           <div class="title">加入时间</div>
-          <div class="status">{{ userInfo.createTime }}</div>
+          <div class="status">{{ formatDateStr(userInfo.createTime as string) }}</div>
         </div>
       </div>
     </div>

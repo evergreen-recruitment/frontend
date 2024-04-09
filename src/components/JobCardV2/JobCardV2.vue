@@ -35,7 +35,9 @@ onMounted(() => {})
 .job-card {
   @apply rounded-[var(--border-radius)] cursor-pointer mt-2;
 
-  border: 1px solid transparent;
+  @include useTheme {
+    border: 1px solid getModeVar('borderColor');
+  }
 
   &:hover {
     @include useTheme {

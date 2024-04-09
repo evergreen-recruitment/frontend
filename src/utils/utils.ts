@@ -65,6 +65,10 @@ export function initSmoothScrolling() {
   requestAnimationFrame(scrollFn)
 }
 
+/**
+ * 格式化日期字符串
+ * @param str
+ */
 export function formatDateStr(str: string) {
   const date = new Date(str)
   return date

@@ -1,9 +1,10 @@
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
 import { useRequest } from 'alova'
-import { forgetPasswordApi, type ForgetPasswordFormType } from '@/apis/auth'
+import { forgetPasswordApi, type ForgetPasswordFormType, sendSMSApi } from '@/apis/auth'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores'
+import { message } from 'ant-design-vue'
 
 const formRef = ref()
 
@@ -12,7 +13,6 @@ const formState = reactive<ForgetPasswordFormType>({
   verifyCode: '',
   userPassword: '',
   confirmNewPassword: '',
-  uuid: '',
 })
 
 const rules = reactive({
@@ -29,6 +29,41 @@ const { loading, send, onSuccess, onError } = useRequest(forgetPasswordApi(formS
   // 默认不发出
   immediate: false,
 })
+
+onSuccess(async (event) => {
+  const data = event.data as any
+  if (data === true) {
+    message.success('重置密码成功')
+    router.push('/auth/login')
+    return
+  }
+  message.error('重置密码失败')
+})
+
+async function submit() {
+  formRef.value.validate().then(() => {
+    formState.confirmNewPassword = undefined
+    send(true)
+  })
+}
+
+const countdown = ref(0)
+
+async function sendCode() {
+  const res = await sendSMSApi(formState.phone!)
+  console.log(res)
+  if (res !== true) {
+    message.error('发送失败')
+    return
+  }
+  countdown.value = 60
+  const timer = setInterval(() => {
+    countdown.value--
+    if (countdown.value <= 0) {
+      clearInterval(timer)
+    }
+  }, 1000)
+}
 </script>
 
 <template>
@@ -56,7 +91,9 @@ const { loading, send, onSuccess, onError } = useRequest(forgetPasswordApi(formS
             <Icon icon="SecurityScanOutlined" />
           </template>
           <template #suffix>
-            <a-button type="link">发送验证码</a-button>
+            <a-button :disabled="countdown > 0" type="link" @click="sendCode">
+              {{ countdown > 0 ? `${countdown}秒后重发` : '发送验证码' }}
+            </a-button>
           </template>
         </a-input>
       </a-form-item>
@@ -90,7 +127,13 @@ const { loading, send, onSuccess, onError } = useRequest(forgetPasswordApi(formS
       </a-form-item>
 
       <a-form-item>
-        <a-button :loading="loading" html-type="submit" style="width: 100%; height: 45px" type="primary">
+        <a-button
+          :loading="loading"
+          html-type="submit"
+          style="width: 100%; height: 45px"
+          type="primary"
+          @click="submit"
+        >
           重置密码
         </a-button>
       </a-form-item>

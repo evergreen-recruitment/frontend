@@ -10,7 +10,7 @@ import INavigator from '@/components/INavigator/INavigator.vue'
 const formRef = ref()
 
 const formState = reactive<LoginByCaptchaFormType>({
-  phone: '15374284973',
+  phone: '',
   verifyCode: '',
   privacy: false,
 })

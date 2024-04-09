@@ -80,7 +80,7 @@ onUnmounted(() => {
     </div>
     <div class="job-detail__main enter-y">
       <div class="job-detail__content">
-        <div v-slide-in class="job-detail__description card">
+        <div v-slide-in="{ enter: true }" class="job-detail__description card">
           <div class="job-detail__description--title">职位描述</div>
           <a-divider />
           <div class="job-detail__description--content">
@@ -95,7 +95,7 @@ onUnmounted(() => {
             <span>{{ job?.employeeVO?.realName || '招聘者' }}&nbsp;</span>
           </div>
         </div>
-        <div v-slide-in class="job-detail__stack card">
+        <div v-slide-in="{ enter: true }" class="job-detail__stack card">
           <div class="job-detail__stack--title">
             <div class="title">技术栈要求可视化</div>
             <div class="sub-title">
@@ -105,7 +105,7 @@ onUnmounted(() => {
           <a-divider />
           <i-charts :option="option1" />
         </div>
-        <div v-slide-in class="job-detail__company-info card">
+        <div v-slide-in="{ enter: true }" class="job-detail__company-info card">
           <div class="job-detail__company-info--title">公司信息</div>
           <a-divider />
           <div class="job-detail__company-info--content">
@@ -132,7 +132,7 @@ onUnmounted(() => {
         </div>
       </div>
       <div class="job-detail__side">
-        <div v-slide-in class="job-detail__side--ability-ranking card">
+        <div v-slide-in="{ enter: true }" class="job-detail__side--ability-ranking card">
           <div class="job-detail__side--title">能力排名</div>
           <a-divider />
           <div class="job-detail__side--ranking">
@@ -140,7 +140,7 @@ onUnmounted(() => {
             <i3-d-progress-bar :progress="Math.random() * 50 + 50" />
           </div>
         </div>
-        <div v-slide-in class="job-detail__side--vote card">
+        <div v-slide-in="{ enter: true }" class="job-detail__side--vote card">
           <div class="job-detail__side--title">推荐效果评分</div>
           <a-divider />
           <div class="job-detail__side--vote-main">
@@ -157,7 +157,7 @@ onUnmounted(() => {
             </div>
           </div>
         </div>
-        <div v-slide-in class="job-detail__side--similar-job card">
+        <div v-slide-in="{ enter: true }" class="job-detail__side--similar-job card">
           <div class="job-detail__side--title">相似岗位</div>
           <a-divider />
           <div v-if="sideJobList" class="job-detail__side--job-list">

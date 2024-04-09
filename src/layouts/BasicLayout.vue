@@ -3,7 +3,7 @@ import IHeader from '@/layouts/components/IHeader/IHeader.vue'
 import IFooter from '@/layouts/components/IFooter/IFooter.vue'
 import router from '@/router'
 import { useAppStore, useStatusStore, useUserStore } from '@/stores'
-import { computed, onMounted } from 'vue'
+import { computed, onBeforeMount } from 'vue'
 import { isCompleteUserInfoApi } from '@/apis/auth'
 
 const statusStore = useStatusStore()
@@ -16,7 +16,7 @@ const containerWidth = computed(() => {
       : router.currentRoute.value.meta.width
   }`
 })
-onMounted(async () => {
+onBeforeMount(async () => {
   await userStore.getUserInfo()
   if (userStore.token) {
     const res = await isCompleteUserInfoApi()

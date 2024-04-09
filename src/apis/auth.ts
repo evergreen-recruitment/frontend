@@ -18,7 +18,6 @@ export type ForgetPasswordFormType = {
   verifyCode?: string
   userPassword?: string
   confirmNewPassword?: string
-  uuid?: string
 }
 
 export type CaptchaResponse = {

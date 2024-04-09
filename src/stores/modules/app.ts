@@ -22,7 +22,7 @@ export const useAppStore = defineStore(
       return locale.value
     })
     // 颜色模式
-    const darkModeRef = ref<'auto' | 'dark' | 'light'>('dark')
+    const darkModeRef = ref<'auto' | 'dark' | 'light'>('light')
     const darkModeQuery = window.matchMedia('(prefers-color-scheme: dark)') as MediaQueryList
 
     function handleDarkModeChange() {
@@ -56,7 +56,7 @@ export const useAppStore = defineStore(
       },
     })
     // 主题名称
-    const themeName = ref<primaryColorEnumType>('blue')
+    const themeName = ref<primaryColorEnumType>('cyan')
     // 主题配置
     const borderRadius = ref(7)
     const themeConfig = computed(() => {
@@ -91,9 +91,12 @@ export const useAppStore = defineStore(
     })
 
     // 设置最小屏幕宽度
-    const minScreenWidth = ref(1280)
+    const minScreenWidth = ref(
+      document.documentElement.clientWidth > 1400 ? 1400 : document.documentElement.clientWidth > 1280 ? 1280 : 1024,
+    )
     const minScreenWidthComp = computed({
       get() {
+        document.documentElement.style.setProperty('--min-screen-width', `${minScreenWidth.value}px`)
         return minScreenWidth.value
       },
       set(val) {
@@ -160,6 +163,6 @@ export const useAppStore = defineStore(
     }
   },
   {
-    persist: true,
+    persist: false,
   },
 )
