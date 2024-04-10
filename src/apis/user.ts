@@ -11,6 +11,7 @@ export type UserInfoType = {
   age?: number
   location?: number
   applyStatus?: number
+  hopJob?: number
   createTime?: string
 }
 

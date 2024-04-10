@@ -37,6 +37,7 @@ export type CompleteUserInfoFormType = {
   reUserPassword: string | null
   email: string
   applyStatus: number
+  hopeJob: [number, number]
   gender: number | null
 }
 

@@ -2,15 +2,17 @@
 import { onMounted, onUnmounted, reactive, ref } from 'vue'
 import Icon from '@/components/Icon/Icon.vue'
 import type { UploadChangeParam, UploadProps } from 'ant-design-vue'
-import { message } from 'ant-design-vue'
+import { type CascaderProps, message } from 'ant-design-vue'
 import type { CompleteUserInfoFormType } from '@/apis/auth'
 import { completeUserInfoApi, isCompleteUserInfoApi } from '@/apis/auth'
 import ILocationSelector from '@/components/ILocationSelector/ILocationSelector.vue'
 import router from '@/router'
-import { useUserStore } from '@/stores'
+import { useStatusStore, useUserStore } from '@/stores'
 import { uploadImageApi } from '@/apis/common'
 import type { UploadRequestOption } from 'ant-design-vue/es/vc-upload/interface'
+import type { ShowSearchType } from 'ant-design-vue/es/cascader'
 
+const statusStore = useStatusStore()
 const userStore = useUserStore()
 const fileList = ref([])
 const avatarUploadLoading = ref(false)
@@ -27,6 +29,7 @@ const formState = reactive<CompleteUserInfoFormType>({
   reUserPassword: '',
   email: '',
   applyStatus: 0,
+  hopeJob: [2, 12],
   gender: null,
 })
 const rules = reactive({
@@ -37,8 +40,15 @@ const rules = reactive({
   userPassword: [{ required: true, message: '请输入密码', trigger: 'blur' }],
   reUserPassword: [{ required: true, message: '请再次输入密码', trigger: 'blur' }],
   applyStatus: [{ required: true, message: '请选择求职状态', trigger: 'blur' }],
+  hopeJob: [{ required: true, message: '请选择求职意向', trigger: 'blur' }],
   gender: [{ required: true, message: '选择性别', trigger: 'blur' }],
 })
+
+const options = statusStore.jobCategory as CascaderProps['options']
+
+const filter: ShowSearchType['filter'] = (inputValue, path) => {
+  return path.some((option) => option.label.toLowerCase().indexOf(inputValue.toLowerCase()) > -1)
+}
 
 function handleChange(info: UploadChangeParam) {
   if (info.file.status === 'uploading') {
@@ -75,6 +85,8 @@ async function submitCompleteInfo(e: any) {
     formState.reUserPassword = undefined
     // @ts-ignore
     formState.location = formState.location[1]
+    // @ts-ignore
+    formState.hopeJob = formState.hopeJob[1]
     const res = await completeUserInfoApi(formState)
     if (res !== true) {
       message.error('提交失败')
@@ -221,6 +233,18 @@ onUnmounted(() => {
           <a-select-option :value="4">在校，考虑机会</a-select-option>
           <a-select-option :value="5">在校，暂不考虑</a-select-option>
         </a-select>
+      </a-form-item>
+
+      <a-form-item label="求职意向" name="hopeJob">
+        <a-cascader
+          :options="options"
+          :show-search="{ filter }"
+          :field-names="{ label: 'name', value: 'id', children: 'children' }"
+          class="job-type"
+          expand-trigger="hover"
+          placeholder="职位类型"
+
+        />
       </a-form-item>
 
       <a-form-item>
