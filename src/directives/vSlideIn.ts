@@ -4,15 +4,26 @@ let DURATION = 500
 const DISTANCE = 100
 const animationMap = new WeakMap()
 
-const ob = new IntersectionObserver((entries) => {
-  for (const entry of entries) {
-    if (entry.isIntersecting) {
-      const animation = animationMap.get(entry.target)
-      animation.play()
-      // ob.unobserve(entry.target)
+const ob = new IntersectionObserver(
+  (entries) => {
+    for (const entry of entries) {
+      if (entry.isIntersecting) {
+        // @ts-ignore
+        if (entry.boundingClientRect.top > entry.rootBounds.top) {
+          const animation = animationMap.get(entry.target)[0]
+          animation.play()
+        } else {
+          const animation = animationMap.get(entry.target)[1]
+          animation.play()
+        }
+        // ob.unobserve(entry.target)
+      }
     }
-  }
-})
+  },
+  {
+    threshold: 0.3,
+  },
+)
 
 const isBelowViewport = (el: HTMLElement) => {
   const rect = el.getBoundingClientRect()
@@ -20,23 +31,23 @@ const isBelowViewport = (el: HTMLElement) => {
 }
 export default {
   mounted(el: HTMLElement, binding: DirectiveBinding) {
-    if (!binding.value?.enter && !isBelowViewport(el)) {
-      // console.log(!binding.value?.enter, !isBelowViewport(el))
-      return
-    }
+    // if (!binding.value?.enter && !isBelowViewport(el)) {
+    //   // console.log(!binding.value?.enter, !isBelowViewport(el))
+    //   return
+    // }
     if (binding.value?.enter) {
       DURATION = 300 + 100 * Math.floor(Math.random() * 5)
     }
-    const animation = el.animate(
+    const animationBottom = el.animate(
       [
         {
           filter: 'blur(10px)',
-          transform: `translateX(${(binding && binding.value && binding.value.distance) || DISTANCE}px)`,
+          transform: `translateY(${(binding && binding.value && binding.value.distance) || DISTANCE}px)`,
           opacity: 0,
         },
         {
           filter: 'blur(0)',
-          transform: 'translateX(0)',
+          transform: 'translateY(0)',
           opacity: 1,
         },
       ],
@@ -45,8 +56,26 @@ export default {
         easing: 'ease-in-out',
       },
     )
-    animation.pause()
-    animationMap.set(el, animation)
+    const animationTop = el.animate(
+      [
+        {
+          filter: 'blur(10px)',
+          transform: `translateY(${-((binding && binding.value && binding.value.distance) || DISTANCE)}px)`,
+          opacity: 0,
+        },
+        {
+          filter: 'blur(0)',
+          transform: 'translateY(0)',
+          opacity: 1,
+        },
+      ],
+      {
+        duration: (binding && binding.value && binding.value.duration) || DURATION,
+        easing: 'ease-in-out',
+      },
+    )
+    animationBottom.pause()
+    animationMap.set(el, [animationBottom, animationTop])
     ob.observe(el)
   },
   unmounted(el: HTMLElement) {

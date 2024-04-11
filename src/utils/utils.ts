@@ -3,6 +3,7 @@ import Lenis from '@studio-freight/lenis'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 // @ts-ignore
 import map from '@/assets/map/map.json'
+import { useStatusStore } from '@/stores'
 
 /**
  * 获取assets文件
@@ -141,4 +142,29 @@ export function findFullLocationByAnyName(name: string) {
   }
 
   return path
+}
+
+/**
+ * 通过 二级 jobType 找到整个路径
+ * @param jobType
+ */
+export function findFullJobType(jobType: number) {
+  const statusStore = useStatusStore()
+  const jobTypeList = statusStore.jobCategory
+  const path = []
+  for (const job of jobTypeList) {
+    if (job.children) {
+      for (const child of job.children) {
+        if (child.id === jobType) {
+          path.push(child)
+          break
+        }
+      }
+      if (path.length === 1) {
+        path.push(job)
+        path.reverse()
+        break
+      }
+    }
+  }
 }

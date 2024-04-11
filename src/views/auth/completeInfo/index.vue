@@ -243,7 +243,6 @@ onUnmounted(() => {
           class="job-type"
           expand-trigger="hover"
           placeholder="职位类型"
-
         />
       </a-form-item>
 
