@@ -4,6 +4,7 @@ import router from '@/router'
 import { useAppStore, useStatusStore } from '@/stores'
 import { getJobDetailApi, type JobItemType, jobSearchApi, type SimpleJobItemType } from '@/apis/job'
 import I3DProgressBar from '@/components/I3DProgressBar/I3DProgressBar.vue'
+import Icon from '@/components/Icon/Icon.vue'
 
 const appStore = useAppStore()
 const statusStore = useStatusStore()
@@ -166,6 +167,7 @@ onUnmounted(() => {
         </div>
       </div>
     </div>
+    <bottom-float-btn />
   </div>
 </template>
 

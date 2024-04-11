@@ -167,4 +167,5 @@ export function findFullJobType(jobType: number) {
       }
     }
   }
+  return path
 }

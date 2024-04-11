@@ -42,7 +42,7 @@ onSuccess(async (event) => {
 
 async function submit() {
   formRef.value.validate().then(() => {
-    formState.confirmNewPassword = undefined
+    // formState.confirmNewPassword = undefined
     send(true)
   })
 }

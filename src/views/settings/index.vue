@@ -40,6 +40,12 @@ const minWidthMarks = ref({
           <a-slider v-model:value="appStore.borderRadius" :marks="radiusMarks" :max="20" :min="0" />
         </div>
       </div>
+      <div class="setting-page__inner--animation">
+        <i-page-header sub-title="设置是否开启网页的动画" title="开启动画" />
+        <div class="setting-page__inner--animation__content setting-item__content">
+          <a-switch v-model:checked="appStore.openAnimation" checked-children="开" un-checked-children="关" />
+        </div>
+      </div>
       <div class="setting-page__inner--color-mode">
         <i-page-header sub-title="设置系统的主题色" title="色彩模式" />
         <div class="setting-page__inner--color-mode__content setting-item__content">
@@ -55,14 +61,12 @@ const minWidthMarks = ref({
           </a-radio-group>
         </div>
       </div>
-
       <div class="setting-page__inner--show-border">
         <i-page-header sub-title="设置是否显示卡片的边框" title="显示卡片边框" />
         <div class="setting-page__inner--show-border__content setting-item__content">
           <a-switch v-model:checked="appStore.showCardBorderComp" checked-children="开" un-checked-children="关" />
         </div>
       </div>
-
       <div class="setting-page__inner--min-width">
         <i-page-header sub-title="设置系统的最小屏幕宽度，用于适配各种不同的屏幕尺寸" title="最小宽度" />
         <div class="setting-page__inner--min-width__content setting-item__content">
@@ -78,7 +82,12 @@ const minWidthMarks = ref({
       <div class="setting-page__inner--token-keep">
         <i-page-header sub-title="设置登录用户的Token保留天数，以控制登录" title="Token保留天数" />
         <div class="setting-page__inner--token-keep__content setting-item__content">
-          <a-time-picker v-model:value="appStore.tokenExpiresComp" value-format='HH:mm:ss' />
+          <a-time-picker
+            v-model:value="appStore.tokenExpiresComp"
+            value-format="HH:mm:ss"
+            :show-now="false"
+            placement="topLeft"
+          />
         </div>
       </div>
     </div>

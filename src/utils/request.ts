@@ -63,7 +63,8 @@ const request = createAlova({
         json = await response.json()
       } catch (e) {
         message.error('序列化失败')
-        throw new Error('序列化失败')
+        return null
+        // throw new Error('序列化失败')
       }
       const msg = json?.msg || errCode[json?.code as keyof typeof errCode]
       if (json.code !== 200) {
@@ -73,7 +74,8 @@ const request = createAlova({
         }
         if (msg) {
           message.error(msg)
-          throw new Error(msg)
+          // throw new Error(msg)
+          return null
         }
       }
       if (msg) {
@@ -85,7 +87,7 @@ const request = createAlova({
       return json.data
     },
     onError: async (error, method) => {
-      message.error(error.message)
+      // message.error(error.message)
     },
   },
 })

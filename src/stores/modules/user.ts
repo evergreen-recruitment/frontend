@@ -18,6 +18,7 @@ export const useUserStore = defineStore(
 
     async function getUserInfo() {
       token.value = cookies.get('satoken') || ''
+      cookies.set('satoken', token.value, expiresTime)
       userInfo.value = await getUserInfoApi()
     }
 

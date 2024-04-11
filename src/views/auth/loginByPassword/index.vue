@@ -61,7 +61,7 @@ onSuccess(async (event) => {
 
 async function login() {
   formRef.value.validate().then(() => {
-    formState.privacy = undefined
+    // formState.privacy = undefined
     send(true)
   })
 }

@@ -4,6 +4,8 @@ import { useVModel } from '@vueuse/core'
 import type { CascaderProps } from 'ant-design-vue'
 import type { ShowSearchType } from 'ant-design-vue/es/cascader'
 import { useStatusStore } from '@/stores'
+import { findFullJobType } from '@/utils/utils'
+import { computed } from 'vue'
 
 const statusStore = useStatusStore()
 const emit = defineEmits(['update:jobFilterData'])
@@ -17,12 +19,17 @@ const options = statusStore.jobCategory as CascaderProps['options']
 const filter: ShowSearchType['filter'] = (inputValue, path) => {
   return path.some((option) => option.label.toLowerCase().indexOf(inputValue.toLowerCase()) > -1)
 }
+const jobStandardId = computed(() => {
+  const original = findFullJobType(props.jobFilterData.jobStandardId!)
+  return [original[0].id, original[1].id]
+})
 
 function handleJobTypeChange(value: number[]) {
+  console.log(findFullJobType(props.jobFilterData.jobStandardId!))
   if (value.length > 1) {
-    props.jobFilterData.jobType = value[1]
+    props.jobFilterData.jobStandardId = value[1]
   } else {
-    props.jobFilterData.jobType = null
+    props.jobFilterData.jobStandardId = null
   }
 }
 </script>
@@ -31,6 +38,7 @@ function handleJobTypeChange(value: number[]) {
   <div class="job-filter">
     <a-space-compact block>
       <a-cascader
+        :value="jobStandardId"
         :options="options"
         :show-search="{ filter }"
         :field-names="{ label: 'name', value: 'id', children: 'children' }"
@@ -40,13 +48,18 @@ function handleJobTypeChange(value: number[]) {
         @change="handleJobTypeChange"
         style="width: 200px"
       />
-      <a-select v-model="propsJobFilterData.needJobType" class="apply-type" placeholder="求职类型" style="width: 200px">
+      <a-select
+        v-model:value="propsJobFilterData.jobType"
+        class="apply-type"
+        placeholder="求职类型"
+        style="width: 200px"
+      >
         <a-select-option :value="0">不限</a-select-option>
         <a-select-option :value="1">全职</a-select-option>
         <a-select-option :value="2">实习</a-select-option>
       </a-select>
       <a-select
-        v-model="propsJobFilterData.experience"
+        v-model:value="propsJobFilterData.experience"
         class="experience-type"
         placeholder="工作经验"
         style="width: 200px"
@@ -59,7 +72,7 @@ function handleJobTypeChange(value: number[]) {
         <a-select-option :value="5">10年以上</a-select-option>
       </a-select>
       <a-select
-        v-model="propsJobFilterData.salary"
+        v-model:value="propsJobFilterData.salary"
         class="Nature treatment"
         placeholder="薪资待遇"
         style="width: 200px"

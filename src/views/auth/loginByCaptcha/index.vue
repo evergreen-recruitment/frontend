@@ -60,7 +60,7 @@ onSuccess(async (event) => {
 
 async function login() {
   formRef.value.validate().then(() => {
-    formState.privacy = undefined
+    // formState.privacy = undefined
     send(true)
   })
 }
@@ -107,7 +107,12 @@ async function sendCode() {
       label-align="left"
     >
       <a-form-item name="phone">
-        <a-input v-model:value="formState.phone" :placeholder="$t('user.login.placeholder.username')" size="large">
+        <a-input
+          v-model:value="formState.phone"
+          :placeholder="$t('user.login.placeholder.username')"
+          size="large"
+          style="height: 47px"
+        >
           <template #prefix>
             <Icon icon="PhoneOutlined" />
           </template>
@@ -115,7 +120,12 @@ async function sendCode() {
       </a-form-item>
 
       <a-form-item name="verifyCode">
-        <a-input v-model:value="formState.verifyCode" :placeholder="$t('user.login.placeholder.password')" size="large">
+        <a-input
+          v-model:value="formState.verifyCode"
+          :placeholder="$t('user.login.placeholder.password')"
+          size="large"
+          style="height: 47px"
+        >
           <template #prefix>
             <Icon icon="SecurityScanOutlined" />
           </template>

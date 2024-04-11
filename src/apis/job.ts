@@ -14,13 +14,13 @@ export type JobSearchFormType = {
   pageSize?: number
   sortField?: string
   sortOrder?: string
-}
+} & JobFilterType
 
 export type JobFilterType = {
-  jobType: number | null // 职位类型
-  needJobType: number | null // 求职类型
-  experience: number | null // 经验
-  salary: number | null // 薪资
+  jobStandardId?: number | null // 职位类型
+  jobType?: number | null // 求职类型
+  experience?: number | null // 经验
+  salary?: number | null // 薪资
 }
 
 export type JobItemType = {

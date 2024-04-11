@@ -31,8 +31,8 @@ body {
   transition:
     background-color 0.3s,
     color 0.3s;
-  transform-style: preserve-3d;
-  perspective: 1000px;
+  //transform-style: preserve-3d; // 不能设置这个 否则导致 fixed 定位失效
+  //perspective: 1000px;
   @include useTheme {
     background-color: getModeVar('bgColor');
     color: getModeVar('infoColor');

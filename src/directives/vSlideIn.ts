@@ -1,4 +1,5 @@
 import type { DirectiveBinding } from 'vue'
+import { useAppStore } from '@/stores'
 
 let DURATION = 500
 const DISTANCE = 100
@@ -31,10 +32,14 @@ const isBelowViewport = (el: HTMLElement) => {
 }
 export default {
   mounted(el: HTMLElement, binding: DirectiveBinding) {
+    const appStore = useAppStore()
     // if (!binding.value?.enter && !isBelowViewport(el)) {
     //   // console.log(!binding.value?.enter, !isBelowViewport(el))
     //   return
     // }
+    if (appStore.openAnimation === false) {
+      return
+    }
     if (binding.value?.enter) {
       DURATION = 300 + 100 * Math.floor(Math.random() * 5)
     }

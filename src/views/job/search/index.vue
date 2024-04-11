@@ -22,8 +22,8 @@ const searchState = ref<JobSearchFormType>({
   sortOrder: '',
 })
 const jobFilterData = ref<JobFilterType>({
+  jobStandardId: 12,
   jobType: 0,
-  needJobType: 0,
   experience: 0,
   salary: 0,
 })
@@ -46,7 +46,24 @@ const searchJobList = ref<SimpleJobItemType[]>([])
 
 async function getSearchResult() {
   searchState.value.city = searchCity.value[1]
+  searchState.value = { ...searchState.value, ...jobFilterData.value }
+  console.log(searchState.value)
+  console.log(jobFilterData.value)
   searchJobList.value = (await jobSearchApi(searchState.value)).records
+}
+
+function submit() {
+  router.push({
+    path: '/job/search',
+    query: {
+      keyword: searchState.value.keyword,
+      city: searchCity.value[1],
+      jobStandardId: jobFilterData.value.jobStandardId,
+      jobType: jobFilterData.value.jobType,
+      experience: jobFilterData.value.experience,
+      salary: jobFilterData.value.salary,
+    },
+  })
 }
 
 const keywordWatch = watch(
@@ -59,6 +76,19 @@ const keywordWatch = watch(
       // @ts-ignore
       const fullPath = findFullLocation(Number(newVal?.city))
       searchCity.value = [fullPath[0].code, fullPath[1].code]
+    }
+    if (newVal?.jobStandardId) {
+      // jobFilterData.value.jobStandardId = findFullJobType(Number(newVal?.jobStandardId))
+      jobFilterData.value.jobStandardId = Number(newVal?.jobStandardId)
+    }
+    if (newVal?.jobType) {
+      jobFilterData.value.jobType = Number(newVal?.jobType)
+    }
+    if (newVal?.experience) {
+      jobFilterData.value.experience = Number(newVal?.experience)
+    }
+    if (newVal?.salary) {
+      jobFilterData.value.salary = Number(newVal?.salary)
     }
     await getSearchResult()
   },
@@ -76,7 +106,27 @@ onUnmounted(() => {
 <template>
   <div class="search-page">
     <div class="search-panel card">
-      <job-search v-model:city="searchCity" v-model:keyword="searchState.keyword" />
+      <!--<job-search v-model:city="searchCity" v-model:keyword="searchState.keyword" />-->
+      <div class="job-search-bar">
+        <div class="title">搜索岗位</div>
+        <div class="search">
+          <a-input-group compact>
+            <a-input
+              v-model:value="searchState.keyword"
+              placeholder="请输入职位关键词"
+              size="large"
+              @keyup.enter="submit"
+            >
+              <template #prefix>
+                <i-location-selector v-model:value="searchCity" />
+              </template>
+              <template #suffix>
+                <a-button size="large" type="primary" @click="submit">搜索</a-button>
+              </template>
+            </a-input>
+          </a-input-group>
+        </div>
+      </div>
       <div class="city-list">
         <router-link
           v-for="c in hotCities"
@@ -132,9 +182,18 @@ onUnmounted(() => {
       background-color: getModeVar('cardBgColor');
     }
 
-    :deep(.title) {
-      @include useTheme {
-        color: getModeVar('textColor');
+    .job-search-bar {
+      @apply w-full;
+
+      .title {
+        @apply text-white text-3xl font-bold text-center mb-5;
+        @include useTheme {
+          color: getModeVar('textColor');
+        }
+      }
+
+      .search {
+        @apply w-full max-w-[var(--min-screen-width)] flex justify-center items-center;
       }
     }
 

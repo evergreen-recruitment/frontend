@@ -6,8 +6,10 @@ import variables from '@/styles/variables.module.scss'
 import { useI18n } from 'vue-i18n'
 import router, { syncAsyncRoute } from '@/router'
 import { updateTokenTimeApi } from '@/apis/common'
+import { useCookies } from 'vue3-cookies'
 import moment from 'moment'
 
+const { cookies } = useCookies()
 /**
  * app 配置 开启持久化
  */
@@ -155,12 +157,17 @@ export const useAppStore = defineStore(
         const seconds = Number(part[0]) * 3600 + Number(part[1]) * 60 + Number(part[2])
         updateTokenTimeApi(seconds).then(() => {
           tokenExpires.value = seconds
+          const token = cookies.get('satoken')
+          cookies.set('satoken', token, seconds)
         })
       },
     })
 
     // 设置岗位是否通过新窗口打开
     const openInNewWindow = ref(true)
+
+    // 是否开启动画
+    const openAnimation = ref(true)
 
     return {
       themeName,
@@ -176,6 +183,7 @@ export const useAppStore = defineStore(
       minScreenWidthComp,
       tokenExpiresComp,
       openInNewWindow,
+      openAnimation,
     }
   },
   {

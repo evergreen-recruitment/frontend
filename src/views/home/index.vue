@@ -6,6 +6,8 @@ import type { CompanyType } from '@/apis/company'
 import { getHotCompanyApi } from '@/apis/company'
 import INavigator from '@/components/INavigator/INavigator.vue'
 import type { JobCategoryType } from '@/apis/job'
+import Icon from '@/components/Icon/Icon.vue'
+import BottomFloatBtn from '@/components/BottomFloatBtn/BottomFloatBtn.vue'
 
 const userStore = useUserStore()
 const appStore = useAppStore()
@@ -166,10 +168,6 @@ window.addEventListener('scroll', scrollEvent)
                 <a-button type="primary" @click="$router.push('/recommend')">根据指引使用本网址</a-button>
               </div>
             </div>
-            <!--<div v-if="!delivered" class="not-login">-->
-            <!--  <div class="title">未登录</div>-->
-            <!--  <div class="desc"></div>-->
-            <!--</div>-->
             <knowledge-graph
               v-else-if="knowledgeGraphData"
               :data="knowledgeGraphData"
@@ -276,6 +274,7 @@ window.addEventListener('scroll', scrollEvent)
         </a-tabs>
       </div>
     </div>
+    <bottom-float-btn />
   </div>
 </template>
 
