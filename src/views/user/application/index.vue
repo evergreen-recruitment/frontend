@@ -159,15 +159,23 @@ const selfIntroductionForm = reactive<SelfIntroductionFormType>({
         <div class="title">导入简历</div>
         <a-divider />
         <div class="sub-title">请上传DOC、DOCX、PDF格式的中文简历，大小不超过20M</div>
-        <div class="upload">
-          <a-upload action="https://www.mocky.io/v2/5cc8019d300000980a055e76">
-            <template #default>
-              <a-button style="width: 100%" type="primary">
-                <Icon icon="UploadOutlined" />
-                上传简历
-              </a-button>
-            </template>
-          </a-upload>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px">
+          <div class="upload">
+            <a-upload action="https://www.mocky.io/v2/5cc8019d300000980a055e76">
+              <template #default>
+                <a-button style="width: 100%" type="primary">
+                  <Icon icon="UploadOutlined" />
+                  上传简历
+                </a-button>
+              </template>
+            </a-upload>
+          </div>
+          <div class="list">
+            <a-button>
+              <Icon icon="FolderOpenOutlined" />
+              所有简历
+            </a-button>
+          </div>
         </div>
       </div>
       <div class="optimize-application card">
@@ -203,10 +211,6 @@ const selfIntroductionForm = reactive<SelfIntroductionFormType>({
 
       .sub-title {
         @apply text-sm text-gray-500;
-      }
-
-      .upload {
-        @apply mt-5;
       }
     }
 

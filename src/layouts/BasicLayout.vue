@@ -17,8 +17,7 @@ const containerWidth = computed(() => {
   }`
 })
 onBeforeMount(async () => {
-  await userStore.getUserInfo()
-  if (userStore.token) {
+  if (userStore.token !== undefined && userStore.token !== '') {
     const res = await isCompleteUserInfoApi()
     if (res === false) {
       router.push({
@@ -27,6 +26,8 @@ onBeforeMount(async () => {
           userId: userStore.userInfo.id,
         },
       })
+    } else {
+      await userStore.getUserInfo()
     }
   }
   await statusStore.init()

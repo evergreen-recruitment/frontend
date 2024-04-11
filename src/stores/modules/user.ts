@@ -3,8 +3,8 @@ import { ref } from 'vue'
 import { logoutApi } from '@/apis/auth'
 import { useCookies } from 'vue3-cookies'
 import type { UserInfoType } from '@/apis/user'
-import { getCookieStorage } from '@/stores'
 import { getUserInfoApi } from '@/apis/user'
+import { getCookieStorage } from '@/stores'
 
 const { cookies } = useCookies()
 
@@ -17,6 +17,7 @@ export const useUserStore = defineStore(
     const userInfo = ref<UserInfoType>({})
 
     async function getUserInfo() {
+      token.value = cookies.get('satoken') || ''
       userInfo.value = await getUserInfoApi()
     }
 

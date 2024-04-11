@@ -430,7 +430,7 @@ window.addEventListener('scroll', scrollEvent)
                 @apply absolute top-0 left-[20rem] w-[calc(1280px-20rem)] h-[500px] backdrop-blur-2xl hidden;
 
                 @include useTheme {
-                  background: linear-gradient(90deg, #ffffffa0, rgba(getColor('primary'), 0.7));
+                  background: linear-gradient(90deg, #fffffff0, rgba(getColor('primary'), 0.9));
                 }
 
                 .title {
