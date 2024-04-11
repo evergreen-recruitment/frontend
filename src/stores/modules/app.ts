@@ -5,6 +5,8 @@ import type { primaryColorEnumType } from '@/config/theme.config'
 import variables from '@/styles/variables.module.scss'
 import { useI18n } from 'vue-i18n'
 import router, { syncAsyncRoute } from '@/router'
+import { updateTokenTimeApi } from '@/apis/common'
+import moment from 'moment'
 
 /**
  * app 配置 开启持久化
@@ -141,7 +143,21 @@ export const useAppStore = defineStore(
     })
 
     // 设置Token过期时间
-    const tokenExpires = ref(1) // 1小时
+    const tokenExpires = ref(3600) // 1小时
+    const tokenExpiresComp = computed({
+      get() {
+        const duration = moment.duration(tokenExpires.value, 'seconds')
+        return moment.utc(duration.asMilliseconds()).format('HH:mm:ss')
+      },
+      set(val) {
+        console.log(val)
+        const part = val.split(':')
+        const seconds = Number(part[0]) * 3600 + Number(part[1]) * 60 + Number(part[2])
+        updateTokenTimeApi(seconds).then(() => {
+          tokenExpires.value = seconds
+        })
+      },
+    })
 
     // 设置岗位是否通过新窗口打开
     const openInNewWindow = ref(true)
@@ -158,7 +174,7 @@ export const useAppStore = defineStore(
       showCardBorderComp,
       minScreenWidth,
       minScreenWidthComp,
-      tokenExpires,
+      tokenExpiresComp,
       openInNewWindow,
     }
   },

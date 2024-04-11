@@ -28,3 +28,7 @@ export function uploadImageApi(file: File) {
     )
     .send(true) as Promise<string>
 }
+
+export function updateTokenTimeApi(time: number) {
+  return request.Get(`/common/update/token?timeout=${time}`).send(true) as Promise<boolean>
+}

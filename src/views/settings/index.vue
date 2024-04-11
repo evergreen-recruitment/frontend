@@ -78,9 +78,7 @@ const minWidthMarks = ref({
       <div class="setting-page__inner--token-keep">
         <i-page-header sub-title="设置登录用户的Token保留天数，以控制登录" title="Token保留天数" />
         <div class="setting-page__inner--token-keep__content setting-item__content">
-          <a-input-number v-model:value="appStore.tokenExpires" :max="7" :min="1">
-            <template #addonAfter>天</template>
-          </a-input-number>
+          <a-time-picker v-model:value="appStore.tokenExpiresComp" value-format='HH:mm:ss' />
         </div>
       </div>
     </div>
