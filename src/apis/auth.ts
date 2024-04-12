@@ -31,13 +31,13 @@ export type CompleteUserInfoFormType = {
   avatar?: string
   userAccount: string
   realName: string
-  location: [number, number]
+  location: any
   age: number | null
   userPassword: string
-  reUserPassword: string | null
+  reUserPassword?: string
   email: string
   applyStatus: number
-  hopeJob: [number, number]
+  hopeJob: any
   gender: number | null
 }
 

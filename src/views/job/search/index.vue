@@ -47,9 +47,7 @@ const searchJobList = ref<SimpleJobItemType[]>([])
 async function getSearchResult() {
   searchState.value.city = searchCity.value[1]
   searchState.value = { ...searchState.value, ...jobFilterData.value }
-  console.log(searchState.value)
-  console.log(jobFilterData.value)
-  searchJobList.value = (await jobSearchApi(searchState.value)).records
+  searchJobList.value = (await jobSearchApi(searchState.value))?.records
 }
 
 function submit() {
@@ -144,7 +142,7 @@ onUnmounted(() => {
     </div>
 
     <div class="job">
-      <job-search-list :search-job-list="searchJobList" class="job-l block-item" />
+      <job-search-list v-if="searchJobList" :search-job-list="searchJobList" class="job-l block-item" />
       <div class="job-side block-item">
         <div class="graph-cot card">
           <knowledge-graph v-if="knowledgeGraphData" :data="knowledgeGraphData" :zoom="0.5" class="graph" />

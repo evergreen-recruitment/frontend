@@ -9,12 +9,16 @@ import type {
   WorkExpInfoFormType,
 } from '@/apis/application'
 import type { UserInfoType } from '@/apis/user'
+import { message, type UploadChangeParam, type UploadProps } from 'ant-design-vue'
+import { type UploadRequestOption } from 'ant-design-vue/es/vc-upload/interface'
+import { uploadApplicationApi } from '@/apis/common'
 
 const userStore = useUserStore()
 const userInfo = computed<UserInfoType>(() => userStore.userInfo)
 
 const activeKey = ref('1')
-
+const fileList = ref([])
+const applicationUploadLoading = ref(false)
 const workExpInfoForm = reactive<WorkExpInfoFormType>({
   companyName: '', // 公司名称
   industry: '', // 所属行业
@@ -48,6 +52,45 @@ const certificateInfoForm = reactive<CertificateInfoFormType>({
 const selfIntroductionForm = reactive<SelfIntroductionFormType>({
   selfIntroduction: '', // 个人评价
 })
+
+function handleChange(info: UploadChangeParam) {
+  if (info.file.status === 'uploading') {
+    applicationUploadLoading.value = true
+    return
+  }
+  if (info.file.status === 'done') {
+    // formState.avatar = info.file.response
+    message.success('上传成功')
+    applicationUploadLoading.value = false
+  }
+  if (info.file.status === 'error') {
+    applicationUploadLoading.value = false
+    message.error('upload error')
+  }
+}
+
+// @ts-ignore
+function beforeUpload(file: UploadProps['fileList'][number]) {
+  const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png'
+  if (!isJpgOrPng) {
+    message.error('你只能上传一般图片文件!')
+  }
+  const isLt2M = file.size / 1024 / 1024 < 2
+  if (!isLt2M) {
+    message.error('图片大小不能超过2MB!')
+  }
+  return isJpgOrPng && isLt2M
+}
+
+async function customUploadApplication(e: UploadRequestOption) {
+  const res = await uploadApplicationApi(e.file as File)
+  if (res === undefined) {
+    message.error('上传失败')
+    return
+  }
+  // @ts-ignore
+  e.onSuccess(res, e.file)
+}
 </script>
 
 <template>
@@ -161,7 +204,13 @@ const selfIntroductionForm = reactive<SelfIntroductionFormType>({
         <div class="sub-title">请上传DOC、DOCX、PDF格式的中文简历，大小不超过20M</div>
         <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px">
           <div class="upload">
-            <a-upload action="https://www.mocky.io/v2/5cc8019d300000980a055e76">
+            <a-upload
+              v-model:file-list="fileList"
+              :custom-request="customUploadApplication"
+              :show-upload-list="false"
+              class="avatar-uploader"
+              @change="handleChange"
+            >
               <template #default>
                 <a-button style="width: 100%" type="primary">
                   <Icon icon="UploadOutlined" />

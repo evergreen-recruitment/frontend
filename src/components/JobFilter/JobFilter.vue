@@ -20,13 +20,18 @@ const filter: ShowSearchType['filter'] = (inputValue, path) => {
   return path.some((option) => option.label.toLowerCase().indexOf(inputValue.toLowerCase()) > -1)
 }
 const jobStandardId = computed(() => {
+  if (props.jobFilterData.jobStandardId === undefined || props.jobFilterData.jobStandardId === null) {
+    return []
+  }
   const original = findFullJobType(props.jobFilterData.jobStandardId!)
   return [original[0].id, original[1].id]
 })
 
 function handleJobTypeChange(value: number[]) {
-  console.log(findFullJobType(props.jobFilterData.jobStandardId!))
-  if (value.length > 1) {
+  if (value === undefined || value === null) {
+    props.jobFilterData.jobStandardId = null
+  }
+  if (value?.length > 1) {
     props.jobFilterData.jobStandardId = value[1]
   } else {
     props.jobFilterData.jobStandardId = null

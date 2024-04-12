@@ -4,7 +4,7 @@
   <a-float-button-group
     trigger="click"
     type="primary"
-    style="position: fixed; right: 24px; bottom: 100px; z-index: 999"
+    style="position: fixed; right: 50px; bottom: 100px; z-index: 999"
   >
     <template #icon>
       <Icon icon="AppstoreOutlined" />

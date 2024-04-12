@@ -78,16 +78,32 @@ function beforeUpload(file: UploadProps['fileList'][number]) {
   return isJpgOrPng && isLt2M
 }
 
+async function customUploadImage(e: UploadRequestOption) {
+  const res = await uploadImageApi(e.file as File)
+  if (res === undefined) {
+    message.error('上传失败')
+    return
+  }
+  // @ts-ignore
+  e.onSuccess(res, e.file)
+}
+
 async function submitCompleteInfo(e: any) {
   formRef.value.validate().then(async () => {
     // loading.value = true
-    // @ts-ignore
-    formState.reUserPassword = undefined
-    // @ts-ignore
-    formState.location = formState.location[1]
-    // @ts-ignore
-    formState.hopeJob = formState.hopeJob[1]
-    const res = await completeUserInfoApi(formState)
+    // // @ts-ignore
+    // formState.reUserPassword = undefined
+    // // @ts-ignore
+    // formState.location = formState.location[1]
+    // // @ts-ignore
+    // formState.hopeJob = formState.hopeJob[1]
+    const res = await completeUserInfoApi({
+      ...formState,
+      reUserPassword: undefined,
+      location: formState.location[1],
+      hopeJob: formState.hopeJob[1],
+    })
+    console.log(res)
     if (res !== true) {
       message.error('提交失败')
       loading.value = false
@@ -97,16 +113,6 @@ async function submitCompleteInfo(e: any) {
     router.push('/')
     // router.push('/auth/uploadApplication')
   })
-}
-
-async function customUploadImage(e: UploadRequestOption) {
-  const res = await uploadImageApi(e.file as File)
-  if (res === undefined) {
-    message.error('上传失败')
-    return
-  }
-  // @ts-ignore
-  e.onSuccess(res, e.file)
 }
 
 onMounted(async () => {
@@ -237,6 +243,7 @@ onUnmounted(() => {
 
       <a-form-item label="求职意向" name="hopeJob">
         <a-cascader
+          v-model:value="formState.hopeJob"
           :options="options"
           :show-search="{ filter }"
           :field-names="{ label: 'name', value: 'id', children: 'children' }"

@@ -15,12 +15,22 @@ export type UserInfoType = {
   createTime?: string
 }
 
+export type UpdateUserInfoFormType = {
+  applyStatus?: number
+  avatar?: string
+  email?: string
+  gender?: number
+  hopeJob?: number
+  id?: string
+  location?: number
+  phone?: string
+  realName?: string
+}
+
 export function getUserInfoApi() {
   return request.Get('user/info').send(true) as Promise<UserInfoType>
 }
 
-export function uploadApplicationApi(file: File) {
-  const formData = new FormData()
-  formData.append('file', file)
-  return request.Post('/user/uploadApplication', formData).send(true) as Promise<string>
+export function updateUserInfoApi(userForm: UpdateUserInfoFormType) {
+  return request.Post('user/updateUserInfo', userForm).send(true) as Promise<boolean>
 }
