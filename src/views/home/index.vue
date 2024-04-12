@@ -97,14 +97,15 @@ window.addEventListener('scroll', scrollEvent)
 
 <template>
   <div class="home-page">
-    <job-search-home v-model:keyword="searchState.keyword" :hide-title="hideSearchBarTitle" class="search-bar" />
+    <!--<i-search-bar class="search-bar" />-->
+    <!--<job-search-home v-model:keyword="searchState.keyword" :hide-title="hideSearchBarTitle" class="search-bar" />-->
     <div v-if="true" class="home-page-background">
       <!--<div class="circle-group">-->
-      <!--  <div class="circle circle1" style="background-color: #ba9867; opacity: 0.7"></div>-->
-      <!--  <div class="circle circle2" style="background-color: #dfc399; opacity: 0.65"></div>-->
-      <!--  <div class="circle circle3" style="background-color: #896738; opacity: 0.63"></div>-->
-      <!--  <div class="circle circle4" style="background-color: #4e3619; opacity: 0.46"></div>-->
-      <!--  <div class="circle circle5" style="background-color: #ba9867; opacity: 0.5"></div>-->
+      <!--  <div class="circle circle1"></div>-->
+      <!--  <div class="circle circle2"></div>-->
+      <!--  <div class="circle circle3"></div>-->
+      <!--  <div class="circle circle4"></div>-->
+      <!--  <div class="circle circle5"></div>-->
       <!--</div>-->
     </div>
     <div class="mask"></div>
@@ -197,7 +198,7 @@ window.addEventListener('scroll', scrollEvent)
                     <i-navigator
                       v-for="i in item.children"
                       :key="i.name"
-                      :to="{ name: 'jobSearch', query: { jobType: i.id } }"
+                      :to="{ name: 'jobSearch', query: { jobStandardId: i.id } }"
                       class="menu-item"
                     >
                       <span>{{ i.name }}</span>
@@ -338,9 +339,9 @@ window.addEventListener('scroll', scrollEvent)
     //}
 
     .circle-group {
-      @apply h-screen;
-      margin: -180px auto 0;
-      width: 1146px;
+      @apply h-screen w-full;
+      //margin: -180px auto 0;
+      margin: 0 auto;
       position: relative;
 
       .circle {
@@ -352,47 +353,65 @@ window.addEventListener('scroll', scrollEvent)
         filter: blur(135px);
         height: auto;
         padding-bottom: 46%;
-        width: 46%;
+        width: 30%;
         top: -16.3%;
-        left: -14.6%;
+        left: -10.6%;
+        opacity: 0.7;
+        @include useTheme {
+          background: lighten(getColor('primary'), 0%);
+        }
       }
 
       .circle2 {
         filter: blur(100px);
-        opacity: 0.6;
         height: auto;
         padding-bottom: 47.5%;
-        width: 47.5%;
-        top: -26.1%;
-        left: 21.9%;
+        width: 27.5%;
+        top: 10%;
+        left: 72.9%;
+        opacity: 0.65;
+        @include useTheme {
+          background: lighten(getColor('primary'), 10%);
+        }
       }
 
       .circle3 {
         filter: blur(102px);
         height: auto;
         padding-bottom: 33.3%;
-        width: 33.3%;
+        width: 23.3%;
         top: 51.8%;
-        left: 28.7%;
+        left: 58.7%;
+        opacity: 0.63;
+        @include useTheme {
+          background: darken(getColor('primary'), 10%);
+        }
       }
 
       .circle4 {
         filter: blur(140px);
         height: auto;
         padding-bottom: 40%;
-        width: 40%;
+        width: 20%;
         top: 53.7%;
-        right: 64.8%;
+        right: 14.8%;
+        opacity: 0.46;
+        @include useTheme {
+          background: darken(getColor('primary'), 20%);
+        }
       }
 
       .circle5 {
         filter: blur(136px);
         height: auto;
         padding-bottom: 100%;
-        width: 70%;
-        top: 40%;
-        left: 0;
+        width: 35%;
+        top: 20%;
+        right: -10%;
         opacity: 0.5;
+        @include useTheme {
+          background: darken(getColor('primary'), 10%);
+        }
       }
     }
   }

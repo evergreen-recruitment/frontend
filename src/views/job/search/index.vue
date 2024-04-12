@@ -47,7 +47,7 @@ const searchJobList = ref<SimpleJobItemType[]>([])
 async function getSearchResult() {
   searchState.value.city = searchCity.value[1]
   searchState.value = { ...searchState.value, ...jobFilterData.value }
-  searchJobList.value = (await jobSearchApi(searchState.value))?.records
+  searchJobList.value = (await jobSearchApi(searchState.value))?.records || []
 }
 
 function submit() {
@@ -105,24 +105,17 @@ onUnmounted(() => {
 <template>
   <div class="search-page">
     <div class="search-panel card">
-      <!--<job-search v-model:city="searchCity" v-model:keyword="searchState.keyword" />-->
       <div class="job-search-bar">
         <div class="title">搜索岗位</div>
         <div class="search">
-          <a-input-group compact>
-            <a-input
+          <a-input-group compact size='large' style='display: flex'>
+            <i-location-selector v-model:value="searchCity" style='padding:0 0 2px 0;box-sizing: border-box'/>
+            <a-input-search
               v-model:value="searchState.keyword"
               placeholder="请输入职位关键词"
-              size="large"
-              @keyup.enter="submit"
-            >
-              <template #prefix>
-                <i-location-selector v-model:value="searchCity" />
-              </template>
-              <template #suffix>
-                <a-button size="large" type="primary" @click="submit">搜索</a-button>
-              </template>
-            </a-input>
+              enter-button='搜索'
+              @search="submit"
+            />
           </a-input-group>
         </div>
       </div>

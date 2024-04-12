@@ -9,18 +9,14 @@
     <template #icon>
       <Icon icon="AppstoreOutlined" />
     </template>
-    <a-float-button>
+    <a-float-button @click="$router.push('#')">
       <template #icon>
-        <i-navigator to="#">
-          <Icon icon="VerticalAlignTopOutlined" />
-        </i-navigator>
+        <Icon icon="VerticalAlignTopOutlined" />
       </template>
     </a-float-button>
-    <a-float-button>
+    <a-float-button @click="$router.push('/settings')">
       <template #icon>
-        <i-navigator :to="{ name: 'settings' }">
-          <Icon icon="SettingOutlined" />
-        </i-navigator>
+        <Icon icon="SettingOutlined" />
       </template>
     </a-float-button>
   </a-float-button-group>

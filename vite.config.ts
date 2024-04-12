@@ -90,16 +90,16 @@ export default defineConfig(({ command, mode }) => {
           chunkFileNames: 'static/js/[name]-[hash].js',
           entryFileNames: 'static/js/[name]-[hash].js',
           assetFileNames: 'static/[ext]/[name]-[hash].[ext]',
-          manualChunks(id) {
-            //静态资源分拆打包
-            if (id.includes('node_modules')) {
-              return `node_modules/${id
-                .toString()
-                .split('node_modules/')[1] //
-                .split('/')[1]
-                .toString()}`
-            }
-          },
+          // manualChunks(id) {
+          //   //静态资源分拆打包
+          //   if (id.includes('node_modules')) {
+          //     return `node_modules/${id
+          //       .toString()
+          //       .split('node_modules/')[1] //
+          //       .split('/')[1]
+          //       .toString()}`
+          //   }
+          // },
         },
       },
     },

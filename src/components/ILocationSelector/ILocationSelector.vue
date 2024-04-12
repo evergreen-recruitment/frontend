@@ -24,6 +24,7 @@ function onChange(_value: any, selectedOptions: any) {
 
 <template>
   <a-cascader
+    v-bind="$attrs"
     v-model:value="propsValue"
     :options="options"
     :field-names="{ label: 'name', value: 'code', children: 'children' }"
