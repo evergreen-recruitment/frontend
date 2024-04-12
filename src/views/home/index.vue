@@ -7,11 +7,12 @@ import { getHotCompanyApi } from '@/apis/company'
 import INavigator from '@/components/INavigator/INavigator.vue'
 import type { JobCategoryType } from '@/apis/job'
 import Icon from '@/components/Icon/Icon.vue'
-import BottomFloatBtn from '@/components/BottomFloatBtn/BottomFloatBtn.vue'
+import tutorial from '@/assets/tutorial/tutorial'
 
 const userStore = useUserStore()
 const appStore = useAppStore()
 const statusStore = useStatusStore()
+const bannerLeftSideCollapsed = ref(false)
 const tabKey = ref('1')
 const category = ref<JobCategoryType[]>([])
 const hotSearch = ref()
@@ -20,6 +21,7 @@ const recommendJobList = ref()
 const newJobList = ref()
 const nearbyJobList = ref()
 const knowledgeGraphData = ref()
+const tutorialList = ref(tutorial)
 const delivered = ref(false)
 const hideSearchBarTitle = ref(false)
 const searchState = reactive({
@@ -182,9 +184,15 @@ window.addEventListener('scroll', scrollEvent)
       <div v-slide-in="{ distance: 200 }" class="banner">
         <div class="title">我们有全面的IT分类岗位</div>
         <div class="sub-title">包含83个细分领域</div>
-        <div class="banner-inner">
+        <div class="banner-inner" :style="`--left-side-width:${bannerLeftSideCollapsed ? '170px' : '20rem'}`">
           <div class="left-side">
             <div class="menu">
+              <Icon
+                :icon="`${bannerLeftSideCollapsed ? 'RightOutlined' : 'LeftOutlined'}`"
+                class="right"
+                @click="bannerLeftSideCollapsed = !bannerLeftSideCollapsed"
+                >收起
+              </Icon>
               <div v-for="item in category" :key="item.name" class="menu-item">
                 <span>{{ item.name }}</span>
                 <div class="arrow">
@@ -213,16 +221,26 @@ window.addEventListener('scroll', scrollEvent)
           </div>
           <a-carousel autoplay>
             <div class="carousel-item">
-              <img alt="" src="@/assets/images/logo1-white.png" style="width: 300px; height: auto; object-fit: cover" />
+              <a
+                v-for="item in tutorialList.slice(0, tutorialList.length / 2)"
+                class="tutorial"
+                :href="item.url"
+                target="_blank"
+                :key="item.url"
+              >
+                <img :src="item.img" />
+              </a>
             </div>
             <div class="carousel-item">
-              <img alt="" src="@/assets/images/logo1-white.png" style="width: 300px; height: auto; object-fit: cover" />
-            </div>
-            <div class="carousel-item">
-              <img alt="" src="@/assets/images/logo1-white.png" style="width: 300px; height: auto; object-fit: cover" />
-            </div>
-            <div class="carousel-item">
-              <img alt="" src="@/assets/images/logo1-white.png" style="width: 300px; height: auto; object-fit: cover" />
+              <a
+                v-for="item in tutorialList.slice(tutorialList.length / 2)"
+                class="tutorial"
+                :href="item.url"
+                target="_blank"
+                :key="item.url"
+              >
+                <img :src="item.img" />
+              </a>
             </div>
           </a-carousel>
         </div>
@@ -290,7 +308,6 @@ window.addEventListener('scroll', scrollEvent)
     --opacity: 0;
     @apply fixed top-0 left-0 w-full h-[100vh] bg-amber-50 pointer-events-none;
     backdrop-filter: blur(var(--blur));
-    //transition: background 0.3s ease-in-out, backdrop-filter 0.3s ease-in-out;
 
     @include useTheme {
       background: rgba(getModeVar('bg1color'), var(--opacity));
@@ -432,21 +449,27 @@ window.addEventListener('scroll', scrollEvent)
       }
 
       .banner-inner {
+        --left-side-width: 20rem;
         @apply relative h-full;
         .left-side {
-          @apply absolute w-80 h-full py-5 box-border z-[1] backdrop-blur-3xl;
-
+          @apply absolute w-[var(--left-side-width)] h-full py-5 box-border z-[1] backdrop-blur-3xl;
+          transition: width 0.3s;
           background: rgba((adjust-hue(hsl(0, 50%, 10%), hue(getColor('primary')))), 0.8);
 
           .menu {
             @apply text-white;
+            .right {
+              @apply flex items-center justify-center w-[24px] h-[30px] rounded-r-full rounded-l-none absolute top-1/2 right-[-22px] bg-[rgba(0,0,0,0.5)] cursor-pointer z-10;
+            }
 
             .menu-item {
               @apply w-full h-10 px-5 flex justify-between box-border cursor-pointer leading-10 hover:bg-[rgba(255,255,255,0.7)] hover:text-black;
 
               .layer {
-                @apply absolute top-0 left-[20rem] w-[calc(1280px-20rem)] h-[500px] backdrop-blur-2xl hidden;
-
+                @apply absolute top-0 left-[var(--left-side-width)] w-[calc(1280px-var(--left-side-width))] h-[500px] backdrop-blur-2xl hidden;
+                transition:
+                  left 0.3s,
+                  width 0.3s;
                 @include useTheme {
                   background: linear-gradient(90deg, #fffffff0, rgba(getColor('primary'), 0.9));
                 }
@@ -474,6 +497,28 @@ window.addEventListener('scroll', scrollEvent)
 
         .ant-carousel {
           @apply w-full h-full;
+
+          :deep(.slick-slide) {
+            & > div {
+              height: 100% !important;
+              width: 100% !important;
+            }
+          }
+
+          .carousel-item {
+            display: grid !important;
+            @apply relative grid-cols-4 grid-rows-4;
+            left: var(--left-side-width) !important;
+            width: calc(100% - var(--left-side-width)) !important;
+            height: 100% !important;
+            transition:
+              left 0.3s,
+              width 0.3s;
+
+            img {
+              @apply w-full h-full object-cover;
+            }
+          }
         }
 
         :deep(.slick-slide) {
