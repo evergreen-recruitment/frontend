@@ -75,5 +75,33 @@ export default defineConfig(({ command, mode }) => {
       // 移除console和debugger
       // drop: ['console', 'debugger'],
     },
+    build: {
+      minify: 'terser',
+      terserOptions: {
+        compress: {
+          //生产环境时移除console
+          drop_console: true,
+          drop_debugger: true,
+        },
+      },
+      // 分包
+      rollupOptions: {
+        output: {
+          chunkFileNames: 'static/js/[name]-[hash].js',
+          entryFileNames: 'static/js/[name]-[hash].js',
+          assetFileNames: 'static/[ext]/[name]-[hash].[ext]',
+          manualChunks(id) {
+            //静态资源分拆打包
+            if (id.includes('node_modules')) {
+              return `node_modules/${id
+                .toString()
+                .split('node_modules/')[1] //
+                .split('/')[1]
+                .toString()}`
+            }
+          },
+        },
+      },
+    },
   }
 })
