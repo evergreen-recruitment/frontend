@@ -14,9 +14,8 @@ const sideJobList = ref<SimpleJobItemType[]>([])
 const routerWatch = watchEffect(async () => {
   if (router.currentRoute.value.path === '/job/detail' && router.currentRoute.value.query.jobId) {
     job.value = await getJobDetailApi(router.currentRoute.value.query.jobId as string)
-    sideJobList.value = (
-      await jobSearchApi({ keyword: job.value?.title, pageSize: 7, current: Math.random() * 10 })
-    ).records
+    sideJobList.value =
+      (await jobSearchApi({ keyword: job.value?.title, pageSize: 7, current: Math.random() * 10 }))?.records || []
   }
 })
 // echarts配置

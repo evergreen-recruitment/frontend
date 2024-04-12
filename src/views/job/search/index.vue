@@ -22,7 +22,7 @@ const searchState = ref<JobSearchFormType>({
   sortOrder: '',
 })
 const jobFilterData = ref<JobFilterType>({
-  jobStandardId: 12,
+  jobStandardId: null,
   jobType: 0,
   experience: 0,
   salary: 0,
@@ -67,6 +67,7 @@ function submit() {
 const keywordWatch = watch(
   () => router.currentRoute.value.query,
   async (newVal) => {
+    if (router.currentRoute.value.name !== 'jobSearch') return
     if (newVal?.keyword) {
       searchState.value.keyword = newVal?.keyword as string
     }

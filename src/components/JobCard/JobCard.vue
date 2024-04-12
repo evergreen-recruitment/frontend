@@ -54,7 +54,7 @@ const appStore = useAppStore()
 
   &:hover {
     @include useTheme {
-      box-shadow: 0px 0px 20px 1px getColor('primary');
+      box-shadow: 0 0 3px 1px rgba(getColor('primary'), 0.05);
     }
 
     &::before {

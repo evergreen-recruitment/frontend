@@ -109,7 +109,7 @@ window.addEventListener('scroll', scrollEvent)
     </div>
     <div class="mask"></div>
     <div class="home-page-bottom">
-      <div v-slide-in class="user-panel block-item">
+      <div v-slide-in="{ distance: 200 }" class="user-panel block-item">
         <div class="user-aside-outer">
           <div v-if="userStore.token" class="user-aside">
             <div class="user-info">
@@ -178,7 +178,7 @@ window.addEventListener('scroll', scrollEvent)
           </div>
         </div>
       </div>
-      <div v-slide-in class="banner">
+      <div v-slide-in="{ distance: 200 }" class="banner">
         <div class="title">我们有全面的IT分类岗位</div>
         <div class="sub-title">包含83个细分领域</div>
         <div class="banner-inner">
@@ -226,7 +226,7 @@ window.addEventListener('scroll', scrollEvent)
           </a-carousel>
         </div>
       </div>
-      <div v-slide-in class="hot-company block-item">
+      <div v-slide-in="{ distance: 200 }" class="hot-company block-item">
         <div class="title">热门公司</div>
         <div class="sub-title">最热门的互联网公司</div>
         <div class="hot-company-list">
@@ -252,7 +252,7 @@ window.addEventListener('scroll', scrollEvent)
           </div>
         </div>
       </div>
-      <div v-slide-in class="job-recommend block-item">
+      <div v-slide-in="{ distance: 200 }" class="job-recommend block-item">
         <div class="title">推荐岗位</div>
         <div class="sub-title">通过人工智能分析推荐最适合你的岗位</div>
         <a-tabs v-model:activeKey="tabKey" animated style="width: 1200px; overflow: hidden; padding: 5px 0">
