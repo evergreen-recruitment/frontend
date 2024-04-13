@@ -1,14 +1,17 @@
 <script setup lang="ts">
-import { findFullLocation, formatDateStr } from '@/utils/utils'
+import { findFullJobType, findFullLocation, formatDateStr } from '@/utils/utils'
 import type { UserInfoType } from '@/apis/user'
+import { ref } from 'vue'
 
 const props = defineProps<{
   userInfo: UserInfoType
 }>()
+const jobCategory = ref(findFullJobType(props.userInfo.hopeJob!))
+const jobName = ref(jobCategory.value[1].name)
 </script>
 
 <template>
-  <a-badge-ribbon text="Java工程师">
+  <a-badge-ribbon :text="jobName">
     <div class="user-panel card">
       <div class="user-panel-top">
         <div class="left">
