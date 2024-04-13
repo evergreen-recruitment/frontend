@@ -59,7 +59,7 @@ function updatePosition() {
     let left = rect.left - floatButtonGroupElement.offsetWidth
     // let top = rect.top + rect.height / 2 - floatButtonGroupElement.offsetHeight / 2
     let top = window.scrollY + window.innerHeight / 2 - floatButtonGroupElement.offsetHeight / 2
-    console.log(top)
+    // console.log(top)
     // 判断floatButtonGroup的左边是否超出了屏幕
     if (left < 0) {
       left = 0
@@ -92,7 +92,16 @@ function updatePosition() {
         </template>
       </a-float-button>
 
-      <a-input-number :value="current" :min="1" :max="maxPage" @change="onCurrentChange" :controls="false" style="" />
+      <a-input-number
+        :value="current"
+        :formatter="(val: string) => `${val}/${maxPage}页`"
+        :parser="(val: string) => Number(val.split('/')[0])"
+        :min="1"
+        :max="maxPage"
+        @change="onCurrentChange"
+        :controls="false"
+        style=""
+      />
 
       <a-float-button @click="onNavClick(+1)">
         <template #icon>
@@ -117,6 +126,7 @@ function updatePosition() {
     input {
       text-align: center !important;
       padding: 0 !important;
+      font-size: 10px;
     }
   }
 
