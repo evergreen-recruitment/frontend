@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { reactive, ref } from 'vue'
 import type { UploadRequestOption } from 'ant-design-vue/es/vc-upload/interface'
 import { uploadApplicationApi } from '@/apis/common'
 import { message, type UploadChangeParam } from 'ant-design-vue'
 
 const fileList = ref([])
 const applicationUploadLoading = ref(false)
-
+const formState = reactive([])
 function handleChange(info: UploadChangeParam) {
   if (info.file.status === 'uploading') {
     applicationUploadLoading.value = true
@@ -32,6 +32,8 @@ async function customUploadApplication(e: UploadRequestOption) {
   // @ts-ignore
   e.onSuccess(res, e.file)
 }
+
+function openApplicationList() {}
 </script>
 
 <template>

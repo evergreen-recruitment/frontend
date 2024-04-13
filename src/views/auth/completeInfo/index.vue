@@ -52,7 +52,7 @@ const filter: ShowSearchType['filter'] = (inputValue, path) => {
   return path.some((option) => option.label.toLowerCase().indexOf(inputValue.toLowerCase()) > -1)
 }
 
-function handleChange(info: UploadChangeParam) {
+function handleAvatarChange(info: UploadChangeParam) {
   if (info.file.status === 'uploading') {
     avatarUploadLoading.value = true
     return
@@ -68,7 +68,7 @@ function handleChange(info: UploadChangeParam) {
 }
 
 // @ts-ignore
-function beforeUpload(file: UploadProps['fileList'][number]) {
+function beforeAvatarUpload(file: UploadProps['fileList'][number]) {
   const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png'
   if (!isJpgOrPng) {
     message.error('你只能上传一般图片文件!')
@@ -149,12 +149,12 @@ onUnmounted(() => {
           <a-form-item label="头像" name="avatar">
             <a-upload
               v-model:file-list="fileList"
-              :before-upload="beforeUpload"
+              :before-upload="beforeAvatarUpload"
               :custom-request="customUploadImage"
               :show-upload-list="false"
               class="avatar-uploader"
               list-type="picture-card"
-              @change="handleChange"
+              @change="handleAvatarChange"
             >
               <img
                 v-if="formState.avatar"
