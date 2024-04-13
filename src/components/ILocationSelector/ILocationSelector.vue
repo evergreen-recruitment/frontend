@@ -13,17 +13,19 @@ const props = defineProps<{
 const propsValue = useVModel(props, 'value', emit)
 const propsText = useVModel(props, 'text', emit)
 if (props.addNationwide) {
-  map.unshift({
-    code: 10,
-    name: '全国',
-    children: [
-      {
-        code: 0,
-        name: '全国',
-        children: null,
-      },
-    ],
-  })
+  if (map[0].name !== '全国') {
+    map.unshift({
+      code: 10,
+      name: '全国',
+      children: [
+        {
+          code: 0,
+          name: '全国',
+          children: null,
+        },
+      ],
+    })
+  }
 }
 const options = map
 

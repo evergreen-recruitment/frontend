@@ -1,7 +1,7 @@
 import request from '@/utils/request'
 
 export type CityItemType = {
-  code: string
+  code: number
   name: string
 }
 

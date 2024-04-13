@@ -14,6 +14,7 @@ import JobSearchFilter from '@/components/JobSearchFilter/JobSearchFilter.vue'
 
 const statusStore = useStatusStore()
 const searchCity = ref(statusStore.city.code)
+const maxPage = ref(0)
 const searchState = ref<JobSearchFormType>({
   keyword: '',
   city: statusStore.city.code[1],
@@ -48,7 +49,10 @@ const searchJobList = ref<SimpleJobItemType[]>([])
 async function getSearchResult() {
   searchState.value.city = searchCity.value[1]
   searchState.value = { ...searchState.value, ...jobFilterData.value }
-  searchJobList.value = (await jobSearchApi(searchState.value))?.records || []
+  const res = await jobSearchApi(searchState.value)
+  if (!res) return
+  searchJobList.value = res?.records || []
+  maxPage.value = res.pages
 }
 
 function submit() {
@@ -56,6 +60,7 @@ function submit() {
     path: '/job/search',
     query: {
       keyword: searchState.value.keyword,
+      current: searchState.value.current,
       city: searchCity.value[1],
       jobStandardId: jobFilterData.value.jobStandardId,
       jobType: jobFilterData.value.jobType,
@@ -72,9 +77,15 @@ const keywordWatch = watch(
     if (newVal?.keyword) {
       searchState.value.keyword = newVal?.keyword as string
     }
+    if (newVal?.current) {
+      searchState.value.current = Number(newVal?.current)
+    }
     if (newVal?.city) {
       // @ts-ignore
-      const fullPath = findFullLocation(Number(newVal?.city))
+      let fullPath = findFullLocation(Number(newVal?.city)) as CityItemType[]
+      if (fullPath.length < 2) {
+        fullPath = findFullLocation(statusStore.city.code[1]) as CityItemType[]
+      }
       searchCity.value = [fullPath[0].code, fullPath[1].code]
     }
     if (newVal?.jobStandardId) {
@@ -92,7 +103,9 @@ const keywordWatch = watch(
     }
     await getSearchResult()
   },
-  { immediate: true },
+  {
+    immediate: true,
+  },
 )
 onMounted(async () => {
   knowledgeGraphData.value = await getHomeKnowledgeGraphApi()
@@ -137,7 +150,13 @@ onUnmounted(() => {
     </div>
 
     <div class="job">
-      <job-search-list v-if="searchJobList" :search-job-list="searchJobList" class="job-l block-item" />
+      <job-search-list
+        v-if="searchJobList"
+        :current-page="searchState.current"
+        :max-page="maxPage"
+        :search-job-list="searchJobList"
+        class="job-l block-item"
+      />
       <div class="job-side block-item">
         <div class="graph-cot card">
           <knowledge-graph v-if="knowledgeGraphData" :data="knowledgeGraphData" :zoom="0.5" class="graph" />

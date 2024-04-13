@@ -46,13 +46,13 @@ export default {
     const animationBottom = el.animate(
       [
         {
-          // filter: 'blur(10px)',
-          // opacity: 0,
+          filter: 'blur(10px)',
+          opacity: 0,
           transform: `translateY(${(binding && binding.value && binding.value.distance) || DISTANCE}px)`,
         },
         {
-          // filter: 'blur(0)',
-          // opacity: 1,
+          filter: 'blur(0)',
+          opacity: 1,
           transform: 'translateY(0)',
         },
       ],
@@ -64,13 +64,13 @@ export default {
     const animationTop = el.animate(
       [
         {
-          // filter: 'blur(10px)',
-          // opacity: 0,
+          filter: 'blur(10px)',
+          opacity: 0,
           transform: `translateY(${-((binding && binding.value && binding.value.distance) || DISTANCE)}px)`,
         },
         {
-          // filter: 'blur(0)',
-          // opacity: 1,
+          filter: 'blur(0)',
+          opacity: 1,
           transform: 'translateY(0)',
         },
       ],
