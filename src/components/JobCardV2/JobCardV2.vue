@@ -54,10 +54,18 @@ onMounted(() => {})
     @apply flex justify-between items-center px-4 py-2;
     .job-card__header--title {
       @apply text-lg font-bold;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      max-width: 170px;
     }
 
     .job-card__header--salary {
       @apply text-lg font-bold text-red-500;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      max-width: 170px;
     }
   }
 

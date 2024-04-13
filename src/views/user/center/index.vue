@@ -4,9 +4,14 @@ import { useStatusStore, useUserStore } from '@/stores'
 import { findFullLocation } from '@/utils/utils'
 import type { UpdateUserInfoFormType, UserInfoType } from '@/apis/user'
 import { ApplyStatusEnum } from '@/apis/user'
+import { message, type UploadChangeParam, type UploadProps } from 'ant-design-vue'
+import type { UploadRequestOption } from 'ant-design-vue/es/vc-upload/interface'
+import { uploadImageApi } from '@/apis/common'
 
 const userStore = useUserStore()
 const statusStore = useStatusStore()
+const fileList = ref([])
+const avatarUploadLoading = ref(false)
 const formRef = ref()
 const activeKey = ref('1')
 const changePhoneVisible = ref(false)
@@ -42,6 +47,44 @@ function submit() {
     console.log(userStore.userInfo)
     getUserInfo()
   })
+}
+
+function handleAvatarChange(info: UploadChangeParam) {
+  if (info.file.status === 'uploading') {
+    avatarUploadLoading.value = true
+    return
+  }
+  if (info.file.status === 'done') {
+    userInfoForm.value.avatar = info.file.response
+    avatarUploadLoading.value = false
+  }
+  if (info.file.status === 'error') {
+    avatarUploadLoading.value = false
+    message.error('upload error')
+  }
+}
+
+// @ts-ignore
+function beforeAvatarUpload(file: UploadProps['fileList'][number]) {
+  const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png'
+  if (!isJpgOrPng) {
+    message.error('你只能上传一般图片文件!')
+  }
+  const isLt2M = file.size / 1024 / 1024 < 2
+  if (!isLt2M) {
+    message.error('图片大小不能超过2MB!')
+  }
+  return isJpgOrPng && isLt2M
+}
+
+async function customUploadImage(e: UploadRequestOption) {
+  const res = await uploadImageApi(e.file as File)
+  if (res === undefined) {
+    message.error('上传失败')
+    return
+  }
+  // @ts-ignore
+  e.onSuccess(res, e.file)
 }
 </script>
 
@@ -99,7 +142,13 @@ function submit() {
                 <div v-else class="avatar-icon">
                   <Icon icon="UserOutlined" />
                 </div>
-                <a-upload>
+                <a-upload
+                  v-model:file-list="fileList"
+                  :before-upload="beforeAvatarUpload"
+                  :custom-request="customUploadImage"
+                  :show-upload-list="false"
+                  @change="handleAvatarChange"
+                >
                   <a-button>
                     <Icon icon="UploadOutlined" />
                     上传头像
