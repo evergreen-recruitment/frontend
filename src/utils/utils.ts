@@ -169,3 +169,25 @@ export function findFullJobType(jobType: number) {
   }
   return path
 }
+
+export function findFullIndustry(industryCode: number) {
+  const statusStore = useStatusStore()
+  const industryList = statusStore.industryList
+  const path = []
+  for (const industry of industryList) {
+    if (industry.children) {
+      for (const child of industry.children) {
+        if (child.code === industryCode) {
+          path.push(child)
+          break
+        }
+      }
+      if (path.length === 1) {
+        path.push(industry)
+        path.reverse()
+        break
+      }
+    }
+  }
+  return path
+}

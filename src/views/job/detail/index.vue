@@ -1,15 +1,24 @@
 <script lang="ts" setup>
-import { onMounted, onUnmounted, reactive, ref, watchEffect } from 'vue'
+import { computed, onMounted, onUnmounted, reactive, ref, watchEffect } from 'vue'
 import router from '@/router'
 import { useAppStore, useStatusStore } from '@/stores'
 import { getJobDetailApi, type JobItemType, jobSearchApi, type SimpleJobItemType } from '@/apis/job'
 import I3DProgressBar from '@/components/I3DProgressBar/I3DProgressBar.vue'
 import Icon from '@/components/Icon/Icon.vue'
+import { CompanyScaleEnum, CompanyStageEnum } from '@/apis/company'
+import { findFullIndustry } from '@/utils/utils'
 
 const appStore = useAppStore()
 const statusStore = useStatusStore()
 const job = ref<JobItemType | null>()
 const sideJobList = ref<SimpleJobItemType[]>([])
+const companyInfo = computed(() => {
+  const scale = CompanyScaleEnum[job.value?.companyVO.scaleId as keyof typeof CompanyScaleEnum]
+  const stage = CompanyStageEnum[job.value?.companyVO.stageId as keyof typeof CompanyStageEnum]
+  const industry = findFullIndustry(job.value?.companyVO.industryId as number)
+  const industryName = industry[1]?.name
+  return { scale, stage, industryName }
+})
 // 监听路由变化
 const routerWatch = watchEffect(async () => {
   if (router.currentRoute.value.path === '/job/detail' && router.currentRoute.value.query.jobId) {
@@ -85,7 +94,7 @@ onUnmounted(() => {
           <a-divider />
           <div class="job-detail__description--content">
             <div class="tags">
-              <a-tag v-for="t in job?.jobSkills" :key="t">{{ t }}</a-tag>
+              <a-tag v-for="t in job?.jobSkills" :key="t" style="font-size: 18px; height: 25px">{{ t }}</a-tag>
             </div>
             <div class="description">{{ job?.description }}</div>
           </div>
@@ -122,10 +131,10 @@ onUnmounted(() => {
             </div>
             <div class="description">{{ job?.companyVO.description }}</div>
             <div class="tag-list">
-              <a-tag v-if="job?.companyVO.scaleId" class="scale" color="cyan">{{ job?.companyVO.scaleId }}</a-tag>
-              <a-tag v-if="job?.companyVO.stageId" class="stage" color="orange">{{ job?.companyVO.stageId }}</a-tag>
-              <a-tag v-if="job?.companyVO.industryId" class="industry" color="pink">
-                {{ job?.companyVO.industryId }}
+              <a-tag v-if="companyInfo.scale" class="scale" color="cyan">{{ companyInfo.scale }}</a-tag>
+              <a-tag v-if="companyInfo.stage" class="stage" color="orange">{{ companyInfo.stage }}</a-tag>
+              <a-tag v-if="companyInfo.industryName" class="industry" color="pink">
+                {{ companyInfo.industryName }}
               </a-tag>
             </div>
           </div>
