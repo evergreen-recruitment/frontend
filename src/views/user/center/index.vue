@@ -1,19 +1,48 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { useUserStore } from '@/stores'
+import { useStatusStore, useUserStore } from '@/stores'
 import { findFullLocation } from '@/utils/utils'
-import type { UserInfoType } from '@/apis/user'
+import type { UpdateUserInfoFormType, UserInfoType } from '@/apis/user'
+import { ApplyStatusEnum } from '@/apis/user'
 
 const userStore = useUserStore()
+const statusStore = useStatusStore()
+const formRef = ref()
 const activeKey = ref('1')
 const changePhoneVisible = ref(false)
 type ModifiedUserInfoType = Omit<UserInfoType, 'location'> & { location: [number, number] }
-const fullPath = findFullLocation(userStore.userInfo.location as number)
 const userInfoForm = ref<ModifiedUserInfoType>({
   ...userStore.userInfo,
-  location: [fullPath[0].code, fullPath[1].code], // 提供一个初始值
+  createTime: undefined,
+  phone: undefined,
+  userAccount: undefined,
+  location: [101010000, 101010100], // 提供一个初始值
 })
-console.log(userInfoForm.value.gender)
+
+function getUserInfo() {
+  const fullPath = findFullLocation(userStore.userInfo.location as number)
+  userInfoForm.value = {
+    ...userStore.userInfo,
+    createTime: undefined,
+    phone: undefined,
+    userAccount: undefined,
+    location: [fullPath[0].code, fullPath[1].code], // 提供一个初始值
+  }
+}
+
+getUserInfo()
+
+function submit() {
+  formRef.value.validate().then(async () => {
+    const obj: UpdateUserInfoFormType = {
+      ...userInfoForm.value,
+      location: userInfoForm.value.location[1],
+    }
+    await userStore.updateUserInfo(obj)
+    console.log(userStore.userInfo)
+    getUserInfo()
+  })
+}
 </script>
 
 <template>
@@ -24,7 +53,13 @@ console.log(userInfoForm.value.gender)
           <div class="user-info">
             <a-page-header title="个人信息" />
             <div class="container">
-              <a-form :label-col="{ span: 5 }" :model="userInfoForm" class="user-info-form" label-align="left">
+              <a-form
+                ref="formRef"
+                :label-col="{ span: 5 }"
+                :model="userInfoForm"
+                class="user-info-form"
+                label-align="left"
+              >
                 <a-form-item label="姓名" name="realName">
                   <a-input v-model:value="userInfoForm.realName" />
                 </a-form-item>
@@ -39,19 +74,19 @@ console.log(userInfoForm.value.gender)
                 </a-form-item>
                 <a-form-item label="求职状态" name="applyStatus">
                   <a-select v-model:value="userInfoForm.applyStatus" placeholder="请选择求职状态">
-                    <a-select-option :value="0">在职，看看新机会</a-select-option>
-                    <a-select-option :value="1">在职，暂无跳槽打算</a-select-option>
-                    <a-select-option :value="2">离职，随时到岗</a-select-option>
-                    <a-select-option :value="3">在校，月内到岗</a-select-option>
-                    <a-select-option :value="4">在校，考虑机会</a-select-option>
-                    <a-select-option :value="5">在校，暂不考虑</a-select-option>
+                    <a-select-option v-for="(item, index) in ApplyStatusEnum" :value="Number(index)"
+                      >{{ item }}
+                    </a-select-option>
                   </a-select>
                 </a-form-item>
                 <a-form-item label="所在地区" name="location">
                   <i-location-selector v-model:value="userInfoForm.location" />
                 </a-form-item>
+                <a-form-item label="求职意向" name="hopeJob">
+                  <job-category-filter v-model:job-standard-id="userInfoForm.hopeJob" />
+                </a-form-item>
                 <a-form-item>
-                  <a-button type="primary">保存</a-button>
+                  <a-button type="primary" @click="submit">保存</a-button>
                 </a-form-item>
               </a-form>
               <div class="avatar">

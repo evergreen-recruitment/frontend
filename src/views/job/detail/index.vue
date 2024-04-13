@@ -250,7 +250,7 @@ onUnmounted(() => {
 
         .job-detail__description--content {
           .tags {
-            @apply flex space-x-2 items-center mb-3;
+            @apply flex flex-wrap space-y-0.5 space-x-2 items-center mb-3;
           }
 
           .description {

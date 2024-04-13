@@ -11,7 +11,7 @@ export type UserInfoType = {
   age?: number
   location?: number
   applyStatus?: number
-  hopJob?: number
+  hopeJob?: number
   createTime?: string
 }
 
@@ -25,6 +25,15 @@ export type UpdateUserInfoFormType = {
   location?: number
   phone?: string
   realName?: string
+}
+
+export const ApplyStatusEnum = {
+  0: '在职，看看新机会',
+  1: '在职，暂无跳槽打算',
+  2: '离职，随时到岗',
+  3: '在校，月内到岗',
+  4: '在校，考虑机会',
+  5: '在校，暂不考虑',
 }
 
 export function getUserInfoApi() {

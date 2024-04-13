@@ -44,10 +44,43 @@ props.data.nodes.forEach((node: NodeConfig) => {
   node = Object.assign(node, { ...typeConfigs[node.type] })
 })
 
+// const lineDash = [4, 2, 1, 2]
+// G6.registerEdge(
+//   'line-dash',
+//   {
+//     afterDraw(cfg, group) {
+//       // get the first shape in the group, it is the edge's path here=
+//       const shape = group.get('children')[0]
+//       let index = 0
+//       // Define the animation
+//       shape.animate(
+//         () => {
+//           index++
+//           console.log(index)
+//           if (index > 9) {
+//             index = 0
+//           }
+//           // returns the modified configurations here, lineDash and lineDashOffset here
+//           return {
+//             lineDash,
+//             lineDashOffset: -index,
+//           }
+//         },
+//         {
+//           repeat: true, // whether executes the animation repeatly
+//           duration: 3000, // the duration for executing once
+//         },
+//       )
+//     },
+//   },
+//   'cubic', // extend the built-in edge 'cubic'
+// )
+
 onMounted(() => {
   const container = document.querySelector('.graph-container') as HTMLElement
   const width = container.offsetWidth
   const height = container.offsetHeight || 500
+
   const minimap = new G6.Minimap({
     size: [100, 100],
     className: 'minimap',
@@ -58,18 +91,21 @@ onMounted(() => {
       {
         id: 'job',
         label: '最合适岗位',
-        order: 4,
+        size: 20,
+        order: 0,
         ...typeConfigs['job'],
       },
       {
         id: 'similar-job',
         label: '相似岗位',
-        order: 0,
+        size: 15,
+        order: 1,
         ...typeConfigs['similar-job'],
       },
       {
         id: 'stack',
         label: '技术栈',
+        size: 10,
         order: 2,
         ...typeConfigs['stack'],
       },
@@ -100,7 +136,6 @@ onMounted(() => {
       graphInactiveState: 'inactiveByLegend',
       filterFunctions: {
         job: (d) => {
-          console.log(d.type === 'job')
           return d.type === 'job'
         },
         'similar-job': (d) => {
@@ -144,6 +179,12 @@ onMounted(() => {
           return 0.7
         }
         return 0.1
+      },
+    },
+    defaultEdge: {
+      type: 'cube',
+      style: {
+        lineWidth: 2,
       },
     },
     nodeStateStyles: {
@@ -211,10 +252,10 @@ onMounted(() => {
   graph.on('node:click', function (e: any) {
     const clickedNodeData = e.item.get('model')
     if (clickedNodeData.type === 'job' || clickedNodeData.type === 'similar-job') {
+      graph.getNodes().forEach((node) => {
+        node.clearStates()
+      })
       if (activeNode && activeNode.id === clickedNodeData.id) {
-        graph.getNodes().forEach((node) => {
-          node.clearStates()
-        })
         activeNode = null
       } else {
         const connectedEdges = graph

@@ -152,7 +152,6 @@ export const useAppStore = defineStore(
         return moment.utc(duration.asMilliseconds()).format('HH:mm:ss')
       },
       set(val) {
-        console.log(val)
         const part = val.split(':')
         const seconds = Number(part[0]) * 3600 + Number(part[1]) * 60 + Number(part[2])
         updateTokenTimeApi(seconds).then(() => {
@@ -167,7 +166,7 @@ export const useAppStore = defineStore(
     const openInNewWindow = ref(true)
 
     // 是否开启动画
-    const openAnimation = ref(true)
+    const openAnimation = ref(false)
 
     return {
       themeName,

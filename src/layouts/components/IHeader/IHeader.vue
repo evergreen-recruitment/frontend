@@ -94,7 +94,11 @@ for (let link of links) {
               <span>[切换]</span>
             </a>
             <template #content>
-              <i-location-selector v-model:text="statusStore.city.name" v-model:value="statusStore.city.code" />
+              <i-location-selector
+                v-model:text="statusStore.city.name"
+                v-model:value="statusStore.city.code"
+                add-nationwide
+              />
             </template>
           </a-popover>
           <i-navigator

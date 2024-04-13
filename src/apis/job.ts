@@ -82,6 +82,32 @@ export type SimpleJobItemType = {
   jobType: number
 }
 
+export const JobTypeEnum = {
+  0: '类型不限',
+  1: '全职',
+  4: '实习',
+}
+
+export const JobExperienceEnum = {
+  0: '经验不限',
+  1: '在校/应届',
+  2: '1年以下',
+  3: '1-3年',
+  4: '3-5年',
+  5: '5-10年',
+  6: '10年以上',
+}
+
+export const JobSalaryEnum = {
+  0: '薪资不限',
+  1: '3k以下',
+  2: '3-5k',
+  3: '5-10k',
+  4: '10-20k',
+  5: '20-50k',
+  6: '50k以上',
+}
+
 export function getJobDetailApi(jobId: string) {
   return request
     .Get(

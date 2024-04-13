@@ -65,12 +65,13 @@ const echartsOption = reactive({
 })
 onMounted(async () => {
   console.log(userInfo.value.location, findFullLocation(userInfo.value.location as number))
-  searchJobList.value = (
-    await jobSearchApi({
-      current: Math.random() * 2 + 2,
-      pageSize: 10,
-    })
-  ).records
+  searchJobList.value =
+    (
+      await jobSearchApi({
+        current: Math.random() * 2 + 2,
+        pageSize: 10,
+      })
+    )?.records || []
 })
 </script>
 
@@ -99,16 +100,7 @@ onMounted(async () => {
         <div class="title">导入简历</div>
         <a-divider />
         <div class="sub-title">请上传DOC、DOCX、PDF格式的中文简历，大小不超过20M</div>
-        <div class="upload">
-          <a-upload action="https://www.mocky.io/v2/5cc8019d300000980a055e76">
-            <template #default>
-              <a-button style="width: 100%" type="primary">
-                <Icon icon="UploadOutlined" />
-                上传简历
-              </a-button>
-            </template>
-          </a-upload>
-        </div>
+        <application-upload />
       </div>
 
       <div class="passing-rate card">
@@ -153,10 +145,6 @@ onMounted(async () => {
 
       .sub-title {
         @apply text-sm text-gray-500;
-      }
-
-      .upload {
-        @apply mt-5;
       }
     }
 

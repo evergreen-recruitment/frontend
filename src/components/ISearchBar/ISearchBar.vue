@@ -1,6 +1,4 @@
-<script setup lang='ts'>
-
-</script>
+<script setup lang="ts"></script>
 
 <template>
   <div class="input-container">
@@ -9,7 +7,7 @@
   </div>
 </template>
 
-<style scoped lang='scss'>
+<style scoped lang="scss">
 .input-container {
   position: relative;
   display: flex;
@@ -54,9 +52,12 @@
   line-height: 25px;
   color: #6b7385;
   background: #d4def5;
-  border: 1px solid #CDD9ED;
+  border: 1px solid #cdd9ed;
   font-weight: bold;
-  transition: background 0.3s ease, border 0.3s ease, color 0.3s ease;
+  transition:
+    background 0.3s ease,
+    border 0.3s ease,
+    color 0.3s ease;
 }
 
 .input-container:focus-within > span {
@@ -75,14 +76,14 @@
   font-family: inherit;
   border-radius: 6px;
   -webkit-appearance: none;
-  color: #99A3BA;
-  border: 1px solid  #CDD9ED;
+  color: #99a3ba;
+  border: 1px solid #cdd9ed;
   background: #fff;
   transition: border 0.3s ease;
 }
 
 .input::placeholder {
-  color: #CBD1DC;
+  color: #cbd1dc;
 }
 
 .input:focus {

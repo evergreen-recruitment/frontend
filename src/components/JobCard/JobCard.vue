@@ -44,7 +44,7 @@ const appStore = useAppStore()
   //margin-bottom: 7px;
 
   &::before {
-    @apply w-[70px] h-[70px] right-[10%] top-[10%] absolute rounded-full border-2 border-solid z-[-1];
+    @apply w-[70px] h-[70px] right-[10%] top-[10%] absolute rounded-full border-2 border-solid z-0;
     content: '';
     transition: all 1s;
     @include useTheme {

@@ -1,7 +1,7 @@
 import request from '@/utils/request'
 
 export type IndustryListType = {
-  code: string
+  code: number
   name: string
   children?: IndustryListType[]
 }

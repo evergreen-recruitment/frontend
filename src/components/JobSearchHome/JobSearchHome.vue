@@ -23,17 +23,17 @@ function submit() {
   <div class="job-search-bar">
     <!--<div v-if="!hideTitle" class="title">搜索你心仪的岗位</div>-->
     <div class="search">
-        <a-input-search
-          v-model:value="propsKeyword"
-          enter-button="搜索"
-          placeholder="请输入职位关键词"
-          size="large"
-          @search="submit"
-        >
-          <!--<template #suffix>-->
-          <!--  <a-button size="large" type="primary" @click="submit">搜索</a-button>-->
-          <!--</template>-->
-        </a-input-search>
+      <a-input-search
+        v-model:value="propsKeyword"
+        enter-button="搜索"
+        placeholder="请输入职位关键词"
+        size="large"
+        @search="submit"
+      >
+        <!--<template #suffix>-->
+        <!--  <a-button size="large" type="primary" @click="submit">搜索</a-button>-->
+        <!--</template>-->
+      </a-input-search>
       <!--<a-input-group compact>-->
       <!--</a-input-group>-->
     </div>

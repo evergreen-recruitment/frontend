@@ -11,6 +11,7 @@ import { useStatusStore, useUserStore } from '@/stores'
 import { uploadImageApi } from '@/apis/common'
 import type { UploadRequestOption } from 'ant-design-vue/es/vc-upload/interface'
 import type { ShowSearchType } from 'ant-design-vue/es/cascader'
+import { ApplyStatusEnum } from '@/apis/user'
 
 const statusStore = useStatusStore()
 const userStore = useUserStore()
@@ -33,6 +34,7 @@ const formState = reactive<CompleteUserInfoFormType>({
   gender: null,
 })
 const rules = reactive({
+  avatar: [{ required: true, message: '请上传真实头像', trigger: 'blur' }],
   userAccount: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
   realName: [{ required: true, message: '请输入真实姓名', trigger: 'blur' }],
   location: [{ required: true, message: '请输入地址', trigger: 'blur' }],
@@ -232,12 +234,7 @@ onUnmounted(() => {
 
       <a-form-item label="求职状态" name="applyStatus">
         <a-select v-model:value="formState.applyStatus" placeholder="请选择求职状态">
-          <a-select-option :value="0">在职，看看新机会</a-select-option>
-          <a-select-option :value="1">在职，暂无跳槽打算</a-select-option>
-          <a-select-option :value="2">离职，随时到岗</a-select-option>
-          <a-select-option :value="3">在校，月内到岗</a-select-option>
-          <a-select-option :value="4">在校，考虑机会</a-select-option>
-          <a-select-option :value="5">在校，暂不考虑</a-select-option>
+          <a-select-option v-for="(item, index) in ApplyStatusEnum" :value="Number(index)">{{ item }}</a-select-option>
         </a-select>
       </a-form-item>
 

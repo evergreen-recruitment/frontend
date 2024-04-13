@@ -6,18 +6,33 @@ import { useVModel } from '@vueuse/core'
 
 const emit = defineEmits(['update:value', 'update:text'])
 const props = defineProps<{
-  value: [number, number]
+  value: [number, number] | undefined
   text?: string
+  addNationwide?: boolean
 }>()
 const propsValue = useVModel(props, 'value', emit)
 const propsText = useVModel(props, 'text', emit)
+if (props.addNationwide) {
+  map.unshift({
+    code: 10,
+    name: '全国',
+    children: [
+      {
+        code: 0,
+        name: '全国',
+        children: null,
+      },
+    ],
+  })
+}
 const options = map
 
 const filter: ShowSearchType['filter'] = (inputValue, path) => {
-  return path.some((option) => option.label.toLowerCase().indexOf(inputValue.toLowerCase()) > -1)
+  return path.some((option) => option.name.toLowerCase().indexOf(inputValue.toLowerCase()) > -1)
 }
 
 function onChange(_value: any, selectedOptions: any) {
+  if (!selectedOptions) return
   propsText.value = selectedOptions.map((o: any) => o.name).join(', ')
 }
 </script>

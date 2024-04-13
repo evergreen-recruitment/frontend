@@ -10,6 +10,7 @@ import type { JobFilterType, JobSearchFormType, SimpleJobItemType } from '@/apis
 import { jobSearchApi } from '@/apis/job'
 import { useStatusStore } from '@/stores'
 import { findFullLocation } from '@/utils/utils'
+import JobSearchFilter from '@/components/JobSearchFilter/JobSearchFilter.vue'
 
 const statusStore = useStatusStore()
 const searchCity = ref(statusStore.city.code)
@@ -108,12 +109,12 @@ onUnmounted(() => {
       <div class="job-search-bar">
         <div class="title">搜索岗位</div>
         <div class="search">
-          <a-input-group compact size='large' style='display: flex'>
-            <i-location-selector v-model:value="searchCity" style='padding:0 0 2px 0;box-sizing: border-box'/>
+          <a-input-group compact size="large" style="display: flex">
+            <i-location-selector v-model:value="searchCity" add-nationwide />
             <a-input-search
               v-model:value="searchState.keyword"
               placeholder="请输入职位关键词"
-              enter-button='搜索'
+              enter-button="搜索"
               @search="submit"
             />
           </a-input-group>
@@ -131,7 +132,7 @@ onUnmounted(() => {
         <router-link class="city" to="/job/search">其他城市</router-link>
       </div>
       <div class="filter-panel block-item">
-        <job-filter v-model:job-filter-data="jobFilterData" />
+        <job-search-filter v-model:job-filter-data="jobFilterData" />
       </div>
     </div>
 

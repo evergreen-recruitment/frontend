@@ -202,30 +202,7 @@ async function customUploadApplication(e: UploadRequestOption) {
         <div class="title">导入简历</div>
         <a-divider />
         <div class="sub-title">请上传DOC、DOCX、PDF格式的中文简历，大小不超过20M</div>
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px">
-          <div class="upload">
-            <a-upload
-              v-model:file-list="fileList"
-              :custom-request="customUploadApplication"
-              :show-upload-list="false"
-              class="avatar-uploader"
-              @change="handleChange"
-            >
-              <template #default>
-                <a-button style="width: 100%" type="primary">
-                  <Icon icon="UploadOutlined" />
-                  上传简历
-                </a-button>
-              </template>
-            </a-upload>
-          </div>
-          <div class="list">
-            <a-button>
-              <Icon icon="FolderOpenOutlined" />
-              所有简历
-            </a-button>
-          </div>
-        </div>
+        <application-upload />
       </div>
       <div class="optimize-application card">
         <div class="title">简历待优化</div>

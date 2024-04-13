@@ -1,8 +1,9 @@
 <script lang="ts" setup>
 import type { JobFilterType } from '@/apis/job'
-import { useVModel } from '@vueuse/core'
+import { JobExperienceEnum, JobSalaryEnum, JobTypeEnum } from '@/apis/job'
 import type { CascaderProps } from 'ant-design-vue'
 import type { ShowSearchType } from 'ant-design-vue/es/cascader'
+import { useVModel } from '@vueuse/core'
 import { useStatusStore } from '@/stores'
 import { findFullJobType } from '@/utils/utils'
 import { computed } from 'vue'
@@ -29,12 +30,12 @@ const jobStandardId = computed(() => {
 
 function handleJobTypeChange(value: number[]) {
   if (value === undefined || value === null) {
-    props.jobFilterData.jobStandardId = null
+    props.jobFilterData.jobStandardId = undefined
   }
   if (value?.length > 1) {
     props.jobFilterData.jobStandardId = value[1]
   } else {
-    props.jobFilterData.jobStandardId = null
+    props.jobFilterData.jobStandardId = undefined
   }
 }
 </script>
@@ -59,9 +60,7 @@ function handleJobTypeChange(value: number[]) {
         placeholder="求职类型"
         style="width: 200px"
       >
-        <a-select-option :value="0">不限</a-select-option>
-        <a-select-option :value="1">全职</a-select-option>
-        <a-select-option :value="2">实习</a-select-option>
+        <a-select-option v-for="(item, index) in JobTypeEnum" :value="Number(index)">{{ item }}</a-select-option>
       </a-select>
       <a-select
         v-model:value="propsJobFilterData.experience"
@@ -69,12 +68,7 @@ function handleJobTypeChange(value: number[]) {
         placeholder="工作经验"
         style="width: 200px"
       >
-        <a-select-option :value="0">经验不限</a-select-option>
-        <a-select-option :value="1">在校/应届</a-select-option>
-        <a-select-option :value="2">1-3年</a-select-option>
-        <a-select-option :value="3">3-5年</a-select-option>
-        <a-select-option :value="4">5-10年</a-select-option>
-        <a-select-option :value="5">10年以上</a-select-option>
+        <a-select-option v-for="(item, index) in JobExperienceEnum" :value="Number(index)">{{ item }}</a-select-option>
       </a-select>
       <a-select
         v-model:value="propsJobFilterData.salary"
@@ -82,13 +76,7 @@ function handleJobTypeChange(value: number[]) {
         placeholder="薪资待遇"
         style="width: 200px"
       >
-        <a-select-option :value="0">不限</a-select-option>
-        <a-select-option :value="1">3k以下</a-select-option>
-        <a-select-option :value="2">3k-5k</a-select-option>
-        <a-select-option :value="3">5k-10k</a-select-option>
-        <a-select-option :value="4">10k-20k</a-select-option>
-        <a-select-option :value="5">20k-50k</a-select-option>
-        <a-select-option :value="6">50k以上</a-select-option>
+        <a-select-option v-for="(item, index) in JobSalaryEnum" :value="Number(index)">{{ item }}</a-select-option>
       </a-select>
     </a-space-compact>
   </div>

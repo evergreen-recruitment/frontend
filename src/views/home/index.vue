@@ -37,13 +37,13 @@ let searchBarTitle: HTMLElement | null
 onMounted(async () => {
   const footer = document.querySelector('.footer') as HTMLElement
   footer.style.top = 'calc(100vh - 58px)'
-  category.value = statusStore.jobCategory
   hotSearch.value = await getHotSearchApi()
   hotCompanyList.value = await getHotCompanyApi()
   newJobList.value = await getHomeNewJobsApi()
   recommendJobList.value = newJobList.value
   nearbyJobList.value = newJobList.value
   knowledgeGraphData.value = await getHomeKnowledgeGraphApi()
+  category.value = statusStore.jobCategory
 
   // 初始化页面时使用一次
   scrollEvent()
@@ -181,7 +181,7 @@ window.addEventListener('scroll', scrollEvent)
           </div>
         </div>
       </div>
-      <div v-slide-in="{ distance: 200 }" class="banner">
+      <div v-if="category" class="banner">
         <div class="title">我们有全面的IT分类岗位</div>
         <div class="sub-title">包含83个细分领域</div>
         <div class="banner-inner" :style="`--left-side-width:${bannerLeftSideCollapsed ? '170px' : '20rem'}`">
@@ -245,7 +245,7 @@ window.addEventListener('scroll', scrollEvent)
           </a-carousel>
         </div>
       </div>
-      <div v-slide-in="{ distance: 200 }" class="hot-company block-item">
+      <div class="hot-company block-item">
         <div class="title">热门公司</div>
         <div class="sub-title">最热门的互联网公司</div>
         <div class="hot-company-list">
