@@ -100,6 +100,7 @@ onMounted(() => {
       graphInactiveState: 'inactiveByLegend',
       filterFunctions: {
         job: (d) => {
+          console.log(d.type === 'job')
           return d.type === 'job'
         },
         'similar-job': (d) => {
@@ -143,6 +144,16 @@ onMounted(() => {
           return 0.7
         }
         return 0.1
+      },
+    },
+    nodeStateStyles: {
+      activeByLegend: {
+        lineWidth: 5,
+        strokeOpacity: 0.5,
+        stroke: '#f00',
+      },
+      inactiveByLegend: {
+        opacity: 0.5,
       },
     },
     modes: {
@@ -195,6 +206,39 @@ onMounted(() => {
     e.item.get('model').fx = null
     e.item.get('model').fy = null
   })
+
+  let activeNode: any = null
+  graph.on('node:click', function (e: any) {
+    const clickedNodeData = e.item.get('model')
+    if (clickedNodeData.type === 'job' || clickedNodeData.type === 'similar-job') {
+      if (activeNode && activeNode.id === clickedNodeData.id) {
+        graph.getNodes().forEach((node) => {
+          node.clearStates()
+        })
+        activeNode = null
+      } else {
+        const connectedEdges = graph
+          .getEdges()
+          .filter(
+            (edge) =>
+              edge.getSource().getID() === clickedNodeData.id || edge.getTarget().getID() === clickedNodeData.id,
+          )
+        const connectedNodeIds = connectedEdges.map((edge) =>
+          edge.getSource().getID() === clickedNodeData.id ? edge.getTarget().getID() : edge.getSource().getID(),
+        )
+        graph.getNodes().forEach((node) => {
+          const nodeModel = node.getModel()
+          if (connectedNodeIds.includes(nodeModel.id!) && nodeModel.type === 'stack') {
+            node.setState('activeByLegend', true)
+          } else {
+            node.setState('inactiveByLegend', true)
+          }
+        })
+        activeNode = clickedNodeData
+      }
+    }
+  })
+
   graph.on('node:dblclick', function (e: any) {
     const nodeData = e.item.get('model')
     const searchURL = `/job/search?keyword=${encodeURIComponent(nodeData.label)}`
