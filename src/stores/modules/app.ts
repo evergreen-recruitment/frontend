@@ -60,7 +60,7 @@ export const useAppStore = defineStore(
       },
     })
     // 主题名称
-    const themeName = ref<primaryColorEnumType>('cyan')
+    const themeName = ref<primaryColorEnumType>('blue')
     // 主题配置
     const borderRadius = ref(7)
     const themeConfig = computed(() => {
@@ -186,6 +186,6 @@ export const useAppStore = defineStore(
     }
   },
   {
-    persist: true,
+    persist: false,
   },
 )

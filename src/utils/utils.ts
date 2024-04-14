@@ -170,6 +170,32 @@ export function findFullJobType(jobType: number) {
   return path
 }
 
+/**
+ * 通过 二级 jobTypeName 找到整个路径
+ * @param jobTypeName
+ */
+export function findFullJobTypeByName(jobTypeName: string) {
+  const statusStore = useStatusStore()
+  const jobTypeList = statusStore.jobCategory
+  const path = []
+  for (const job of jobTypeList) {
+    if (job.children) {
+      for (const child of job.children) {
+        if (child.name === jobTypeName) {
+          path.push(child)
+          break
+        }
+      }
+      if (path.length === 1) {
+        path.push(job)
+        path.reverse()
+        break
+      }
+    }
+  }
+  return path
+}
+
 export function findFullIndustry(industryCode: number) {
   const statusStore = useStatusStore()
   const industryList = statusStore.industryList

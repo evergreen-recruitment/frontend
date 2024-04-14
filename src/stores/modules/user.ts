@@ -14,8 +14,17 @@ export const useUserStore = defineStore(
   'userStore',
   () => {
     const token = ref<string>('')
+    const isGuide = ref<{
+      homePage?: boolean
+      jobSearchPage?: boolean
+      jobDetailPage?: boolean
+    }>({
+      homePage: false,
+      jobSearchPage: false,
+      jobDetailPage: false,
+    })
     const userInfo = ref<UserInfoType>({})
-    const getUserState = async function () {
+    const getUserState = function () {
       return {
         isLogin: computed(() => !!token.value),
         isCompleteInfo: computed(() => {
@@ -37,7 +46,7 @@ export const useUserStore = defineStore(
                 return res
               })
               resolve(isUpload)
-            })
+            }) as Promise<boolean>
           } else {
             return Promise.resolve(false)
           }
@@ -53,15 +62,14 @@ export const useUserStore = defineStore(
 
     async function updateUserInfo(newUserInfo: UpdateUserInfoFormType) {
       const res = await updateUserInfoApi(newUserInfo)
-      console.log(res)
       if (res === true) {
         await getUserInfo()
       }
-      console.log(userInfo.value)
     }
 
     async function logout() {
       token.value = ''
+      isGuide.value = {}
       userInfo.value = {}
       cookies.remove('satoken')
       await logoutApi()
@@ -69,6 +77,7 @@ export const useUserStore = defineStore(
 
     return {
       token,
+      isGuide,
       userInfo,
       getUserState,
       getUserInfo,

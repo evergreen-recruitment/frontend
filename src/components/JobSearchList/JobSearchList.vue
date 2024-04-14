@@ -82,6 +82,7 @@ function updatePosition() {
 <template>
   <div class="job-list-outer">
     <a-float-button-group
+      class="page-btn"
       ref="floatButtonGroupRef"
       shape="square"
       style="position: absolute; top: 35%; height: fit-content"

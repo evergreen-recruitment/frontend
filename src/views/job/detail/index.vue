@@ -1,16 +1,19 @@
 <script lang="ts" setup>
 import { computed, onMounted, onUnmounted, reactive, ref, watchEffect } from 'vue'
 import router from '@/router'
-import { useAppStore, useStatusStore } from '@/stores'
+import { useAppStore, useStatusStore, useUserStore } from '@/stores'
 import { getJobDetailApi, type JobItemType, jobSearchApi, type SimpleJobItemType } from '@/apis/job'
 import Icon from '@/components/Icon/Icon.vue'
 import { CompanyScaleEnum, CompanyStageEnum } from '@/apis/company'
-import { findFullIndustry } from '@/utils/utils'
+import { findFullIndustry, findFullJobTypeByName } from '@/utils/utils'
 import { message } from 'ant-design-vue'
 import Gaussian from 'gaussian'
+import { jobDetailGuideState } from '@/tours'
 
 const appStore = useAppStore()
+const userStore = useUserStore()
 const statusStore = useStatusStore()
+
 // prettier-ignore
 const welfareTagsColor = ref<string[]>(['pink', 'red', 'orange', 'green', 'cyan', 'blue', 'purple', 'pink', 'red', 'orange', 'green', 'cyan', 'blue', 'purple'])
 const job = ref<JobItemType | null>()
@@ -34,20 +37,18 @@ const routerWatch = watchEffect(async () => {
         (await jobSearchApi({ keyword: job.value?.title, pageSize: 7, current: 1 }))?.records || [],
       )
     }
+    const fullJobType = findFullJobTypeByName(job.value?.jobStandardName)
+    const jobStandardId = fullJobType[1]?.id
     if (sideJobList.value.length <= 4) {
       sideJobList.value = sideJobList.value.concat(
         (
           await jobSearchApi({
-            keyword: job.value?.jobStandardName,
+            keyword: '',
             pageSize: 7,
+            jobStandardId: jobStandardId,
             current: Math.floor(Math.random() * 10),
           })
         )?.records || [],
-      )
-    }
-    if (sideJobList.value.length <= 4) {
-      sideJobList.value = sideJobList.value.concat(
-        (await jobSearchApi({ keyword: job.value?.jobStandardName, pageSize: 7, current: 1 }))?.records || [],
       )
     }
   }
@@ -291,7 +292,6 @@ function collapseBanner() {
   // 当页面滚动超过55px时将job-detail__banner固定在顶部 添加collapse-banner类名 当页面滚动小于55px时移除collapse-banner类名
   const jobDetailBanner = document.querySelector('.job-detail__banner') as HTMLElement
   if (jobDetailBanner) {
-    console.log(window.scrollY)
     if (window.scrollY > 55) {
       jobDetailBanner.classList.add('collapse-banner')
     } else {
@@ -311,6 +311,13 @@ onUnmounted(() => {
 
 <template>
   <div class="job-detail">
+    <a-tour
+      v-model:current="jobDetailGuideState.current"
+      :open="jobDetailGuideState.open"
+      :steps="jobDetailGuideState.steps"
+      :scroll-into-view-options="false"
+      @close="jobDetailGuideState.open = false"
+    />
     <div class="job-detail__banner">
       <div class="job-detail__banner--inner">
         <div class="job-detail__banner--left">

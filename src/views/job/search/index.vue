@@ -8,11 +8,14 @@ import type { GraphData } from '@antv/g6'
 import { type CityItemType } from '@/apis/city'
 import type { JobFilterType, JobSearchFormType, SimpleJobItemType } from '@/apis/job'
 import { jobSearchApi } from '@/apis/job'
-import { useStatusStore } from '@/stores'
+import { useStatusStore, useUserStore } from '@/stores'
 import { findFullLocation } from '@/utils/utils'
 import JobSearchFilter from '@/components/JobSearchFilter/JobSearchFilter.vue'
+import { jobSearchPageGuideState } from '@/tours'
 
 const statusStore = useStatusStore()
+const userStore = useUserStore()
+
 const searchCity = ref(statusStore.city.code)
 const maxPage = ref(0)
 const searchState = ref<JobSearchFormType>({
@@ -118,12 +121,18 @@ onUnmounted(() => {
 
 <template>
   <div class="search-page">
+    <a-tour
+      v-model:current="jobSearchPageGuideState.current"
+      :open="jobSearchPageGuideState.open"
+      :steps="jobSearchPageGuideState.steps"
+      @close="jobSearchPageGuideState.open = false"
+    />
     <div class="search-panel card">
       <div class="job-search-bar">
         <div class="title">搜索岗位</div>
         <div class="search">
           <a-input-group compact size="large" style="display: flex">
-            <i-location-selector v-model:value="searchCity" add-nationwide />
+            <i-location-selector class="location-selector" v-model:value="searchCity" add-nationwide />
             <a-input-search
               v-model:value="searchState.keyword"
               placeholder="请输入职位关键词"

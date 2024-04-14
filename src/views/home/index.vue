@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { onMounted, onUnmounted, reactive, ref } from 'vue'
+import { computed, onMounted, onUnmounted, reactive, ref } from 'vue'
 import { useAppStore, useStatusStore, useUserStore } from '@/stores'
 import { getHomeKnowledgeGraphApi, getHomeNewJobsApi, getHotSearchApi } from '@/apis/home'
 import type { CompanyType } from '@/apis/company'
@@ -8,8 +8,10 @@ import INavigator from '@/components/INavigator/INavigator.vue'
 import type { JobCategoryType } from '@/apis/job'
 import Icon from '@/components/Icon/Icon.vue'
 import tutorial from '@/assets/tutorial/tutorial'
+import { homePageGuideState } from '@/tours'
 
 const userStore = useUserStore()
+const isLogin = ref(false)
 const appStore = useAppStore()
 const statusStore = useStatusStore()
 const bannerLeftSideCollapsed = ref(false)
@@ -23,20 +25,16 @@ const nearbyJobList = ref()
 const knowledgeGraphData = ref()
 const tutorialList = ref(tutorial)
 const delivered = ref(false)
-const hideSearchBarTitle = ref(false)
-const searchState = reactive({
-  keyword: '',
-  city: '',
-})
 
-let searchBar: HTMLElement | null
 let homePageBottom: HTMLElement | null
 let header: HTMLElement | null
-let searchBarTitle: HTMLElement | null
 let jobNameInterval: any = null
+
 onMounted(async () => {
   const footer = document.querySelector('.footer') as HTMLElement
   footer.style.top = 'calc(100vh - 58px)'
+  isLogin.value = userStore.getUserState().isLogin.value
+  delivered.value = await userStore.getUserState().isUploadApplication.value
   hotSearch.value = await getHotSearchApi()
   hotCompanyList.value = await getHotCompanyApi()
   newJobList.value = await getHomeNewJobsApi()
@@ -66,29 +64,17 @@ onUnmounted(() => {
   clearInterval(jobNameInterval)
   window.removeEventListener('scroll', () => {})
 })
-const titleSize = ref(40)
 
 function scrollEvent() {
   const scrollTop = document.documentElement.scrollTop || document.body.scrollTop
   const scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight
   const clientHeight = document.documentElement.clientHeight || document.body.clientHeight
 
-  // 设置 搜索框的顶部距离 --blur 和 --opacity 变量
-
-  searchBar = document.querySelector('.search-bar')
   homePageBottom = document.querySelector('.mask')
   header = document.querySelector('.i-header')
-  searchBarTitle = document.querySelector('.search-bar .title')
 
   const blurPercent = Number((scrollTop / clientHeight > 1 ? 1 : scrollTop / clientHeight).toFixed(2))
   const opacityPercent = Number((scrollTop / clientHeight > 0.8 ? 0.8 : scrollTop / clientHeight).toFixed(2))
-  const searchBarPercent = Number((scrollTop / clientHeight > 1 ? 1 : scrollTop / clientHeight).toFixed(2))
-
-  searchBar?.style.setProperty('--top', `calc((50vh - 120px) * ${1 - searchBarPercent} + 55px)`)
-  searchBar?.style.setProperty('--opacity', `${opacityPercent}`)
-  searchBar?.style.setProperty('--blur', `${searchBarPercent * 10}px`)
-  searchBar?.style.setProperty('--shadow-opacity', `${(1 - searchBarPercent) * 0.2}`)
-  searchBarTitle?.style.setProperty('--font-size', `${titleSize.value * (1 - searchBarPercent)}px`)
 
   header?.style.setProperty('--shadow-opacity', `${(1 - opacityPercent) * 0.2}`)
 
@@ -111,6 +97,12 @@ window.addEventListener('scroll', scrollEvent)
 
 <template>
   <div class="home-page">
+    <a-tour
+      v-model:current="homePageGuideState.current"
+      :open="homePageGuideState.open"
+      :steps="homePageGuideState.steps"
+      @close="homePageGuideState.open = false"
+    />
     <!--<i-search-bar class="search-bar" />-->
     <!--<job-search-home v-model:keyword="searchState.keyword" :hide-title="hideSearchBarTitle" class="search-bar" />-->
     <div v-if="true" class="home-page-background">
@@ -134,6 +126,12 @@ window.addEventListener('scroll', scrollEvent)
           <div class="sub-title">
             我们设计了优秀的推荐算法、知识图谱分析，为你推荐最适合的岗位<br />
             数据库中包含我们爬取的{{ 11300 }}+岗位信息
+          </div>
+          <div v-if="!isLogin" class="get-start" style="margin-top: 10px; text-align: center">
+            <a-button type="primary" @click="$router.push('/auth/login')">
+              登录以获取详细推荐信息
+              <Icon icon="RightOutlined" />
+            </a-button>
           </div>
         </div>
       </div>
@@ -203,10 +201,10 @@ window.addEventListener('scroll', scrollEvent)
           <div class="title">你最有概率投递的岗位(知识图谱分析)</div>
           <div class="sub-title">根据大数据和算法分析得出</div>
           <div class="graph-cot card">
-            <div v-if="!userStore.token" class="not-login">
-              <div class="title">未登录或未上传简历</div>
+            <div v-if="!isLogin || !delivered" class="not-login">
+              <div class="title">{{ !isLogin ? '未登录' : !delivered ? '未上传简历' : '' }}</div>
               <div class="desc">
-                <a-button type="primary" @click="$router.push('/recommend')">根据指引使用本网址</a-button>
+                <a-button type="primary" @click="$router.push('/recommend')">根据推荐步骤使用本系统</a-button>
               </div>
             </div>
             <knowledge-graph
@@ -413,7 +411,7 @@ window.addEventListener('scroll', scrollEvent)
       }
 
       img {
-        @apply absolute right-[10%] top-[10%] w-[60%];
+        @apply absolute right-[10%] bottom-0 w-[60%] h-fit object-center;
       }
     }
 
