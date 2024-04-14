@@ -228,7 +228,7 @@ window.addEventListener('scroll', scrollEvent)
                 target="_blank"
                 :key="item.url"
               >
-                <img :src="item.img" />
+                <img v-lazy-load="item.img" />
               </a>
             </div>
             <div class="carousel-item">
@@ -239,7 +239,7 @@ window.addEventListener('scroll', scrollEvent)
                 target="_blank"
                 :key="item.url"
               >
-                <img :src="item.img" />
+                <img v-lazy-load="item.img" />
               </a>
             </div>
           </a-carousel>
