@@ -1,9 +1,9 @@
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
-import { logoutApi } from '@/apis/auth'
+import { computed, ref } from 'vue'
+import { isCompleteUserInfoApi, logoutApi } from '@/apis/auth'
 import { useCookies } from 'vue3-cookies'
 import type { UpdateUserInfoFormType, UserInfoType } from '@/apis/user'
-import { getUserInfoApi, updateUserInfoApi } from '@/apis/user'
+import { getUserInfoApi, isUploadApplicationApi, updateUserInfoApi } from '@/apis/user'
 import { getExpiredStorage } from '@/stores'
 
 const { cookies } = useCookies()
@@ -15,6 +15,35 @@ export const useUserStore = defineStore(
   () => {
     const token = ref<string>('')
     const userInfo = ref<UserInfoType>({})
+    const getUserState = async function () {
+      return {
+        isLogin: computed(() => !!token.value),
+        isCompleteInfo: computed(() => {
+          if (token.value !== undefined && token.value !== '') {
+            return new Promise((resolve) => {
+              const isComplete = isCompleteUserInfoApi().then((res) => {
+                return res
+              })
+              resolve(isComplete)
+            })
+          } else {
+            return Promise.resolve(false)
+          }
+        }),
+        isUploadApplication: computed(() => {
+          if (token.value !== undefined && token.value !== '') {
+            return new Promise((resolve) => {
+              const isUpload = isUploadApplicationApi().then((res) => {
+                return res
+              })
+              resolve(isUpload)
+            })
+          } else {
+            return Promise.resolve(false)
+          }
+        }),
+      }
+    }
 
     async function getUserInfo() {
       token.value = cookies.get('satoken') || ''
@@ -41,6 +70,7 @@ export const useUserStore = defineStore(
     return {
       token,
       userInfo,
+      getUserState,
       getUserInfo,
       updateUserInfo,
       logout,

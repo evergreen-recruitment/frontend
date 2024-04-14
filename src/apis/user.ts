@@ -43,3 +43,7 @@ export function getUserInfoApi() {
 export function updateUserInfoApi(userForm: UpdateUserInfoFormType) {
   return request.Post('user/updateUserInfo', userForm).send(true) as Promise<boolean>
 }
+
+export function isUploadApplicationApi() {
+  return request.Get('user/isUploadFile').send(true) as Promise<boolean>
+}

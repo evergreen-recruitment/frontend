@@ -63,7 +63,7 @@ const appStore = useAppStore()
   }
 
   .job-card {
-    @apply relative w-72 h-[140px] flex flex-col items-start justify-between rounded-[var(--border-radius)] backdrop-blur-[30px]  shadow-md cursor-pointer;
+    @apply relative w-full h-[140px] flex flex-col items-start justify-between rounded-[var(--border-radius)] backdrop-blur-[30px]  shadow-md cursor-pointer;
     transition: box-shadow 0.3s;
 
     @include useTheme {
