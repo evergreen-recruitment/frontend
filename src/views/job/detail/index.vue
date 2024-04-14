@@ -11,7 +11,8 @@ import Gaussian from 'gaussian'
 
 const appStore = useAppStore()
 const statusStore = useStatusStore()
-const welfareTagsColor = ref<string[]>(['pink', 'red', 'orange', 'green', 'cyan', 'blue', 'purple'])
+// prettier-ignore
+const welfareTagsColor = ref<string[]>(['pink', 'red', 'orange', 'green', 'cyan', 'blue', 'purple', 'pink', 'red', 'orange', 'green', 'cyan', 'blue', 'purple'])
 const job = ref<JobItemType | null>()
 const sideJobList = ref<SimpleJobItemType[]>([])
 const companyInfo = computed(() => {
@@ -285,9 +286,24 @@ const rankingOptions = reactive({
     },
   ],
 })
-onMounted(async () => {})
+function collapseBanner() {
+  // 当页面滚动超过55px时将job-detail__banner固定在顶部 添加collapse-banner类名 当页面滚动小于55px时移除collapse-banner类名
+  const jobDetailBanner = document.querySelector('.job-detail__banner') as HTMLElement
+  if (jobDetailBanner) {
+    console.log(window.scrollY)
+    if (window.scrollY > 55) {
+      jobDetailBanner.classList.add('collapse-banner')
+    } else {
+      jobDetailBanner.classList.remove('collapse-banner')
+    }
+  }
+}
+onMounted(() => {
+  window.addEventListener('scroll', () => {})
+})
 onUnmounted(() => {
   routerWatch()
+  window.removeEventListener('scroll', () => {})
 })
 </script>
 
@@ -313,7 +329,9 @@ onUnmounted(() => {
         <div class="job-detail__banner--right">
           <div class="job-salary">{{ job?.salary }}</div>
           <div class="welfare-tags">
-            <a-tag v-for="(item, index) in job?.welfareList" :color="welfareTagsColor[index]">{{ item }}</a-tag>
+            <a-tag v-for="(item, index) in job?.welfareList.slice(0, 7)" :color="welfareTagsColor[index]"
+              >{{ item }}
+            </a-tag>
           </div>
         </div>
       </div>
@@ -325,7 +343,7 @@ onUnmounted(() => {
           <a-divider />
           <div class="job-detail__description--content">
             <div class="tags">
-              <a-tag v-for="t in job?.jobSkills" :key="t" style="font-size: 18px; height: 25px">{{ t }}</a-tag>
+              <a-tag v-for="t in job?.jobSkills" :key="t" style="font-size: 14px; height: 25px">{{ t }}</a-tag>
             </div>
             <div class="description">{{ job?.description }}</div>
           </div>
@@ -419,9 +437,14 @@ onUnmounted(() => {
 @import '@/styles/theme.scss';
 
 .job-detail {
+  .collapse-banner {
+    @apply sticky w-full z-10;
+    top: 0 !important;
+  }
+
   .job-detail__banner {
     @apply sticky top-[55px] w-full h-48 text-white flex items-center justify-center z-10;
-
+    transition: top 0.3s;
     @include useTheme {
       background: rgba((adjust-hue(hsl(0, 50%, 20%), hue(getColor('primary')))), 1);
     }
@@ -467,7 +490,7 @@ onUnmounted(() => {
         .welfare-tags {
           @apply flex items-center justify-between;
           :deep(.ant-tag) {
-            @apply text-base;
+            @apply text-sm;
           }
         }
       }
@@ -497,7 +520,7 @@ onUnmounted(() => {
           }
 
           .description {
-            @apply text-lg whitespace-pre-line;
+            @apply text-base leading-7 whitespace-pre-line;
           }
         }
 
@@ -507,7 +530,7 @@ onUnmounted(() => {
       }
 
       .job-detail__chart {
-        @apply mt-5 mb-4 h-[650px] flex items-center justify-between space-x-5;
+        @apply mt-5 mb-4 h-[620px] flex items-center justify-between space-x-5;
 
         .chart-title {
           @apply flex items-center space-x-4;
@@ -529,7 +552,7 @@ onUnmounted(() => {
           }
 
           :deep(.chart) {
-            @apply h-[520px];
+            @apply h-[500px];
           }
         }
 
@@ -544,7 +567,7 @@ onUnmounted(() => {
             @apply relative;
 
             :deep(.chart) {
-              @apply h-[550px];
+              @apply h-[500px];
             }
           }
         }
@@ -591,7 +614,7 @@ onUnmounted(() => {
           }
 
           .description {
-            @apply text-base mb-4 whitespace-pre-line;
+            @apply text-base leading-7  mb-4 whitespace-pre-line;
           }
 
           .tag-list {
