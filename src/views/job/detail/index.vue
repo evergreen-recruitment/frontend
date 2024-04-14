@@ -286,6 +286,7 @@ const rankingOptions = reactive({
     },
   ],
 })
+
 function collapseBanner() {
   // 当页面滚动超过55px时将job-detail__banner固定在顶部 添加collapse-banner类名 当页面滚动小于55px时移除collapse-banner类名
   const jobDetailBanner = document.querySelector('.job-detail__banner') as HTMLElement
@@ -298,8 +299,9 @@ function collapseBanner() {
     }
   }
 }
+
 onMounted(() => {
-  window.addEventListener('scroll', () => {})
+  window.addEventListener('scroll', collapseBanner)
 })
 onUnmounted(() => {
   routerWatch()

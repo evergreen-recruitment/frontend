@@ -15,7 +15,7 @@ const statusStore = useStatusStore()
 const bannerLeftSideCollapsed = ref(false)
 const tabKey = ref('1')
 const category = ref<JobCategoryType[]>([])
-const hotSearch = ref()
+const hotSearch = ref<string[]>([])
 const hotCompanyList = ref<CompanyType[]>([])
 const recommendJobList = ref()
 const newJobList = ref()
@@ -33,7 +33,7 @@ let searchBar: HTMLElement | null
 let homePageBottom: HTMLElement | null
 let header: HTMLElement | null
 let searchBarTitle: HTMLElement | null
-
+let jobNameInterval: any = null
 onMounted(async () => {
   const footer = document.querySelector('.footer') as HTMLElement
   footer.style.top = 'calc(100vh - 58px)'
@@ -45,6 +45,17 @@ onMounted(async () => {
   knowledgeGraphData.value = await getHomeKnowledgeGraphApi()
   category.value = statusStore.jobCategory
 
+  // 设置定时器 每3s 减少--job-name-top 65px 一共减少 hotSearch.length * 65px
+  jobNameInterval = setInterval(() => {
+    const jobName = document.querySelector('.job-name') as HTMLElement
+    const jobNameOuter = document.querySelector('.job-name-outer') as HTMLElement
+    const jobNameTop = Number(jobName.style.getPropertyValue('--job-name-top').replace('px', ''))
+    jobName.style.setProperty('--job-name-top', `${jobNameTop - 61}px`)
+    if (jobNameTop <= -60 * (hotSearch.value.length - 1)) {
+      jobName.style.setProperty('--job-name-top', '0px')
+    }
+  }, 3000)
+
   // 初始化页面时使用一次
   scrollEvent()
 })
@@ -52,6 +63,7 @@ onMounted(async () => {
 onUnmounted(() => {
   const footer = document.querySelector('.footer') as HTMLElement
   footer.style.top = '0'
+  clearInterval(jobNameInterval)
   window.removeEventListener('scroll', () => {})
 })
 const titleSize = ref(40)
@@ -102,6 +114,32 @@ window.addEventListener('scroll', scrollEvent)
     <!--<i-search-bar class="search-bar" />-->
     <!--<job-search-home v-model:keyword="searchState.keyword" :hide-title="hideSearchBarTitle" class="search-bar" />-->
     <div v-if="true" class="home-page-background">
+      <div class="left-panel">
+        <div class="title-panel">
+          <div class="title">
+            你最适合的岗位
+            <div class="job-name-outer">
+              <div class="job-name">
+                <div
+                  class="item"
+                  v-for="item in hotSearch"
+                  :key="item"
+                  @click="$router.push({ name: 'jobSearch', query: { keyword: item } })"
+                >
+                  {{ item }}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="sub-title">
+            我们设计了优秀的推荐算法、知识图谱分析，为你推荐最适合的岗位<br />
+            数据库中包含我们爬取的{{ 11300 }}+岗位信息
+          </div>
+        </div>
+      </div>
+      <div class="right-panel">
+        <img src="@/assets/images/bg1.svg" alt="" />
+      </div>
       <!--<div class="circle-group">-->
       <!--  <div class="circle circle1"></div>-->
       <!--  <div class="circle circle2"></div>-->
@@ -310,7 +348,7 @@ window.addEventListener('scroll', scrollEvent)
     backdrop-filter: blur(var(--blur));
 
     @include useTheme {
-      background: rgba(getModeVar('bg1color'), var(--opacity));
+      background: rgba(getModeVar('bgColor'), var(--opacity));
     }
   }
 
@@ -336,8 +374,49 @@ window.addEventListener('scroll', scrollEvent)
   }
 
   .home-page-background {
-    @apply fixed w-full top-[-20vh]  h-[120vh] flex flex-col items-center justify-center z-0;
-    //
+    @apply fixed w-full top-0 h-[100vh] flex z-0;
+
+    .left-panel {
+      @apply relative w-full h-full z-10;
+      .title-panel {
+        @apply inline-block relative top-[40%] left-[7%];
+        .title {
+          --fontSize: 60px;
+          @apply text-center mb-5;
+          font-size: var(--fontSize);
+
+          .job-name-outer {
+            @apply relative h-[var(--fontSize)] overflow-hidden;
+            .job-name {
+              --job-name-top: 0px;
+              @apply relative top-[var(--job-name-top)] flex flex-col font-bold;
+              transition: top 0.5s;
+
+              .item {
+                @apply h-[calc(var(--fontSize)+1px)] leading-[calc(var(--fontSize)+1px)] cursor-pointer;
+              }
+            }
+          }
+        }
+
+        .sub-title {
+          @apply text-gray-500;
+        }
+      }
+    }
+
+    .right-panel {
+      @apply absolute w-full h-full;
+
+      @include useTheme {
+        background: getModeVar('bgColor');
+      }
+
+      img {
+        @apply absolute right-[10%] top-[10%] w-[60%];
+      }
+    }
+
     //@include useTheme {
     //  $t: getColor('primary');
     //  @if getMode() == 'dark' {

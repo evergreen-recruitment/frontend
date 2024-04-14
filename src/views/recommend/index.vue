@@ -73,7 +73,7 @@ onMounted(async () => {
 
 <template>
   <div class="recommend-page">
-    <i-card v-slide-in="{ distance: 200 }" class="nav-panel">
+    <i-card class="nav-panel">
       <div class="title">推荐岗位</div>
       <a-divider />
       <a-steps :current="compCurrent" :items="items" @change="onStepsChange" />

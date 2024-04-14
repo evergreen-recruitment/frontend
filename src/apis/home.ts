@@ -20,14 +20,13 @@ export function getHomeBannerApi() {
  * 类型 待补充
  */
 export function getHotSearchApi() {
-  // return request
-  //   .Get(
-  //     'job/hotSearch',
-  //     // @ts-ignore
-  //     { headers: { 'Content-Type': 'application/json' }, ignoreToken: true },
-  //   )
-  //   .send(true) as Promise<any>
-  return alovaInstance.Get('https://dev.usemock.com/65ca29236309cc7a37766f77/job/hotSearch').send(true) as Promise<any>
+  return request
+    .Get(
+      'job/hotSearch',
+      // @ts-ignore
+      { headers: { 'Content-Type': 'application/json' }, ignoreToken: true },
+    )
+    .send(true) as Promise<string[]>
 }
 
 /**
