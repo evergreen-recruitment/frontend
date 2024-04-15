@@ -166,7 +166,7 @@ export const useAppStore = defineStore(
     const openInNewWindow = ref(true)
 
     // 是否开启动画
-    const openAnimation = ref(false)
+    const openAnimation = ref(true)
 
     return {
       themeName,
@@ -186,6 +186,6 @@ export const useAppStore = defineStore(
     }
   },
   {
-    persist: false,
+    persist: true,
   },
 )
