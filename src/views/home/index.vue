@@ -99,6 +99,7 @@ window.addEventListener('scroll', scrollEvent)
   <div class="home-page">
     <a-tour
       v-model:current="homePageGuideState.current"
+      type='primary'
       :open="homePageGuideState.open"
       :steps="homePageGuideState.steps"
       @close="homePageGuideState.open = false"

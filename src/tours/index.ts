@@ -211,17 +211,11 @@ export const jobDetailGuideState = reactive({
       target: () => document.querySelector('.job-detail__side .job-detail__side--vote') as HTMLElement,
     },
     {
-      title: '相似岗位',
-      description: '这里是相似的其他岗位列表，根据您的需求再选择其他岗位',
-      placement: 'top',
-      scrollIntoViewOptions: false,
-      target: () => document.querySelector('.job-detail__side .job-detail__side--similar-job') as HTMLElement,
-    },
-    {
       title: '岗位技术栈可视化',
       description:
         '这里分析出了该岗位所需的技术栈和技术栈的要求占比，并且分析你的简历技术栈情况，若未学习的技术栈将标灰',
       placement: 'top',
+      mask: false,
       target: () =>
         document.querySelector(
           '.job-detail__main .job-detail__content .job-detail__chart .job-detail__stack',
@@ -231,6 +225,7 @@ export const jobDetailGuideState = reactive({
       title: '能力排名可视化',
       description: '这里分析了该岗位的应聘者们的能力排名，每个柱子代表一个应聘者，它的长度代表这名应聘者超过了多少人',
       placement: 'top',
+      mask: false,
       target: () =>
         document.querySelector(
           '.job-detail__main .job-detail__content .job-detail__chart .job-detail__ability-ranking',
@@ -240,7 +235,16 @@ export const jobDetailGuideState = reactive({
       title: '公司信息',
       description: '这里包含了该公司的一些信息',
       placement: 'top',
+      mask: false,
       target: () => document.querySelector('.job-detail__main .job-detail__company-info') as HTMLElement,
+    },
+    {
+      title: '相似岗位',
+      description: '这里是相似的其他岗位列表，根据您的需求再选择其他岗位',
+      placement: 'left',
+      mask: false,
+      scrollIntoViewOptions: false,
+      target: () => document.querySelector('.job-detail__side .job-detail__side--similar-job') as HTMLElement,
     },
   ] as TourProps['steps'],
   open: computed({
