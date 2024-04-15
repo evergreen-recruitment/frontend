@@ -313,7 +313,7 @@ onUnmounted(() => {
   <div class="job-detail">
     <a-tour
       v-model:current="jobDetailGuideState.current"
-      type='primary'
+      type="primary"
       :open="jobDetailGuideState.open"
       :steps="jobDetailGuideState.steps"
       :scroll-into-view-options="false"

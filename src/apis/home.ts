@@ -50,8 +50,9 @@ export function getHomeRecommendApi() {
  */
 export function getHomeNewJobsApi() {
   return request
-    .Get(
+    .Post(
       'job/newJobs',
+      {},
       // @ts-ignore
       { headers: { 'Content-Type': 'application/json' }, ignoreToken: true },
     )

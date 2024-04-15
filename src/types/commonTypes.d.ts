@@ -12,8 +12,8 @@ export type PageType<T> = {
 }
 
 export type PageRequestType = {
-  current: number
-  pageSize: number
-  sortField: string
-  sortOrder: string
+  current?: number
+  pageSize?: number
+  sortField?: string
+  sortOrder?: string
 }

@@ -1,5 +1,5 @@
 import request from '@/utils/request'
-import type { PageType } from '@/types/commonTypes'
+import type { PageRequestType, PageType } from '@/types/commonTypes'
 
 export type JobCategoryType = {
   id: number
@@ -10,11 +10,8 @@ export type JobCategoryType = {
 export type JobSearchFormType = {
   keyword?: string
   city?: number
-  current: number
-  pageSize?: number
-  sortField?: string
-  sortOrder?: string
-} & JobFilterType
+} & JobFilterType &
+  PageRequestType
 
 export type JobFilterType = {
   jobStandardId?: number | null // 职位类型
@@ -145,4 +142,15 @@ export function getJobCategoryApi() {
       { headers: { 'Content-Type': 'application/json' }, ignoreToken: true },
     )
     .send(true) as Promise<JobCategoryType[]>
+}
+
+export function getNewJobsApi(pageParam: PageRequestType) {
+  return request
+    .Post(
+      'job/newJobs',
+      // @ts-ignore
+      pageParam,
+      { headers: { 'Content-Type': 'application/json' }, ignoreToken: true },
+    )
+    .send(true) as Promise<any>
 }

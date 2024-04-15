@@ -10,7 +10,7 @@ import {
 import type { StepProps } from 'ant-design-vue'
 import { useUserStore } from '@/stores'
 import router from '@/router'
-import { getHomeNewJobsApi } from '@/apis/home'
+import { getNewJobsApi } from '@/apis/job'
 
 const userStore = useUserStore()
 const tabKey = ref('1')
@@ -64,10 +64,9 @@ onMounted(async () => {
   const obj = userStore.getUserState()
   res.value = [obj.isLogin.value, await obj.isCompleteInfo.value, await obj.isUploadApplication.value]
 
-  newJobList.value = await getHomeNewJobsApi()
-  newJobList.value = [...newJobList.value, ...newJobList.value]
-  recommendJobList.value = newJobList.value
-  nearbyJobList.value = newJobList.value
+  newJobList.value = await getNewJobsApi({ pageSize: 24 })
+  recommendJobList.value = await getNewJobsApi({ current: 2, pageSize: 24 })
+  nearbyJobList.value = await getNewJobsApi({ current: 3, pageSize: 24 })
 })
 </script>
 

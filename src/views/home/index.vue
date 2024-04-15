@@ -1,11 +1,12 @@
 <script lang="ts" setup>
-import { computed, onMounted, onUnmounted, reactive, ref } from 'vue'
+import { onMounted, onUnmounted, ref } from 'vue'
 import { useAppStore, useStatusStore, useUserStore } from '@/stores'
-import { getHomeKnowledgeGraphApi, getHomeNewJobsApi, getHotSearchApi } from '@/apis/home'
+import { getHomeKnowledgeGraphApi, getHotSearchApi } from '@/apis/home'
 import type { CompanyType } from '@/apis/company'
 import { getHotCompanyApi } from '@/apis/company'
 import INavigator from '@/components/INavigator/INavigator.vue'
 import type { JobCategoryType } from '@/apis/job'
+import { getNewJobsApi } from '@/apis/job'
 import Icon from '@/components/Icon/Icon.vue'
 import tutorial from '@/assets/tutorial/tutorial'
 import { homePageGuideState } from '@/tours'
@@ -37,9 +38,9 @@ onMounted(async () => {
   delivered.value = await userStore.getUserState().isUploadApplication.value
   hotSearch.value = await getHotSearchApi()
   hotCompanyList.value = await getHotCompanyApi()
-  newJobList.value = await getHomeNewJobsApi()
-  recommendJobList.value = newJobList.value
-  nearbyJobList.value = newJobList.value
+  newJobList.value = await getNewJobsApi({ pageSize: 12 })
+  recommendJobList.value = await getNewJobsApi({ current: 2, pageSize: 12 })
+  nearbyJobList.value = await getNewJobsApi({ current: 3, pageSize: 12 })
   knowledgeGraphData.value = await getHomeKnowledgeGraphApi()
   category.value = statusStore.jobCategory
 
@@ -99,7 +100,7 @@ window.addEventListener('scroll', scrollEvent)
   <div class="home-page">
     <a-tour
       v-model:current="homePageGuideState.current"
-      type='primary'
+      type="primary"
       :open="homePageGuideState.open"
       :steps="homePageGuideState.steps"
       @close="homePageGuideState.open = false"

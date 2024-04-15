@@ -1,24 +1,30 @@
 <script setup lang="ts">
-import { reactive, ref } from 'vue'
 import type { UploadRequestOption } from 'ant-design-vue/es/vc-upload/interface'
 import { uploadApplicationApi } from '@/apis/common'
 import { message, type UploadChangeParam } from 'ant-design-vue'
+import { useVModel } from '@vueuse/core'
 
-const fileList = ref([])
-const applicationUploadLoading = ref(false)
-const formState = reactive([])
+const emit = defineEmits(['update:fileList', 'update:loading'])
+const props = defineProps<{
+  fileList: any[]
+  loading: boolean
+}>()
+const propsFileList = useVModel(props, 'fileList', emit)
+const propsLoading = useVModel(props, 'loading', emit)
+
 function handleChange(info: UploadChangeParam) {
+  console.log(info)
   if (info.file.status === 'uploading') {
-    applicationUploadLoading.value = true
+    propsLoading.value = true
     return
   }
   if (info.file.status === 'done') {
     // formState.avatar = info.file.response
     message.success('上传成功')
-    applicationUploadLoading.value = false
+    propsLoading.value = false
   }
   if (info.file.status === 'error') {
-    applicationUploadLoading.value = false
+    propsLoading.value = false
     message.error('upload error')
   }
 }
@@ -40,15 +46,15 @@ function openApplicationList() {}
   <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px">
     <div class="upload">
       <a-upload
-        v-model:file-list="fileList"
+        v-model:file-list="propsFileList"
         :custom-request="customUploadApplication"
         :show-upload-list="false"
         class="avatar-uploader"
         @change="handleChange"
       >
         <template #default>
-          <a-button style="width: 100%" type="primary" :disabled="applicationUploadLoading">
-            <Icon :icon="`${applicationUploadLoading ? 'LoadingOutlined' : 'UploadOutlined'}`" />
+          <a-button style="width: 100%" type="primary" :disabled="propsLoading">
+            <Icon :icon="`${propsLoading ? 'LoadingOutlined' : 'UploadOutlined'}`" />
             上传简历
           </a-button>
         </template>

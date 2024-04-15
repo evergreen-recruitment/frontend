@@ -123,7 +123,7 @@ onUnmounted(() => {
   <div class="search-page">
     <a-tour
       v-model:current="jobSearchPageGuideState.current"
-      type='primary'
+      type="primary"
       :open="jobSearchPageGuideState.open"
       :steps="jobSearchPageGuideState.steps"
       @close="jobSearchPageGuideState.open = false"

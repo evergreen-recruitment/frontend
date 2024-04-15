@@ -30,6 +30,7 @@ export type SkillInfoFormType = {
   skillName: string // 技能名称
   skillUsingTime: string // 使用时长
   skillLevel: string // 技能等级 一般 良好 熟练 精通
+  skillContent: string // 技能内容
 }
 
 /**
