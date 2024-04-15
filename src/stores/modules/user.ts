@@ -34,7 +34,7 @@ export const useUserStore = defineStore(
                 return res
               })
               resolve(isComplete)
-            })
+            }) as Promise<boolean>
           } else {
             return Promise.resolve(false)
           }

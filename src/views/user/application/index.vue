@@ -53,6 +53,21 @@ const selfIntroductionForm = reactive<SelfIntroductionFormType>({
   selfIntroduction: '', // 个人评价
 })
 
+const applicationOptimizeList = ref([
+  {
+    title: '未上传真实头像',
+    description: '请上传真实头像',
+  },
+  {
+    title: '简历内容不完整',
+    description: '请完善简历内容',
+  },
+  {
+    title: '简历内容不规范',
+    description: '请检查简历内容是否符合规范',
+  },
+])
+
 function handleChange(info: UploadChangeParam) {
   if (info.file.status === 'uploading') {
     applicationUploadLoading.value = true
@@ -71,15 +86,14 @@ function handleChange(info: UploadChangeParam) {
 
 // @ts-ignore
 function beforeUpload(file: UploadProps['fileList'][number]) {
-  const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png'
-  if (!isJpgOrPng) {
-    message.error('你只能上传一般图片文件!')
+  const isCorrectFile =
+    file.type === 'application/pdf' ||
+    file.type === 'application/msword' ||
+    file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+  if (!isCorrectFile) {
+    message.error('你只能上传一般jpeg、png、pdf、doc、docx文件!')
   }
-  const isLt2M = file.size / 1024 / 1024 < 2
-  if (!isLt2M) {
-    message.error('图片大小不能超过2MB!')
-  }
-  return isJpgOrPng && isLt2M
+  return isCorrectFile
 }
 
 async function customUploadApplication(e: UploadRequestOption) {
@@ -106,7 +120,30 @@ async function customUploadApplication(e: UploadRequestOption) {
       </user-panel>
       <i-card class="application-panel card">
         <a-tabs v-model:activeKey="activeKey" tab-position="left">
-          <a-tab-pane key="1" tab="工作/实习经历">
+          <a-tab-pane key="1" force-render tab="项目经历">
+            <a-page-header title="项目经历" />
+            <a-form :label-col="{ span: 2 }" :model="projectInfoForm" class="user-info-form" label-align="left">
+              <a-form-item label="项目名称">
+                <a-input v-model:value="projectInfoForm.projectName" />
+              </a-form-item>
+              <a-form-item label="项目类型">
+                <a-input v-model:value="projectInfoForm.projectType" />
+              </a-form-item>
+              <a-form-item label="开始时间">
+                <a-input v-model:value="projectInfoForm.startTime" />
+              </a-form-item>
+              <a-form-item label="结束时间">
+                <a-input v-model:value="projectInfoForm.endTime" />
+              </a-form-item>
+              <a-form-item label="项目内容">
+                <a-textarea v-model:value="projectInfoForm.projectContent" :rows="5" />
+              </a-form-item>
+              <a-form-item>
+                <a-button type="primary">保存</a-button>
+              </a-form-item>
+            </a-form>
+          </a-tab-pane>
+          <a-tab-pane key="2" tab="工作/实习经历">
             <div class="user-info">
               <a-page-header title="工作/实习经历" />
               <a-form :label-col="{ span: 2 }" :model="workExpInfoForm" class="user-info-form" label-align="left">
@@ -132,33 +169,13 @@ async function customUploadApplication(e: UploadRequestOption) {
                   <a-input v-model:value="workExpInfoForm.salary" />
                 </a-form-item>
                 <a-form-item label="工作内容">
-                  <a-input v-model:value="workExpInfoForm.workContent" />
+                  <a-textarea v-model:value="workExpInfoForm.workContent" :rows="5" />
                 </a-form-item>
                 <a-form-item>
                   <a-button type="primary">保存</a-button>
                 </a-form-item>
               </a-form>
             </div>
-          </a-tab-pane>
-          <a-tab-pane key="2" force-render tab="项目经历">
-            <a-page-header title="项目经历" />
-            <a-form :label-col="{ span: 2 }" :model="projectInfoForm" class="user-info-form" label-align="left">
-              <a-form-item label="项目名称">
-                <a-input v-model:value="projectInfoForm.projectName" />
-              </a-form-item>
-              <a-form-item label="项目类型">
-                <a-input v-model:value="projectInfoForm.projectType" />
-              </a-form-item>
-              <a-form-item label="开始时间">
-                <a-input v-model:value="projectInfoForm.startTime" />
-              </a-form-item>
-              <a-form-item label="结束时间">
-                <a-input v-model:value="projectInfoForm.endTime" />
-              </a-form-item>
-              <a-form-item label="项目内容">
-                <a-input v-model:value="projectInfoForm.projectContent" />
-              </a-form-item>
-            </a-form>
           </a-tab-pane>
           <a-tab-pane key="3" tab="专业技能">
             <a-page-header title="专业技能" />
@@ -172,6 +189,9 @@ async function customUploadApplication(e: UploadRequestOption) {
               <a-form-item label="技能等级">
                 <a-input v-model:value="skillInfoForm.skillLevel" />
               </a-form-item>
+              <a-form-item>
+                <a-button type="primary">保存</a-button>
+              </a-form-item>
             </a-form>
           </a-tab-pane>
           <a-tab-pane key="4" tab="竞赛证书">
@@ -183,6 +203,9 @@ async function customUploadApplication(e: UploadRequestOption) {
               <a-form-item label="获得时间">
                 <a-input v-model:value="certificateInfoForm.certificateTime" />
               </a-form-item>
+              <a-form-item>
+                <a-button type="primary">保存</a-button>
+              </a-form-item>
             </a-form>
           </a-tab-pane>
 
@@ -190,7 +213,10 @@ async function customUploadApplication(e: UploadRequestOption) {
             <a-page-header title="个人评价" />
             <a-form :label-col="{ span: 3 }" :model="selfIntroductionForm" class="user-info-form" label-align="left">
               <a-form-item label="自我介绍内容">
-                <a-input v-model:value="selfIntroductionForm.selfIntroduction" />
+                <a-textarea v-model:value="selfIntroductionForm.selfIntroduction" :rows="5" />
+              </a-form-item>
+              <a-form-item>
+                <a-button type="primary">保存</a-button>
               </a-form-item>
             </a-form>
           </a-tab-pane>
@@ -207,6 +233,17 @@ async function customUploadApplication(e: UploadRequestOption) {
       <div class="optimize-application card">
         <div class="title">简历待优化</div>
         <a-divider />
+        <a-list :data-source="applicationOptimizeList">
+          <template #renderItem="{ item }">
+            <a-list-item>
+              <a-list-item-meta :title="item.title" :description="item.description" style="align-items: center">
+                <template #avatar>
+                  <Icon icon="WarningOutlined" :size="30" style="color: red" />
+                </template>
+              </a-list-item-meta>
+            </a-list-item>
+          </template>
+        </a-list>
       </div>
     </div>
   </div>
