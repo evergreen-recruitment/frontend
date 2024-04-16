@@ -122,7 +122,7 @@ async function sendCode() {
       <a-form-item name="verifyCode">
         <a-input
           v-model:value="formState.verifyCode"
-          :placeholder="$t('user.login.placeholder.password')"
+          :placeholder="$t('user.login.placeholder.captcha')"
           size="large"
           style="height: 47px"
         >

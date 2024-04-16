@@ -86,7 +86,7 @@ async function sendCode() {
       </a-form-item>
 
       <a-form-item name="verifyCode">
-        <a-input v-model:value="formState.verifyCode" :placeholder="$t('user.login.placeholder.password')" size="large">
+        <a-input v-model:value="formState.verifyCode" :placeholder="$t('user.login.placeholder.captcha')" size="large">
           <template #prefix>
             <Icon icon="SecurityScanOutlined" />
           </template>
