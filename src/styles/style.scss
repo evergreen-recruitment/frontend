@@ -27,7 +27,7 @@ body {
 }
 
 body {
-  position: relative;
+  @apply relative w-screen overflow-x-hidden;
   transition:
     background-color 0.3s,
     color 0.3s;
@@ -37,28 +37,6 @@ body {
     background-color: getModeVar('bgColor');
     color: getModeVar('infoColor');
   }
-
-  //@include useTheme {
-  //  $t: getColor('primary');
-  //  @if getMode() == 'dark' {
-  //    background: linear-gradient(
-  //                    135deg,
-  //                    adjust-hue(hsl(0, 30%, 30%), hue(adjust-hue($t, -30))),
-  //                    adjust-hue(hsl(0, 30%, 30%), hue(adjust-hue($t, 30)))
-  //    );
-  //    background-size: cover;
-  //    background-attachment: fixed;
-  //  } @else {
-  //    background: linear-gradient(
-  //                    135deg,
-  //                    adjust-hue(hsl(0, 30%, 50%), hue(adjust-hue($t, -30))),
-  //                    adjust-hue(hsl(0, 30%, 50%), hue(adjust-hue($t, 30)))
-  //    );
-  //    background-size: cover;
-  //    background-attachment: fixed;
-  //  }
-  //}
-
   // loading 的控制
 
   //@for $i from 1 through 4 {

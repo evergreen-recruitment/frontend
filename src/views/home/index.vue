@@ -140,13 +140,6 @@ window.addEventListener('scroll', scrollEvent)
       <div class="right-panel">
         <img src="@/assets/images/bg1.svg" alt="" />
       </div>
-      <!--<div class="circle-group">-->
-      <!--  <div class="circle circle1"></div>-->
-      <!--  <div class="circle circle2"></div>-->
-      <!--  <div class="circle circle3"></div>-->
-      <!--  <div class="circle circle4"></div>-->
-      <!--  <div class="circle circle5"></div>-->
-      <!--</div>-->
     </div>
     <div class="mask"></div>
     <div class="home-page-bottom">
@@ -416,104 +409,10 @@ window.addEventListener('scroll', scrollEvent)
         @apply absolute right-[10%] bottom-0 w-[60%] h-fit object-center;
       }
     }
-
-    //@include useTheme {
-    //  $t: getColor('primary');
-    //  @if getMode() == 'dark' {
-    //    background: linear-gradient(
-    //      135deg,
-    //      adjust-hue(hsl(0, 30%, 30%), hue(adjust-hue($t, -30))),
-    //      adjust-hue(hsl(0, 30%, 30%), hue(adjust-hue($t, 30)))
-    //    );
-    //  } @else {
-    //    background: linear-gradient(
-    //      135deg,
-    //      adjust-hue(hsl(0, 30%, 50%), hue(adjust-hue($t, -30))),
-    //      adjust-hue(hsl(0, 30%, 50%), hue(adjust-hue($t, 30)))
-    //    );
-    //  }
-    //}
-
-    .circle-group {
-      @apply h-screen w-full;
-      //margin: -180px auto 0;
-      margin: 0 auto;
-      position: relative;
-
-      .circle {
-        position: absolute;
-        border-radius: 50%;
-      }
-
-      .circle1 {
-        filter: blur(135px);
-        height: auto;
-        padding-bottom: 46%;
-        width: 30%;
-        top: -16.3%;
-        left: -10.6%;
-        opacity: 0.7;
-        @include useTheme {
-          background: lighten(getColor('primary'), 0%);
-        }
-      }
-
-      .circle2 {
-        filter: blur(100px);
-        height: auto;
-        padding-bottom: 47.5%;
-        width: 27.5%;
-        top: 10%;
-        left: 72.9%;
-        opacity: 0.65;
-        @include useTheme {
-          background: lighten(getColor('primary'), 10%);
-        }
-      }
-
-      .circle3 {
-        filter: blur(102px);
-        height: auto;
-        padding-bottom: 33.3%;
-        width: 23.3%;
-        top: 51.8%;
-        left: 58.7%;
-        opacity: 0.63;
-        @include useTheme {
-          background: darken(getColor('primary'), 10%);
-        }
-      }
-
-      .circle4 {
-        filter: blur(140px);
-        height: auto;
-        padding-bottom: 40%;
-        width: 20%;
-        top: 53.7%;
-        right: 14.8%;
-        opacity: 0.46;
-        @include useTheme {
-          background: darken(getColor('primary'), 20%);
-        }
-      }
-
-      .circle5 {
-        filter: blur(136px);
-        height: auto;
-        padding-bottom: 100%;
-        width: 35%;
-        top: 20%;
-        right: -10%;
-        opacity: 0.5;
-        @include useTheme {
-          background: darken(getColor('primary'), 10%);
-        }
-      }
-    }
   }
 
   .home-page-bottom {
-    @apply relative top-[100vh] w-full overflow-y-auto flex flex-col items-center justify-center;
+    @apply relative top-[100vh] w-full overflow-y-hidden flex flex-col items-center justify-center;
     transition: top 0.8s;
 
     .banner {
@@ -632,7 +531,7 @@ window.addEventListener('scroll', scrollEvent)
 
     .hot-company {
       width: 100vw !important;
-      @apply flex flex-col items-center justify-center mt-4;
+      @apply flex flex-col items-center justify-center overflow-x-hidden mt-4;
       .hot-company-list {
         @apply w-fit flex flex-col items-center justify-center space-y-2;
 

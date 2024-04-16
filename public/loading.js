@@ -10,7 +10,7 @@ const startEvent = new CustomEvent('loading')
 const loadEvent = new CustomEvent('loaded')
 
 // 禁止滚动
-document.body.style.overflow = 'hidden'
+document.body.style.overflowY = 'hidden'
 // 开始加载
 document.addEventListener('loading', function () {
   let loadingDom = document.querySelector('#loading')
@@ -26,7 +26,7 @@ document.addEventListener('loading', function () {
 // 加载完成
 document.addEventListener('loaded', function () {
   // 恢复滚动
-  document.body.style.overflow = 'auto'
+  document.body.style.overflowY = 'auto'
   let loadingDom = document.querySelector('#loading')
   loadingDom.style.opacity = 0
   loadingDom.addEventListener('transitionend', function () {
