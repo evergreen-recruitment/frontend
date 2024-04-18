@@ -28,6 +28,229 @@
 | husky Git运行钩子          | Husky 是一个可以阻止不良 git commit、git push 和更多的工具，它可以在这些 git 命令执行前运行你定义的任务，如测试和 linting。               |
 | Commitlint Git提交信息规范 | Commitlint 是一个帮助你管理 git commit 信息的工具，它可以确保你的 commit 信息符合一定的格式和标准。                                       |
 
+## 目录结构
+
+```
+evergreen-frontend
+├── public
+│   ├── loading.js
+│   └── logo.png
+├── src
+│   ├── apis
+│   │   ├── application.ts
+│   │   ├── auth.ts
+│   │   ├── city.ts
+│   │   ├── common.ts
+│   │   ├── company.ts
+│   │   ├── empAuth.ts
+│   │   ├── home.ts
+│   │   ├── industry.ts
+│   │   ├── job.ts
+│   │   └── user.ts
+│   ├── assets
+│   │   ├── images
+│   │   │   ├── bg1.svg
+│   │   │   ├── bg2-bg.svg
+│   │   │   ├── bg2.svg
+│   │   │   ├── default_avatar.png
+│   │   │   ├── logo.png
+│   │   │   ├── logo1-black.png
+│   │   │   └── logo1-white.png
+│   │   ├── map
+│   │   │   └── map.json
+│   │   └── tutorial
+│   │       └── tutorial.ts
+│   ├── components
+│   │   ├── ApplicationUpload
+│   │   │   └── ApplicationUpload.vue
+│   │   ├── BottomFloatBtn
+│   │   │   └── BottomFloatBtn.vue
+│   │   ├── I3DProgressBar
+│   │   │   └── I3DProgressBar.vue
+│   │   ├── ICard
+│   │   │   └── ICard.vue
+│   │   ├── ICharts
+│   │   │   └── ICharts.vue
+│   │   ├── IDiffEditor
+│   │   │   └── IDiffEditor.vue
+│   │   ├── IEditor
+│   │   │   └── IEditor.vue
+│   │   ├── ILocationSelector
+│   │   │   └── ILocationSelector.vue
+│   │   ├── INavigator
+│   │   │   └── INavigator.vue
+│   │   ├── IPageHeader
+│   │   │   └── IPageHeader.vue
+│   │   ├── ISearchBar
+│   │   │   └── ISearchBar.vue
+│   │   ├── ITable
+│   │   │   └── ITable.vue
+│   │   ├── Icon
+│   │   │   └── Icon.vue
+│   │   ├── JobCard
+│   │   │   └── JobCard.vue
+│   │   ├── JobCardV2
+│   │   │   └── JobCardV2.vue
+│   │   ├── JobCategoryFilter
+│   │   │   └── JobCategoryFilter.vue
+│   │   ├── JobItem
+│   │   │   └── JobItem.vue
+│   │   ├── JobSearch
+│   │   │   └── JobSearch.vue
+│   │   ├── JobSearchFilter
+│   │   │   └── JobSearchFilter.vue
+│   │   ├── JobSearchHome
+│   │   │   └── JobSearchHome.vue
+│   │   ├── JobSearchList
+│   │   │   └── JobSearchList.vue
+│   │   ├── KnowledgeGraph
+│   │   │   └── KnowledgeGraph.vue
+│   │   ├── NProgress
+│   │   │   └── nprogress.scss
+│   │   └── UserPanel
+│   │       └── UserPanel.vue
+│   ├── config
+│   │   ├── router.config.ts
+│   │   └── theme.config.ts
+│   ├── directives
+│   │   ├── vLazyLoad.ts
+│   │   └── vSlideIn.ts
+│   ├── hooks
+│   │   └── useEnterAnimation.ts
+│   ├── layouts
+│   │   ├── components
+│   │   │   ├── IAlert
+│   │   │   │   └── IAlert.vue
+│   │   │   ├── IAvatar
+│   │   │   │   └── IAvatar.vue
+│   │   │   ├── IBackground
+│   │   │   │   ├── v1
+│   │   │   │   │   ├── PerlinNoise
+│   │   │   │   │   │   └── PerlinNoise.ts
+│   │   │   │   │   └── IBackground.vue.back
+│   │   │   │   └── IBackground.vue
+│   │   │   ├── IEmpAlert
+│   │   │   │   └── IEmpAlert.vue
+│   │   │   ├── IEmpAvatar
+│   │   │   │   └── IEmpAvatar.vue
+│   │   │   ├── IEmpHeader
+│   │   │   │   └── IEmpHeader.vue
+│   │   │   ├── IEmpLayout
+│   │   │   │   └── IEmpLayout.vue
+│   │   │   ├── IEmpMenu
+│   │   │   │   └── IEmpMenu.vue
+│   │   │   ├── IEmpSide
+│   │   │   │   └── IEmpSide.vue
+│   │   │   ├── IFooter
+│   │   │   │   └── IFooter.vue
+│   │   │   └── IHeader
+│   │   │       └── IHeader.vue
+│   │   ├── AuthLayout.vue
+│   │   ├── BasicLayout.vue
+│   │   ├── EmpAuthLayout.vue
+│   │   └── EmpBasicLayout.vue
+│   ├── locales
+│   │   ├── langs
+│   │   │   ├── en
+│   │   │   │   └── index.json
+│   │   │   └── zh
+│   │   │       └── index.json
+│   │   └── index.ts
+│   ├── router
+│   │   ├── index.ts
+│   │   └── permission.ts
+│   ├── stores
+│   │   ├── modules
+│   │   │   ├── app.ts
+│   │   │   ├── employee.ts
+│   │   │   ├── status.ts
+│   │   │   └── user.ts
+│   │   └── index.ts
+│   ├── styles
+│   │   ├── common.scss
+│   │   ├── preflight.css
+│   │   ├── style.scss
+│   │   ├── theme.scss
+│   │   └── variables.module.scss
+│   ├── tours
+│   │   └── index.ts
+│   ├── types
+│   │   └── commonTypes.d.ts
+│   ├── utils
+│   │   ├── request.ts
+│   │   └── utils.ts
+│   ├── views
+│   │   ├── auth
+│   │   │   ├── completeInfo
+│   │   │   │   └── index.vue
+│   │   │   ├── forgetPassword
+│   │   │   │   └── index.vue
+│   │   │   ├── loginByCaptcha
+│   │   │   │   └── index.vue
+│   │   │   ├── loginByPassword
+│   │   │   │   └── index.vue
+│   │   │   └── uploadApplication
+│   │   │       └── index.vue
+│   │   ├── company
+│   │   │   ├── detail
+│   │   │   │   └── index.vue
+│   │   │   └── search
+│   │   │       └── index.vue
+│   │   ├── empAuth
+│   │   │   ├── forget
+│   │   │   │   └── index.vue
+│   │   │   ├── login
+│   │   │   │   └── index.vue
+│   │   │   └── register
+│   │   │       └── index.vue
+│   │   ├── empViews
+│   │   │   └── home
+│   │   │       └── index.vue
+│   │   ├── exception
+│   │   │   └── 404.vue
+│   │   ├── home
+│   │   │   └── index.vue
+│   │   ├── job
+│   │   │   ├── detail
+│   │   │   │   └── index.vue
+│   │   │   └── search
+│   │   │       └── index.vue
+│   │   ├── recommend
+│   │   │   └── index.vue
+│   │   ├── settings
+│   │   │   └── index.vue
+│   │   └── user
+│   │       ├── application
+│   │       │   └── index.vue
+│   │       ├── center
+│   │       │   └── index.vue
+│   │       ├── delivery
+│   │       │   └── index.vue
+│   │       └── previewApplication
+│   │           └── index.vue
+│   ├── App.vue
+│   └── main.ts
+├── Dockerfile
+├── README.md
+├── build.bat
+├── build.sh
+├── commitlint.config.js
+├── components.d.ts
+├── env.d.ts
+├── index.html
+├── nginx.conf
+├── package.json
+├── pnpm-lock.yaml
+├── postcss.config.js
+├── style.css
+├── tailwind.config.js
+├── tsconfig.app.json
+├── tsconfig.json
+├── tsconfig.node.json
+├── vite.config.ts
+└── 录屏脚本.md
+```
+
 ## 运行项目
 
 本项目使用Node.js 18 和 pnpm 管理包依赖，故你需要安装Node.js 18 或者使用nvm 切换到Node.js 18 版本，然后使用以下命令安装和部署项目
@@ -49,3 +272,4 @@ pnpm dev
 ```bash
 pnpm build
 ```
+
