@@ -15,7 +15,6 @@
     "format": "prettier --write ./"
   },
   "dependencies": {
-    "@alova/adapter-xhr": "^1.0.3",
     "@ant-design/icons-vue": "^7.0.1",
     "@antv/g6": "^4.8.24",
     "@guolao/vue-monaco-editor": "^1.5.1",
@@ -69,7 +68,7 @@
     "terser": "^5.30.3",
     "typescript": "~5.2.0",
     "unplugin-vue-components": "^0.25.2",
-    "vite": "^4.4.11",
+    "vite": "^5.2.10",
     "vite-plugin-compression": "^0.5.1",
     "vite-plugin-eslint": "^1.8.1",
     "vite-plugin-vsharp": "^1.7.3",
