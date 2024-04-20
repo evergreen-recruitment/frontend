@@ -79,23 +79,23 @@ onMounted(async () => {
     </i-card>
     <div v-if="compCurrent === 5" v-slide-in="{ distance: 200 }" class="job-recommend block-item">
       <div class="job-list-outer">
-        <a-tabs v-model:activeKey="tabKey" animated style="width: 100%; overflow: hidden; padding: 5px 0">
-          <a-tab-pane key="1" tab="推荐岗位">
-            <div class="job-list">
-              <job-card v-for="job in recommendJobList" :key="job.id" :job="job" />
-            </div>
-          </a-tab-pane>
-          <a-tab-pane key="2" tab="最新岗位">
-            <div class="job-list">
-              <job-card v-for="job in newJobList" :key="job.id" :job="job" />
-            </div>
-          </a-tab-pane>
-          <a-tab-pane key="3" tab="附近岗位">
-            <div class="job-list">
-              <job-card v-for="job in nearbyJobList" :key="job.id" :job="job" />
-            </div>
-          </a-tab-pane>
-        </a-tabs>
+        <div class="job-list">
+          <job-card v-for="job in recommendJobList" :key="job.id" :job="job" />
+        </div>
+        <!--<a-tabs v-model:activeKey="tabKey" animated style="width: 100%; overflow: hidden; padding: 5px 0">-->
+        <!--  <a-tab-pane key="1" tab="推荐岗位">-->
+        <!--  </a-tab-pane>-->
+        <!--  <a-tab-pane key="2" tab="最新岗位">-->
+        <!--    <div class="job-list">-->
+        <!--      <job-card v-for="job in newJobList" :key="job.id" :job="job" />-->
+        <!--    </div>-->
+        <!--  </a-tab-pane>-->
+        <!--  <a-tab-pane key="3" tab="附近岗位">-->
+        <!--    <div class="job-list">-->
+        <!--      <job-card v-for="job in nearbyJobList" :key="job.id" :job="job" />-->
+        <!--    </div>-->
+        <!--  </a-tab-pane>-->
+        <!--</a-tabs>-->
       </div>
     </div>
   </div>

@@ -303,10 +303,10 @@ window.addEventListener('scroll', scrollEvent)
         </div>
       </div>
       <div v-slide-in="{ distance: 200 }" class="job-recommend block-item">
-        <div class="title">推荐岗位</div>
+        <div class="title">岗位推荐</div>
         <div class="sub-title">通过人工智能分析推荐最适合你的岗位</div>
         <a-tabs v-model:activeKey="tabKey" animated style="width: 1200px; overflow: hidden; padding: 5px 0">
-          <a-tab-pane key="1" tab="推荐岗位">
+          <a-tab-pane key="1" tab="热门岗位">
             <div class="job-list">
               <job-card v-for="job in recommendJobList" :key="job.id" :job="job" />
             </div>
