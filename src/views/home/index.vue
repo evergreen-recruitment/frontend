@@ -212,7 +212,7 @@ window.addEventListener('scroll', scrollEvent)
           </div>
         </div>
       </div>
-      <div v-if="category" class="banner">
+      <div v-if="false && category" class="banner">
         <div class="title">我们有全面的IT分类岗位</div>
         <div class="sub-title">包含83个细分领域</div>
         <div class="banner-inner" :style="`--left-side-width:${bannerLeftSideCollapsed ? '170px' : '20rem'}`">

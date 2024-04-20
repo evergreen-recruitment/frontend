@@ -37,7 +37,7 @@ export function uploadApplicationApi(file: File) {
       '/user/uploadApplication',
       formData,
       // @ts-ignore 这里不要自己添加Content-Type，会自动识别
-      { ignoreToken: true },
+      { ignoreToken: true, setTimeout: 60 * 10 }, // 设置十分钟超时
     )
     .send(true) as Promise<string>
 }

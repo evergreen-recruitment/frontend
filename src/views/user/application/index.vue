@@ -250,7 +250,14 @@ const applicationOptimizeList = ref([
       <div class="upload-application card">
         <div class="title">导入简历</div>
         <a-divider />
-        <div class="sub-title">请上传DOC、DOCX、PDF格式的中文简历，大小不超过20M</div>
+        <div class="sub-title">
+          我们团队的开发协作和代码管理均是使用Github完成，前端、后端、算法部分代码皆已经上传至 evergreen-recruitment
+          项目组织，但由于目前仍处于比赛阶段，我们的项目代码暂时无法开源。<br />
+          但是我们已经将部分项目部署在了云服务器上，网站如下：<br />
+          算法部分由于GPU云服务器价格昂贵，采用内网穿透方式部署（非持续性）<br />
+          http://eh.healwrap.cn <br />
+          如需要体验完整项目功能，请联系 常青招聘项目组：18607066739
+        </div>
         <application-upload v-model:file-list="fileList" v-model:loading="compLoading" />
       </div>
       <div class="optimize-application card">
@@ -296,7 +303,7 @@ const applicationOptimizeList = ref([
       }
 
       .sub-title {
-        @apply text-sm text-gray-500;
+        @apply text-sm text-gray-500 whitespace-pre-line;
       }
     }
 

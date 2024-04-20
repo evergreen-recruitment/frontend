@@ -8,7 +8,6 @@ const startEvent = new CustomEvent('loading')
 
 // 自定义加载完成事件
 const loadEvent = new CustomEvent('loaded')
-
 // 禁止滚动
 document.body.style.overflowY = 'hidden'
 // 开始加载
