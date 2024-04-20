@@ -77,29 +77,29 @@ export const homePageGuideState = reactive({
       description: '使用知识图谱分析你的简历，为你推荐最适合的岗位',
       target: () => document.querySelector('.home-page-bottom .knowledge-graph') as HTMLElement,
     },
-    {
-      title: 'IT岗位分类',
-      description: '本系统包含83个细分岗位分类，同时提供每个岗位的学习路径和教程，您可以根据需求自行选择',
-      mask: false,
-      scrollIntoViewOptions: {
-        behavior: 'smooth',
-        block: 'center',
-        inline: 'nearest',
-      },
-      target: () => {
-        const banner = document.querySelector('.home-page-bottom .banner') as HTMLElement
-        // banner.scrollIntoView({ behavior: 'smooth' })
-        // window.scrollBy({
-        //   top: banner.getBoundingClientRect().top - window.innerHeight,
-        //   behavior: 'smooth',
-        // })
-        return banner
-      },
-    },
+    // {
+    //   title: 'IT岗位分类',
+    //   description: '本系统包含83个细分岗位分类，同时提供每个岗位的学习路径和教程，您可以根据需求自行选择',
+    //   // mask: false,
+    //   scrollIntoViewOptions: {
+    //     behavior: 'smooth',
+    //     block: 'center',
+    //     inline: 'nearest',
+    //   },
+    //   target: () => {
+    //     const banner = document.querySelector('.home-page-bottom .banner') as HTMLElement
+    //     // banner.scrollIntoView({ behavior: 'smooth' })
+    //     // window.scrollBy({
+    //     //   top: banner.getBoundingClientRect().top - window.innerHeight,
+    //     //   behavior: 'smooth',
+    //     // })
+    //     return banner
+    //   },
+    // },
     {
       title: '热门公司',
       description: '我们分析出我们岗位最热门的30个公司，以跑马灯流水线的方式展现',
-      mask: false,
+      // mask: false,
       target: () => document.querySelector('.home-page-bottom .hot-company') as HTMLElement,
     },
     {
@@ -153,7 +153,7 @@ export const jobSearchPageGuideState = reactive({
     {
       title: '搜索结果',
       description: '这里是搜索的结果',
-      mask: false,
+      // mask: false,
       target: () => document.querySelector('.job .job-list-outer .job-list') as HTMLElement,
     },
     {
@@ -215,7 +215,7 @@ export const jobDetailGuideState = reactive({
       description:
         '这里分析出了该岗位所需的技术栈和技术栈的要求占比，并且分析你的简历技术栈情况，若未学习的技术栈将标灰',
       placement: 'top',
-      mask: false,
+      // mask: false,
       target: () =>
         document.querySelector(
           '.job-detail__main .job-detail__content .job-detail__chart .job-detail__stack',
@@ -225,7 +225,7 @@ export const jobDetailGuideState = reactive({
       title: '能力排名可视化',
       description: '这里分析了该岗位的应聘者们的能力排名，每个柱子代表一个应聘者，它的长度代表这名应聘者超过了多少人',
       placement: 'top',
-      mask: false,
+      // mask: false,
       target: () =>
         document.querySelector(
           '.job-detail__main .job-detail__content .job-detail__chart .job-detail__ability-ranking',
@@ -235,14 +235,14 @@ export const jobDetailGuideState = reactive({
       title: '公司信息',
       description: '这里包含了该公司的一些信息',
       placement: 'top',
-      mask: false,
+      // mask: false,
       target: () => document.querySelector('.job-detail__main .job-detail__company-info') as HTMLElement,
     },
     {
       title: '相似岗位',
       description: '这里是相似的其他岗位列表，根据您的需求再选择其他岗位',
       placement: 'left',
-      mask: false,
+      // mask: false,
       scrollIntoViewOptions: false,
       target: () => document.querySelector('.job-detail__side .job-detail__side--similar-job') as HTMLElement,
     },
