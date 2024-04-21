@@ -412,7 +412,7 @@ window.addEventListener('scroll', scrollEvent)
   }
 
   .home-page-bottom {
-    @apply relative top-[100vh] w-full overflow-y-hidden flex flex-col items-center justify-center;
+    @apply relative w-full top-[100vh] overflow-y-hidden flex flex-col items-center justify-center;
     transition: top 0.8s;
 
     .banner {
@@ -530,8 +530,7 @@ window.addEventListener('scroll', scrollEvent)
     }
 
     .hot-company {
-      width: 100vw !important;
-      @apply flex flex-col items-center justify-center overflow-x-hidden mt-4;
+      @apply w-full flex flex-col items-center justify-center overflow-x-hidden mt-4;
       .hot-company-list {
         @apply w-fit flex flex-col items-center justify-center space-y-2;
 
@@ -539,6 +538,13 @@ window.addEventListener('scroll', scrollEvent)
           @apply block w-60 h-24 mx-5 flex items-center justify-center rounded-[var(--border-radius)];
           @include useTheme {
             background: getModeVar('cardBgColor');
+            &:hover {
+              @if getMode() == 'light' {
+                background: rgba(adjust-hue(hsl(0, 50%, 85%), hue(getColor('primary'))), 0.8);
+              } @else {
+                background: rgba(adjust-hue(hsl(0, 50%, 15%), hue(getColor('primary'))), 0.8);
+              }
+            }
           }
         }
 

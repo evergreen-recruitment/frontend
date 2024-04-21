@@ -131,10 +131,12 @@ export const useAppStore = defineStore(
       if (screenWidth < minScreenWidthComp.value) {
         const zoomValue = (screenWidth / minScreenWidthComp.value) * 100
         // @ts-ignore
-        body.style.zoom = `${zoomValue}% `
+        // body.style.zoom = `${zoomValue}% `
+        document.documentElement.style.setProperty('--zoom', zoomValue)
       } else {
         // @ts-ignore
-        body.style.zoom = '100%'
+        // body.style.zoom = '100%'
+        document.documentElement.style.setProperty('--zoom', 100)
       }
     }
 

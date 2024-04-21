@@ -8,15 +8,15 @@ import type { GraphData } from '@antv/g6'
 import { type CityItemType } from '@/apis/city'
 import type { JobFilterType, JobSearchFormType, SimpleJobItemType } from '@/apis/job'
 import { jobSearchApi } from '@/apis/job'
-import { useStatusStore, useUserStore } from '@/stores'
+import { useStatusStore } from '@/stores'
 import { findFullLocation } from '@/utils/utils'
 import JobSearchFilter from '@/components/JobSearchFilter/JobSearchFilter.vue'
 import { jobSearchPageGuideState } from '@/tours'
 
 const statusStore = useStatusStore()
-const userStore = useUserStore()
-
+const searchInputRef = ref()
 const searchCity = ref(statusStore.city.code)
+const showKnowledgeGraph = ref(false)
 const maxPage = ref(0)
 const searchState = ref<JobSearchFormType>({
   keyword: '',
@@ -54,6 +54,11 @@ async function getSearchResult() {
   searchState.value = { ...searchState.value, ...jobFilterData.value }
   const res = await jobSearchApi(searchState.value)
   if (!res) return
+  if (searchState.value.keyword || searchState.value.jobStandardId) {
+    showKnowledgeGraph.value = true
+  } else {
+    showKnowledgeGraph.value = false
+  }
   searchJobList.value = res?.records || []
   maxPage.value = res.pages
 }
@@ -135,6 +140,7 @@ onUnmounted(() => {
           <a-input-group compact size="large" style="display: flex">
             <i-location-selector class="location-selector" v-model:value="searchCity" add-nationwide />
             <a-input-search
+              ref="searchInputRef"
               v-model:value="searchState.keyword"
               placeholder="请输入职位关键词"
               enter-button="搜索"
@@ -169,7 +175,16 @@ onUnmounted(() => {
       />
       <div class="job-side block-item">
         <div class="graph-cot card">
-          <knowledge-graph v-if="knowledgeGraphData" :data="knowledgeGraphData" :zoom="0.5" class="graph" />
+          <knowledge-graph
+            v-if="showKnowledgeGraph && knowledgeGraphData"
+            :data="knowledgeGraphData"
+            :zoom="0.5"
+            class="graph"
+          />
+          <div v-else class="not-keyword">
+            未输入关键词或选择职位类别
+            <a-button type="primary" style="margin-top: 10px" @click="searchInputRef.focus()">输入关键词</a-button>
+          </div>
         </div>
         <div class="other-search card">
           <div class="title">相关搜索</div>
@@ -247,6 +262,13 @@ onUnmounted(() => {
 
     .job-side {
       @apply w-[calc(5/19*100%)] h-fit ml-5;
+
+      .graph-cot {
+        @apply flex items-center justify-center;
+        .not-keyword {
+          @apply flex flex-col items-center justify-center text-lg font-bold;
+        }
+      }
 
       .other-search {
         @apply shadow-lg box-border px-2 py-3;

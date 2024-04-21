@@ -53,10 +53,6 @@ const appStore = useAppStore()
   }
 
   &:hover {
-    @include useTheme {
-      box-shadow: 0 0 3px 1px rgba(getColor('primary'), 0.05);
-    }
-
     &::before {
       transform: translate(-50%, 50%);
     }
@@ -68,7 +64,11 @@ const appStore = useAppStore()
 
     @include useTheme {
       &:hover {
-        box-shadow: 0 0 10px 1px getColor('primary');
+        @if getMode() == 'light' {
+          background: rgba(adjust-hue(hsl(0, 50%, 85%), hue(getColor('primary'))), 0.8);
+        } @else {
+          background: rgba(adjust-hue(hsl(0, 50%, 15%), hue(getColor('primary'))), 0.8);
+        }
       }
       background: rgba(getModeVar('cardBgColor'), 0.7);
       //border: 1px solid rgba(getModeVar('textColor'), 0.089);

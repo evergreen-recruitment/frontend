@@ -130,8 +130,7 @@ for (let link of links) {
 
 .i-header {
   --shadow-opacity: 0.1;
-  @apply sticky w-full top-0 h-[55px] flex items-center justify-between px-4 backdrop-blur-xl z-10 box-border;
-
+  @apply sticky top-0 w-full h-[55px] flex items-center justify-between px-4 backdrop-blur-xl z-10 box-border;
   box-shadow: 0 2px 8px 0 rgba(0, 0, 0, var(--shadow-opacity));
 
   @include useTheme {

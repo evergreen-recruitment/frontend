@@ -27,7 +27,8 @@ body {
 }
 
 body {
-  @apply relative w-screen overflow-x-hidden;
+  @apply relative overflow-x-hidden;
+  width: 100%;
   transition:
     background-color 0.3s,
     color 0.3s;
