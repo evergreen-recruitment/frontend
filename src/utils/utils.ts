@@ -54,7 +54,6 @@ export function initSmoothScrolling() {
   window.lenis = new Lenis({
     lerp: 0.1,
     smoothWheel: true,
-    smoothTouch: true,
   })
   // @ts-ignore
   window.lenis.on('scroll', () => ScrollTrigger.update())
