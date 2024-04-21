@@ -105,6 +105,18 @@ export function findFullLocation(location: number) {
       }
     }
   }
+  if (path.length < 2) {
+    return [
+      {
+        name: '北京',
+        code: 101010000,
+      },
+      {
+        name: '北京',
+        code: 101010100,
+      },
+    ]
+  }
   return path
 }
 
@@ -139,7 +151,18 @@ export function findFullLocationByAnyName(name: string) {
       break
     }
   }
-
+  if (path.length < 2) {
+    return [
+      {
+        name: '北京',
+        code: 101010000,
+      },
+      {
+        name: '北京',
+        code: 101010100,
+      },
+    ]
+  }
   return path
 }
 
