@@ -41,16 +41,12 @@ function logout() {
             <Icon icon="FlagOutlined" />
             <router-link to="/user/delivery">&nbsp;投递信息</router-link>
           </a-menu-item>
-          <a-menu-item key="5">
-            <Icon icon="SettingOutlined" />
-            <router-link to="/settings">&nbsp;系统设置</router-link>
-          </a-menu-item>
           <a-menu-divider />
-          <a-menu-item key="6">
+          <a-menu-item key="5">
             <Icon icon="TeamOutlined" />
             <router-link to="/empAuth/login" @click="userStore.logout()">&nbsp;切换到招聘者</router-link>
           </a-menu-item>
-          <a-menu-item key="7">
+          <a-menu-item key="6">
             <Icon icon="LogoutOutlined" />
             <router-link to="/" @click="userStore.logout()">&nbsp;退出</router-link>
           </a-menu-item>

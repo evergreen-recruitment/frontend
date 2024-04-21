@@ -272,14 +272,5 @@ export function getAsyncRouterMap(): IRouter[] {
         },
       ],
     },
-    {
-      name: 'settings',
-      path: '/settings',
-      meta: {
-        icon: 'SettingOutlined',
-        title: '设置',
-      },
-      component: () => import('@/views/settings/index.vue'),
-    },
   ]
 }
