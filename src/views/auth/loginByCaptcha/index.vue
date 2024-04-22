@@ -5,7 +5,6 @@ import { isCompleteUserInfoApi, loginByCaptchaApi, type LoginByCaptchaFormType, 
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores'
 import { message } from 'ant-design-vue'
-import INavigator from '@/components/INavigator/INavigator.vue'
 
 const formRef = ref()
 
@@ -89,11 +88,13 @@ async function sendCode() {
     <div class="i-auth-title">验证码登录/注册</div>
     <div class="i-change">
       <div class="tabs">
-        <input id="radio-1" checked name="tabs" type="radio" />
-        <label class="tab" for="radio-1">我是求职者</label>
-        <input id="radio-2" name="tabs" type="radio" />
+        <input id="radio-1" checked name="tabs" type="radio" @click="$router.push('/auth/login')" />
+        <label class="tab" for="radio-1">
+          <span>我是求职者</span>
+        </label>
+        <input id="radio-2" name="tabs" type="radio" @click="$router.push('/empAuth/login')" />
         <label class="tab" for="radio-2">
-          <i-navigator to="/empAuth/login">我是招聘人</i-navigator>
+          <span>我是招聘人</span>
         </label>
         <span class="glider"></span>
       </div>

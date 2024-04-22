@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
 import router from '@/router'
-import INavigator from '@/components/INavigator/INavigator.vue'
 
 const formRef = ref()
 const formState = reactive({
@@ -23,13 +22,13 @@ function login() {
     <div class="i-empauth-title">招聘者登录</div>
     <div class="i-change">
       <div class="tabs">
-        <input id="radio-1" name="tabs" type="radio" />
+        <input id="radio-1" name="tabs" type="radio" @click="$router.push('/auth/login')" />
         <label class="tab" for="radio-1">
-          <i-navigator to="/auth/login">我是求职者</i-navigator>
+          <span>我是求职者</span>
         </label>
-        <input id="radio-2" checked name="tabs" type="radio" />
+        <input id="radio-2" checked name="tabs" type="radio" @click="$router.push('/empAuth/login')" />
         <label class="tab" for="radio-2">
-          <i-navigator to="/empAuth/login">我是招聘人</i-navigator>
+          <span>我是招聘人</span>
         </label>
         <span class="glider"></span>
       </div>
