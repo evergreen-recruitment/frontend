@@ -78,7 +78,17 @@ function submit() {
   })
 }
 
-const keywordWatch = watch(
+const jobFilterWatch = watch(
+  jobFilterData,
+  () => {
+    submit()
+  },
+  {
+    immediate: true,
+    deep: true,
+  }
+)
+const routerPathWatch = watch(
   () => router.currentRoute.value.query,
   async (newVal) => {
     if (router.currentRoute.value.name !== 'jobSearch') return
@@ -120,7 +130,8 @@ onMounted(async () => {
   hotCities.value = statusStore.hotCities
 })
 onUnmounted(() => {
-  keywordWatch()
+  jobFilterWatch()
+  routerPathWatch()
 })
 </script>
 

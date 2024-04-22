@@ -79,11 +79,7 @@ async function login() {
       label-align="left"
     >
       <a-form-item name="userAccount">
-        <a-input
-          v-model:value="formState.userAccount"
-          placeholder="请输入手机号/用户名"
-          size="large"
-        >
+        <a-input v-model:value="formState.userAccount" placeholder="请输入手机号/用户名" size="large">
           <template #prefix>
             <Icon icon="UserOutlined" />
           </template>
@@ -91,11 +87,7 @@ async function login() {
       </a-form-item>
 
       <a-form-item name="userPassword">
-        <a-input-password
-          v-model:value="formState.userPassword"
-          placeholder="请输入密码"
-          size="large"
-        >
+        <a-input-password v-model:value="formState.userPassword" placeholder="请输入密码" size="large">
           <template #prefix>
             <Icon icon="LockOutlined" />
           </template>

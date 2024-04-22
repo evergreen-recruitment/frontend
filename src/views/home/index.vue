@@ -4,10 +4,8 @@ import { useAppStore, useStatusStore, useUserStore } from '@/stores'
 import { getHomeKnowledgeGraphApi, getHotSearchApi } from '@/apis/home'
 import type { CompanyType } from '@/apis/company'
 import { getHotCompanyApi } from '@/apis/company'
-import INavigator from '@/components/INavigator/INavigator.vue'
 import type { JobCategoryType } from '@/apis/job'
 import { getNewJobsApi } from '@/apis/job'
-import Icon from '@/components/Icon/Icon.vue'
 import tutorial from '@/assets/tutorial/tutorial'
 import { homePageGuideState } from '@/tours'
 import { getScreenHeight, getScrollTop } from '@/utils/utils'
@@ -33,8 +31,6 @@ let header: HTMLElement | null
 let jobNameInterval: any = null
 
 onMounted(async () => {
-  const footer = document.querySelector('.footer') as HTMLElement
-  footer.style.top = 'calc(100vh - 58px)'
   isLogin.value = userStore.getUserState().isLogin.value
   delivered.value = await userStore.getUserState().isUploadApplication.value
   hotSearch.value = await getHotSearchApi()
@@ -313,6 +309,27 @@ window.addEventListener('scroll', scrollEvent)
           </a-carousel>
         </div>
       </div>
+      <div v-slide-in="{ distance: 200 }" class="job-recommend block-item">
+        <div class="title">岗位推荐</div>
+        <div class="sub-title">通过人工智能分析推荐最适合你的岗位</div>
+        <a-tabs v-model:activeKey="tabKey" animated style="width: 1200px; overflow: hidden; padding: 5px 0">
+          <a-tab-pane key="1" tab="热门岗位">
+            <div class="job-list">
+              <job-card v-for="job in recommendJobList" :key="job.id" :job="job" />
+            </div>
+          </a-tab-pane>
+          <a-tab-pane key="2" tab="最新岗位">
+            <div class="job-list">
+              <job-card v-for="job in newJobList" :key="job.id" :job="job" />
+            </div>
+          </a-tab-pane>
+          <a-tab-pane key="3" tab="附近岗位">
+            <div class="job-list">
+              <job-card v-for="job in nearbyJobList" :key="job.id" :job="job" />
+            </div>
+          </a-tab-pane>
+        </a-tabs>
+      </div>
       <div class="hot-company block-item">
         <div class="title">热门公司</div>
         <div class="sub-title">最热门的互联网公司</div>
@@ -338,27 +355,6 @@ window.addEventListener('scroll', scrollEvent)
             </i-navigator>
           </div>
         </div>
-      </div>
-      <div v-slide-in="{ distance: 200 }" class="job-recommend block-item">
-        <div class="title">岗位推荐</div>
-        <div class="sub-title">通过人工智能分析推荐最适合你的岗位</div>
-        <a-tabs v-model:activeKey="tabKey" animated style="width: 1200px; overflow: hidden; padding: 5px 0">
-          <a-tab-pane key="1" tab="热门岗位">
-            <div class="job-list">
-              <job-card v-for="job in recommendJobList" :key="job.id" :job="job" />
-            </div>
-          </a-tab-pane>
-          <a-tab-pane key="2" tab="最新岗位">
-            <div class="job-list">
-              <job-card v-for="job in newJobList" :key="job.id" :job="job" />
-            </div>
-          </a-tab-pane>
-          <a-tab-pane key="3" tab="附近岗位">
-            <div class="job-list">
-              <job-card v-for="job in nearbyJobList" :key="job.id" :job="job" />
-            </div>
-          </a-tab-pane>
-        </a-tabs>
       </div>
     </div>
   </div>
@@ -469,7 +465,7 @@ window.addEventListener('scroll', scrollEvent)
   }
 
   .home-page-bottom {
-    @apply relative w-full top-[100vh] overflow-y-hidden flex flex-col items-center justify-center;
+    @apply relative w-full mt-[100vh] overflow-y-hidden flex flex-col items-center justify-center;
     transition: top 0.8s;
 
     .banner {
@@ -586,65 +582,6 @@ window.addEventListener('scroll', scrollEvent)
       }
     }
 
-    .hot-company {
-      @apply w-full flex flex-col items-center justify-center overflow-x-hidden mt-4;
-      .hot-company-list {
-        @apply w-fit flex flex-col items-center justify-center space-y-2;
-
-        .company-item {
-          @apply block w-60 h-24 mx-5 flex items-center justify-center rounded-[var(--border-radius)];
-          @include useTheme {
-            background: getModeVar('cardBgColor');
-            &:hover {
-              @if getMode() == 'light' {
-                background: rgba(adjust-hue(hsl(0, 50%, 85%), hue(getColor('primary'))), 0.8);
-              } @else {
-                background: rgba(adjust-hue(hsl(0, 50%, 15%), hue(getColor('primary'))), 0.8);
-              }
-            }
-          }
-        }
-
-        .line-odd {
-          @apply w-full flex items-center justify-center;
-          transform: translateX(-32%);
-          animation: scrollToRightOdd 30s infinite linear;
-
-          img {
-            @apply w-20 h-20 mx-5;
-          }
-
-          @keyframes scrollToRightOdd {
-            0% {
-              transform: translateX(-32%);
-            }
-            100% {
-              transform: translateX(32%);
-            }
-          }
-        }
-
-        .line-even {
-          @apply w-full flex items-center justify-center;
-          transform: translateX(-32%);
-          animation: scrollToRightEven 45s infinite linear;
-
-          img {
-            @apply w-20 h-20 mx-5;
-          }
-
-          @keyframes scrollToRightEven {
-            0% {
-              transform: translateX(-32%);
-            }
-            100% {
-              transform: translateX(32%);
-            }
-          }
-        }
-      }
-    }
-
     .job-recommend {
       @apply box-border;
       .job-list {
@@ -743,6 +680,65 @@ window.addEventListener('scroll', scrollEvent)
 
           .not-login {
             @apply flex flex-col items-center justify-center w-full h-full text-2xl;
+          }
+        }
+      }
+    }
+
+    .hot-company {
+      @apply w-full flex flex-col items-center justify-center overflow-x-hidden my-4;
+      .hot-company-list {
+        @apply w-fit flex flex-col items-center justify-center space-y-2;
+
+        .company-item {
+          @apply block w-60 h-24 mx-5 flex items-center justify-center rounded-[var(--border-radius)];
+          @include useTheme {
+            background: getModeVar('cardBgColor');
+            &:hover {
+              @if getMode() == 'light' {
+                background: rgba(adjust-hue(hsl(0, 50%, 85%), hue(getColor('primary'))), 0.8);
+              } @else {
+                background: rgba(adjust-hue(hsl(0, 50%, 15%), hue(getColor('primary'))), 0.8);
+              }
+            }
+          }
+        }
+
+        .line-odd {
+          @apply w-full flex items-center justify-center;
+          transform: translateX(-32%);
+          animation: scrollToRightOdd 30s infinite linear;
+
+          img {
+            @apply w-20 h-20 mx-5;
+          }
+
+          @keyframes scrollToRightOdd {
+            0% {
+              transform: translateX(-32%);
+            }
+            100% {
+              transform: translateX(32%);
+            }
+          }
+        }
+
+        .line-even {
+          @apply w-full flex items-center justify-center;
+          transform: translateX(-32%);
+          animation: scrollToRightEven 45s infinite linear;
+
+          img {
+            @apply w-20 h-20 mx-5;
+          }
+
+          @keyframes scrollToRightEven {
+            0% {
+              transform: translateX(-32%);
+            }
+            100% {
+              transform: translateX(32%);
+            }
           }
         }
       }
