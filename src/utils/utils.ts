@@ -218,6 +218,10 @@ export function findFullJobTypeByName(jobTypeName: string) {
   return path
 }
 
+/**
+ * 通过 二级 industryCode 找到整个路径
+ * @param industryCode
+ */
 export function findFullIndustry(industryCode: number) {
   const statusStore = useStatusStore()
   const industryList = statusStore.industryList
@@ -238,4 +242,32 @@ export function findFullIndustry(industryCode: number) {
     }
   }
   return path
+}
+
+/**
+ * 获取页面滚动距离
+ */
+export function getScrollTop() {
+  return document.documentElement.scrollTop || document.body.scrollTop
+}
+
+/**
+ * 获取页面滚动高度
+ */
+export function getScrollHeight() {
+  return document.documentElement.scrollHeight || document.body.scrollHeight
+}
+
+/**
+ * 获取页面宽度
+ */
+export function getScreenWidth() {
+  return document.documentElement.clientWidth || document.body.clientWidth
+}
+
+/**
+ * 获取页面高度
+ */
+export function getScreenHeight() {
+  return document.documentElement.clientHeight || document.body.clientHeight
 }

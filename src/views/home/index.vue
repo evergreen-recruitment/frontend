@@ -10,6 +10,7 @@ import { getNewJobsApi } from '@/apis/job'
 import Icon from '@/components/Icon/Icon.vue'
 import tutorial from '@/assets/tutorial/tutorial'
 import { homePageGuideState } from '@/tours'
+import { getScreenHeight, getScrollTop } from '@/utils/utils'
 
 const userStore = useUserStore()
 const isLogin = ref(false)
@@ -66,11 +67,19 @@ onUnmounted(() => {
   window.removeEventListener('scroll', () => {})
 })
 
+function arrowDownClick() {
+  window.scrollTo({
+    top: getScreenHeight(),
+    behavior: 'smooth',
+  })
+}
+
 function scrollEvent() {
   const scrollTop = document.documentElement.scrollTop || document.body.scrollTop
   const scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight
   const clientHeight = document.documentElement.clientHeight || document.body.clientHeight
-
+  // 控制下滑箭头的显示
+  const arrowDown = document.querySelector('.down-arrow') as HTMLElement
   homePageBottom = document.querySelector('.mask')
   header = document.querySelector('.i-header')
 
@@ -81,6 +90,14 @@ function scrollEvent() {
 
   homePageBottom?.style.setProperty('--blur', `${blurPercent * 10}px`)
   homePageBottom?.style.setProperty('--opacity', `${opacityPercent}`)
+
+  if (getScrollTop() > 0) {
+    arrowDown.style.opacity = '0'
+    arrowDown.style.pointerEvents = 'none'
+  } else {
+    arrowDown.style.opacity = '1'
+    arrowDown.style.pointerEvents = 'auto'
+  }
 
   // if (searchBarPercent > 0.7) {
   //   searchBarTitle?.classList.add('title-hidden')
@@ -105,8 +122,6 @@ window.addEventListener('scroll', scrollEvent)
       :steps="homePageGuideState.steps"
       @close="homePageGuideState.open = false"
     />
-    <!--<i-search-bar class="search-bar" />-->
-    <!--<job-search-home v-model:keyword="searchState.keyword" :hide-title="hideSearchBarTitle" class="search-bar" />-->
     <div v-if="true" class="home-page-background">
       <div class="left-panel">
         <div class="title-panel">
@@ -139,6 +154,28 @@ window.addEventListener('scroll', scrollEvent)
       </div>
       <div class="right-panel">
         <img src="@/assets/images/bg1.svg" alt="" />
+      </div>
+      <div class="down-arrow" @click="arrowDownClick">
+        <div class="tip">向下滚动</div>
+        <div class="down-arrow-inner">
+          <svg
+            stroke="currentColor"
+            fill="currentColor"
+            stroke-width="0"
+            viewBox="0 0 512 512"
+            height="1em"
+            width="1em"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fill="none"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="48"
+              d="M112 184l144 144 144-144"
+            />
+          </svg>
+        </div>
       </div>
     </div>
     <div class="mask"></div>
@@ -367,6 +404,27 @@ window.addEventListener('scroll', scrollEvent)
 
   .home-page-background {
     @apply fixed w-full top-0 h-[100vh] flex z-0;
+
+    .down-arrow {
+      @apply fixed left-0 right-0 bottom-0 flex justify-center items-center flex-col;
+      -webkit-tap-highlight-color: transparent;
+      transition: opacity 0.3s ease;
+      z-index: 9999;
+
+      .tip {
+        @apply text-sm text-center;
+      }
+
+      .down-arrow-inner {
+        @apply w-12 h-12 p-4 pt-0  flex items-center justify-center cursor-pointer;
+        font-size: min(60px, 12vw);
+        @include useTheme {
+          color: color-mix(in srgb, getColor('primary'), #fff 30%);
+        }
+        opacity: 0.55;
+        transition: opacity 0.25s ease;
+      }
+    }
 
     .left-panel {
       @apply relative w-full h-full z-10;
