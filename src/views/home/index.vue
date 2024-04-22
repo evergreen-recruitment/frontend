@@ -324,7 +324,6 @@ window.addEventListener('scroll', scrollEvent)
         </a-tabs>
       </div>
     </div>
-    <bottom-float-btn />
   </div>
 </template>
 

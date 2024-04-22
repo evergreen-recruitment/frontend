@@ -49,10 +49,10 @@ const minWidthMarks = ref({
     v-model:open="modelState.open"
     title="设置"
     :footer="null"
-    width="80%"
+    width="65vw"
     centered
     style="border-radius: var(--border-radius); overflow: hidden"
-    :bodyStyle="{ padding: 0, maxHeight: 'calc(100vh - 100px)', overflow: 'auto' }"
+    :bodyStyle="{ padding: 0, height: '80vh', overflow: 'auto' }"
   >
     <div class="setting-page">
       <div class="setting-page__inner">

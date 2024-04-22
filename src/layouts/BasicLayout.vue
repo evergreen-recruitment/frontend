@@ -48,6 +48,7 @@ onBeforeMount(async () => {
       </transition-slide>
     </router-view>
     <i-footer />
+    <bottom-float-btn />
   </div>
 </template>
 

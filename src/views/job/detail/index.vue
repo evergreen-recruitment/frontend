@@ -439,7 +439,6 @@ onUnmounted(() => {
         </div>
       </div>
     </div>
-    <bottom-float-btn />
   </div>
 </template>
 
