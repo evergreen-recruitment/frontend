@@ -81,7 +81,7 @@ async function login() {
       <a-form-item name="userAccount">
         <a-input
           v-model:value="formState.userAccount"
-          :placeholder="$t('user.login.placeholder.username')"
+          placeholder="请输入手机号/用户名"
           size="large"
         >
           <template #prefix>
@@ -93,7 +93,7 @@ async function login() {
       <a-form-item name="userPassword">
         <a-input-password
           v-model:value="formState.userPassword"
-          :placeholder="$t('user.login.placeholder.password')"
+          placeholder="请输入密码"
           size="large"
         >
           <template #prefix>
@@ -109,7 +109,7 @@ async function login() {
 
       <a-form-item>
         <a-button :loading="loading" html-type="submit" style="width: 100%; height: 45px" type="primary" @click="login">
-          {{ $t('user.login.submit') }}
+          登录
         </a-button>
       </a-form-item>
 

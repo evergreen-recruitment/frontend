@@ -19,7 +19,17 @@ const rules = reactive({
   phone: [{ required: true, message: '请输入手机号', trigger: 'blur' }],
   verifyCode: [{ required: true, message: '请输入验证码', trigger: 'blur' }],
   userPassword: [{ required: true, message: '请输入新密码', trigger: 'blur' }],
-  confirmNewPassword: [{ required: true, message: '请确认新密码', trigger: 'blur' }],
+  confirmNewPassword: [
+    { required: true, message: '请再次输入密码', trigger: 'blur' },
+    {
+      validator: (rule: any, value: any) => {
+        if (value !== formState.userPassword) {
+          return Promise.reject('两次密码输入不一致')
+        }
+        return Promise.resolve()
+      },
+    },
+  ],
 })
 
 const router = useRouter()
@@ -78,7 +88,7 @@ async function sendCode() {
       label-align="left"
     >
       <a-form-item name="phone">
-        <a-input v-model:value="formState.phone" :placeholder="$t('user.login.placeholder.username')" size="large">
+        <a-input v-model:value="formState.phone" placeholder="请输入手机号" size="large">
           <template #prefix>
             <Icon icon="PhoneOutlined" />
           </template>
@@ -86,7 +96,7 @@ async function sendCode() {
       </a-form-item>
 
       <a-form-item name="verifyCode">
-        <a-input v-model:value="formState.verifyCode" :placeholder="$t('user.login.placeholder.captcha')" size="large">
+        <a-input v-model:value="formState.verifyCode" placeholder="请输入验证码" size="large">
           <template #prefix>
             <Icon icon="SecurityScanOutlined" />
           </template>
@@ -99,11 +109,7 @@ async function sendCode() {
       </a-form-item>
 
       <a-form-item name="userPassword">
-        <a-input-password
-          v-model:value="formState.userPassword"
-          :placeholder="$t('user.login.placeholder.password')"
-          size="large"
-        >
+        <a-input-password v-model:value="formState.userPassword" placeholder="请输入密码" size="large">
           <template #prefix>
             <Icon icon="LockOutlined" />
           </template>
@@ -111,11 +117,7 @@ async function sendCode() {
       </a-form-item>
 
       <a-form-item name="confirmNewPassword">
-        <a-input-password
-          v-model:value="formState.confirmNewPassword"
-          :placeholder="$t('user.login.placeholder.password')"
-          size="large"
-        >
+        <a-input-password v-model:value="formState.confirmNewPassword" placeholder="请再次输入密码" size="large">
           <template #prefix>
             <Icon icon="LockOutlined" />
           </template>

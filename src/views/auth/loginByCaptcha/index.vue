@@ -108,12 +108,7 @@ async function sendCode() {
       label-align="left"
     >
       <a-form-item name="phone">
-        <a-input
-          v-model:value="formState.phone"
-          :placeholder="$t('user.login.placeholder.username')"
-          size="large"
-          style="height: 47px"
-        >
+        <a-input v-model:value="formState.phone" placeholder="请输入手机号/用户名" size="large" style="height: 47px">
           <template #prefix>
             <Icon icon="PhoneOutlined" />
           </template>
@@ -121,12 +116,7 @@ async function sendCode() {
       </a-form-item>
 
       <a-form-item name="verifyCode">
-        <a-input
-          v-model:value="formState.verifyCode"
-          :placeholder="$t('user.login.placeholder.captcha')"
-          size="large"
-          style="height: 47px"
-        >
+        <a-input v-model:value="formState.verifyCode" placeholder="请输入验证码" size="large" style="height: 47px">
           <template #prefix>
             <Icon icon="SecurityScanOutlined" />
           </template>
@@ -150,7 +140,7 @@ async function sendCode() {
           style="width: 100%; height: 45px; margin-bottom: 5px"
           type="primary"
           @click="login"
-          >{{ $t('user.login.submit') }}
+          >登录/注册
         </a-button>
 
         <!--微信登录，支付宝登录，QQ登录，-->
