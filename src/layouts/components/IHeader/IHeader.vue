@@ -32,7 +32,7 @@ const links = reactive<LinkType[]>([
   },
   {
     id: '3',
-    title: '搜索',
+    title: '岗位',
     path: '/job/search',
     outer: false,
   },

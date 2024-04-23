@@ -8,7 +8,7 @@ import type { JobCategoryType } from '@/apis/job'
 import { getNewJobsApi } from '@/apis/job'
 import tutorial from '@/assets/tutorial/tutorial'
 import { homePageGuideState } from '@/tours'
-import { getScreenHeight, getScrollTop } from '@/utils/utils'
+import { getClientHeight, getScreenHeight, getScrollTop } from '@/utils/utils'
 
 const userStore = useUserStore()
 const isLogin = ref(false)
@@ -37,18 +37,14 @@ function arrowDownClick() {
 }
 
 function scrollEvent() {
-  const scrollTop = document.documentElement.scrollTop || document.body.scrollTop
-  const scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight
-  const clientHeight = document.documentElement.clientHeight || document.body.clientHeight
+  const scrollTop = getScrollTop()
+  const clientHeight = getClientHeight()
   // 控制下滑箭头的显示
   const arrowDown = document.querySelector('.down-arrow') as HTMLElement
   homePageBottom = document.querySelector('.mask')
-  header = document.querySelector('.i-header')
 
   const blurPercent = Number((scrollTop / clientHeight > 1 ? 1 : scrollTop / clientHeight).toFixed(2))
   const opacityPercent = Number((scrollTop / clientHeight > 0.8 ? 0.8 : scrollTop / clientHeight).toFixed(2))
-
-  header?.style.setProperty('--shadow-opacity', `${(1 - opacityPercent) * 0.2}`)
 
   homePageBottom?.style.setProperty('--blur', `${blurPercent * 10}px`)
   homePageBottom?.style.setProperty('--opacity', `${opacityPercent}`)
@@ -60,15 +56,6 @@ function scrollEvent() {
     arrowDown.style.opacity = '1'
     arrowDown.style.pointerEvents = 'auto'
   }
-
-  // if (searchBarPercent > 0.7) {
-  //   searchBarTitle?.classList.add('title-hidden')
-  //   setTimeout(() => (hideSearchBarTitle.value = true), 500)
-  // } else if (searchBarPercent < 0.2) {
-  //   searchBarTitle?.classList.remove('title-hidden')
-  //   hideSearchBarTitle.value = false
-  //   // setTimeout(() => (hideSearchBarTitle.value = false), 500)
-  // }
 }
 
 // 监听页面滚动事件

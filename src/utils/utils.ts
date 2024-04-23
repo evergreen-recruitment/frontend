@@ -271,3 +271,10 @@ export function getScreenWidth() {
 export function getScreenHeight() {
   return document.documentElement.clientHeight || document.body.clientHeight
 }
+
+/**
+ * 获取客户页面高度
+ */
+export function getClientHeight() {
+  return document.documentElement.clientHeight || document.body.clientHeight
+}
