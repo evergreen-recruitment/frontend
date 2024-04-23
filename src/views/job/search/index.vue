@@ -86,7 +86,7 @@ const jobFilterWatch = watch(
   {
     immediate: true,
     deep: true,
-  }
+  },
 )
 const routerPathWatch = watch(
   () => router.currentRoute.value.query,

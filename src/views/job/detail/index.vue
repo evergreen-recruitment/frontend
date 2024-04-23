@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import { computed, onMounted, onUnmounted, reactive, ref, watchEffect } from 'vue'
+import { computed, nextTick, onMounted, onUnmounted, reactive, ref, watchEffect } from 'vue'
 import router from '@/router'
-import { useAppStore, useStatusStore, useUserStore } from '@/stores'
+import { useAppStore, useUserStore } from '@/stores'
 import { getJobDetailApi, type JobItemType, jobSearchApi, type SimpleJobItemType } from '@/apis/job'
 import Icon from '@/components/Icon/Icon.vue'
 import { CompanyScaleEnum, CompanyStageEnum } from '@/apis/company'
@@ -12,7 +12,8 @@ import { jobDetailGuideState } from '@/tours'
 
 const appStore = useAppStore()
 const userStore = useUserStore()
-const statusStore = useStatusStore()
+const isLogin = ref(false)
+const delivered = ref(false)
 
 // prettier-ignore
 const welfareTagsColor = ref<string[]>(['pink', 'red', 'orange', 'green', 'cyan', 'blue', 'purple', 'pink', 'red', 'orange', 'green', 'cyan', 'blue', 'purple'])
@@ -307,6 +308,10 @@ onUnmounted(() => {
   routerWatch()
   window.removeEventListener('scroll', () => {})
 })
+nextTick(async () => {
+  isLogin.value = userStore.getUserState().isLogin.value
+  delivered.value = await userStore.getUserState().isUploadApplication.value
+})
 </script>
 
 <template>
@@ -372,7 +377,13 @@ onUnmounted(() => {
               </div>
             </div>
             <a-divider />
-            <i-charts :option="stackOptions" />
+            <div v-if="!isLogin || !delivered" class="not-login">
+              <div class="title">{{ !isLogin ? '未登录' : !delivered ? '未上传简历' : '' }}</div>
+              <div class="desc">
+                <a-button type="primary" @click="$router.push('/recommend')">根据推荐步骤使用本系统</a-button>
+              </div>
+            </div>
+            <i-charts v-else :option="stackOptions" />
           </div>
           <div v-slide-in="{ enter: true }" class="job-detail__ability-ranking card">
             <div class="job-detail__side--title chart-title">
@@ -382,7 +393,13 @@ onUnmounted(() => {
             <a-divider />
             <div class="job-detail__ranking">
               <!--<i3-d-progress-bar :progress="Math.random() * 50 + 50" />-->
-              <i-charts :option="rankingOptions" />
+              <div v-if="!isLogin || !delivered" class="not-login">
+                <div class="title">{{ !isLogin ? '未登录' : !delivered ? '未上传简历' : '' }}</div>
+                <div class="desc">
+                  <a-button type="primary" @click="$router.push('/recommend')">根据推荐步骤使用本系统</a-button>
+                </div>
+              </div>
+              <i-charts v-else :option="rankingOptions" />
             </div>
           </div>
         </div>
@@ -573,7 +590,7 @@ onUnmounted(() => {
           }
 
           .job-detail__ranking {
-            @apply relative;
+            @apply h-full relative;
 
             :deep(.chart) {
               @apply h-[500px];

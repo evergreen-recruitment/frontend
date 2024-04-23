@@ -143,6 +143,11 @@ body {
   }
 }
 
+// 通用未登录样式
+.not-login {
+  @apply flex flex-col items-center justify-center w-full h-full text-2xl;
+}
+
 // 通用卡片样式
 .card {
   @apply shadow-md rounded-[var(--border-radius)];

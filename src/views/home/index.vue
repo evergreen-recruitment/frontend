@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { onMounted, onUnmounted, ref } from 'vue'
-import { useAppStore, useStatusStore, useUserStore } from '@/stores'
+import { nextTick, onMounted, onUnmounted, ref } from 'vue'
+import { useStatusStore, useUserStore } from '@/stores'
 import { getHomeKnowledgeGraphApi, getHotSearchApi } from '@/apis/home'
 import type { CompanyType } from '@/apis/company'
 import { getHotCompanyApi } from '@/apis/company'
@@ -12,7 +12,7 @@ import { getScreenHeight, getScrollTop } from '@/utils/utils'
 
 const userStore = useUserStore()
 const isLogin = ref(false)
-const appStore = useAppStore()
+const delivered = ref(false)
 const statusStore = useStatusStore()
 const bannerLeftSideCollapsed = ref(false)
 const tabKey = ref('1')
@@ -24,44 +24,10 @@ const newJobList = ref()
 const nearbyJobList = ref()
 const knowledgeGraphData = ref()
 const tutorialList = ref(tutorial)
-const delivered = ref(false)
 
 let homePageBottom: HTMLElement | null
 let header: HTMLElement | null
 let jobNameInterval: any = null
-
-onMounted(async () => {
-  isLogin.value = userStore.getUserState().isLogin.value
-  delivered.value = await userStore.getUserState().isUploadApplication.value
-  hotSearch.value = await getHotSearchApi()
-  hotCompanyList.value = await getHotCompanyApi()
-  newJobList.value = await getNewJobsApi({ pageSize: 12 })
-  recommendJobList.value = await getNewJobsApi({ current: 2, pageSize: 12 })
-  nearbyJobList.value = await getNewJobsApi({ current: 3, pageSize: 12 })
-  knowledgeGraphData.value = await getHomeKnowledgeGraphApi()
-  category.value = statusStore.jobCategory
-
-  // 设置定时器 每3s 减少--job-name-top 65px 一共减少 hotSearch.length * 65px
-  jobNameInterval = setInterval(() => {
-    const jobName = document.querySelector('.job-name') as HTMLElement
-    const jobNameOuter = document.querySelector('.job-name-outer') as HTMLElement
-    const jobNameTop = Number(jobName.style.getPropertyValue('--job-name-top').replace('px', ''))
-    jobName.style.setProperty('--job-name-top', `${jobNameTop - 61}px`)
-    if (jobNameTop <= -60 * (hotSearch.value.length - 1)) {
-      jobName.style.setProperty('--job-name-top', '0px')
-    }
-  }, 3000)
-
-  // 初始化页面时使用一次
-  scrollEvent()
-})
-
-onUnmounted(() => {
-  const footer = document.querySelector('.footer') as HTMLElement
-  footer.style.top = '0'
-  clearInterval(jobNameInterval)
-  window.removeEventListener('scroll', () => {})
-})
 
 function arrowDownClick() {
   window.scrollTo({
@@ -107,6 +73,42 @@ function scrollEvent() {
 
 // 监听页面滚动事件
 window.addEventListener('scroll', scrollEvent)
+
+onMounted(async () => {
+  hotSearch.value = await getHotSearchApi()
+  hotCompanyList.value = await getHotCompanyApi()
+  newJobList.value = await getNewJobsApi({ pageSize: 12 })
+  recommendJobList.value = await getNewJobsApi({ current: 2, pageSize: 12 })
+  nearbyJobList.value = await getNewJobsApi({ current: 3, pageSize: 12 })
+  knowledgeGraphData.value = await getHomeKnowledgeGraphApi()
+  category.value = statusStore.jobCategory
+
+  // 设置定时器 每3s 减少--job-name-top 65px 一共减少 hotSearch.length * 65px
+  jobNameInterval = setInterval(() => {
+    const jobName = document.querySelector('.job-name') as HTMLElement
+    const jobNameOuter = document.querySelector('.job-name-outer') as HTMLElement
+    const jobNameTop = Number(jobName.style.getPropertyValue('--job-name-top').replace('px', ''))
+    jobName.style.setProperty('--job-name-top', `${jobNameTop - 61}px`)
+    if (jobNameTop <= -60 * (hotSearch.value.length - 1)) {
+      jobName.style.setProperty('--job-name-top', '0px')
+    }
+  }, 3000)
+
+  // 初始化页面时使用一次
+  scrollEvent()
+})
+
+onUnmounted(() => {
+  const footer = document.querySelector('.footer') as HTMLElement
+  footer.style.top = '0'
+  clearInterval(jobNameInterval)
+  window.removeEventListener('scroll', () => {})
+})
+
+nextTick(async () => {
+  isLogin.value = userStore.getUserState().isLogin.value
+  delivered.value = await userStore.getUserState().isUploadApplication.value
+})
 </script>
 
 <template>
@@ -676,10 +678,6 @@ window.addEventListener('scroll', scrollEvent)
 
           @include useTheme {
             background: rgba(getModeVar('cardBgColor'), 0.9);
-          }
-
-          .not-login {
-            @apply flex flex-col items-center justify-center w-full h-full text-2xl;
           }
         }
       }
