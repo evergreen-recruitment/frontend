@@ -178,7 +178,7 @@ nextTick(async () => {
     </div>
     <div class="mask"></div>
     <div class="home-page-bottom">
-      <div v-slide-in="{ distance: 200 }" class="user-panel block-item">
+      <div class="user-panel block-item">
         <div class="user-aside-outer">
           <div v-if="userStore.token" class="user-aside">
             <div class="user-info">
@@ -311,24 +311,33 @@ nextTick(async () => {
           </a-carousel>
         </div>
       </div>
-      <div v-slide-in="{ distance: 200 }" class="job-recommend block-item">
+      <div class="job-recommend block-item">
         <div class="title">岗位推荐</div>
         <div class="sub-title">通过人工智能分析推荐最适合你的岗位</div>
         <a-tabs v-model:activeKey="tabKey" animated style="width: 1200px; overflow: hidden; padding: 5px 0">
           <a-tab-pane key="1" tab="热门岗位">
-            <div class="job-list">
+            <div v-if="recommendJobList" class="job-list">
               <job-card v-for="job in recommendJobList" :key="job.id" :job="job" />
             </div>
+            <i-card v-else>
+              <a-skeleton :paragraph="{ rows: 6 }" active />
+            </i-card>
           </a-tab-pane>
           <a-tab-pane key="2" tab="最新岗位">
-            <div class="job-list">
-              <job-card v-for="job in newJobList" :key="job.id" :job="job" />
+            <div v-if="recommendJobList" class="job-list">
+              <job-card v-for="job in recommendJobList" :key="job.id" :job="job" />
             </div>
+            <i-card v-else>
+              <a-skeleton :paragraph="{ rows: 6 }" active />
+            </i-card>
           </a-tab-pane>
           <a-tab-pane key="3" tab="附近岗位">
-            <div class="job-list">
-              <job-card v-for="job in nearbyJobList" :key="job.id" :job="job" />
+            <div v-if="recommendJobList" class="job-list">
+              <job-card v-for="job in recommendJobList" :key="job.id" :job="job" />
             </div>
+            <i-card v-else>
+              <a-skeleton :paragraph="{ rows: 6 }" active />
+            </i-card>
           </a-tab-pane>
         </a-tabs>
       </div>

@@ -41,26 +41,6 @@ export const homePageGuideState = reactive({
       description: '这里包含了你注册时上传的头像和姓名',
       target: () => document.querySelector('.i-header .i-avatar') as HTMLElement,
     },
-    // {
-    //   title: '个人功能',
-    //   description: '在这里，你可以选择修改信息、上传简历、分析投递信息、系统设置等等',
-    //   target: () => {
-    //     const avatar = document.querySelector('.i-header .i-avatar .i-avatar__wrapper') as HTMLElement
-    //     avatar.click()
-    //     setTimeout(() => {}, 300)
-    //     return document.querySelector('.ant-dropdown-menu') as HTMLElement
-    //   },
-    // },
-    // {
-    //   title: '应聘者登录',
-    //   description: '注册成为应聘者，你可以在本网站挑选最心仪的岗位，享受来自我们最智能的推荐算法的效果',
-    //   target: () => document.querySelector('.i-header a[href="/auth/loginByCaptcha"]') as HTMLElement,
-    // },
-    // {
-    //   title: '招聘者登录',
-    //   description: '除了成为应聘者，你还可以成为招聘人，发布岗位，招聘能人贤者',
-    //   target: () => document.querySelector('.i-header a[href="/empAuth/login"]') as HTMLElement,
-    // },
     {
       title: '首页内容',
       description: '这里是首页的内容，包含知识图谱、岗位分类、教程推荐、热门公司、推荐岗位等等。',
@@ -77,36 +57,16 @@ export const homePageGuideState = reactive({
       description: '使用知识图谱分析你的简历，为你推荐最适合的岗位',
       target: () => document.querySelector('.home-page-bottom .knowledge-graph') as HTMLElement,
     },
-    // {
-    //   title: 'IT岗位分类',
-    //   description: '本系统包含83个细分岗位分类，同时提供每个岗位的学习路径和教程，您可以根据需求自行选择',
-    //   // mask: false,
-    //   scrollIntoViewOptions: {
-    //     behavior: 'smooth',
-    //     block: 'center',
-    //     inline: 'nearest',
-    //   },
-    //   target: () => {
-    //     const banner = document.querySelector('.home-page-bottom .banner') as HTMLElement
-    //     // banner.scrollIntoView({ behavior: 'smooth' })
-    //     // window.scrollBy({
-    //     //   top: banner.getBoundingClientRect().top - window.innerHeight,
-    //     //   behavior: 'smooth',
-    //     // })
-    //     return banner
-    //   },
-    // },
-    {
-      title: '热门公司',
-      description: '我们分析出我们岗位最热门的30个公司，以跑马灯流水线的方式展现',
-      // mask: false,
-      target: () => document.querySelector('.home-page-bottom .hot-company') as HTMLElement,
-    },
     {
       title: '推荐岗位',
       description: '我们使用自研的智能推荐算法，分析岗位数据库，推荐最适合的岗位信息',
+      target: () => document.querySelector('.home-page-bottom .job-recommend .job-list') as HTMLElement,
+    },
+    {
+      title: '热门公司',
+      description: '这是我们分析出的当前系统所涉岗位最热门的30个公司',
       placement: 'top',
-      target: () => document.querySelector('.home-page-bottom .job-recommend') as HTMLElement,
+      target: () => document.querySelector('.home-page-bottom .hot-company') as HTMLElement,
     },
   ] as TourProps['steps'],
   open: computed({
