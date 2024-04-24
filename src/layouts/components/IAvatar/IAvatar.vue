@@ -31,7 +31,7 @@ const userInfo = computed<UserInfoType>(() => userStore.userInfo)
           </a-menu-item>
           <a-menu-item key="3">
             <Icon icon="EyeOutlined" />
-            <router-link to="/user/previewApplication">&nbsp;预览在线简历</router-link>
+            <router-link to="/blank/user/previewApplication">&nbsp;预览在线简历</router-link>
           </a-menu-item>
           <a-menu-item key="4">
             <Icon icon="FlagOutlined" />

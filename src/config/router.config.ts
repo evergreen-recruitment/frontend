@@ -3,6 +3,7 @@ import AuthLayout from '@/layouts/AuthLayout.vue'
 import EmpAuthLayout from '@/layouts/EmpAuthLayout.vue'
 import EmpBasicLayout from '@/layouts/EmpBasicLayout.vue'
 import i18n from '@/locales'
+import BlankLayout from '@/layouts/BlankLayout.vue'
 
 export const constantRouterMap = [
   {
@@ -11,6 +12,23 @@ export const constantRouterMap = [
     redirect: '/home',
     component: BasicLayout,
     children: [],
+  },
+  {
+    name: 'blankLayout',
+    path: '/blank',
+    component: BlankLayout,
+    children: [
+      {
+        name: 'previewApplication',
+        path: '/blank/user/previewApplication',
+        meta: {
+          icon: 'UserOutlined',
+          title: ' 预览在线简历',
+          requireAuth: true,
+        },
+        component: () => import('@/views/user/previewApplication/index.vue'),
+      },
+    ],
   },
   {
     name: 'authLayout',
@@ -251,16 +269,6 @@ export function getAsyncRouterMap(): IRouter[] {
             requireAuth: true,
           },
           component: () => import('@/views/user/application/index.vue'),
-        },
-        {
-          name: 'previewApplication',
-          path: '/user/previewApplication',
-          meta: {
-            icon: 'UserOutlined',
-            title: ' 预览在线简历',
-            requireAuth: true,
-          },
-          component: () => import('@/views/user/previewApplication/index.vue'),
         },
         {
           name: 'delivery',

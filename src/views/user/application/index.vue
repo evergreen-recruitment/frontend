@@ -130,7 +130,7 @@ const applicationOptimizeList = ref([
     <div class="application-page-left">
       <user-panel :userInfo="userInfo">
         <template #float-top>
-          <a-button type="primary" @click="$router.push('/user/previewApplication')">查看在线简历</a-button>
+          <a-button type="primary" @click="$router.push('/blank/user/previewApplication')">查看在线简历</a-button>
         </template>
         <template #float-bottom>
           <a-button type="text" @click="$router.push('/user/center')"> 编辑个人信息</a-button>
