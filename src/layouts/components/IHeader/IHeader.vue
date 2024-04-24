@@ -2,7 +2,6 @@
 import { useAppStore, useStatusStore, useUserStore } from '@/stores'
 import { computed, reactive } from 'vue'
 import { getAssetsFile } from '@/utils/utils'
-import INavigator from '@/components/INavigator/INavigator.vue'
 import IAvatar from '@/layouts/components/IAvatar/IAvatar.vue'
 import { constantRouterMap, getAsyncRouterMap, type IRouter } from '@/config/router.config'
 

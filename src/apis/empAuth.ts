@@ -11,3 +11,9 @@ export type EmpInfoType = {
   applyStatus?: number
   createTime?: string
 }
+
+export type SimpleEmployeeType = {
+  realName: string
+  avatar: string
+  jobIds: string[]
+}

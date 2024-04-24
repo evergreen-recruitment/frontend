@@ -114,12 +114,12 @@ export const jobSearchPageGuideState = reactive({
       title: '搜索结果',
       description: '这里是搜索的结果',
       // mask: false,
-      target: () => document.querySelector('.job .job-list-outer .job-list') as HTMLElement,
+      target: () => document.querySelector('.job .company-list-outer .job-list') as HTMLElement,
     },
     {
       title: '分页按钮',
       description: '在这里您可以选择翻页或者到指定页',
-      target: () => document.querySelector('.job .job-list-outer .page-btn') as HTMLElement,
+      target: () => document.querySelector('.job .company-list-outer .page-btn') as HTMLElement,
     },
     {
       title: '知识图谱',

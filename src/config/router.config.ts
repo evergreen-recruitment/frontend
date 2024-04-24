@@ -190,6 +190,7 @@ export function getAsyncRouterMap(): IRouter[] {
       meta: {
         icon: 'BankOutlined',
         title: '公司搜索',
+        width: '100%',
       },
       component: () => import('@/views/company/search/index.vue'),
     },
@@ -199,6 +200,7 @@ export function getAsyncRouterMap(): IRouter[] {
       meta: {
         icon: 'BankOutlined',
         title: '公司详情',
+        width: '100%',
       },
       component: () => import('@/views/company/detail/index.vue'),
     },

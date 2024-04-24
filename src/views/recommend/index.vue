@@ -78,7 +78,7 @@ onMounted(async () => {
       <a-steps :current="compCurrent" :items="items" @change="onStepsChange" />
     </i-card>
     <div v-if="compCurrent === 5" v-slide-in="{ distance: 200 }" class="job-recommend block-item">
-      <div class="job-list-outer">
+      <div class="company-list-outer">
         <div class="job-list">
           <job-card v-for="job in recommendJobList" :key="job.id" :job="job" />
         </div>
@@ -113,7 +113,7 @@ onMounted(async () => {
   .job-recommend {
     @apply my-5 mx-auto flex flex-col  justify-center box-border;
 
-    .job-list-outer {
+    .company-list-outer {
       @apply flex items-center justify-center;
       .job-list {
         @apply grid gap-[15px] w-[calc(100%-1rem)];

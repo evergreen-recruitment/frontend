@@ -1,4 +1,6 @@
 import request from '@/utils/request'
+import type { JobItemType, SimpleJobItemType } from '@/apis/job'
+import type { SimpleEmployeeType } from '@/apis/empAuth'
 
 export type CompanyType = {
   id: string
@@ -10,6 +12,19 @@ export type CompanyType = {
   stageId: number
   industryId: number
   jobIds: string[]
+}
+
+export type CompanyDetailType = {
+  id: string
+  name: string
+  logo: string
+  address: string
+  description: string
+  scaleId: number
+  stageId: number
+  industryId: number
+  jobs: SimpleJobItemType[]
+  employees: SimpleEmployeeType[]
 }
 
 export const CompanyScaleEnum = {

@@ -5,10 +5,6 @@ import type { UserInfoType } from '@/apis/user'
 
 const userStore = useUserStore()
 const userInfo = computed<UserInfoType>(() => userStore.userInfo)
-
-function logout() {
-  userStore.logout()
-}
 </script>
 
 <template>

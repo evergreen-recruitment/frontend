@@ -1,8 +1,6 @@
 <script lang="ts" setup>
 import { onMounted, onUnmounted, ref, watch } from 'vue'
-import INavigator from '@/components/INavigator/INavigator.vue'
 import router from '@/router'
-import KnowledgeGraph from '@/components/KnowledgeGraph/KnowledgeGraph.vue'
 import { getHomeKnowledgeGraphApi } from '@/apis/home'
 import type { GraphData } from '@antv/g6'
 import { type CityItemType } from '@/apis/city'
@@ -10,7 +8,6 @@ import type { JobFilterType, JobSearchFormType, SimpleJobItemType } from '@/apis
 import { jobSearchApi } from '@/apis/job'
 import { useStatusStore } from '@/stores'
 import { findFullLocation } from '@/utils/utils'
-import JobSearchFilter from '@/components/JobSearchFilter/JobSearchFilter.vue'
 import { jobSearchPageGuideState } from '@/tours'
 
 const statusStore = useStatusStore()

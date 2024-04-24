@@ -3,7 +3,6 @@ import { computed, nextTick, onMounted, onUnmounted, reactive, ref, watchEffect 
 import router from '@/router'
 import { useAppStore, useUserStore } from '@/stores'
 import { getJobDetailApi, type JobItemType, jobSearchApi, type SimpleJobItemType } from '@/apis/job'
-import Icon from '@/components/Icon/Icon.vue'
 import { CompanyScaleEnum, CompanyStageEnum } from '@/apis/company'
 import { findFullIndustry, findFullJobTypeByName } from '@/utils/utils'
 import { message } from 'ant-design-vue'
@@ -530,7 +529,7 @@ nextTick(async () => {
       @apply w-[calc(100%-320px)] box-border;
 
       .job-detail__description {
-        @apply rounded-[var(--border-radius)] shadow-lg p-5;
+        @apply rounded-[var(--border-radius)] shadow-lg p-5 mb-5;
 
         @include useTheme {
           background-color: getModeVar('cardBgColor');
@@ -556,7 +555,7 @@ nextTick(async () => {
       }
 
       .job-detail__chart {
-        @apply mt-5 mb-4 h-[620px] flex items-center justify-between space-x-5;
+        @apply mb-5 h-[620px] flex items-center justify-between space-x-5;
 
         .chart-title {
           @apply flex items-center space-x-4;
@@ -600,7 +599,7 @@ nextTick(async () => {
       }
 
       .job-detail__company-info {
-        @apply rounded-[var(--border-radius)] shadow-lg p-5 mb-4;
+        @apply rounded-[var(--border-radius)] shadow-lg p-5 mb-5;
 
         @include useTheme {
           background-color: getModeVar('cardBgColor');

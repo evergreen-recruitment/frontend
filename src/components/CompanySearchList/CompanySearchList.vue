@@ -1,14 +1,15 @@
 <script lang="ts" setup>
-import type { SimpleJobItemType } from '@/apis/job'
 import { nextTick, onUnmounted, ref } from 'vue'
 import router from '@/router'
+import CompanyCard from '@/components/CompanyCard/CompanyCard.vue'
+import type { CompanyType } from '@/apis/company'
 
 const props = defineProps<{
-  searchJobList: SimpleJobItemType[]
+  searchCompanyList: CompanyType[]
   currentPage: number
   maxPage: number
 }>()
-const jobListRef = ref<HTMLElement | null>(null)
+const companyListRef = ref<HTMLElement | null>(null)
 const floatButtonGroupRef = ref<HTMLElement | null>(null)
 const current = ref(props.currentPage)
 
@@ -30,7 +31,7 @@ function onNavClick(val: number) {
 
 function toSearch() {
   router.push({
-    name: 'jobSearch',
+    name: 'companySearch',
     query: {
       ...router.currentRoute.value.query,
       current: current.value,
@@ -52,10 +53,10 @@ onUnmounted(() => {
 })
 
 function updatePosition() {
-  const jobListElement = jobListRef.value
+  const companyListElement = companyListRef.value
   const floatButtonGroupElement = document.querySelector('.ant-float-btn-group') as HTMLElement
-  if (jobListElement && floatButtonGroupElement) {
-    const rect = jobListElement.getBoundingClientRect()
+  if (companyListElement && floatButtonGroupElement) {
+    const rect = companyListElement.getBoundingClientRect()
     let left = rect.left - floatButtonGroupElement.offsetWidth
     // let top = rect.top + rect.height / 2 - floatButtonGroupElement.offsetHeight / 2
     let top = window.scrollY + window.innerHeight / 2 - floatButtonGroupElement.offsetHeight / 2
@@ -110,8 +111,14 @@ function updatePosition() {
         </template>
       </a-float-button>
     </a-float-button-group>
-    <div class="job-list" ref="jobListRef">
-      <job-item v-slide-in="{ enter: true }" v-for="job in searchJobList" :key="job.id" :job="job" class="" />
+    <div class="company-list" ref="companyListRef">
+      <company-card
+        v-slide-in="{ enter: true }"
+        v-for="company in searchCompanyList"
+        :key="company.id"
+        :company="company"
+        class=""
+      />
     </div>
   </div>
 </template>
@@ -131,7 +138,7 @@ function updatePosition() {
     }
   }
 
-  .job-list {
+  .compa-list {
     column-count: 2;
     column-gap: 10px;
   }
