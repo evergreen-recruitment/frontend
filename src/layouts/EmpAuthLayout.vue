@@ -27,7 +27,7 @@
   }
 
   .i-empauth-layout__container {
-    @apply flex w-[400px] mx-auto rounded-[30px] overflow-hidden transition-all;
+    @apply flex w-[400px] mx-auto rounded-[calc(var(--border-radius)*3)] overflow-hidden transition-all;
 
     @include useTheme {
       background: getModeVar('cardBgColor');
