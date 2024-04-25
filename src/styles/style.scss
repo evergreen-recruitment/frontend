@@ -167,3 +167,30 @@ body {
     box-shadow: 0 0 10px 0 rgba(getColor('primary'), 0.6);
   }
 }
+
+// 对设置的模态框进行设置
+.setting-modal {
+  width: 65vw !important;
+  @media screen and (max-width: 1280px) {
+    width: 80vw !important;
+  }
+  @media screen and (max-width: 768px) {
+    width: 100vw !important;
+    height: 100vh !important;
+    border-radius: 0 !important;
+  }
+
+  .ant-modal-content {
+    @media screen and (max-width: 768px) {
+      border-radius: 0 !important;
+    }
+
+    .ant-modal-body {
+      height: 80vh !important;
+
+      @media screen and (max-width: 768px) {
+        height: 100vh !important;
+      }
+    }
+  }
+}

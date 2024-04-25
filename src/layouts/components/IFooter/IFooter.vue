@@ -59,6 +59,10 @@ import INavigator from '@/components/INavigator/INavigator.vue'
       max-width: 1200px;
       //text-shadow: 0 0 10px #fff;
 
+      @media screen and (max-width: 768px) {
+        justify-content: center;
+      }
+
       a {
         display: flex;
         justify-content: center;
@@ -80,10 +84,11 @@ import INavigator from '@/components/INavigator/INavigator.vue'
   }
 
   .footer-down {
+    @apply py-6 px-5 box-border;
     @include useTheme {
       background: rgba((adjust-hue(hsl(0, 40%, 10%), hue(getColor('primary')))), 1);
     }
-    padding: 26px 0;
+    //padding: 26px 0;
     font-size: 14px;
     line-height: 24px;
 

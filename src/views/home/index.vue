@@ -301,7 +301,7 @@ nextTick(async () => {
       <div class="job-recommend block-item">
         <div class="title">岗位推荐</div>
         <div class="sub-title">通过人工智能分析推荐最适合你的岗位</div>
-        <a-tabs v-model:activeKey="tabKey" animated style="width: 1200px; overflow: hidden; padding: 5px 0">
+        <a-tabs class="job-list-tabs" v-model:activeKey="tabKey" animated style="overflow: hidden; padding: 5px 0">
           <a-tab-pane key="1" tab="热门岗位">
             <div v-if="recommendJobList" class="job-list">
               <job-card v-for="job in recommendJobList" :key="job.id" :job="job" />
@@ -424,6 +424,11 @@ nextTick(async () => {
       @apply relative w-full h-full z-10;
       .title-panel {
         @apply inline-block relative top-[40%] left-[7%];
+        @media screen and (max-width: 768px) {
+          @apply top-[50%] left-1/2;
+          transform: translate(-50%, -50%);
+        }
+
         .title {
           --fontSize: 60px;
           @apply text-center mb-5;
@@ -458,6 +463,10 @@ nextTick(async () => {
 
       img {
         @apply absolute right-[10%] bottom-0 w-[60%] h-fit object-center;
+
+        @media screen and (max-width: 768px) {
+          @apply w-[80%] right-[10%] bottom-0;
+        }
       }
     }
   }
@@ -466,8 +475,101 @@ nextTick(async () => {
     @apply relative w-full mt-[100vh] overflow-y-hidden flex flex-col items-center justify-center;
     transition: top 0.8s;
 
+    .block-item {
+      @apply my-5 mx-auto max-w-[var(--min-screen-width)] w-full flex flex-col items-center justify-center;
+      .title {
+        @apply text-3xl font-bold text-center mb-5;
+      }
+
+      .sub-title {
+        @apply text-gray-500 mb-5;
+      }
+    }
+
+    .user-panel {
+      @apply relative flex flex-row items-center justify-between overflow-auto h-[530px] px-2 box-border;
+      @media screen and (max-width: 768px) {
+        flex-direction: column;
+      }
+
+      .user-aside {
+        @apply flex flex-col items-center justify-between mx-auto;
+
+        .user-info {
+          @apply flex flex-col items-center;
+          .avatar {
+            @apply w-28 h-28 rounded-full overflow-hidden;
+            img {
+              @apply w-full h-full object-cover;
+            }
+          }
+
+          .name {
+            @apply text-3xl font-bold ml-5 my-2;
+          }
+
+          .desc {
+            @apply text-gray-500;
+          }
+        }
+
+        .user-action {
+          @apply grid grid-cols-2 grid-rows-2 gap-4;
+          .action-item {
+            @apply flex items-center justify-center w-24 h-10 mx-2 text-sm rounded-md cursor-pointer;
+            span {
+              @apply ml-2;
+            }
+          }
+        }
+      }
+
+      .user-aside-no-login {
+        @apply flex flex-col items-center justify-between mx-auto;
+        .user-info {
+          @apply flex flex-col items-center;
+          .avatar {
+            @apply w-28 h-28 rounded-full overflow-hidden;
+            img {
+              @apply w-full h-full object-cover;
+            }
+          }
+
+          .name {
+            @apply text-3xl font-bold ml-5 my-2;
+          }
+
+          .desc {
+            @apply text-gray-500;
+          }
+        }
+
+        .user-action {
+          @apply flex items-center;
+          .action-item {
+            @apply flex items-center justify-center w-20 h-10 mx-2 text-xl rounded-md cursor-pointer;
+            span {
+              @apply ml-2;
+            }
+          }
+        }
+      }
+
+      .knowledge-graph {
+        @apply relative flex flex-col items-center justify-center h-[500px] w-[70%];
+
+        .graph-cot {
+          @apply relative w-full h-full rounded-[var(--border-radius)] shadow-md;
+
+          @include useTheme {
+            background: rgba(getModeVar('cardBgColor'), 0.9);
+          }
+        }
+      }
+    }
+
     .banner {
-      @apply relative w-[1280px] h-auto mx-auto my-10;
+      @apply relative w-[var(--min-screen-width)] h-auto mx-auto my-10;
 
       .title {
         @apply text-3xl font-bold text-center mb-5;
@@ -569,118 +671,31 @@ nextTick(async () => {
       }
     }
 
-    .block-item {
-      @apply my-5 mx-auto w-[1200px] flex flex-col items-center justify-center;
-      .title {
-        @apply text-3xl font-bold text-center mb-5;
-      }
-
-      .sub-title {
-        @apply text-gray-500 mb-5;
-      }
-    }
-
     .job-recommend {
       @apply box-border;
-      .job-list {
-        @apply grid gap-[15px] w-[calc(100%-1rem)];
-        --card-width: 17.5rem;
-        --card-height: 10rem;
-        grid-template-columns: repeat(auto-fit, minmax(var(--card-width), 1fr));
+      .job-list-tabs {
+        @apply max-w-[var(--min-screen-width)] w-full;
+        .job-list {
+          @apply grid gap-[15px] w-[calc(100%-1rem)];
+          --card-width: 17.5rem;
+          --card-height: 10rem;
+          grid-template-columns: repeat(auto-fit, minmax(var(--card-width), 1fr));
 
-        //瀑布流
-        //column-count: 4;
-        //column-gap: 7px;
+          //瀑布流
+          //column-count: 4;
+          //column-gap: 7px;
 
-        //gap: 15px;
-      }
-
-      :deep(.ant-tabs-content-holder) {
-        @apply p-2;
-      }
-    }
-
-    .user-panel {
-      @apply relative flex flex-row items-center justify-between overflow-auto h-[530px] px-2;
-
-      .user-aside {
-        @apply flex flex-col items-center justify-between mx-auto;
-
-        .user-info {
-          @apply flex flex-col items-center;
-          .avatar {
-            @apply w-28 h-28 rounded-full overflow-hidden;
-            img {
-              @apply w-full h-full object-cover;
-            }
-          }
-
-          .name {
-            @apply text-3xl font-bold ml-5 my-2;
-          }
-
-          .desc {
-            @apply text-gray-500;
-          }
+          //gap: 15px;
         }
 
-        .user-action {
-          @apply grid grid-cols-2 grid-rows-2 gap-4;
-          .action-item {
-            @apply flex items-center justify-center w-24 h-10 mx-2 text-sm rounded-md cursor-pointer;
-            span {
-              @apply ml-2;
-            }
-          }
-        }
-      }
-
-      .user-aside-no-login {
-        @apply flex flex-col items-center justify-between mx-auto;
-        .user-info {
-          @apply flex flex-col items-center;
-          .avatar {
-            @apply w-28 h-28 rounded-full overflow-hidden;
-            img {
-              @apply w-full h-full object-cover;
-            }
-          }
-
-          .name {
-            @apply text-3xl font-bold ml-5 my-2;
-          }
-
-          .desc {
-            @apply text-gray-500;
-          }
-        }
-
-        .user-action {
-          @apply flex items-center;
-          .action-item {
-            @apply flex items-center justify-center w-20 h-10 mx-2 text-xl rounded-md cursor-pointer;
-            span {
-              @apply ml-2;
-            }
-          }
-        }
-      }
-
-      .knowledge-graph {
-        @apply relative flex flex-col items-center justify-center h-[500px] w-[70%];
-
-        .graph-cot {
-          @apply relative w-full h-full rounded-[var(--border-radius)] shadow-md;
-
-          @include useTheme {
-            background: rgba(getModeVar('cardBgColor'), 0.9);
-          }
+        :deep(.ant-tabs-content-holder) {
+          @apply p-2;
         }
       }
     }
 
     .hot-company {
-      @apply w-full flex flex-col items-center justify-center overflow-x-hidden my-4;
+      @apply w-full max-w-full flex flex-col items-center justify-center overflow-x-hidden my-4;
       .hot-company-list {
         @apply w-fit flex flex-col items-center justify-center space-y-2;
 
