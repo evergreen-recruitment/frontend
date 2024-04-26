@@ -95,7 +95,11 @@ async function login() {
       </a-form-item>
 
       <a-form-item>
-        <router-link style="float: left" to="/auth/loginByCaptcha">一键登录注册登录</router-link>
+        <router-link
+          style="float: left"
+          :to="{ path: '/auth/loginByCaptcha', query: $router.currentRoute.value.query }"
+          >一键登录注册登录
+        </router-link>
         <router-link style="float: right" to="/auth/forgetPassword">忘记密码</router-link>
       </a-form-item>
 
