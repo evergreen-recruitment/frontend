@@ -89,7 +89,7 @@ const menuList = ref([
           <span>{{ menu.title }}</span>
         </template>
         <i-navigator class="menu-btn" :to="menu.path">
-          <Icon :icon="menu.icon" :size="14" />
+          <Icon :icon="menu.icon" :size="16" />
         </i-navigator>
       </a-tooltip>
     </div>
@@ -161,7 +161,7 @@ const menuList = ref([
 }
 
 .i-avatar {
-  @apply flex items-center justify-center box-border;
+  @apply flex items-center justify-center box-border space-x-2;
   padding: 5px;
 
   @include useTheme {
@@ -218,9 +218,9 @@ const menuList = ref([
   }
 
   .i-avatar__menu-right {
-    @apply ml-1 flex items-center space-x-1;
+    @apply flex items-center space-x-2;
     .menu-btn {
-      @apply flex items-center justify-center w-[30px] h-[30px] rounded-full cursor-pointer;
+      @apply flex items-center justify-center w-[35px] h-[35px] rounded-full cursor-pointer;
       @include useTheme {
         background: rgba(getColor('primary'), 0.4);
         box-shadow: 0 0 10px rgba(getColor('primary'), 0.4);
