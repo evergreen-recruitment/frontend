@@ -6,7 +6,7 @@ import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers'
 import Components from 'unplugin-vue-components/vite'
 import eslintPlugin from 'vite-plugin-eslint'
 import viteCompression from 'vite-plugin-compression'
-import vsharp from 'vite-plugin-vsharp'
+// import vsharp from 'vite-plugin-vsharp'
 import postcssPresetEnv from 'postcss-preset-env'
 import tailwindcss from 'tailwindcss'
 import autoprefixer from 'autoprefixer'
@@ -19,7 +19,7 @@ export default defineConfig(({ command, mode }) => {
       vue(),
       eslintPlugin(),
       // 图片压缩
-      vsharp(),
+      // vsharp(),
       // 代码gzip压缩
       viteCompression({
         verbose: true, // 控制台输出压缩结果
