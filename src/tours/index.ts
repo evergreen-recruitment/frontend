@@ -42,9 +42,28 @@ export const homePageGuideState = reactive({
       target: () => document.querySelector('.i-header .i-avatar') as HTMLElement,
     },
     {
+      title: '点击设置',
+      description: '点击这里，你可以在弹出的窗口中自定义网页风格',
+      placement: 'top',
+      mask: false,
+      target: () => {
+        const settingBtn = document.querySelector('.bottom-float-btn .setting-btn') as HTMLElement
+        setTimeout(() => {
+          settingBtn.click()
+        }, 300)
+        return settingBtn
+      },
+    },
+    {
       title: '首页内容',
       description: '这里是首页的内容，包含知识图谱、岗位分类、教程推荐、热门公司、推荐岗位等等。',
       target: () => {
+        const settingMask = document.querySelector('div.ant-modal-wrap.ant-modal-centered') as HTMLElement
+        if (settingMask) {
+          setTimeout(() => {
+            settingMask.click()
+          }, 0)
+        }
         window.scrollTo({
           top: window.innerHeight,
           behavior: 'smooth',

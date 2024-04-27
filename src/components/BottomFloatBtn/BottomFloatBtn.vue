@@ -26,19 +26,16 @@ const minWidthMarks = ref({
 
 <template>
   <a-float-button-group
-    trigger="click"
-    type="primary"
+    shape="square"
+    class="bottom-float-btn"
     style="position: fixed; right: 50px; bottom: 100px; z-index: 999"
   >
-    <template #icon>
-      <Icon icon="AppstoreOutlined" />
-    </template>
-    <a-float-button @click="$router.push('#')">
+    <a-float-button type="primary" @click="$router.push('#')">
       <template #icon>
         <Icon icon="VerticalAlignTopOutlined" />
       </template>
     </a-float-button>
-    <a-float-button @click="modelState.open = !modelState.open">
+    <a-float-button type="primary" class="setting-btn" @click="modelState.open = !modelState.open">
       <template #icon>
         <Icon icon="SettingOutlined" />
       </template>
