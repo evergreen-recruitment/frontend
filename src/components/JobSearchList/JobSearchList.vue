@@ -9,8 +9,11 @@ const props = defineProps<{
   maxPage: number
 }>()
 const jobListRef = ref<HTMLElement | null>(null)
-const floatButtonGroupRef = ref<HTMLElement | null>(null)
 const current = ref(props.currentPage)
+let formatter = ref<(val: string) => string>((val: string) => {
+  // TODO 为什么maxPage更新时不会执行到这
+  return `${val}/${props.maxPage}页`
+})
 
 function onCurrentChange(val: number) {
   current.value = val
@@ -82,8 +85,8 @@ function updatePosition() {
 <template>
   <div class="company-list-outer">
     <a-float-button-group
+      v-if="maxPage !== 0"
       class="page-btn"
-      ref="floatButtonGroupRef"
       shape="square"
       style="position: absolute; top: 35%; height: fit-content"
     >
@@ -95,7 +98,7 @@ function updatePosition() {
 
       <a-input-number
         :value="current"
-        :formatter="(val: string) => `${val}/${maxPage}页`"
+        :formatter="formatter"
         :parser="(val: string) => Number(val.split('/')[0])"
         :min="1"
         :max="maxPage"
