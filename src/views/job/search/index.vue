@@ -146,7 +146,7 @@ onUnmounted(() => {
         <div class="title">搜索岗位</div>
         <div class="search">
           <a-input-group compact size="large" style="display: flex">
-            <i-location-selector class="location-selector" v-model:value="searchCity" add-nationwide />
+            <i-location-selector class="location-selector" v-model:value="searchCity" add-nationwide @change="submit" />
             <a-input-search
               ref="searchInputRef"
               v-model:value="searchState.keyword"
@@ -202,7 +202,6 @@ onUnmounted(() => {
               :key="item"
               :to="{ name: 'jobSearch', query: { keyword: item } }"
               class="search-item enter-y"
-              open-in-new-window
             >
               <span>{{ item }}</span>
               <div class="arrow">

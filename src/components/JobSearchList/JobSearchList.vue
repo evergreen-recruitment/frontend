@@ -56,7 +56,7 @@ onUnmounted(() => {
 
 function updatePosition() {
   const jobListElement = jobListRef.value
-  const floatButtonGroupElement = document.querySelector('.ant-float-btn-group') as HTMLElement
+  const floatButtonGroupElement = document.querySelector('.page-btn') as HTMLElement
   if (jobListElement && floatButtonGroupElement) {
     const rect = jobListElement.getBoundingClientRect()
     let left = rect.left - floatButtonGroupElement.offsetWidth
