@@ -7,7 +7,6 @@ import Components from 'unplugin-vue-components/vite'
 import eslintPlugin from 'vite-plugin-eslint'
 import viteCompression from 'vite-plugin-compression'
 // import vsharp from 'vite-plugin-vsharp'
-import postcssPresetEnv from 'postcss-preset-env'
 import tailwindcss from 'tailwindcss'
 import autoprefixer from 'autoprefixer'
 
@@ -45,7 +44,7 @@ export default defineConfig(({ command, mode }) => {
     ],
     css: {
       postcss: {
-        plugins: [tailwindcss(), autoprefixer(), postcssPresetEnv()],
+        plugins: [tailwindcss(), autoprefixer()], //postcssPresetEnv()
       },
     },
     resolve: {

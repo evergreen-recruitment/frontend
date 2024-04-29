@@ -329,14 +329,6 @@ onUnmounted(() => {
   top: 0;
 }
 
-//:deep(canvas) {
-//  position: relative;
-//  width: 100%;
-//  height: 100%;
-//  left: 0;
-//  top: 0;
-//}
-
 :deep(.g6-legend-container) {
   @apply w-fit h-fit;
   left: auto !important;

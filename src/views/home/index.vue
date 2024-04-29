@@ -111,7 +111,9 @@ nextTick(async () => {
       <div class="left-panel">
         <div class="title-panel">
           <div class="title">
-            你最适合的岗位
+            <span class="font-bold">常青招聘</span>
+            <span class="text-2xl">为您推荐</span><br />
+            最适合的岗位
             <div class="job-name-outer">
               <div class="job-name">
                 <div
@@ -141,7 +143,7 @@ nextTick(async () => {
         <img src="@/assets/images/bg1.svg" alt="" />
       </div>
       <div class="down-arrow" @click="arrowDownClick">
-        <div class="tip">向下滚动</div>
+        <div class="tip">向下滚动，查看更多推荐信息</div>
         <div class="down-arrow-inner">
           <svg
             stroke="currentColor"
@@ -231,6 +233,7 @@ nextTick(async () => {
               show-legend
               show-minimap
             />
+            <a-spin v-else size="large" tip="云端算法计算中..." />
           </div>
         </div>
       </div>
@@ -400,17 +403,20 @@ nextTick(async () => {
     @apply fixed w-full top-0 h-[100vh] flex z-0;
 
     .down-arrow {
-      @apply fixed left-0 right-0 bottom-0 flex justify-center items-center flex-col;
+      @apply fixed left-0 right-0 bottom-0 flex justify-center items-center flex-col cursor-pointer;
       -webkit-tap-highlight-color: transparent;
       transition: opacity 0.3s ease;
       z-index: 9999;
 
       .tip {
-        @apply text-sm text-center;
+        @apply text-2xl text-center;
+        @include useTheme {
+          color: color-mix(in srgb, getColor('primary'), getModeVar('textColor') 70%);
+        }
       }
 
       .down-arrow-inner {
-        @apply w-12 h-12 p-4 pt-0  flex items-center justify-center cursor-pointer;
+        @apply w-12 h-12 p-4 pt-0 flex items-center justify-center;
         font-size: min(60px, 12vw);
         @include useTheme {
           color: color-mix(in srgb, getColor('primary'), #fff 30%);
@@ -487,9 +493,14 @@ nextTick(async () => {
     }
 
     .user-panel {
-      @apply relative flex flex-row items-center justify-between overflow-auto h-[530px] px-2 box-border;
+      @apply relative flex flex-row items-center justify-between px-2 box-border;
       @media screen and (max-width: 768px) {
+        @apply space-y-5;
         flex-direction: column;
+        .user-aside-outer,
+        knowledge-graph {
+          flex: 1;
+        }
       }
 
       .user-aside {
@@ -556,10 +567,14 @@ nextTick(async () => {
       }
 
       .knowledge-graph {
-        @apply relative flex flex-col items-center justify-center h-[500px] w-[70%];
+        @apply relative flex flex-col items-center h-[550px] justify-center w-[70%];
+
+        @media screen and (max-width: 768px) {
+          @apply w-full;
+        }
 
         .graph-cot {
-          @apply relative w-full h-full rounded-[var(--border-radius)] shadow-md;
+          @apply flex justify-center items-center relative h-[80%] w-full rounded-[var(--border-radius)] shadow-md;
 
           @include useTheme {
             background: rgba(getModeVar('cardBgColor'), 0.9);
