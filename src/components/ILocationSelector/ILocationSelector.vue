@@ -9,6 +9,7 @@ const props = defineProps<{
   value: [number, number] | undefined
   text?: string
   addNationwide?: boolean
+  change?: () => void
 }>()
 const propsValue = useVModel(props, 'value', emit)
 const propsText = useVModel(props, 'text', emit)
@@ -36,6 +37,7 @@ const filter: ShowSearchType['filter'] = (inputValue, path) => {
 function onChange(_value: any, selectedOptions: any) {
   if (!selectedOptions) return
   propsText.value = selectedOptions.map((o: any) => o.name).join(', ')
+  if (props.change) props.change()
 }
 </script>
 

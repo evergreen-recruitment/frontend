@@ -4,7 +4,7 @@ import { useUserStore } from '@/stores'
 
 const userStore = useUserStore()
 // 首页漫游式引导
-export const homePageGuideState = reactive({
+export const homePageGuideState: any = reactive({
   current: 0,
   steps: [
     {
@@ -102,7 +102,7 @@ export const homePageGuideState = reactive({
 })
 
 // 岗位搜索页漫游式引导
-export const jobSearchPageGuideState = reactive({
+export const jobSearchPageGuideState: any = reactive({
   current: 0,
   steps: [
     {
@@ -165,7 +165,7 @@ export const jobSearchPageGuideState = reactive({
 })
 
 // 岗位详情页漫游式引导
-export const jobDetailGuideState = reactive({
+export const jobDetailGuideState: any = reactive({
   current: 0,
   steps: [
     {

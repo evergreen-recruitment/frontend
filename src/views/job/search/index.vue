@@ -146,7 +146,7 @@ onUnmounted(() => {
         <div class="title">搜索岗位</div>
         <div class="search">
           <a-input-group compact size="large" style="display: flex">
-            <i-location-selector class="location-selector" v-model:value="searchCity" add-nationwide @change="submit" />
+            <i-location-selector class="location-selector" v-model:value="searchCity" :change="submit" add-nationwide />
             <a-input-search
               ref="searchInputRef"
               v-model:value="searchState.keyword"
