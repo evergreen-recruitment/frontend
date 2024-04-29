@@ -58,9 +58,6 @@ function scrollEvent() {
   }
 }
 
-// 监听页面滚动事件
-window.addEventListener('scroll', scrollEvent)
-
 onMounted(async () => {
   hotSearch.value = await getHotSearchApi()
   hotCompanyList.value = await getHotCompanyApi()
@@ -69,6 +66,9 @@ onMounted(async () => {
   nearbyJobList.value = await getNewJobsApi({ current: 3, pageSize: 12 })
   knowledgeGraphData.value = await getHomeKnowledgeGraphApi()
   category.value = statusStore.jobCategory
+
+  // 监听页面滚动事件
+  window.addEventListener('scroll', scrollEvent)
 
   // 设置定时器 每3s 减少--job-name-top 65px 一共减少 hotSearch.length * 65px
   jobNameInterval = setInterval(() => {
@@ -89,7 +89,7 @@ onUnmounted(() => {
   const footer = document.querySelector('.footer') as HTMLElement
   footer.style.top = '0'
   clearInterval(jobNameInterval)
-  window.removeEventListener('scroll', () => {})
+  window.removeEventListener('scroll', scrollEvent)
 })
 
 nextTick(async () => {
