@@ -2,7 +2,7 @@
 import { nextTick, onMounted, onUnmounted, ref } from 'vue'
 import { useStatusStore, useUserStore } from '@/stores'
 import { getHomeKnowledgeGraphApi, getHotSearchApi } from '@/apis/home'
-import type { CompanyType } from '@/apis/company'
+import type { SimpleCompanyType } from '@/apis/company'
 import { getHotCompanyApi } from '@/apis/company'
 import type { JobCategoryType } from '@/apis/job'
 import { getNewJobsApi } from '@/apis/job'
@@ -18,7 +18,7 @@ const bannerLeftSideCollapsed = ref(false)
 const tabKey = ref('1')
 const category = ref<JobCategoryType[]>([])
 const hotSearch = ref<string[]>([])
-const hotCompanyList = ref<CompanyType[]>([])
+const hotCompanyList = ref<SimpleCompanyType[]>([])
 const recommendJobList = ref()
 const newJobList = ref()
 const nearbyJobList = ref()

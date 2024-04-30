@@ -1,13 +1,13 @@
 <script lang="ts" setup>
 import { useAppStore } from '@/stores'
 import variables from '@/styles/variables.module.scss'
-import type { CompanyType } from '@/apis/company'
+import type { SimpleCompanyType } from '@/apis/company'
 import { CompanyScaleEnum, CompanyStageEnum } from '@/apis/company'
 import { computed } from 'vue'
-import { findFullIndustry } from '@/utils/utils'
+import { findFullIndustry, removeNullUndefinedProps } from '@/utils/utils'
 
 const props = defineProps<{
-  company: CompanyType
+  company: SimpleCompanyType
 }>()
 
 const appStore = useAppStore()
@@ -15,9 +15,10 @@ const appStore = useAppStore()
 const companyInfo = computed(() => {
   const scale = CompanyScaleEnum[props.company.scaleId as keyof typeof CompanyScaleEnum]
   const stage = CompanyStageEnum[props.company.stageId as keyof typeof CompanyStageEnum]
-  const industry = findFullIndustry(props.company.industryId as number)
-  const industryName = industry[1]?.name
-  return { scale, stage, industryName }
+  const industryName = findFullIndustry(props.company.industryId as number)?.[1]?.name
+  let res = { scale, stage, industryName }
+  res = removeNullUndefinedProps(res)
+  return res
 })
 </script>
 
@@ -39,7 +40,19 @@ const companyInfo = computed(() => {
           </div>
         </div>
         <div class="company-card__content--bottom">
-          <a-tag v-for="t in companyInfo" :key="t" :color="variables[appStore.themeName]">{{ t }}</a-tag>
+          <a-tag v-for="t in companyInfo" :key="t" :color="variables[appStore.themeName]">
+            {{ t }}
+          </a-tag>
+        </div>
+      </div>
+      <div class="company-card__info">
+        <div v-if="company.jobIds" class="company-job-count">
+          <span>在招职位：</span>
+          <span>{{ company.jobIds.length }}</span>
+        </div>
+        <div v-if="company.employeeIds" class="company-employee-count">
+          <span>在线HR：</span>
+          <span>{{ company.employeeIds.length }}</span>
         </div>
       </div>
     </i-navigator>
@@ -80,53 +93,45 @@ const companyInfo = computed(() => {
         }
       }
       background: rgba(getModeVar('cardBgColor'), 0.7);
-      //border: 1px solid rgba(getModeVar('textColor'), 0.089);
       border: 1px solid rgba(getColor('primary'), var(--show-border-op));
-    }
-
-    .company-card__header {
-      @apply w-full box-border flex justify-between items-center px-4 py-2;
-      .company-card__header--title {
-        @apply text-xl font-bold;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        max-width: 170px;
-      }
-
-      .company-card__header--salary {
-        @apply text-base font-bold text-red-500 text-right;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        max-width: 170px;
-      }
     }
 
     .company-card__content {
       @apply w-full px-4 py-2 box-border;
       .company-card__content--company {
-        @apply w-full flex justify-between items-center;
+        @apply space-x-3 w-full flex justify-start items-center;
         .left {
-          .company {
-            @apply text-base font-bold;
-          }
-
-          .address {
-            @apply text-sm text-gray-500;
+          @apply relative w-14 h-14;
+          img {
+            @apply w-full h-full rounded-full object-cover object-center;
           }
         }
 
         .right {
-          @apply w-12 h-12;
-          img {
-            @apply w-full h-full rounded-full object-cover object-center;
+          @apply flex flex-col max-w-[75%];
+          .company {
+            @apply text-base font-bold single-line;
+          }
+
+          .address {
+            @apply text-sm text-gray-500 single-line;
           }
         }
       }
 
       .company-card__content--bottom {
         @apply mt-2;
+      }
+    }
+
+    .company-card__info {
+      @apply w-full px-4 py-2 box-border;
+      .company-job-count,
+      .company-employee-count {
+        @apply text-sm;
+        span {
+          @apply text-gray-500;
+        }
       }
     }
   }

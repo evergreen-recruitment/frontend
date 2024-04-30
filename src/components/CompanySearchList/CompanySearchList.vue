@@ -2,10 +2,10 @@
 import { nextTick, onUnmounted, ref } from 'vue'
 import router from '@/router'
 import CompanyCard from '@/components/CompanyCard/CompanyCard.vue'
-import type { CompanyType } from '@/apis/company'
+import type { SimpleCompanyType } from '@/apis/company'
 
 const props = defineProps<{
-  searchCompanyList: CompanyType[]
+  searchCompanyList: SimpleCompanyType[]
   currentPage: number
   maxPage: number
 }>()
@@ -138,9 +138,11 @@ function updatePosition() {
     }
   }
 
-  .compa-list {
-    column-count: 2;
-    column-gap: 10px;
+  .company-list {
+    @apply box-border max-w-[var(--min-screen-width)] w-full grid gap-[15px] w-[calc(100%-1rem)];
+    --card-width: 17.5rem;
+    --card-height: 10rem;
+    grid-template-columns: repeat(auto-fit, minmax(var(--card-width), 1fr));
   }
 }
 </style>

@@ -1,50 +1,38 @@
 <script lang="ts" setup>
 import { onMounted, onUnmounted, ref, watch } from 'vue'
 import router from '@/router'
-import { getHomeKnowledgeGraphApi } from '@/apis/home'
-import type { GraphData } from '@antv/g6'
 import { type CityItemType } from '@/apis/city'
-import type { JobFilterType, JobSearchFormType, SimpleJobItemType } from '@/apis/job'
-import { jobSearchApi } from '@/apis/job'
 import { useStatusStore } from '@/stores'
 import { findFullLocation } from '@/utils/utils'
-import JobSearchFilter from '@/components/JobSearchFilter/JobSearchFilter.vue'
+import type { CompanyFilterType, CompanySearchFormType, SimpleCompanyType } from '@/apis/company'
+import { companySearchApi } from '@/apis/company'
 
 const statusStore = useStatusStore()
 const searchInputRef = ref()
 const searchCity = ref(statusStore.city.code)
-const showKnowledgeGraph = ref(false)
 const maxPage = ref(0)
-const searchState = ref<JobSearchFormType>({
+const searchState = ref<CompanySearchFormType>({
   keyword: '',
   city: statusStore.city.code[1],
   current: 1,
-  pageSize: 10,
+  pageSize: 24,
   sortField: '',
   sortOrder: '',
 })
-const jobFilterData = ref<JobFilterType>({
-  jobStandardId: null,
-  jobType: 0,
-  experience: 0,
-  salary: 0,
+const companyFilterData = ref<CompanyFilterType>({
+  industryId: null,
+  scaleId: -1,
+  stageId: -1,
 })
 const hotCities = ref<CityItemType[]>([])
-const knowledgeGraphData = ref<GraphData>()
-
-const searchJobList = ref<SimpleJobItemType[]>([])
+const searchCompanyList = ref<SimpleCompanyType[]>([])
 
 async function getSearchResult() {
   searchState.value.city = searchCity.value[1]
-  searchState.value = { ...searchState.value, ...jobFilterData.value }
-  const res = await jobSearchApi(searchState.value)
+  searchState.value = { ...searchState.value, ...companyFilterData.value }
+  const res = await companySearchApi(searchState.value)
   if (!res) return
-  if (searchState.value.keyword || searchState.value.jobStandardId) {
-    showKnowledgeGraph.value = true
-  } else {
-    showKnowledgeGraph.value = false
-  }
-  searchJobList.value = res?.records || []
+  searchCompanyList.value = res?.records || []
   maxPage.value = res.pages
 }
 
@@ -55,18 +43,17 @@ function submit() {
       keyword: searchState.value.keyword,
       current: searchState.value.current,
       city: searchCity.value[1],
-      jobStandardId: jobFilterData.value.jobStandardId,
-      jobType: jobFilterData.value.jobType,
-      experience: jobFilterData.value.experience,
-      salary: jobFilterData.value.salary,
+      industryId: companyFilterData.value.industryId,
+      scaleId: companyFilterData.value.scaleId,
+      stageId: companyFilterData.value.stageId,
     },
   })
 }
 
-const jobFilterWatch = watch(
-  jobFilterData,
+const companyFilterWatch = watch(
+  companyFilterData,
   () => {
-    // submit()
+    submit()
   },
   {
     immediate: true,
@@ -76,7 +63,7 @@ const jobFilterWatch = watch(
 const routerPathWatch = watch(
   () => router.currentRoute.value.query,
   async (newVal) => {
-    if (router.currentRoute.value.name !== 'jobSearch') return
+    if (router.currentRoute.value.name !== 'companySearch') return
     if (newVal?.keyword) {
       searchState.value.keyword = newVal?.keyword as string
     }
@@ -91,18 +78,15 @@ const routerPathWatch = watch(
       }
       searchCity.value = [fullPath[0].code, fullPath[1].code]
     }
-    if (newVal?.jobStandardId) {
+    if (newVal?.industryId) {
       // jobFilterData.value.jobStandardId = findFullJobType(Number(newVal?.jobStandardId))
-      jobFilterData.value.jobStandardId = Number(newVal?.jobStandardId)
+      companyFilterData.value.industryId = Number(newVal?.industryId)
     }
-    if (newVal?.jobType) {
-      jobFilterData.value.jobType = Number(newVal?.jobType)
+    if (newVal?.scaleId) {
+      companyFilterData.value.scaleId = Number(newVal?.scaleId)
     }
-    if (newVal?.experience) {
-      jobFilterData.value.experience = Number(newVal?.experience)
-    }
-    if (newVal?.salary) {
-      jobFilterData.value.salary = Number(newVal?.salary)
+    if (newVal?.stageId) {
+      companyFilterData.value.stageId = Number(newVal?.stageId)
     }
     await getSearchResult()
   },
@@ -125,37 +109,35 @@ function collapseSearchPanel() {
 
 onMounted(async () => {
   window.addEventListener('scroll', collapseSearchPanel)
-  knowledgeGraphData.value = await getHomeKnowledgeGraphApi()
   hotCities.value = statusStore.hotCities
 })
 onUnmounted(() => {
-  window.removeEventListener('scroll', () => {})
-  jobFilterWatch()
+  window.removeEventListener('scroll', collapseSearchPanel)
+  companyFilterWatch()
   routerPathWatch()
 })
 </script>
 
 <template>
   <div class="search-page">
-    <!--<a-tour-->
-    <!--  v-model:current="jobSearchPageGuideState.current"-->
-    <!--  type="primary"-->
-    <!--  :open="jobSearchPageGuideState.open"-->
-    <!--  :steps="jobSearchPageGuideState.steps"-->
-    <!--  @close="jobSearchPageGuideState.open = false"-->
-    <!--/>-->
     <div class="search-panel">
       <div class="search-panel__inner">
         <div class="job-search-bar">
           <div class="title">搜索公司</div>
           <div class="search">
             <a-input-group compact size="large" style="display: flex">
-              <i-location-selector class="location-selector" v-model:value="searchCity" add-nationwide />
+              <i-location-selector
+                class="location-selector"
+                v-model:value="searchCity"
+                :change="submit"
+                add-nationwide
+              />
               <a-input-search
                 ref="searchInputRef"
                 v-model:value="searchState.keyword"
-                placeholder="请输入职位关键词"
+                placeholder="请输入公司关键词"
                 enter-button="搜索"
+                @search="submit"
               />
             </a-input-group>
           </div>
@@ -164,26 +146,26 @@ onUnmounted(() => {
           <router-link
             v-for="c in hotCities"
             :key="c.code"
-            :to="{ name: 'jobSearch', query: { ...$router.currentRoute.value.query, city: c.code } }"
+            :to="{ name: 'companySearch', query: { ...$router.currentRoute.value.query, city: c.code } }"
             class="city"
           >
             {{ c.name }}
           </router-link>
-          <router-link class="city" to="/job/search">其他城市</router-link>
+          <router-link class="city" to="/company/search">其他城市</router-link>
         </div>
         <div class="filter-panel block-item">
-          <job-search-filter v-model:job-filter-data="jobFilterData" />
+          <company-search-filter v-model:company-filter-data="companyFilterData" />
         </div>
       </div>
     </div>
 
     <div class="company">
       <company-search-list
-        v-if="searchJobList"
+        class="block-item"
+        v-if="searchCompanyList"
         :current-page="searchState.current"
         :max-page="maxPage"
-        :search-job-list="searchJobList"
-        class="block-item"
+        :search-company-list="searchCompanyList"
       />
     </div>
   </div>

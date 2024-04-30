@@ -114,7 +114,7 @@ function updatePosition() {
       </a-float-button>
     </a-float-button-group>
     <div class="job-list" ref="jobListRef">
-      <job-item v-slide-in="{ enter: true }" v-for="job in searchJobList" :key="job.id" :job="job" class="" />
+      <job-item v-slide-in="{ enter: true }" v-for="job in searchJobList" :key="job.id" :job="job" />
     </div>
   </div>
 </template>

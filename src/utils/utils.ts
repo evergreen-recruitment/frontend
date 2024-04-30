@@ -278,3 +278,27 @@ export function getScreenHeight() {
 export function getClientHeight() {
   return document.documentElement.clientHeight || document.body.clientHeight
 }
+
+/**
+ * 删除对象中的 null 和 undefined 属性
+ * @param obj
+ */
+export function removeNullUndefinedProps<T>(obj: T): T {
+  if (typeof obj !== 'object' || obj === null) {
+    return obj
+  }
+
+  if (Array.isArray(obj)) {
+    return obj.map((item) => removeNullUndefinedProps(item)) as any
+  }
+
+  const updatedObj: any = {}
+  for (const key in obj) {
+    const value = removeNullUndefinedProps(obj[key])
+    if (value !== null && value !== undefined) {
+      updatedObj[key] = value
+    }
+  }
+
+  return updatedObj as T
+}

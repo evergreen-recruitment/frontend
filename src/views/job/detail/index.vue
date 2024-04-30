@@ -309,7 +309,7 @@ onMounted(() => {
 })
 onUnmounted(() => {
   routerWatch()
-  window.removeEventListener('scroll', () => {})
+  window.removeEventListener('scroll', collapseBanner)
 })
 nextTick(async () => {
   await userStore.getUserState()
