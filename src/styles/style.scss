@@ -38,42 +38,6 @@ body {
     background-color: getModeVar('bgColor');
     color: getModeVar('infoColor');
   }
-  // loading 的控制
-
-  //@for $i from 1 through 4 {
-  //  .cell.d-#{$i} {
-  //    animation-delay: $i * 100ms;
-  //  }
-  //}
-
-  //@include useTheme {
-  //  .cell {
-  //    @for $i from 1 through 9 {
-  //      &:nth-child(#{$i}) {
-  //        $cell-color: adjust-hue(hsl(0, 100%, 70%), hue(adjust-hue(getColor('primary'), -40 + $i * 10)));
-  //        animation: 1.5s ripple-#{$i} ease infinite;
-  //        @keyframes ripple-#{$i}-#{$cell-color} {
-  //          0% {
-  //            background-color: transparent;
-  //          }
-  //
-  //          30% {
-  //            background-color: $cell-color;
-  //          }
-  //
-  //          60% {
-  //            background-color: transparent;
-  //          }
-  //
-  //          100% {
-  //            background-color: transparent;
-  //          }
-  //        }
-  //      }
-  //    }
-  //
-  //  }
-  //}
 }
 
 .enter-y {
@@ -181,8 +145,8 @@ body {
 
   .ant-modal {
     @include useTheme {
-      border: 1px solid rgba(getColor('primary'), var(--show-border-op));
-      background: rgba(getModeVar('bg1color'), 0.7);
+      outline: 3px solid rgba(getModeVar('borderColor'), 0.9);
+      background: rgba(getModeVar('cardBgColor'), 0.7);
       backdrop-filter: blur(40px) saturate(180%);
       box-shadow:
         0 0 rgba(0, 0, 0, 0),
@@ -198,6 +162,7 @@ body {
 
       .ant-modal-header {
         background: transparent;
+        border: none;
 
         .ant-modal-title {
           @apply text-2xl;
@@ -238,6 +203,7 @@ body {
 // 对设置的模态框进行设置
 .setting-modal {
   width: 65vw !important;
+  border-radius: calc(var(--border-radius) * 2.2) !important;
   @media screen and (max-width: 1280px) {
     width: 80vw !important;
   }
@@ -252,6 +218,7 @@ body {
   }
 
   .ant-modal-content {
+    border-radius: calc(var(--border-radius) * 2.2) !important;
     @media screen and (max-width: 768px) {
       border-radius: 0 !important;
     }

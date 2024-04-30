@@ -1,9 +1,10 @@
 <script lang="ts" setup>
 import { useAppStore, useStatusStore, useUserStore } from '@/stores'
-import { computed, reactive } from 'vue'
+import { computed, reactive, ref } from 'vue'
 import { getAssetsFile } from '@/utils/utils'
 import IAvatar from '@/layouts/components/IAvatar/IAvatar.vue'
 import { constantRouterMap, getAsyncRouterMap, type IRouter } from '@/config/router.config'
+import router from '@/router'
 
 const statusStore = useStatusStore()
 const userStore = useUserStore()
@@ -16,6 +17,11 @@ type LinkType = {
   outer: boolean
   icon?: string
 }
+const searchBarState = ref({
+  value: '',
+  focus: false,
+  hover: false,
+})
 const links = reactive<LinkType[]>([
   {
     id: '1',
@@ -68,6 +74,15 @@ for (let link of links) {
     link.icon = route.meta.icon
   }
 }
+
+function submitSearch() {
+  router.push({
+    name: 'jobSearch',
+    query: {
+      keyword: searchBarState.value.value,
+    },
+  })
+}
 </script>
 
 <template>
@@ -112,10 +127,37 @@ for (let link of links) {
           </i-navigator>
         </div>
       </div>
+      <div class="i-header__inner-center">
+        <div
+          :class="[
+            'i-header__inner-center--search-bar',
+            searchBarState.focus ? 'search-bar-focus' : '',
+            searchBarState.hover ? 'search-bar-hover' : '',
+          ]"
+        >
+          <a-input
+            v-model:value="searchBarState.value"
+            placeholder="请输入职位关键词"
+            @focus="searchBarState.focus = true"
+            @blur="searchBarState.focus = false"
+            @mouseenter="searchBarState.hover = true"
+            @mouseleave="searchBarState.hover = false"
+            @press-enter="submitSearch"
+          />
+          <div class="icon" @click="submitSearch">
+            <Icon icon="SearchOutlined" :size="22" />
+          </div>
+        </div>
+      </div>
       <div v-if="!userStore.token" class="i-header__inner-right i-header__inner-not-login">
         <i-navigator class="nav-item" to="/empAuth/login"> 我是招聘人</i-navigator>
         <i-navigator class="nav-item" to="/auth/loginByCaptcha"> 我是求职者</i-navigator>
-        <i-navigator class="i-header__login" to="/auth/loginByCaptcha">登录 | 注册</i-navigator>
+        <button class="i-header__login" @click="$router.push('/auth/loginByCaptcha')">
+          登录 | 注册
+          <div class="icon">
+            <Icon icon="ArrowRightOutlined" />
+          </div>
+        </button>
       </div>
       <div v-else class="i-header__inner-right i-header__inner-already-login">
         <i-avatar />
@@ -211,16 +253,91 @@ for (let link of links) {
       }
     }
 
+    .i-header__inner-center {
+      @apply flex-1 h-full px-10 box-border;
+
+      @include useTheme {
+        .search-bar-hover {
+          box-shadow: 0 0 0 0.15vw rgba(getColor('primary'), 0.186);
+        }
+
+        .search-bar-focus {
+          box-shadow: 0 0 0 0.15vw getColor('primary');
+          transform: scale(1.05);
+        }
+      }
+
+      .i-header__inner-center--search-bar {
+        @apply flex pr-2 justify-between items-center;
+        border-radius: calc(var(--border-radius) * 1.2);
+        transition: 0.4s;
+        @include useTheme {
+          color: getColor('textColor');
+          background-color: getModeVar('cardBgColor');
+        }
+
+        .ant-input {
+          @apply text-lg outline-none border-0 shadow-none font-medium;
+        }
+
+        .icon {
+          @apply flex items-center justify-center cursor-pointer;
+          @include useTheme {
+            color: rgba(getModeVar('textColor'), 0.5);
+          }
+        }
+      }
+    }
+
     .i-header__inner-right {
       @apply flex items-center space-x-4;
-      .i-header__login {
-        @apply text-sm cursor-pointer px-2 py-1 rounded-[var(--border-radius)] transition-colors;
 
+      .i-header__login {
+        @apply flex items-center relative text-base font-medium border-0 overflow-hidden text-white cursor-pointer;
+        letter-spacing: 0.05em;
+        height: 2.3em;
+        padding: 0.35em;
+        padding-left: 1.2em;
+        padding-right: 3.3em;
+
+        border-radius: calc(var(--border-radius) * 1.5);
         @include useTheme {
-          @if (getMode() == 'dark') {
-            border: 1px solid white;
-          } @else {
-            border: 1px solid black;
+          background: getColor('primary');
+          box-shadow: inset 0 0 1.6em -0.6em getColor('primary');
+        }
+
+        &:hover {
+          .icon {
+            width: calc(100% - 0.6em);
+
+            span {
+              transform: translateX(0.1em);
+            }
+          }
+        }
+
+        &:active {
+          .icon {
+            transform: scale(0.95);
+          }
+        }
+
+        .icon {
+          @apply flex absolute justify-center items-center bg-white;
+          margin-left: 1em;
+          height: 1.7em;
+          width: 2.2em;
+          right: 0.3em;
+          transition: all 0.3s;
+          border-radius: calc(var(--border-radius) * 1.2);
+
+          @include useTheme {
+            box-shadow: 0.1em 0.1em 0.6em 0.2em getColor('primary');
+            span {
+              width: 1.1em;
+              transition: transform 0.3s;
+              color: getColor('primary');
+            }
           }
         }
       }

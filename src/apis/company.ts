@@ -1,6 +1,15 @@
 import request from '@/utils/request'
-import type { JobItemType, SimpleJobItemType } from '@/apis/job'
+import type { SimpleJobItemType } from '@/apis/job'
 import type { SimpleEmployeeType } from '@/apis/empAuth'
+import type { PageRequestType } from '@/types/commonTypes'
+
+export type CompanySearchFormType = {
+  keyword?: string
+  city?: number
+} & CompanyFilterType &
+  PageRequestType
+
+export type CompanyFilterType = {}
 
 export type CompanyType = {
   id: string
@@ -56,3 +65,5 @@ export function getHotCompanyApi() {
     )
     .send(true) as Promise<CompanyType[]>
 }
+
+export function companySearchApi(searchForm: CompanySearchFormType) {}

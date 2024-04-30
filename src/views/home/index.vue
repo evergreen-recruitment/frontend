@@ -130,11 +130,17 @@ nextTick(async () => {
             我们设计了优秀的推荐算法、知识图谱分析，为你推荐最适合的岗位<br />
             数据库中包含我们爬取的{{ 11300 }}+岗位信息
           </div>
-          <div v-if="!userStateRef.isLogin" class="get-start" style="margin-top: 10px; text-align: center">
-            <a-button type="primary" @click="$router.push('/auth/login')">
+          <div v-if="!userStateRef.isLogin" class="get-start">
+            <!--<a-button type="primary" @click="$router.push('/auth/login')">-->
+            <!--  登录以获取详细推荐信息-->
+            <!--  <Icon icon="RightOutlined" />-->
+            <!--</a-button>-->
+            <button class="get-start-btn" @click="$router.push('/auth/login')">
               登录以获取详细推荐信息
-              <Icon icon="RightOutlined" />
-            </a-button>
+              <div class="icon">
+                <Icon icon="ArrowRightOutlined" />
+              </div>
+            </button>
           </div>
         </div>
       </div>
@@ -454,6 +460,59 @@ nextTick(async () => {
 
         .sub-title {
           @apply text-gray-500;
+        }
+
+        .get-start {
+          @apply mt-[10px] flex items-center justify-center;
+          .get-start-btn {
+            @apply flex items-center relative text-base font-medium border-0 overflow-hidden text-white cursor-pointer;
+            letter-spacing: 0.05em;
+            height: 2.8em;
+            padding: 0.35em;
+            padding-left: 1.2em;
+            padding-right: 3.3em;
+
+            border-radius: calc(var(--border-radius) * 1.5);
+            @include useTheme {
+              background: getColor('primary');
+              box-shadow: inset 0 0 1.6em -0.6em getColor('primary');
+            }
+
+            &:hover {
+              .icon {
+                width: calc(100% - 0.6em);
+
+                span {
+                  transform: translateX(0.1em);
+                }
+              }
+            }
+
+            &:active {
+              .icon {
+                transform: scale(0.95);
+              }
+            }
+
+            .icon {
+              @apply flex absolute justify-center items-center bg-white;
+              margin-left: 1em;
+              height: 2.2em;
+              width: 2.2em;
+              right: 0.3em;
+              transition: all 0.3s;
+              border-radius: calc(var(--border-radius) * 1.2);
+
+              @include useTheme {
+                box-shadow: 0.1em 0.1em 0.6em 0.2em getColor('primary');
+                span {
+                  width: 1.1em;
+                  transition: transform 0.3s;
+                  color: getColor('primary');
+                }
+              }
+            }
+          }
         }
       }
     }
