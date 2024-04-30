@@ -9,6 +9,7 @@ import { getNewJobsApi } from '@/apis/job'
 import tutorial from '@/assets/tutorial/tutorial'
 import { homePageGuideState } from '@/tours'
 import { getClientHeight, getScreenHeight, getScrollTop } from '@/utils/utils'
+import NotLoginTip from '@/components/NotLoginTip/NotLoginTip.vue'
 
 const userStore = useUserStore()
 const isLogin = ref(false)
@@ -58,6 +59,9 @@ function scrollEvent() {
   }
 }
 
+// 监听页面滚动事件
+window.addEventListener('scroll', scrollEvent)
+
 onMounted(async () => {
   hotSearch.value = await getHotSearchApi()
   hotCompanyList.value = await getHotCompanyApi()
@@ -66,9 +70,6 @@ onMounted(async () => {
   nearbyJobList.value = await getNewJobsApi({ current: 3, pageSize: 12 })
   knowledgeGraphData.value = await getHomeKnowledgeGraphApi()
   category.value = statusStore.jobCategory
-
-  // 监听页面滚动事件
-  window.addEventListener('scroll', scrollEvent)
 
   // 设置定时器 每3s 减少--job-name-top 65px 一共减少 hotSearch.length * 65px
   jobNameInterval = setInterval(() => {
@@ -111,7 +112,7 @@ nextTick(async () => {
       <div class="left-panel">
         <div class="title-panel">
           <div class="title">
-            <span class="font-bold">常青招聘</span>
+            <span class="font-bold">『常青招聘』</span>
             <span class="text-2xl">为您推荐</span><br />
             最适合的岗位
             <div class="job-name-outer">
@@ -220,12 +221,7 @@ nextTick(async () => {
           <div class="title">你最有概率投递的岗位(知识图谱分析)</div>
           <div class="sub-title">根据大数据和算法分析得出</div>
           <div class="graph-cot card">
-            <div v-if="!isLogin || !delivered" class="not-login">
-              <div class="title">{{ !isLogin ? '未登录' : !delivered ? '未上传简历' : '' }}</div>
-              <div class="desc">
-                <a-button type="primary" @click="$router.push('/recommend')">根据推荐步骤使用本系统</a-button>
-              </div>
-            </div>
+            <not-login-tip v-if="!isLogin || !delivered" :is-login="isLogin" :delivered="delivered" />
             <knowledge-graph
               v-else-if="knowledgeGraphData"
               :data="knowledgeGraphData"

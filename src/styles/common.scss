@@ -6,6 +6,27 @@
 
 @import 'theme.scss';
 
+// 创建tailwindcss的自定义类
+@layer utilities {
+  // 单行换行
+  .single-line {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  // 多行换行
+  @for $line from 2 through 10 {
+    .multi-line-#{$line} {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: $line;
+      -webkit-box-orient: vertical;
+    }
+  }
+}
+
 // 滚动条样式
 ::-webkit-scrollbar {
   width: 4px;

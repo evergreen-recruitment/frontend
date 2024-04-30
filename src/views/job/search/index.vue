@@ -219,6 +219,11 @@ onUnmounted(() => {
 @import '@/styles/theme.scss';
 
 .search-page {
+  // 公共属性
+  .title {
+    @apply text-lg font-bold;
+  }
+
   .search-panel {
     @apply mt-10 mx-auto p-5 pb-10 rounded-[var(--border-radius)] shadow-lg;
 
@@ -282,10 +287,6 @@ onUnmounted(() => {
 
         @include useTheme {
           background-color: getModeVar('cardBgColor');
-        }
-
-        .title {
-          @apply text-lg font-bold;
         }
 
         .search-list {

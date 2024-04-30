@@ -78,19 +78,11 @@ const appStore = useAppStore()
     .job-card__header {
       @apply w-full box-border flex justify-between items-center px-4 py-2;
       .job-card__header--title {
-        @apply text-xl font-bold;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        max-width: 170px;
+        @apply text-xl font-bold single-line max-w-[170px];
       }
 
       .job-card__header--salary {
-        @apply text-base font-bold text-red-500 text-right;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        max-width: 170px;
+        @apply text-base font-bold text-red-500 text-right single-line max-w-[170px];
       }
     }
 

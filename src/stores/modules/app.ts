@@ -8,8 +8,11 @@ import router, { syncAsyncRoute } from '@/router'
 import { updateTokenTimeApi } from '@/apis/common'
 import { useCookies } from 'vue3-cookies'
 import moment from 'moment'
+import { getExpiredStorage } from '@/stores'
 
 const { cookies } = useCookies()
+const expiresTime = 60 * 30 // 自定义过期时间 30 分钟
+const expiredStorage = getExpiredStorage(localStorage, expiresTime)
 /**
  * app 配置 开启持久化
  */
@@ -82,7 +85,7 @@ export const useAppStore = defineStore(
     })
 
     // 设置是否显示卡片边框
-    const showCardBorder = ref(true)
+    const showCardBorder = ref(false)
     const showCardBorderComp = computed({
       get() {
         document.documentElement.style.setProperty('--show-border-op', showCardBorder.value ? '0.5' : '0')
@@ -188,6 +191,9 @@ export const useAppStore = defineStore(
     }
   },
   {
-    persist: true,
+    persist: {
+      storage: expiredStorage,
+      debug: true,
+    },
   },
 )

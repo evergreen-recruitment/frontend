@@ -46,9 +46,10 @@ const minWidthMarks = ref({
     v-model:open="modelState.open"
     title="设置"
     :footer="null"
-    centered
     style="border-radius: var(--border-radius); overflow: hidden"
     :bodyStyle="{ padding: 0, overflow: 'auto' }"
+    forceRender
+    centered
   >
     <div class="setting-page">
       <div class="setting-page__inner">
@@ -130,12 +131,8 @@ const minWidthMarks = ref({
   @apply rounded-[var(--border-radius)];
   min-height: 0 !important;
 
-  @include useTheme {
-    background: getModeVar('cardBgColor');
-  }
-
   .setting-page__title {
-    @apply text-2xl text-center font-bold p-5;
+    @apply text-xl text-center font-bold p-5;
   }
 
   .setting-page__inner {

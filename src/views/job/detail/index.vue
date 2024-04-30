@@ -8,6 +8,7 @@ import { findFullIndustry, findFullJobTypeByName } from '@/utils/utils'
 import { message } from 'ant-design-vue'
 import Gaussian from 'gaussian'
 import { jobDetailGuideState } from '@/tours'
+import NotLoginTip from '@/components/NotLoginTip/NotLoginTip.vue'
 
 const appStore = useAppStore()
 const userStore = useUserStore()
@@ -25,8 +26,9 @@ const companyInfo = computed(() => {
   const industryName = industry[1]?.name
   return { scale, stage, industryName }
 })
-// 监听路由变化
-const routerWatch = watchEffect(async () => {
+
+// 获取数据
+async function getJobDetailData() {
   if (router.currentRoute.value.path === '/job/detail' && router.currentRoute.value.query.jobId) {
     job.value = await getJobDetailApi(router.currentRoute.value.query.jobId as string)
     sideJobList.value =
@@ -52,6 +54,11 @@ const routerWatch = watchEffect(async () => {
       )
     }
   }
+}
+
+// 监听路由变化
+const routerWatch = watchEffect(getJobDetailData, {
+  flush: 'post',
 })
 
 function generateRandomArray() {
@@ -310,6 +317,7 @@ onUnmounted(() => {
 nextTick(async () => {
   isLogin.value = userStore.getUserState().isLogin.value
   delivered.value = await userStore.getUserState().isUploadApplication.value
+  await getJobDetailData()
 })
 </script>
 
@@ -353,7 +361,7 @@ nextTick(async () => {
     <div class="job-detail__main enter-y">
       <div class="job-detail__content">
         <div v-slide-in="{ enter: true }" class="job-detail__description card">
-          <div class="job-detail__description--title">职位描述</div>
+          <div class="job-detail__description--title title">职位描述</div>
           <a-divider />
           <div class="job-detail__description--content">
             <div class="tags">
@@ -371,39 +379,35 @@ nextTick(async () => {
           <div v-slide-in="{ enter: true }" class="job-detail__stack card">
             <div class="job-detail__stack--title chart-title">
               <div class="title">技术栈要求可视化</div>
-              <div class="sub-title">
-                算法分析出该岗位的所需技术栈，大小代表其在<br />该岗位中的权重，灰色部分为你未掌握的技术栈
+              <div class="sub-title multi-line-2">
+                算法分析出该岗位的所需技术栈，大小代表其在该岗位中的权重，灰色部分为你未掌握的技术栈
               </div>
             </div>
             <a-divider />
-            <div v-if="!isLogin || !delivered" class="not-login">
-              <div class="title">{{ !isLogin ? '未登录' : !delivered ? '未上传简历' : '' }}</div>
-              <div class="desc">
-                <a-button type="primary" @click="$router.push('/recommend')">根据推荐步骤使用本系统</a-button>
-              </div>
+            <div class="job-detail__chart-content">
+              <not-login-tip v-if="!isLogin || !delivered" :is-login="isLogin" :delivered="delivered" />
+              <i-charts v-else :option="stackOptions" />
             </div>
-            <i-charts v-else :option="stackOptions" />
           </div>
           <div v-slide-in="{ enter: true }" class="job-detail__ability-ranking card">
             <div class="job-detail__side--title chart-title">
               <div class="title">能力排名</div>
-              <div class="sub-title">你的能力在该岗位的应聘者中排名</div>
+              <div class="sub-title multi-line-2">你的能力在该岗位的应聘者中排名</div>
             </div>
             <a-divider />
             <div class="job-detail__ranking">
               <!--<i3-d-progress-bar :progress="Math.random() * 50 + 50" />-->
-              <div v-if="!isLogin || !delivered" class="not-login">
-                <div class="title">{{ !isLogin ? '未登录' : !delivered ? '未上传简历' : '' }}</div>
-                <div class="desc">
-                  <a-button type="primary" @click="$router.push('/recommend')">根据推荐步骤使用本系统</a-button>
-                </div>
+              <div class="job-detail__chart-content">
+                <not-login-tip v-if="!isLogin || !delivered" :is-login="isLogin" :delivered="delivered" />
+                <i-charts v-else :option="rankingOptions" />
               </div>
-              <i-charts v-else :option="rankingOptions" />
             </div>
           </div>
         </div>
         <div v-slide-in="{ enter: true }" class="job-detail__company-info card">
-          <div class="job-detail__company-info--title">公司信息</div>
+          <div class="job-detail__company-info--title">
+            <div class="title">公司信息</div>
+          </div>
           <a-divider />
           <div class="job-detail__company-info--content">
             <div class="simple-info">
@@ -430,10 +434,12 @@ nextTick(async () => {
       </div>
       <div class="job-detail__side">
         <div v-slide-in="{ enter: true }" class="job-detail__side--vote card">
-          <div class="job-detail__side--title">推荐效果评分</div>
+          <div class="job-detail__side--title">
+            <div class="title">推荐效果评分</div>
+          </div>
           <a-divider />
           <div class="job-detail__side--vote-main">
-            <div class="title">对该岗位的推荐效果评分<br />请选择好或者不好</div>
+            <div class="desc">对该岗位的推荐效果评分<br />请选择好或者不好</div>
             <div class="btn-group">
               <a-button @click="message.success('感谢您的反馈，希望您喜欢这个工作')">
                 <Icon icon="LikeOutlined" />
@@ -447,7 +453,9 @@ nextTick(async () => {
           </div>
         </div>
         <div v-slide-in="{ enter: true }" class="job-detail__side--similar-job card">
-          <div class="job-detail__side--title">相似岗位</div>
+          <div class="job-detail__side--title">
+            <div class="title">相似岗位</div>
+          </div>
           <a-divider />
           <div v-if="sideJobList" class="job-detail__side--job-list">
             <job-card-v2 v-for="job in sideJobList" :key="job.id" :job="job" class="enter-y" />
@@ -462,6 +470,10 @@ nextTick(async () => {
 @import '@/styles/theme.scss';
 
 .job-detail {
+  .title {
+    @apply text-2xl font-bold single-line;
+  }
+
   .collapse-banner {
     @apply sticky w-full z-10;
     top: 0 !important;
@@ -558,26 +570,25 @@ nextTick(async () => {
         @apply mb-5 h-[620px] flex items-center justify-between space-x-5;
 
         .chart-title {
-          @apply flex items-center space-x-4;
+          @apply flex items-center justify-start space-x-4;
 
           .title {
-            @apply text-2xl font-bold;
           }
 
           .sub-title {
-            @apply text-sm text-gray-500;
+            @apply flex-1 text-sm text-gray-500;
           }
         }
 
+        .job-detail__chart-content {
+          @apply h-[500px];
+        }
+
         .job-detail__stack {
-          @apply h-full rounded-[var(--border-radius)] shadow-lg p-5 box-border;
+          @apply flex-1 h-full rounded-[var(--border-radius)] shadow-lg p-5 box-border;
 
           @include useTheme {
             background-color: getModeVar('cardBgColor');
-          }
-
-          :deep(.chart) {
-            @apply h-[500px];
           }
         }
 
@@ -590,10 +601,6 @@ nextTick(async () => {
 
           .job-detail__ranking {
             @apply h-full relative;
-
-            :deep(.chart) {
-              @apply h-[500px];
-            }
           }
         }
       }
@@ -603,10 +610,6 @@ nextTick(async () => {
 
         @include useTheme {
           background-color: getModeVar('cardBgColor');
-        }
-
-        .job-detail__company-info--title {
-          @apply text-2xl font-bold mb-4;
         }
 
         .job-detail__company-info--content {
@@ -655,10 +658,6 @@ nextTick(async () => {
     .job-detail__side {
       @apply w-[320px] relative ml-5;
 
-      .job-detail__side--title {
-        @apply text-2xl font-bold;
-      }
-
       .job-detail__side--vote {
         @apply rounded-[var(--border-radius)] shadow-lg p-5 mb-4;
 
@@ -667,7 +666,7 @@ nextTick(async () => {
         }
 
         .job-detail__side--vote-main {
-          .title {
+          .desc {
             @apply text-base text-center;
           }
 

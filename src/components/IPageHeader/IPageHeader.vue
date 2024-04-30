@@ -23,8 +23,9 @@ defineProps({
 
 .i-page-header {
   border-radius: var(--border-radius);
+  backdrop-filter: blur(40px) saturate(180%);
   @include useTheme {
-    background: getModeVar('cardBgColor');
+    background: rgba(getModeVar('bg1color'), 0.7);
     border: 1px solid getModeVar('borderColor');
   }
 }

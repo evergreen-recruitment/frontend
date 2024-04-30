@@ -143,11 +143,6 @@ body {
   }
 }
 
-// 通用未登录样式
-.not-login {
-  @apply flex flex-col items-center justify-center w-full h-full text-2xl;
-}
-
 // 通用卡片样式
 .card {
   @apply shadow-md rounded-[var(--border-radius)];
@@ -168,6 +163,78 @@ body {
   }
 }
 
+// 对模态框进行通用设置
+.ant-modal-root {
+  .i-page-header {
+    backdrop-filter: blur(10px) saturate(180%) !important;
+    background: transparent !important;
+    border: none !important;
+  }
+
+  .ant-modal-mask {
+    background: transparent;
+    //@include useTheme {
+    //  background: rgba(getModeVar('bg1color'), 0.1);
+    //  backdrop-filter: blur(30px);
+    //}
+  }
+
+  .ant-modal {
+    @include useTheme {
+      border: 1px solid rgba(getColor('primary'), var(--show-border-op));
+      background: rgba(getModeVar('bg1color'), 0.7);
+      backdrop-filter: blur(40px) saturate(180%);
+      box-shadow:
+        0 0 rgba(0, 0, 0, 0),
+        0 0 rgba(0, 0, 0, 0),
+        0 34px 50px -20px rgb(getModeVar('textColor'), 0.16),
+        0 32px 45px -12px rgb(getModeVar('textColor'), 0.14),
+        0 30px 40px -8px rgb(getModeVar('textColor'), 0.12),
+        inset 0 0 8px rgba(getModeVar('textColor'), 0.06);
+    }
+
+    .ant-modal-content {
+      background: transparent;
+
+      .ant-modal-header {
+        background: transparent;
+
+        .ant-modal-title {
+          @apply text-2xl;
+        }
+      }
+
+      .ant-page-header-heading-title {
+        @apply text-base;
+      }
+
+      .ant-modal-close {
+        @apply w-7 h-7 rounded-full p-1;
+        transition: transform 0.3s;
+        @include useTheme {
+          background: getModeVar('cardBgColor');
+          &:hover {
+            background: rgba(getColor('primary'), 0.2);
+            outline: 3px solid rgba(getColor('primary'), 1);
+            transform: scale(1.1);
+          }
+        }
+
+        .ant-modal-close-x {
+          @apply w-full h-full;
+          .ant-modal-close-icon {
+            @apply inline-block w-full h-full;
+            svg {
+              height: 100%;
+              width: 100%;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
 // 对设置的模态框进行设置
 .setting-modal {
   width: 65vw !important;
@@ -177,6 +244,10 @@ body {
   @media screen and (max-width: 768px) {
     width: 100vw !important;
     height: 100vh !important;
+    left: 0 !important;
+    right: 0 !important;
+    top: 0 !important;
+    bottom: 0 !important;
     border-radius: 0 !important;
   }
 

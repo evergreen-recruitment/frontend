@@ -53,26 +53,19 @@ onMounted(() => {})
   .job-card__header {
     @apply flex justify-between items-center px-4 py-2;
     .job-card__header--title {
-      @apply text-lg font-bold;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
+      @apply text-lg font-bold single-line max-w-[170px];
       max-width: 170px;
     }
 
     .job-card__header--salary {
-      @apply text-lg font-bold text-red-500;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      max-width: 170px;
+      @apply text-lg font-bold text-red-500 single-line max-w-[170px];
     }
   }
 
   .job-card__content {
     @apply px-4 py-2;
     .job-card__content--company {
-      @apply text-lg font-bold;
+      @apply text-base font-bold;
     }
 
     .job-card__content--address {
