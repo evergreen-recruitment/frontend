@@ -3,7 +3,7 @@ import { computed, nextTick, onMounted, onUnmounted, ref, watchEffect } from 'vu
 import router from '@/router'
 import { useAppStore, useUserStore } from '@/stores'
 import { getJobDetailApi, type JobItemType, jobSearchApi, type SimpleJobItemType } from '@/apis/job'
-import { type CompanyDetailType, CompanyScaleEnum, CompanyStageEnum } from '@/apis/company'
+import { CompanyScaleEnum, CompanyStageEnum } from '@/apis/company'
 import { findFullIndustry, findFullJobTypeByName } from '@/utils/utils'
 import { message } from 'ant-design-vue'
 import { jobDetailGuideState } from '@/tours'
@@ -76,8 +76,9 @@ onUnmounted(() => {
   window.removeEventListener('scroll', () => {})
 })
 nextTick(async () => {
-  isLogin.value = userStore.getUserState().isLogin.value
-  delivered.value = await userStore.getUserState().isUploadApplication.value
+  await userStore.getUserState()
+  isLogin.value = userStore.userState.isLogin
+  delivered.value = userStore.userState.isUploadApplication
 })
 </script>
 

@@ -61,8 +61,8 @@ function onStepsChange(current: any) {
 }
 
 onMounted(async () => {
-  const obj = userStore.getUserState()
-  res.value = [obj.isLogin.value, await obj.isCompleteInfo.value, await obj.isUploadApplication.value]
+  await userStore.getUserState()
+  res.value = [userStore.userState.isLogin, userStore.userState.isCompleteInfo, userStore.userState.isUploadApplication]
 
   newJobList.value = await getNewJobsApi({ pageSize: 24 })
   recommendJobList.value = await getNewJobsApi({ current: 2, pageSize: 24 })

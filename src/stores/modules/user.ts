@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { computed, ref } from 'vue'
+import { ref } from 'vue'
 import { isCompleteUserInfoApi, logoutApi } from '@/apis/auth'
 import { useCookies } from 'vue3-cookies'
 import type { UpdateUserInfoFormType, UserInfoType } from '@/apis/user'
@@ -24,34 +24,22 @@ export const useUserStore = defineStore(
       jobDetailPage: false,
     })
     const userInfo = ref<UserInfoType>({})
-    const getUserState = function () {
-      return {
-        isLogin: computed(() => !!token.value),
-        isCompleteInfo: computed(() => {
-          if (token.value !== undefined && token.value !== '') {
-            return new Promise((resolve) => {
-              const isComplete = isCompleteUserInfoApi().then((res) => {
-                return res
-              })
-              resolve(isComplete)
-            }) as Promise<boolean>
-          } else {
-            return Promise.resolve(false)
-          }
-        }),
-        isUploadApplication: computed(() => {
-          if (token.value !== undefined && token.value !== '') {
-            return new Promise((resolve) => {
-              const isUpload = isUploadApplicationApi().then((res) => {
-                return res
-              })
-              resolve(isUpload)
-            }) as Promise<boolean>
-          } else {
-            return Promise.resolve(false)
-          }
-        }),
+
+    const userState = ref({
+      isLogin: false,
+      isCompleteInfo: false,
+      isUploadApplication: false,
+    })
+
+    async function getUserState() {
+      userState.value.isLogin = !!token.value
+      if (!userState.value.isLogin) {
+        userState.value.isCompleteInfo = false
+        userState.value.isUploadApplication = false
+        return
       }
+      userState.value.isCompleteInfo = await isCompleteUserInfoApi()
+      userState.value.isUploadApplication = await isUploadApplicationApi()
     }
 
     async function getUserInfo() {
@@ -73,12 +61,14 @@ export const useUserStore = defineStore(
       userInfo.value = {}
       cookies.remove('satoken')
       await logoutApi()
+      await getUserState()
     }
 
     return {
       token,
       isGuide,
       userInfo,
+      userState,
       getUserState,
       getUserInfo,
       updateUserInfo,

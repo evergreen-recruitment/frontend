@@ -8,13 +8,10 @@ import { findFullIndustry, findFullJobTypeByName } from '@/utils/utils'
 import { message } from 'ant-design-vue'
 import Gaussian from 'gaussian'
 import { jobDetailGuideState } from '@/tours'
-import NotLoginTip from '@/components/NotLoginTip/NotLoginTip.vue'
 
 const appStore = useAppStore()
 const userStore = useUserStore()
-const isLogin = ref(false)
-const delivered = ref(false)
-
+const userStateRef = ref(userStore.userState)
 // prettier-ignore
 const welfareTagsColor = ref<string[]>(['pink', 'red', 'orange', 'green', 'cyan', 'blue', 'purple', 'pink', 'red', 'orange', 'green', 'cyan', 'blue', 'purple'])
 const job = ref<JobItemType | null>()
@@ -315,8 +312,7 @@ onUnmounted(() => {
   window.removeEventListener('scroll', () => {})
 })
 nextTick(async () => {
-  isLogin.value = userStore.getUserState().isLogin.value
-  delivered.value = await userStore.getUserState().isUploadApplication.value
+  await userStore.getUserState()
   await getJobDetailData()
 })
 </script>
@@ -385,7 +381,11 @@ nextTick(async () => {
             </div>
             <a-divider />
             <div class="job-detail__chart-content">
-              <not-login-tip v-if="!isLogin || !delivered" :is-login="isLogin" :delivered="delivered" />
+              <not-login-tip
+                v-if="!userStateRef.isLogin || !userStateRef.isUploadApplication"
+                :is-login="userStateRef.isLogin"
+                :delivered="userStateRef.isUploadApplication"
+              />
               <i-charts v-else :option="stackOptions" />
             </div>
           </div>
@@ -398,7 +398,11 @@ nextTick(async () => {
             <div class="job-detail__ranking">
               <!--<i3-d-progress-bar :progress="Math.random() * 50 + 50" />-->
               <div class="job-detail__chart-content">
-                <not-login-tip v-if="!isLogin || !delivered" :is-login="isLogin" :delivered="delivered" />
+                <not-login-tip
+                  v-if="!userStateRef.isLogin || !userStateRef.isUploadApplication"
+                  :is-login="userStateRef.isLogin"
+                  :delivered="userStateRef.isUploadApplication"
+                />
                 <i-charts v-else :option="rankingOptions" />
               </div>
             </div>

@@ -12,8 +12,7 @@ import { getClientHeight, getScreenHeight, getScrollTop } from '@/utils/utils'
 import NotLoginTip from '@/components/NotLoginTip/NotLoginTip.vue'
 
 const userStore = useUserStore()
-const isLogin = ref(false)
-const delivered = ref(false)
+const userStateRef = ref(userStore.userState)
 const statusStore = useStatusStore()
 const bannerLeftSideCollapsed = ref(false)
 const tabKey = ref('1')
@@ -94,8 +93,7 @@ onUnmounted(() => {
 })
 
 nextTick(async () => {
-  isLogin.value = userStore.getUserState().isLogin.value
-  delivered.value = await userStore.getUserState().isUploadApplication.value
+  await userStore.getUserState()
 })
 </script>
 
@@ -132,7 +130,7 @@ nextTick(async () => {
             我们设计了优秀的推荐算法、知识图谱分析，为你推荐最适合的岗位<br />
             数据库中包含我们爬取的{{ 11300 }}+岗位信息
           </div>
-          <div v-if="!isLogin" class="get-start" style="margin-top: 10px; text-align: center">
+          <div v-if="!userStateRef.isLogin" class="get-start" style="margin-top: 10px; text-align: center">
             <a-button type="primary" @click="$router.push('/auth/login')">
               登录以获取详细推荐信息
               <Icon icon="RightOutlined" />
@@ -221,7 +219,11 @@ nextTick(async () => {
           <div class="title">你最有概率投递的岗位(知识图谱分析)</div>
           <div class="sub-title">根据大数据和算法分析得出</div>
           <div class="graph-cot card">
-            <not-login-tip v-if="!isLogin || !delivered" :is-login="isLogin" :delivered="delivered" />
+            <not-login-tip
+              v-if="!userStateRef.isLogin || !userStateRef.isUploadApplication"
+              :is-login="userStateRef.isLogin"
+              :delivered="userStateRef.isUploadApplication"
+            />
             <knowledge-graph
               v-else-if="knowledgeGraphData"
               :data="knowledgeGraphData"
