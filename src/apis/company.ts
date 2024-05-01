@@ -26,8 +26,8 @@ export type SimpleCompanyType = {
   scaleId: number
   stageId: number
   industryId: number
-  jobIds: string[]
-  employeeIds: string[]
+  jobNum: number
+  employeeNum: number
 }
 
 export type CompanyDetailType = {
@@ -39,8 +39,8 @@ export type CompanyDetailType = {
   scaleId: number
   stageId: number
   industryId: number
-  jobs: SimpleJobItemType[]
-  employees: SimpleEmployeeType[]
+  jobVOList: SimpleJobItemType[]
+  employeeVOList: SimpleEmployeeType[]
 }
 
 export const CompanyScaleEnum = {

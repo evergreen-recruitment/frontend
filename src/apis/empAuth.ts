@@ -13,6 +13,7 @@ export type EmpInfoType = {
 }
 
 export type SimpleEmployeeType = {
+  id: string
   realName: string
   avatar: string
   jobIds: string[]

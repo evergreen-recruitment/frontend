@@ -46,13 +46,13 @@ const companyInfo = computed(() => {
         </div>
       </div>
       <div class="company-card__info">
-        <div v-if="company.jobIds" class="company-job-count">
+        <div v-if="company.jobNum" class="company-job-count">
           <span>在招职位：</span>
-          <span>{{ company.jobIds.length }}</span>
+          <span>{{ company.jobNum }}</span>
         </div>
-        <div v-if="company.employeeIds" class="company-employee-count">
+        <div v-if="company.employeeNum" class="company-employee-count">
           <span>在线HR：</span>
-          <span>{{ company.employeeIds.length }}</span>
+          <span>{{ company.employeeNum }}</span>
         </div>
       </div>
     </i-navigator>
@@ -125,7 +125,7 @@ const companyInfo = computed(() => {
     }
 
     .company-card__info {
-      @apply w-full px-4 py-2 box-border;
+      @apply flex justify-between items-center w-full px-4 py-2 box-border;
       .company-job-count,
       .company-employee-count {
         @apply text-sm;
