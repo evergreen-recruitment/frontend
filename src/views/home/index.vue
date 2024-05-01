@@ -75,8 +75,10 @@ onMounted(async () => {
     const jobName = document.querySelector('.job-name') as HTMLElement
     const jobNameOuter = document.querySelector('.job-name-outer') as HTMLElement
     const jobNameTop = Number(jobName.style.getPropertyValue('--job-name-top').replace('px', ''))
-    jobName.style.setProperty('--job-name-top', `${jobNameTop - 61}px`)
-    if (jobNameTop <= -60 * (hotSearch.value.length - 1)) {
+    const leftTitle = document.querySelector('.left-panel .title') as HTMLElement
+    const fontSize = Number(leftTitle.style.getPropertyValue('--fontSize').replace('px', ''))
+    jobName.style.setProperty('--job-name-top', `${jobNameTop - fontSize + 1}px`)
+    if (jobNameTop <= -fontSize * (hotSearch.value.length - 1)) {
       jobName.style.setProperty('--job-name-top', '0px')
     }
   }, 3000)
@@ -382,27 +384,6 @@ nextTick(async () => {
     }
   }
 
-  .search-bar {
-    --opacity: 0;
-    --blur: 0;
-    --top: calc(50vh - 120px + 55px);
-    --shadow-opacity: 0;
-    @apply sticky top-[var(--top)] z-[9] w-full p-5 box-border;
-    transition: height 0.3s;
-    backdrop-filter: blur(var(--blur));
-    //box-shadow: 0 5px 10px rgba(0, 0, 0, var(--shadow-opacity));
-
-    @include useTheme {
-      @if (getMode() == 'dark') {
-        @apply text-white;
-        background: rgba((adjust-hue(hsl(0, 50%, 10%), hue(getColor('primary')))), var(--opacity));
-      } @else {
-        @apply text-gray-800;
-        background: rgba((adjust-hue(hsl(0, 50%, 90%), hue(getColor('primary')))), var(--opacity));
-      }
-    }
-  }
-
   .home-page-background {
     @apply fixed w-full top-0 h-[100vh] flex z-0;
 
@@ -451,6 +432,14 @@ nextTick(async () => {
           @apply text-center mb-5;
           font-size: var(--fontSize);
 
+          @media screen and (max-width: 1280px) {
+            --fontSize: 50px;
+          }
+
+          @media screen and (max-width: 768px) {
+            --fontSize: 45px;
+          }
+
           .job-name-outer {
             @apply relative h-[var(--fontSize)] overflow-hidden;
             .job-name {
@@ -467,6 +456,10 @@ nextTick(async () => {
 
         .sub-title {
           @apply text-gray-500;
+
+          @media screen and (max-width: 768px) {
+            @apply text-sm;
+          }
         }
 
         .get-start {
@@ -478,6 +471,10 @@ nextTick(async () => {
             padding: 0.35em;
             padding-left: 1.2em;
             padding-right: 3.3em;
+
+            @media screen and (max-width: 768px) {
+              @apply text-sm;
+            }
 
             border-radius: calc(var(--border-radius) * 1.5);
             @include useTheme {

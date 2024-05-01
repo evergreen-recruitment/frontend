@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { useAppStore, useStatusStore, useUserStore } from '@/stores'
-import { computed, onUnmounted, reactive, ref } from 'vue'
+import { onUnmounted, reactive, ref } from 'vue'
 import { getAssetsFile, limitMin } from '@/utils/utils'
 import IAvatar from '@/layouts/components/IAvatar/IAvatar.vue'
 import { constantRouterMap, getAsyncRouterMap, type IRouter } from '@/config/router.config'
@@ -8,7 +8,7 @@ import router from '@/router'
 
 const statusStore = useStatusStore()
 const userStore = useUserStore()
-const userInfo = computed(() => userStore.userInfo)
+const userStateRef = ref(userStore.userState)
 const screenWidth = ref(window.innerWidth || document.documentElement.clientWidth)
 const appStore = useAppStore()
 type LinkType = {
@@ -116,7 +116,7 @@ onUnmounted(() => {
           </a>
         </div>
         <div class="i-header__menu">
-          <a-popover placement="bottom" trigger="click">
+          <a-popover v-if="userStateRef.isLogin" placement="bottom" trigger="click">
             <a class="location" href="#">
               <span>{{ statusStore.city.name.split(',')[1] }}</span>
               <span>[切换]</span>
@@ -131,7 +131,7 @@ onUnmounted(() => {
           </a-popover>
           <i-navigator
             v-for="i in screenWidth < 1200
-              ? links.slice(0, limitMin(links.length - (1200 - screenWidth) / 80, 1))
+              ? links.slice(0, limitMin(links.length - (1200 - screenWidth) / 80, 0))
               : links"
             :class="[$router.currentRoute.value.path === i.path ? 'active-nav-item' : '']"
             :open-in-new-window="i.outer"
@@ -144,7 +144,7 @@ onUnmounted(() => {
           <a-popover placement="bottom">
             <template #content>
               <i-navigator
-                v-for="i in links.slice(limitMin(links.length - (1200 - screenWidth) / 80, 1), links.length)"
+                v-for="i in links.slice(limitMin(links.length - (1200 - screenWidth) / 80, 0), links.length)"
                 :class="[$router.currentRoute.value.path === i.path ? 'active-nav-item' : '']"
                 :open-in-new-window="i.outer"
                 :to="i.path"
@@ -183,10 +183,10 @@ onUnmounted(() => {
         </div>
       </div>
       <div v-if="!userStore.token" class="i-header__inner-right i-header__inner-not-login">
-        <i-navigator class="nav-item" to="/empAuth/login"> 我是招聘人</i-navigator>
-        <i-navigator class="nav-item" to="/auth/loginByCaptcha"> 我是求职者</i-navigator>
+        <i-navigator v-if="screenWidth > 1200" class="nav-item" to="/empAuth/login"> 我是招聘人</i-navigator>
+        <i-navigator v-if="screenWidth > 1200" class="nav-item" to="/auth/loginByCaptcha"> 我是求职者</i-navigator>
         <button class="i-header__login" @click="$router.push('/auth/loginByCaptcha')">
-          登录 | 注册
+          {{ screenWidth > 768 ? '登录 | 注册' : '登录' }}
           <div class="icon">
             <Icon icon="ArrowRightOutlined" />
           </div>
@@ -333,6 +333,10 @@ onUnmounted(() => {
         padding: 0.35em;
         padding-left: 1.2em;
         padding-right: 3.3em;
+
+        @media screen and (max-width: 768px) {
+          @apply text-sm;
+        }
 
         border-radius: calc(var(--border-radius) * 1.5);
         @include useTheme {
