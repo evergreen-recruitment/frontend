@@ -29,7 +29,7 @@ const option1 = reactive({
 </script>
 
 <template>
-  <div class="bg-screen">
+  <div class="big-data-screen">
     <border-box11 title="常青招聘数据大屏" :title-width="400" :color="['#4fd2dd', '#235fa7']">
       <div v-if="false" class="title">
         <div class="title-content">常青招聘数据大屏</div>
@@ -57,8 +57,8 @@ const option1 = reactive({
 </template>
 
 <style lang="scss" scoped>
-.bg-screen {
-  @apply w-full h-full;
+.big-data-screen {
+  @apply flex justify-center items-center w-screen h-screen;
   background: url('@/assets/images/bg-screen-image.png') no-repeat center center;
   background-size: cover;
 

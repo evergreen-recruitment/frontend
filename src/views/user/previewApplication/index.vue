@@ -1,9 +1,7 @@
 <script lang="ts" setup></script>
 
 <template>
-  <div class="preview-application">
-    <big-screen />
-  </div>
+  <div class="preview-application"></div>
 </template>
 
 <style lang="scss" scoped>

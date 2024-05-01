@@ -28,6 +28,16 @@ export const constantRouterMap = [
         },
         component: () => import('@/views/user/previewApplication/index.vue'),
       },
+      {
+        name: 'bigDataScreen',
+        path: '/blank/bigDataScreen',
+        meta: {
+          icon: 'UserOutlined',
+          title: ' 预览在线简历',
+          requireAuth: true,
+        },
+        component: () => import('@/views/bigDataScreen/index.vue'),
+      },
     ],
   },
   {
