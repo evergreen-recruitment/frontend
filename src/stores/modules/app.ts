@@ -97,6 +97,8 @@ export const useAppStore = defineStore(
       },
     })
 
+    const screenWidth = ref(window.innerWidth || document.documentElement.clientWidth)
+
     // 设置最小屏幕宽度
     const minScreenWidth = ref(
       document.documentElement.clientWidth > 1400 ? 1400 : document.documentElement.clientWidth > 1280 ? 1280 : 1024,
@@ -114,10 +116,10 @@ export const useAppStore = defineStore(
 
     function setBodyZoom() {
       const body = document.body as HTMLBodyElement
-      const screenWidth = window.innerWidth || document.documentElement.clientWidth
+      screenWidth.value = window.innerWidth || document.documentElement.clientWidth
       document.documentElement.style.setProperty(
         '--screen-width',
-        `${screenWidth}
+        `${screenWidth.value}
         px`,
       )
 
@@ -131,8 +133,8 @@ export const useAppStore = defineStore(
           return
         }
       }
-      if (screenWidth < minScreenWidthComp.value) {
-        const zoomValue = (screenWidth / minScreenWidthComp.value) * 100
+      if (screenWidth.value < minScreenWidthComp.value) {
+        const zoomValue = (screenWidth.value / minScreenWidthComp.value) * 100
         // @ts-ignore
         // body.style.zoom = `${zoomValue}% `
         document.documentElement.style.setProperty('--zoom', zoomValue)
@@ -183,6 +185,7 @@ export const useAppStore = defineStore(
       darkMode,
       showCardBorder,
       showCardBorderComp,
+      screenWidth,
       minScreenWidth,
       minScreenWidthComp,
       tokenExpiresComp,

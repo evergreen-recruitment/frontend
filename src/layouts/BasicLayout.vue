@@ -18,6 +18,14 @@ const containerWidth = computed(() => {
 })
 onBeforeMount(async () => {
   if (userStore.token !== undefined && userStore.token !== '') {
+    if (appStore.screenWidth < 768) {
+      userStore.isGuide = {
+        homePage: true,
+        jobSearchPage: true,
+        jobDetailPage: true,
+      }
+    }
+
     const res = await isCompleteUserInfoApi()
     if (res === false) {
       router.push({

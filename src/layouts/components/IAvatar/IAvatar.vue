@@ -1,11 +1,11 @@
 <script lang="ts" setup>
-import { useUserStore } from '@/stores'
-import { computed, onUnmounted, ref } from 'vue'
+import { useAppStore, useUserStore } from '@/stores'
+import { computed, ref } from 'vue'
 import type { UserInfoType } from '@/apis/user'
 
 const userStore = useUserStore()
+const appStore = useAppStore()
 const userInfo = computed<UserInfoType>(() => userStore.userInfo)
-const screenWidth = ref(window.innerWidth || document.documentElement.clientWidth)
 const menuList = ref([
   {
     id: 3,
@@ -32,23 +32,21 @@ const menuList = ref([
     title: '投递信息',
   },
 ])
-
-function getScreenWidth() {
-  screenWidth.value = window.innerWidth || document.documentElement.clientWidth
-}
-
-// 监听窗口大小变化
-window.addEventListener('resize', getScreenWidth)
-
-onUnmounted(() => {
-  window.removeEventListener('resize', getScreenWidth)
-})
 </script>
 
 <template>
   <div class="i-avatar">
-    <a-dropdown :trigger="['hover']" placement="bottomRight">
-      <div class="i-avatar__wrapper" @click="$router.push('/user/center')">
+    <a-dropdown :trigger="[appStore.screenWidth < 768 ? 'click' : 'hover']" placement="bottomRight">
+      <div
+        class="i-avatar__wrapper"
+        @click="
+          () => {
+            if (appStore.screenWidth > 768) {
+              $router.push('/user/center')
+            }
+          }
+        "
+      >
         <div class="i-avatar__wrapper--icon">
           <a-avatar :size="40" :src="userInfo.avatar" />
         </div>
@@ -83,12 +81,14 @@ onUnmounted(() => {
               </div>
             </div>
           </a-menu-item>
-          <a-menu-item v-for="menu in menuList" :key="menu.id">
-            <i-navigator class="menu-btn" :to="menu.path">
-              <Icon :icon="menu.icon" :size="16" />
-              {{ menu.title }}
-            </i-navigator>
-          </a-menu-item>
+          <template v-if="appStore.screenWidth < 1200">
+            <a-menu-item v-for="menu in menuList" :key="menu.id">
+              <i-navigator class="menu-btn" :to="menu.path">
+                <Icon :icon="menu.icon" :size="16" />
+                {{ menu.title }}
+              </i-navigator>
+            </a-menu-item>
+          </template>
           <a-menu-divider />
           <a-menu-item key="1">
             <Icon icon="TeamOutlined" />
@@ -101,7 +101,7 @@ onUnmounted(() => {
         </a-menu>
       </template>
     </a-dropdown>
-    <div v-if="screenWidth > 1200" class="i-avatar__menu-right">
+    <div v-if="appStore.screenWidth > 1200" class="i-avatar__menu-right">
       <a-tooltip placement="bottom" v-for="menu in menuList" :key="menu.id">
         <template #title>
           <span>{{ menu.title }}</span>

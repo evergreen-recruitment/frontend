@@ -70,19 +70,6 @@ onMounted(async () => {
   knowledgeGraphData.value = await getHomeKnowledgeGraphApi()
   category.value = statusStore.jobCategory
 
-  // 设置定时器 每3s 减少--job-name-top 65px 一共减少 hotSearch.length * 65px
-  jobNameInterval = setInterval(() => {
-    const jobName = document.querySelector('.job-name') as HTMLElement
-    const jobNameOuter = document.querySelector('.job-name-outer') as HTMLElement
-    const jobNameTop = Number(jobName.style.getPropertyValue('--job-name-top').replace('px', ''))
-    const leftTitle = document.querySelector('.left-panel .title') as HTMLElement
-    const fontSize = Number(leftTitle.style.getPropertyValue('--fontSize').replace('px', ''))
-    jobName.style.setProperty('--job-name-top', `${jobNameTop - fontSize + 1}px`)
-    if (jobNameTop <= -fontSize * (hotSearch.value.length - 1)) {
-      jobName.style.setProperty('--job-name-top', '0px')
-    }
-  }, 3000)
-
   // 初始化页面时使用一次
   scrollEvent()
 })
@@ -96,6 +83,18 @@ onUnmounted(() => {
 
 nextTick(async () => {
   await userStore.getUserState()
+
+  // 设置定时器 每3s 减少--job-name-top 65px 一共减少 hotSearch.length * 65px
+  jobNameInterval = setInterval(() => {
+    const jobName = document.querySelector('.job-name') as HTMLElement
+    const jobNameTop = Number(getComputedStyle(jobName).getPropertyValue('--job-name-top').replace('px', ''))
+    const leftTitle = document.querySelector('.left-panel .title-panel .title') as HTMLElement
+    const fontSize = Number(getComputedStyle(leftTitle).getPropertyValue('--font-size').replace('px', ''))
+    jobName.style.setProperty('--job-name-top', `${jobNameTop - (fontSize + 1)}px`)
+    if (jobNameTop <= -fontSize * (hotSearch.value.length - 1)) {
+      jobName.style.setProperty('--job-name-top', '0px')
+    }
+  }, 3000)
 })
 </script>
 
@@ -113,7 +112,7 @@ nextTick(async () => {
         <div class="title-panel">
           <div class="title">
             <span class="font-bold">『常青招聘』</span>
-            <span class="text-2xl">为您推荐</span><br />
+            <span class="text-lg sm:text-2xl">为您推荐</span><br />
             最适合的岗位
             <div class="job-name-outer">
               <div class="job-name">
@@ -129,14 +128,10 @@ nextTick(async () => {
             </div>
           </div>
           <div class="sub-title">
-            我们设计了优秀的推荐算法、知识图谱分析，为你推荐最适合的岗位<br />
-            数据库中包含我们爬取的{{ 11300 }}+岗位信息
+            我们设计了优秀的推荐算法与多元化知识图谱分析，<br />
+            所使用数据库涵盖{{ 11300 }}+条岗位信息，为您推荐最适合的岗位
           </div>
           <div v-if="!userStateRef.isLogin" class="get-start">
-            <!--<a-button type="primary" @click="$router.push('/auth/login')">-->
-            <!--  登录以获取详细推荐信息-->
-            <!--  <Icon icon="RightOutlined" />-->
-            <!--</a-button>-->
             <button class="get-start-btn" @click="$router.push('/auth/login')">
               登录以获取详细推荐信息
               <div class="icon">
@@ -394,9 +389,13 @@ nextTick(async () => {
       z-index: 9999;
 
       .tip {
-        @apply text-2xl text-center;
+        @apply text-2xl text-center font-medium;
+        @media screen and (max-width: 768px) {
+          @apply text-lg;
+        }
+
         @include useTheme {
-          color: color-mix(in srgb, getColor('primary'), getModeVar('textColor') 70%);
+          color: color-mix(in srgb, getColor('primary'), getModeVar('textColor') 60%);
         }
       }
 
@@ -428,37 +427,49 @@ nextTick(async () => {
         //}
 
         .title {
-          --fontSize: 60px;
+          --font-size: 60px;
           @apply text-center mb-5;
-          font-size: var(--fontSize);
+          font-size: var(--font-size);
 
           @media screen and (max-width: 1280px) {
-            --fontSize: 50px;
+            --font-size: 50px;
           }
 
           @media screen and (max-width: 768px) {
-            --fontSize: 45px;
+            --font-size: 45px;
           }
 
+          //@include useTheme {
+          //  color: rgba((adjust-hue(hsl(0, 70%, 20%), hue(getColor('primary')))), 0.9);
+          //  text-shadow: 1px 2px 7px rgba((adjust-hue(hsl(0, 70%, 20%), hue(getColor('primary')))), 0.5);
+          //}
+
           .job-name-outer {
-            @apply relative h-[var(--fontSize)] overflow-hidden;
+            @apply relative h-[var(--font-size)] overflow-hidden;
             .job-name {
               --job-name-top: 0px;
               @apply relative top-[var(--job-name-top)] flex flex-col font-bold;
               transition: top 0.5s;
 
               .item {
-                @apply h-[calc(var(--fontSize)+1px)] leading-[calc(var(--fontSize)+1px)] cursor-pointer;
+                @apply h-[calc(var(--font-size)+1px)] leading-[calc(var(--font-size)+1px)] cursor-pointer;
               }
             }
           }
         }
 
         .sub-title {
-          @apply text-gray-500;
+          //@include useTheme {
+          //  color: rgba((adjust-hue(hsl(0, 30%, 40%), hue(getColor('primary')))), 0.9);
+          //  text-shadow: 1px 2px 5px rgba((adjust-hue(hsl(0, 30%, 40%), hue(getColor('primary')))), 0.3);
+          //}
 
           @media screen and (max-width: 768px) {
             @apply text-sm;
+          }
+
+          @media screen and (max-width: 432px) {
+            @apply text-xs;
           }
         }
 
@@ -477,6 +488,7 @@ nextTick(async () => {
             }
 
             border-radius: calc(var(--border-radius) * 1.5);
+
             @include useTheme {
               background: getColor('primary');
               box-shadow: inset 0 0 1.6em -0.6em getColor('primary');
@@ -532,7 +544,11 @@ nextTick(async () => {
         @apply absolute right-[10%] bottom-0 w-[60%] h-fit object-center;
 
         @media screen and (max-width: 1280px) {
-          @apply w-[80%] right-[10%] bottom-0;
+          @apply w-[80%] left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2;
+        }
+
+        @media screen and (max-width: 768px) {
+          @apply w-full left-1/2 top-2/3 transform -translate-x-1/2 -translate-y-1/2;
         }
       }
     }

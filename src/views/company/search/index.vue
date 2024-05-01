@@ -181,7 +181,7 @@ onUnmounted(() => {
   }
 
   .search-panel {
-    @apply sticky top-[55px] w-full mx-auto p-5 pb-10 z-10;
+    @apply sticky top-[55px] w-full mx-auto p-5 pb-10 z-10 box-border;
     transition: top 0.3s;
     @include useTheme {
       background-color: getModeVar('cardBgColor');
@@ -218,7 +218,7 @@ onUnmounted(() => {
   }
 
   .company {
-    @apply flex justify-between max-w-[var(--min-screen-width)] w-full mx-auto mt-5;
+    @apply flex justify-between w-full max-w-[min(100%,var(--min-screen-width))] mx-auto mt-5;
   }
 }
 </style>

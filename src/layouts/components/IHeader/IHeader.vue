@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { useAppStore, useStatusStore, useUserStore } from '@/stores'
-import { onUnmounted, reactive, ref } from 'vue'
+import { reactive, ref } from 'vue'
 import { getAssetsFile, limitMin } from '@/utils/utils'
 import IAvatar from '@/layouts/components/IAvatar/IAvatar.vue'
 import { constantRouterMap, getAsyncRouterMap, type IRouter } from '@/config/router.config'
@@ -9,7 +9,6 @@ import router from '@/router'
 const statusStore = useStatusStore()
 const userStore = useUserStore()
 const userStateRef = ref(userStore.userState)
-const screenWidth = ref(window.innerWidth || document.documentElement.clientWidth)
 const appStore = useAppStore()
 type LinkType = {
   id: string
@@ -50,13 +49,13 @@ const links = reactive<LinkType[]>([
   },
   {
     id: '5',
-    title: 'APP',
-    path: '#',
-    outer: false,
+    title: '数据大屏',
+    path: '/blank/bigDataScreen',
+    outer: true,
   },
   {
     id: '6',
-    title: '社区',
+    title: 'APP',
     path: '#',
     outer: false,
   },
@@ -84,17 +83,6 @@ function submitSearch() {
     },
   })
 }
-
-function getScreenWidth() {
-  screenWidth.value = window.innerWidth || document.documentElement.clientWidth
-}
-
-// 监听窗口大小变化
-window.addEventListener('resize', getScreenWidth)
-
-onUnmounted(() => {
-  window.removeEventListener('resize', getScreenWidth)
-})
 </script>
 
 <template>
@@ -105,7 +93,7 @@ onUnmounted(() => {
           <a href="/">
             <img
               :src="
-                screenWidth < 768
+                appStore.screenWidth < 768
                   ? getAssetsFile('images/logo.png')
                   : appStore.darkMode == 'light'
                     ? getAssetsFile('images/logo1-black.png')
@@ -130,8 +118,8 @@ onUnmounted(() => {
             </template>
           </a-popover>
           <i-navigator
-            v-for="i in screenWidth < 1200
-              ? links.slice(0, limitMin(links.length - (1200 - screenWidth) / 80, 0))
+            v-for="i in appStore.screenWidth < 1200
+              ? links.slice(0, limitMin(links.length - (1200 - appStore.screenWidth) / 80, 0))
               : links"
             :class="[$router.currentRoute.value.path === i.path ? 'active-nav-item' : '']"
             :open-in-new-window="i.outer"
@@ -144,7 +132,7 @@ onUnmounted(() => {
           <a-popover placement="bottom">
             <template #content>
               <i-navigator
-                v-for="i in links.slice(limitMin(links.length - (1200 - screenWidth) / 80, 0), links.length)"
+                v-for="i in links.slice(limitMin(links.length - (1200 - appStore.screenWidth) / 80, 0), links.length)"
                 :class="[$router.currentRoute.value.path === i.path ? 'active-nav-item' : '']"
                 :open-in-new-window="i.outer"
                 :to="i.path"
@@ -154,7 +142,7 @@ onUnmounted(() => {
                 {{ i.title }}
               </i-navigator>
             </template>
-            <div class="nav-item" v-if="screenWidth < 1200">
+            <div class="nav-item" v-if="appStore.screenWidth < 1200">
               <Icon icon="EllipsisOutlined" style="font-weight: bold" />
             </div>
           </a-popover>
@@ -183,10 +171,12 @@ onUnmounted(() => {
         </div>
       </div>
       <div v-if="!userStore.token" class="i-header__inner-right i-header__inner-not-login">
-        <i-navigator v-if="screenWidth > 1200" class="nav-item" to="/empAuth/login"> 我是招聘人</i-navigator>
-        <i-navigator v-if="screenWidth > 1200" class="nav-item" to="/auth/loginByCaptcha"> 我是求职者</i-navigator>
+        <i-navigator v-if="appStore.screenWidth > 1200" class="nav-item" to="/empAuth/login"> 我是招聘人</i-navigator>
+        <i-navigator v-if="appStore.screenWidth > 1200" class="nav-item" to="/auth/loginByCaptcha">
+          我是求职者
+        </i-navigator>
         <button class="i-header__login" @click="$router.push('/auth/loginByCaptcha')">
-          {{ screenWidth > 768 ? '登录 | 注册' : '登录' }}
+          {{ appStore.screenWidth > 768 ? '登录 | 注册' : '登录' }}
           <div class="icon">
             <Icon icon="ArrowRightOutlined" />
           </div>
@@ -207,6 +197,10 @@ onUnmounted(() => {
   --shadow-opacity: 0.1;
   @apply sticky top-0 w-full h-[55px] flex items-center justify-between px-4 backdrop-blur-xl z-10 box-border;
   box-shadow: 0 2px 8px 0 rgba(0, 0, 0, var(--shadow-opacity));
+
+  @media screen and (max-width: 768px) {
+    @apply px-1;
+  }
 
   @include useTheme {
     @if (getMode() == 'dark') {
@@ -247,11 +241,19 @@ onUnmounted(() => {
             margin: 0 5px;
           }
 
+          @media screen and (max-width: 768px) {
+            margin: 0 2px;
+          }
+
           img {
             height: 50px;
             width: 100%;
             object-fit: cover;
             object-position: left center;
+
+            @media screen and (max-width: 768px) {
+              height: 40px;
+            }
           }
         }
       }
@@ -260,11 +262,19 @@ onUnmounted(() => {
         @apply flex items-center ml-4 space-x-3;
 
         .location {
-          @apply relative flex items-center justify-center p-0;
+          @apply text-base relative flex items-center justify-center p-0;
           span:nth-child(1) {
+            @apply text-lg;
             @include useTheme {
-              @apply text-lg;
               color: getColor('primary');
+            }
+          }
+
+          @media screen and (max-width: 432px) {
+            @apply text-sm;
+
+            span:nth-child(1) {
+              @apply text-base;
             }
           }
         }
@@ -289,6 +299,10 @@ onUnmounted(() => {
 
     .i-header__inner-center {
       @apply flex-1 h-full px-10 box-border;
+
+      @media screen and (max-width: 768px) {
+        @apply px-4;
+      }
 
       @include useTheme {
         .search-bar-hover {

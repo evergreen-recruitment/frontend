@@ -25,11 +25,7 @@ const minWidthMarks = ref({
 </script>
 
 <template>
-  <a-float-button-group
-    shape="square"
-    class="bottom-float-btn"
-    style="position: fixed; right: 50px; bottom: 100px; z-index: 999"
-  >
+  <a-float-button-group shape="square" class="bottom-float-btn">
     <a-float-button type="primary" @click="$router.push('#')">
       <template #icon>
         <Icon icon="VerticalAlignTopOutlined" />
@@ -126,6 +122,13 @@ const minWidthMarks = ref({
 
 <style scoped lang="scss">
 @import '@/styles/theme.scss';
+
+.bottom-float-btn {
+  @apply fixed bottom-10 right-10 z-[9999];
+  @media screen and (max-width: 432px) {
+    @apply right-5;
+  }
+}
 
 .setting-page {
   @apply rounded-[var(--border-radius)];

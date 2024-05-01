@@ -3,6 +3,10 @@
   .nav-item {
     @apply px-2 py-1 text-sm transition-colors rounded-[var(--border-radius)] cursor-pointer;
 
+    @media screen and (max-width: 768px) {
+      @apply text-xs;
+    }
+
     &:hover {
       @include useTheme {
         background: rgba(getModeVar('infoColor'), 0.1);

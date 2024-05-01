@@ -125,6 +125,7 @@ function updatePosition() {
 
 <style lang="scss" scoped>
 .company-list-outer {
+  @apply w-full;
   :deep(.ant-input-number) {
     width: 100% !important;
     border: none !important;
@@ -139,7 +140,7 @@ function updatePosition() {
   }
 
   .company-list {
-    @apply box-border max-w-[var(--min-screen-width)] w-full grid gap-[15px] w-[calc(100%-1rem)];
+    @apply box-border grid gap-[15px] w-[calc(100%-1rem)] max-w-[min(100%,var(--min-screen-width))] mx-auto;
     --card-width: 17.5rem;
     --card-height: 10rem;
     grid-template-columns: repeat(auto-fit, minmax(var(--card-width), 1fr));
