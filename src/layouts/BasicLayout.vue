@@ -39,7 +39,7 @@ onBeforeMount(async () => {
     <router-view
       v-slot="{ Component }"
       :style="{
-        width: containerWidth,
+        width: `min(100%, ${containerWidth})`,
       }"
       class="i-layout__inner"
     >

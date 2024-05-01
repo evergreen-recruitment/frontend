@@ -434,10 +434,17 @@ nextTick(async () => {
       @apply relative w-full h-full z-10;
       .title-panel {
         @apply inline-block relative top-[40%] left-[7%];
-        @media screen and (max-width: 768px) {
+        @media screen and (max-width: 1280px) {
           @apply top-[50%] left-1/2;
           transform: translate(-50%, -50%);
         }
+
+        // 字体边缘羽化效果，mask有问题，应该选择生成字体的mask
+        //.title,
+        //.sub-title {
+        //  backdrop-filter: blur(5px);
+        //  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3CforeignObject width='100%25' height='100%25'%3E%3Cbody class='wrap' xmlns='http://www.w3.org/1999/xhtml'%3E%3Cstyle%3E.wrap%7Bbox-sizing:border-box;margin:0;height:100%25;padding:15px%7D.shadow%7Bheight:100%25;background:black;border-radius:10px;box-shadow:0 0 5px black, 0 0 10px black, 0 0 15px black %7D%3C/style%3E%3Cdiv class='shadow'/%3E%3C/body%3E%3C/foreignObject%3E%3C/svg%3E");
+        //}
 
         .title {
           --fontSize: 60px;
@@ -527,7 +534,7 @@ nextTick(async () => {
       img {
         @apply absolute right-[10%] bottom-0 w-[60%] h-fit object-center;
 
-        @media screen and (max-width: 768px) {
+        @media screen and (max-width: 1280px) {
           @apply w-[80%] right-[10%] bottom-0;
         }
       }

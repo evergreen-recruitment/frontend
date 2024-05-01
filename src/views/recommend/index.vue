@@ -11,12 +11,10 @@ import type { StepProps } from 'ant-design-vue'
 import { useUserStore } from '@/stores'
 import router from '@/router'
 import { getNewJobsApi } from '@/apis/job'
+import { message } from 'ant-design-vue'
 
 const userStore = useUserStore()
-const tabKey = ref('1')
 const recommendJobList = ref()
-const newJobList = ref()
-const nearbyJobList = ref()
 const items = [
   {
     title: '登录/注册',
@@ -64,9 +62,8 @@ onMounted(async () => {
   await userStore.getUserState()
   res.value = [userStore.userState.isLogin, userStore.userState.isCompleteInfo, userStore.userState.isUploadApplication]
 
-  newJobList.value = await getNewJobsApi({ pageSize: 24 })
   recommendJobList.value = await getNewJobsApi({ current: 2, pageSize: 24 })
-  nearbyJobList.value = await getNewJobsApi({ current: 3, pageSize: 24 })
+  message.success('获取推荐岗位成功')
 })
 </script>
 
@@ -79,23 +76,10 @@ onMounted(async () => {
     </i-card>
     <div v-if="compCurrent === 5" v-slide-in="{ distance: 200 }" class="job-recommend block-item">
       <div class="company-list-outer">
-        <div class="job-list">
+        <a-spin v-if="!recommendJobList" size="large" />
+        <div v-else class="job-list">
           <job-card v-for="job in recommendJobList" :key="job.id" :job="job" />
         </div>
-        <!--<a-tabs v-model:activeKey="tabKey" animated style="width: 100%; overflow: hidden; padding: 5px 0">-->
-        <!--  <a-tab-pane key="1" tab="推荐岗位">-->
-        <!--  </a-tab-pane>-->
-        <!--  <a-tab-pane key="2" tab="最新岗位">-->
-        <!--    <div class="job-list">-->
-        <!--      <job-card v-for="job in newJobList" :key="job.id" :job="job" />-->
-        <!--    </div>-->
-        <!--  </a-tab-pane>-->
-        <!--  <a-tab-pane key="3" tab="附近岗位">-->
-        <!--    <div class="job-list">-->
-        <!--      <job-card v-for="job in nearbyJobList" :key="job.id" :job="job" />-->
-        <!--    </div>-->
-        <!--  </a-tab-pane>-->
-        <!--</a-tabs>-->
       </div>
     </div>
   </div>
@@ -114,7 +98,7 @@ onMounted(async () => {
     @apply my-5 mx-auto flex flex-col  justify-center box-border;
 
     .company-list-outer {
-      @apply flex items-center justify-center;
+      @apply flex items-center justify-center min-h-[50vh];
       .job-list {
         @apply grid gap-[15px] w-[calc(100%-1rem)];
         --card-width: 17.5rem;
