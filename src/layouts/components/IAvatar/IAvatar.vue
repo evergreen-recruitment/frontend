@@ -1,36 +1,48 @@
 <script lang="ts" setup>
 import { useUserStore } from '@/stores'
-import { computed, ref } from 'vue'
+import { computed, onUnmounted, ref } from 'vue'
 import type { UserInfoType } from '@/apis/user'
 
 const userStore = useUserStore()
 const userInfo = computed<UserInfoType>(() => userStore.userInfo)
+const screenWidth = ref(window.innerWidth || document.documentElement.clientWidth)
 const menuList = ref([
   {
-    id: 1,
+    id: 3,
     icon: 'UserOutlined',
     path: '/user/center',
     title: '用户中心',
   },
   {
-    id: 2,
+    id: 4,
     icon: 'FileTextOutlined',
     path: '/user/application',
     title: '个人简历',
   },
   {
-    id: 3,
+    id: 5,
     icon: 'EyeOutlined',
     path: '/blank/user/previewApplication',
     title: '预览在线简历',
   },
   {
-    id: 4,
+    id: 6,
     icon: 'FlagOutlined',
     path: '/user/delivery',
     title: '投递信息',
   },
 ])
+
+function getScreenWidth() {
+  screenWidth.value = window.innerWidth || document.documentElement.clientWidth
+}
+
+// 监听窗口大小变化
+window.addEventListener('resize', getScreenWidth)
+
+onUnmounted(() => {
+  window.removeEventListener('resize', getScreenWidth)
+})
 </script>
 
 <template>
@@ -71,6 +83,12 @@ const menuList = ref([
               </div>
             </div>
           </a-menu-item>
+          <a-menu-item v-for="menu in menuList" :key="menu.id">
+            <i-navigator class="menu-btn" :to="menu.path">
+              <Icon :icon="menu.icon" :size="16" />
+              {{ menu.title }}
+            </i-navigator>
+          </a-menu-item>
           <a-menu-divider />
           <a-menu-item key="1">
             <Icon icon="TeamOutlined" />
@@ -83,7 +101,7 @@ const menuList = ref([
         </a-menu>
       </template>
     </a-dropdown>
-    <div class="i-avatar__menu-right">
+    <div v-if="screenWidth > 1200" class="i-avatar__menu-right">
       <a-tooltip placement="bottom" v-for="menu in menuList" :key="menu.id">
         <template #title>
           <span>{{ menu.title }}</span>

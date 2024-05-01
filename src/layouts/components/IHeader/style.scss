@@ -1,0 +1,18 @@
+.ant-popover-inner-content {
+  @apply flex items-center justify-center;
+  .nav-item {
+    @apply px-2 py-1 text-sm transition-colors rounded-[var(--border-radius)] cursor-pointer;
+
+    &:hover {
+      @include useTheme {
+        background: rgba(getModeVar('infoColor'), 0.1);
+      }
+    }
+  }
+
+  .active-nav-item {
+    @include useTheme {
+      color: getColor('primary');
+    }
+  }
+}

@@ -302,3 +302,12 @@ export function removeNullUndefinedProps<T>(obj: T): T {
 
   return updatedObj as T
 }
+
+/**
+ * 限制最小值
+ * @param val
+ * @param min
+ */
+export function limitMin(val: number, min: number): number {
+  return val < min ? min : val
+}

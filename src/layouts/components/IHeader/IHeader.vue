@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { useAppStore, useStatusStore, useUserStore } from '@/stores'
-import { computed, reactive, ref } from 'vue'
-import { getAssetsFile } from '@/utils/utils'
+import { computed, onUnmounted, reactive, ref } from 'vue'
+import { getAssetsFile, limitMin } from '@/utils/utils'
 import IAvatar from '@/layouts/components/IAvatar/IAvatar.vue'
 import { constantRouterMap, getAsyncRouterMap, type IRouter } from '@/config/router.config'
 import router from '@/router'
@@ -9,6 +9,7 @@ import router from '@/router'
 const statusStore = useStatusStore()
 const userStore = useUserStore()
 const userInfo = computed(() => userStore.userInfo)
+const screenWidth = ref(window.innerWidth || document.documentElement.clientWidth)
 const appStore = useAppStore()
 type LinkType = {
   id: string
@@ -83,6 +84,17 @@ function submitSearch() {
     },
   })
 }
+
+function getScreenWidth() {
+  screenWidth.value = window.innerWidth || document.documentElement.clientWidth
+}
+
+// 监听窗口大小变化
+window.addEventListener('resize', getScreenWidth)
+
+onUnmounted(() => {
+  window.removeEventListener('resize', getScreenWidth)
+})
 </script>
 
 <template>
@@ -93,9 +105,11 @@ function submitSearch() {
           <a href="/">
             <img
               :src="
-                appStore.darkMode == 'light'
-                  ? getAssetsFile('images/logo1-black.png')
-                  : getAssetsFile('images/logo1-white.png')
+                screenWidth < 768
+                  ? getAssetsFile('images/logo.png')
+                  : appStore.darkMode == 'light'
+                    ? getAssetsFile('images/logo1-black.png')
+                    : getAssetsFile('images/logo1-white.png')
               "
               alt=""
             />
@@ -116,7 +130,9 @@ function submitSearch() {
             </template>
           </a-popover>
           <i-navigator
-            v-for="i in links"
+            v-for="i in screenWidth < 1200
+              ? links.slice(0, limitMin(links.length - (1200 - screenWidth) / 80, 1))
+              : links"
             :class="[$router.currentRoute.value.path === i.path ? 'active-nav-item' : '']"
             :open-in-new-window="i.outer"
             :to="i.path"
@@ -125,6 +141,23 @@ function submitSearch() {
             <Icon v-if="i.icon" :icon="i.icon" />
             {{ i.title }}
           </i-navigator>
+          <a-popover placement="bottom">
+            <template #content>
+              <i-navigator
+                v-for="i in links.slice(limitMin(links.length - (1200 - screenWidth) / 80, 1), links.length)"
+                :class="[$router.currentRoute.value.path === i.path ? 'active-nav-item' : '']"
+                :open-in-new-window="i.outer"
+                :to="i.path"
+                class="nav-item"
+              >
+                <Icon v-if="i.icon" :icon="i.icon" />
+                {{ i.title }}
+              </i-navigator>
+            </template>
+            <div class="nav-item" v-if="screenWidth < 1200">
+              <Icon icon="EllipsisOutlined" style="font-weight: bold" />
+            </div>
+          </a-popover>
         </div>
       </div>
       <div class="i-header__inner-center">
@@ -166,8 +199,9 @@ function submitSearch() {
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @import '@/styles/theme.scss';
+@import './style.scss';
 
 .i-header {
   --shadow-opacity: 0.1;
