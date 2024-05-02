@@ -131,7 +131,7 @@ const minWidthMarks = ref({
 }
 
 .setting-page {
-  @apply rounded-[var(--border-radius)];
+  @apply w-full h-full rounded-[var(--border-radius)];
   min-height: 0 !important;
 
   .setting-page__title {

@@ -16,7 +16,7 @@ const jobName = ref(jobCategory.value[1].name)
       <div class="user-panel-top">
         <div class="left">
           <div class="avatar">
-            <img :src="userInfo?.avatar" />
+            <a-image :src="userInfo?.avatar" />
           </div>
         </div>
         <div class="right">

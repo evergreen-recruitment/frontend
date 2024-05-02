@@ -137,7 +137,7 @@ async function customUploadImage(e: UploadRequestOption) {
                   <span>头像</span>
                 </div>
                 <div v-if="userInfoForm.avatar" class="avatar-img">
-                  <img :src="userInfoForm.avatar" alt="" />
+                  <a-image :src="userInfoForm.avatar" />
                 </div>
                 <div v-else class="avatar-icon">
                   <Icon icon="UserOutlined" />

@@ -174,7 +174,7 @@ nextTick(async () => {
           <div v-if="userStore.token" class="user-aside">
             <div class="user-info">
               <div class="avatar">
-                <img alt="avatar" :src="userStore.userInfo?.avatar" />
+                <a-image :src="userStore.userInfo?.avatar" />
               </div>
               <div class="name">{{ userStore.userInfo.realName }}</div>
               <div class="desc">{{ userStore.userInfo.email }}</div>
