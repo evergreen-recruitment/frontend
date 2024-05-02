@@ -21,8 +21,10 @@ const searchState = ref<CompanySearchFormType>({
 })
 const companyFilterData = ref<CompanyFilterType>({
   industryId: null,
-  scaleId: -1,
-  stageId: -1,
+  scaleId: null,
+  stageId: null,
+  jobNumSort: null,
+  employeeNumSort: null,
 })
 const hotCities = ref<CityItemType[]>([])
 const searchCompanyList = ref<SimpleCompanyType[]>([])
@@ -46,6 +48,8 @@ function submit() {
       industryId: companyFilterData.value.industryId,
       scaleId: companyFilterData.value.scaleId,
       stageId: companyFilterData.value.stageId,
+      jobNumSort: companyFilterData.value.jobNumSort,
+      employeeNumSort: companyFilterData.value.employeeNumSort,
     },
   })
 }
@@ -87,6 +91,12 @@ const routerPathWatch = watch(
     }
     if (newVal?.stageId) {
       companyFilterData.value.stageId = Number(newVal?.stageId)
+    }
+    if (newVal?.jobNumSort) {
+      companyFilterData.value.jobNumSort = Number(newVal?.jobNumSort)
+    }
+    if (newVal?.employeeNumSort) {
+      companyFilterData.value.employeeNumSort = Number(newVal?.employeeNumSort)
     }
     await getSearchResult()
   },

@@ -8,10 +8,10 @@ import {
   UserOutlined,
 } from '@ant-design/icons-vue'
 import type { StepProps } from 'ant-design-vue'
+import { message } from 'ant-design-vue'
 import { useUserStore } from '@/stores'
 import router from '@/router'
 import { getNewJobsApi } from '@/apis/job'
-import { message } from 'ant-design-vue'
 
 const userStore = useUserStore()
 const recommendJobList = ref()
@@ -63,7 +63,9 @@ onMounted(async () => {
   res.value = [userStore.userState.isLogin, userStore.userState.isCompleteInfo, userStore.userState.isUploadApplication]
 
   recommendJobList.value = await getNewJobsApi({ current: 2, pageSize: 24 })
-  message.success('获取推荐岗位成功')
+  if (res.value[2] && recommendJobList.value) {
+    message.success('获取推荐岗位成功')
+  }
 })
 </script>
 

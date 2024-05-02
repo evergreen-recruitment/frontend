@@ -65,6 +65,18 @@ export const CompanyStageEnum = {
   7: '不需要融资',
 }
 
+export const CompanyJobNumSortEnum = {
+  0: '正常',
+  1: '升序',
+  '-1': '降序',
+}
+
+export const CompanyEmployeeNumSortEnum = {
+  0: '正常',
+  1: '升序',
+  '-1': '降序',
+}
+
 export function getHotCompanyApi() {
   return request
     .Get(
@@ -84,4 +96,14 @@ export function companySearchApi(searchForm: CompanySearchFormType) {
       { headers: { 'Content-Type': 'application/json' }, ignoreToken: true },
     )
     .send(true) as Promise<PageType<SimpleCompanyType>>
+}
+
+export function getCompanyDetailApi(companyId: string) {
+  return request
+    .Get(
+      '/company/detail',
+      // @ts-ignore
+      { headers: { 'Content-Type': 'application/json' }, ignoreToken: true, params: { companyId } },
+    )
+    .send(true) as Promise<CompanyDetailType>
 }

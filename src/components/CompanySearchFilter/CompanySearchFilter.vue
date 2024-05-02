@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useStatusStore } from '@/stores'
 import type { CompanyFilterType } from '@/apis/company'
-import { CompanyScaleEnum, CompanyStageEnum } from '@/apis/company'
+import { CompanyEmployeeNumSortEnum, CompanyJobNumSortEnum, CompanyScaleEnum, CompanyStageEnum } from '@/apis/company'
 import { useVModel } from '@vueuse/core'
 import type { CascaderProps } from 'ant-design-vue'
 import type { ShowSearchType } from 'ant-design-vue/es/cascader'
@@ -68,6 +68,26 @@ function handleCompanyTypeChange(value: number[]) {
         style="width: 200px"
       >
         <a-select-option v-for="(item, index) in CompanyStageEnum" :value="Number(index)">{{ item }}</a-select-option>
+      </a-select>
+      <a-select
+        v-model:value="propsCompanyFilterData.jobNumSort"
+        class="job-num-sort"
+        placeholder="按招聘者数量筛选"
+        style="width: 200px"
+      >
+        <a-select-option v-for="(item, index) in CompanyJobNumSortEnum" :value="Number(index)"
+          >{{ item }}
+        </a-select-option>
+      </a-select>
+      <a-select
+        v-model:value="propsCompanyFilterData.employeeNumSort"
+        class="employee-num-sort"
+        placeholder="融资情况"
+        style="width: 200px"
+      >
+        <a-select-option v-for="(item, index) in CompanyEmployeeNumSortEnum" :value="Number(index)"
+          >{{ item }}
+        </a-select-option>
       </a-select>
     </a-space-compact>
   </div>
