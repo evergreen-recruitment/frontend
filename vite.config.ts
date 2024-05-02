@@ -3,13 +3,14 @@ import { defineConfig, loadEnv } from 'vite'
 import { fileURLToPath, URL } from 'node:url'
 import vue from '@vitejs/plugin-vue'
 import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers'
+import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import eslintPlugin from 'vite-plugin-eslint'
 import viteCompression from 'vite-plugin-compression'
 // import vsharp from 'vite-plugin-vsharp'
 import tailwindcss from 'tailwindcss'
 import autoprefixer from 'autoprefixer'
-
+import { VueAmapResolver } from '@vuemap/unplugin-resolver'
 // https://vitejs.dev/config/
 export default defineConfig(({ command, mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
@@ -33,8 +34,12 @@ export default defineConfig(({ command, mode }) => {
           level: 5,
         },
       }),
+      AutoImport({
+        resolvers: [VueAmapResolver()],
+      }),
       Components({
         resolvers: [
+          VueAmapResolver(),
           AntDesignVueResolver({
             // 自动导入组件
             importStyle: false,

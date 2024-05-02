@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted } from 'vue'
-import AMapLoader from '@amap/amap-jsapi-loader'
+import { onUnmounted } from 'vue'
 import { isEmpty } from '@/utils/utils'
 
 const props = defineProps<{
@@ -10,55 +9,15 @@ const props = defineProps<{
 
 let map: any = null
 
-// @ts-ignore
-window._AMapSecurityConfig = {
-  securityJsCode: '180c94c4fba4aae49383fef2161ab6a1',
+function init(amap: any) {
+  map = amap
 }
 
-onMounted(() => {
-  //点标记显示内容
-  const markerContent = `<div class='custom-content-marker'>
-    <img src='https://a.amap.com/jsapi/static/image/plugin/marker_red.png'>
-  </div>
-  `
-  AMapLoader.load({
-    key: '410807074b37e182410b296f03e67c2a', // 申请好的Web端开发者Key，首次调用 load 时必填
-    version: '2.0', // 指定要加载的 JS API 的版本，缺省时默认为 1.4.15
-    plugins: [], // 需要使用的的插件列表，如比例尺'AMap.Scale'等
-  })
-    .then((AMap) => {
-      // 初始化地图
-      map = new AMap.Map(document.querySelector('div.i-map'), {
-        rotateEnable: true,
-        pitchEnable: true,
-        zoom: 18,
-        pitch: 50,
-        rotation: -15,
-        viewMode: '3D',
-        terrain: true, // 开启3D地形图
-        zooms: [12, 19],
-        center: [
-          isEmpty(props.longitude) ? 116.333926 : props.longitude,
-          isEmpty(props.latitude) ? 39.997245 : props.latitude,
-        ],
-      })
-      const marker = new AMap.Marker({
-        position: [
-          isEmpty(props.longitude) ? 116.333926 : props.longitude,
-          isEmpty(props.latitude) ? 39.997245 : props.latitude,
-        ],
-        content: markerContent,
-        offset: new AMap.Pixel(-13, -30),
-      })
-      marker.on('click', () => {
-        map.setCenter(marker.getPosition())
-      })
-      map?.add(marker)
-    })
-    .catch((e) => {
-      console.log(e)
-    })
-})
+function clickMarker() {
+  // 地图居中
+  map.setCenter([props.longitude, props.latitude])
+  map.setZoom(18)
+}
 
 onUnmounted(() => {
   map?.destroy()
@@ -66,13 +25,34 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="i-map"></div>
+  <div class="i-map">
+    <el-amap
+      :center="[isEmpty(longitude) ? 116.333926 : longitude, isEmpty(latitude) ? 39.997245 : latitude]"
+      :zoom="18"
+      :zooms="[12, 19]"
+      :pitch="50"
+      :rotation="-15"
+      view-mode="3D"
+      terrain
+      @init="init"
+    >
+      <el-amap-marker
+        :position="[isEmpty(longitude) ? 116.333926 : longitude, isEmpty(latitude) ? 39.997245 : latitude]"
+        :offset="[-10, -34]"
+        @click="clickMarker"
+      >
+        <div class="custom-content-marker">
+          <img src="https://a.amap.com/jsapi/static/image/plugin/marker_red.png" />
+        </div>
+      </el-amap-marker>
+    </el-amap>
+  </div>
 </template>
 
 <style lang="scss">
 @import './style.scss';
 
-.a-map {
+.i-map {
   @apply relative w-full h-full;
 }
 </style>

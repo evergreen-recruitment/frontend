@@ -22,6 +22,17 @@ import '@morev/vue-transitions/styles'
 // monaco editor
 import { install as VueMonacoEditorPlugin } from '@guolao/vue-monaco-editor'
 
+// 高德地图
+import VueAMap, { initAMapApiLoader } from '@vuemap/vue-amap'
+import '@vuemap/vue-amap/dist/style.css'
+
+// 初始化vue-amap
+initAMapApiLoader({
+  // 高德的key
+  key: '410807074b37e182410b296f03e67c2a',
+  securityJsCode: '180c94c4fba4aae49383fef2161ab6a1', // 新版key需要配合安全密钥使用
+})
+
 const app = createApp(App)
 app.use(router)
 app.use(pinia)
