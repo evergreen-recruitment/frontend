@@ -50,9 +50,11 @@ export const useUserStore = defineStore(
 
     async function updateUserInfo(newUserInfo: UpdateUserInfoFormType) {
       const res = await updateUserInfoApi(newUserInfo)
-      if (res === true) {
-        await getUserInfo()
+      if (res !== true) {
+        return false
       }
+      await getUserInfo()
+      return true
     }
 
     async function logout() {

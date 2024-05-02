@@ -43,8 +43,10 @@ function submit() {
       ...userInfoForm.value,
       location: userInfoForm.value.location[1],
     }
-    await userStore.updateUserInfo(obj)
-    console.log(userStore.userInfo)
+    const res = await userStore.updateUserInfo(obj)
+    if (res === true) {
+      message.success('更新用户信息成功')
+    }
     getUserInfo()
   })
 }
