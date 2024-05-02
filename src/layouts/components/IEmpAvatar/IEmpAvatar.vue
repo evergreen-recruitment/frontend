@@ -11,19 +11,19 @@ function logout() {
 </script>
 
 <template>
-  <div class="i-avatar">
+  <div class="i-emp-avatar">
     <a-dropdown :trigger="['click']">
-      <div class="i-avatar__wrapper">
-        <div class="i-avatar__wrapper--icon">
+      <div class="i-emp-avatar__wrapper">
+        <div class="i-emp-avatar__wrapper--icon">
           <a-avatar :size="40">
             <template #icon>
               <Icon icon="UserOutlined" />
             </template>
           </a-avatar>
         </div>
-        <div class="i-avatar__title">
-          <span class="i-avatar__title--hello">hello,&nbsp;</span>
-          <span class="i-avatar__title--username">{{ empInfo.realName }}</span>
+        <div class="i-emp-avatar__title">
+          <span class="i-emp-avatar__title--hello">hello,&nbsp;</span>
+          <span class="i-emp-avatar__title--username">{{ empInfo.realName }}</span>
         </div>
       </div>
       <template #overlay>
@@ -51,11 +51,11 @@ function logout() {
 <style lang="scss" scoped>
 @import '@/styles/theme.scss';
 
-.i-avatar {
-  .i-avatar__wrapper {
+.i-emp-avatar {
+  .i-emp-avatar__wrapper {
     @apply flex items-center justify-center cursor-pointer;
 
-    .i-avatar__wrapper--icon {
+    .i-emp-avatar__wrapper--icon {
       @apply flex items-center justify-center w-[40px] h-[40px] rounded-full z-[2];
       @include useTheme {
         background: getColor('primary');
@@ -63,7 +63,7 @@ function logout() {
       }
     }
 
-    .i-avatar__title {
+    .i-emp-avatar__title {
       @apply flex items-center h-[20px] rounded-full box-content;
       padding: 5px 10px 5px 25px;
       transform: translateX(-20px);
@@ -87,7 +87,7 @@ function logout() {
         display: none;
       }
 
-      .i-avatar__title--username {
+      .i-emp-avatar__title--username {
         font-weight: 600;
         // 单行省略号
         //min-width: 50px;
