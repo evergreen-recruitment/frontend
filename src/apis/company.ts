@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 import type { SimpleJobItemType } from '@/apis/job'
-import type { SimpleEmployeeType } from '@/apis/empAuth'
+import type { SimpleEmployeeType } from '@/apis/employee'
 import type { PageRequestType, PageType } from '@/types/commonTypes'
 
 export type CompanySearchFormType = {
@@ -39,6 +39,8 @@ export type CompanyDetailType = {
   scaleId: number
   stageId: number
   industryId: number
+  longitude: number
+  latitude: number
   jobVOList: SimpleJobItemType[]
   employeeVOList: SimpleEmployeeType[]
 }

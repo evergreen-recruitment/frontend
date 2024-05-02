@@ -1,5 +1,7 @@
 import request from '@/utils/request'
 import type { PageRequestType, PageType } from '@/types/commonTypes'
+import type { SimpleCompanyType } from '@/apis/company'
+import type { SimpleEmployeeType } from '@/apis/employee'
 
 export type JobCategoryType = {
   id: number
@@ -40,27 +42,10 @@ export type JobItemType = {
   updateTime: string
   jobType: number
   jobStandardName: string
-  employeeVO: EmployeeVOType
-  companyVO: CompanyVOType
-}
-
-export type EmployeeVOType = {
-  id: string
-  realName: string
-  avatar: string
-  jobIds: string[]
-}
-
-export type CompanyVOType = {
-  id: string
-  name: string
-  logo: string
-  address: string
-  description: string
-  scaleId: number
-  stageId?: number
-  industryId: number
-  jobIds: string
+  longitude: number
+  latitude: number
+  employeeVO: SimpleEmployeeType
+  companyVO: SimpleCompanyType
 }
 
 export type SimpleJobItemType = {

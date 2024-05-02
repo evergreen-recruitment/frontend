@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import type { EmpInfoType } from '@/apis/empAuth'
+import type { EmpInfoType } from '@/apis/employee'
 
 export const useEmpStore = defineStore(
   'empStore',

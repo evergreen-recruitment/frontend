@@ -42,7 +42,7 @@ evergreen-frontend
 │   │   ├── city.ts
 │   │   ├── common.ts
 │   │   ├── company.ts
-│   │   ├── empAuth.ts
+│   │   ├── employee.ts
 │   │   ├── home.ts
 │   │   ├── industry.ts
 │   │   ├── job.ts
