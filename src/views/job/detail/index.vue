@@ -368,7 +368,10 @@ nextTick(async () => {
           <a-divider />
           <div class="job-detail__hr">
             <a-avatar :src="job?.employeeVO.avatar" size="large" />
-            <span>{{ job?.employeeVO?.realName || '招聘者' }}&nbsp;</span>
+            <span
+              >{{ job?.employeeVO?.realName || '招聘者' }}&nbsp;
+              <span class="text-sm">{{ job?.employeeVO.position }}</span>
+            </span>
           </div>
         </div>
         <div class="job-detail__chart">
@@ -432,6 +435,20 @@ nextTick(async () => {
               <a-tag v-if="companyInfo.industryName" class="industry" color="pink">
                 {{ companyInfo.industryName }}
               </a-tag>
+            </div>
+          </div>
+        </div>
+
+        <div v-slide-in="{ enter: true }" class="job-detail__address card">
+          <div class="job-detail__address--title">工作地点</div>
+          <a-divider />
+          <div class="job-detail__address--content">
+            <div class="job-detail__address--content-inner">
+              <div class="address">
+                <Icon icon="PhoneOutlined" /> &nbsp;
+                {{ job?.address }}
+              </div>
+              <i-map :gps="{}" style="height: 400px" />
             </div>
           </div>
         </div>
@@ -653,6 +670,33 @@ nextTick(async () => {
             @apply mt-5 flex space-x-2;
             a-tag {
               @apply rounded-full px-3 py-1 text-sm;
+            }
+          }
+        }
+      }
+
+      .job-detail__address {
+        @apply rounded-[var(--border-radius)] shadow-lg p-5 mb-5;
+
+        @include useTheme {
+          background-color: getModeVar('cardBgColor');
+        }
+
+        .job-detail__address--title {
+          @apply text-2xl font-bold mb-4;
+        }
+
+        .job-detail__address--content {
+          @apply p-2;
+          .job-detail__address--content-inner {
+            @apply rounded-[var(--border-radius)] shadow-lg overflow-hidden box-border;
+
+            @include useTheme {
+              border: 2px solid getModeVar('borderColor');
+            }
+
+            .address {
+              @apply text-lg p-2 flex items-center space-x-4;
             }
           }
         }
