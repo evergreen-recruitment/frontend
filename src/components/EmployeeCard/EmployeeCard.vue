@@ -37,7 +37,11 @@ const appStore = useAppStore()
 @import '@/styles/theme.scss';
 
 .employee-card-outer {
-  @apply relative rounded-[var(--border-radius)];
+  @apply relative rounded-[var(--border-radius)] box-border;
+
+  @include useTheme {
+    border: 1px solid getModeVar('borderColor');
+  }
 
   &::before {
     @apply w-[70px] h-[70px] right-[10%] top-[10%] absolute rounded-full border-2 border-solid z-0;
@@ -50,12 +54,12 @@ const appStore = useAppStore()
 
   &:hover {
     &::before {
-      transform: translate(-50%, 50%);
+      transform: translate(-50%, 35%);
     }
   }
 
   .employee-card {
-    @apply relative w-full h-[140px] flex flex-col items-start justify-between rounded-[var(--border-radius)] backdrop-blur-[30px]  shadow-md cursor-pointer;
+    @apply relative w-full h-[110px] flex flex-col items-start justify-between rounded-[var(--border-radius)] backdrop-blur-[30px] shadow-md cursor-pointer;
     transition: box-shadow 0.3s;
 
     @include useTheme {
@@ -67,7 +71,6 @@ const appStore = useAppStore()
         }
       }
       background: rgba(getModeVar('cardBgColor'), 0.7);
-      border: 1px solid rgba(getColor('primary'), var(--show-border-op));
     }
 
     .employee-card__content {

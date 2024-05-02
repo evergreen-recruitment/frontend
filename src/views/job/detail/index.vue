@@ -427,6 +427,20 @@ nextTick(async () => {
                 <div class="title">{{ job?.companyVO.name }}</div>
                 <div class="address">地址：{{ job?.companyVO.address }}</div>
               </div>
+              <div class="go-to-detail">
+                <a-button
+                  type="primary"
+                  @click="
+                    $router.push({
+                      name: 'companyDetail',
+                      query: {
+                        companyId: job?.companyVO.id,
+                      },
+                    })
+                  "
+                  >查看公司详情
+                </a-button>
+              </div>
             </div>
             <div class="description">{{ job?.companyVO.description }}</div>
             <div class="tag-list">
@@ -448,7 +462,7 @@ nextTick(async () => {
                 <Icon icon="PhoneOutlined" /> &nbsp;
                 {{ job?.address }}
               </div>
-              <i-map :gps="{}" style="height: 400px" />
+              <i-map v-if="job?.address" :longitude="job?.longitude" :latitude="job?.latitude" style="height: 400px" />
             </div>
           </div>
         </div>
@@ -627,17 +641,17 @@ nextTick(async () => {
       }
 
       .job-detail__company-info {
-        @apply rounded-[var(--border-radius)] shadow-lg p-5 mb-5;
+        @apply relative rounded-[var(--border-radius)] shadow-lg p-5 mb-5;
 
         @include useTheme {
           background-color: getModeVar('cardBgColor');
         }
 
         .job-detail__company-info--content {
-          @apply p-5;
+          @apply relative p-5;
 
           .simple-info {
-            @apply flex;
+            @apply relative flex;
 
             .left {
               @apply flex items-center justify-center mr-2 w-16 h-16 mb-5;
@@ -659,6 +673,10 @@ nextTick(async () => {
               .address {
                 @apply text-sm mb-4;
               }
+            }
+
+            .go-to-detail {
+              @apply absolute right-5 top-5;
             }
           }
 

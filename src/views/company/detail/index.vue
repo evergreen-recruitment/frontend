@@ -1,17 +1,12 @@
 <script lang="ts" setup>
 import { computed, nextTick, onMounted, onUnmounted, ref, watchEffect } from 'vue'
 import router from '@/router'
-import { useAppStore, useUserStore } from '@/stores'
+import { useUserStore } from '@/stores'
 import { type CompanyDetailType, CompanyScaleEnum, CompanyStageEnum, getCompanyDetailApi } from '@/apis/company'
-import { findFullIndustry, removeNullUndefinedProps } from '@/utils/utils'
+import { findFullIndustry, isEmpty, removeNullUndefinedProps } from '@/utils/utils'
 
-const appStore = useAppStore()
 const userStore = useUserStore()
-const isLogin = ref(false)
-const delivered = ref(false)
 
-// prettier-ignore
-const welfareTagsColor = ref<string[]>(['pink', 'red', 'orange', 'green', 'cyan', 'blue', 'purple', 'pink', 'red', 'orange', 'green', 'cyan', 'blue', 'purple'])
 const company = ref<CompanyDetailType | null>()
 const companyInfo = computed(() => {
   const scale = CompanyScaleEnum[company.value?.scaleId as keyof typeof CompanyScaleEnum]
@@ -24,7 +19,7 @@ const companyInfo = computed(() => {
 
 // 监听路由变化
 const routerWatch = watchEffect(async () => {
-  if (router.currentRoute.value.path === '/company/detail' && router.currentRoute.value.query.companyId) {
+  if (router.currentRoute.value.path === '/company/detail' && !isEmpty(router.currentRoute.value.query.companyId)) {
     company.value = await getCompanyDetailApi(router.currentRoute.value.query.companyId as string)
   }
 })
@@ -78,13 +73,13 @@ nextTick(async () => {
         </div>
         <div class="company-detail__banner--right">
           <div class="company-jobs">
-            <span class="text-5xl">
+            <span v-if="company?.jobVOList" class="text-5xl">
               {{ company?.jobVOList.length }}
             </span>
             <span class="text-base"> 在招岗位</span>
           </div>
           <div class="company-employees">
-            <span class="text-5xl">
+            <span v-if="company?.employeeVOList" class="text-5xl">
               {{ company?.employeeVOList.length }}
             </span>
             <span class="text-base"> 位招聘者</span>
@@ -98,7 +93,7 @@ nextTick(async () => {
           <div class="company-detail__hot-job--title card-title">热招岗位</div>
           <a-divider />
           <div class="company-detail__hot-job--content">
-            <div class="hot-job">
+            <div v-if="company?.jobVOList" class="hot-job">
               <job-card-v3 v-for="job in company?.jobVOList.slice(0, 5)" :key="job.id" :job="job" />
             </div>
           </div>
@@ -119,14 +114,19 @@ nextTick(async () => {
                 <Icon icon="PhoneOutlined" /> &nbsp;
                 {{ company?.address }}
               </div>
-              <i-map :gps="{}" style="height: 400px" />
+              <i-map
+                v-if="company?.address"
+                :longitude="company?.longitude"
+                :latitude="company?.latitude"
+                style="height: 400px"
+              />
             </div>
           </div>
         </div>
         <div v-slide-in="{ enter: true }" class="company-detail__job card">
           <div class="company-detail__job--title card-title">所有岗位</div>
           <a-divider />
-          <div class="company-detail__job-list">
+          <div v-if="company?.jobVOList" class="company-detail__job-list">
             <job-card-v3 v-for="job in company?.jobVOList" :key="job.id" :job="job" />
           </div>
         </div>
@@ -135,7 +135,7 @@ nextTick(async () => {
         <div v-slide-in="{ enter: true }" class="company-detail__side-employee card">
           <div class="company-detail__side--title card-title">所有招聘者</div>
           <a-divider />
-          <div class="company-detail__side--employee-list">
+          <div v-if="company?.employeeVOList" class="company-detail__side--employee-list">
             <employee-card v-for="employee in company?.employeeVOList" :key="employee.id" :employee="employee" />
           </div>
         </div>
@@ -300,7 +300,7 @@ nextTick(async () => {
         }
 
         .company-detail__side--employee-list {
-          @apply p-1 box-border flex flex-col space-y-2 mt-5 max-h-[200vh] overflow-y-auto;
+          @apply pr-2 box-border mt-5 max-h-[200vh] space-y-2 overflow-y-auto;
         }
       }
     }

@@ -1,12 +1,11 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted } from 'vue'
 import AMapLoader from '@amap/amap-jsapi-loader'
+import { isEmpty } from '@/utils/utils'
 
 const props = defineProps<{
-  gps: {
-    longitude: number
-    latitude: number
-  }
+  longitude: number
+  latitude: number
 }>()
 
 let map: any = null
@@ -38,12 +37,16 @@ onMounted(() => {
         viewMode: '3D',
         terrain: true, // 开启3D地形图
         zooms: [12, 19],
-        // center: [props.gps.longitude, props.gps.latitude],
-        center: [116.333926, 39.997245],
+        center: [
+          isEmpty(props.longitude) ? 116.333926 : props.longitude,
+          isEmpty(props.latitude) ? 39.997245 : props.latitude,
+        ],
       })
       const marker = new AMap.Marker({
-        // position: [props.gps.longitude, props.gps.latitude],
-        position: [116.333926, 39.997245],
+        position: [
+          isEmpty(props.longitude) ? 116.333926 : props.longitude,
+          isEmpty(props.latitude) ? 39.997245 : props.latitude,
+        ],
         content: markerContent,
         offset: new AMap.Pixel(-13, -30),
       })

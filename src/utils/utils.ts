@@ -311,3 +311,19 @@ export function removeNullUndefinedProps<T>(obj: T): T {
 export function limitMin(val: number, min: number): number {
   return val < min ? min : val
 }
+
+export function isEmpty(value: any): boolean {
+  if (value === null || value === undefined || value === '' || value === 0 || Number.isNaN(value)) {
+    return true
+  }
+
+  if (Array.isArray(value) && value.length === 0) {
+    return true
+  }
+
+  if (typeof value === 'object' && Object.keys(value).length === 0) {
+    return true
+  }
+
+  return false
+}
