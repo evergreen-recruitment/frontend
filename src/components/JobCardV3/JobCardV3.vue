@@ -31,10 +31,7 @@ onMounted(() => {})
 @import '@/styles/theme.scss';
 
 .job-card {
-  @apply rounded-[var(--border-radius)] cursor-pointer mt-2;
-  //瀑布流
-  break-inside: avoid;
-  margin-bottom: 7px;
+  @apply rounded-[var(--border-radius)] cursor-pointer;
 
   @include useTheme {
     border: 1px solid getModeVar('borderColor');

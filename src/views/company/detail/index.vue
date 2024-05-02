@@ -281,7 +281,7 @@ nextTick(async () => {
         }
 
         .company-detail__job-list {
-          @apply p-1 box-border grid gap-[15px] mt-5 max-h-[100vh] overflow-y-auto;
+          @apply p-1 box-border grid gap-[7px] mt-5 max-h-[100vh] overflow-y-auto;
           --card-width: 17.5rem;
           --card-height: 10rem;
           grid-template-columns: repeat(auto-fit, minmax(var(--card-width), 1fr));
