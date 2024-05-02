@@ -3,6 +3,7 @@ import type { UploadRequestOption } from 'ant-design-vue/es/vc-upload/interface'
 import { uploadApplicationApi } from '@/apis/common'
 import { message, type UploadChangeParam } from 'ant-design-vue'
 import { useVModel } from '@vueuse/core'
+import { onMounted, ref } from 'vue'
 
 const emit = defineEmits(['update:fileList', 'update:loading'])
 const props = defineProps<{
@@ -11,6 +12,11 @@ const props = defineProps<{
 }>()
 const propsFileList = useVModel(props, 'fileList', emit)
 const propsLoading = useVModel(props, 'loading', emit)
+const modelState = ref({
+  open: false,
+  loading: true,
+  data: [],
+})
 
 function handleChange(info: UploadChangeParam) {
   console.log(info)
@@ -39,7 +45,16 @@ async function customUploadApplication(e: UploadRequestOption) {
   e.onSuccess(res, e.file)
 }
 
-function openApplicationList() {}
+onMounted(() => {
+  const count = 5
+  const fakeDataUrl = `https://randomuser.me/api/?results=${count}&inc=name,gender,email,nat,picture&noinfo`
+  fetch(fakeDataUrl)
+    .then((res) => res.json())
+    .then((res) => {
+      modelState.value.loading = false
+      modelState.value.data = res.results
+    })
+})
 </script>
 
 <template>
@@ -61,11 +76,44 @@ function openApplicationList() {}
       </a-upload>
     </div>
     <div class="list">
-      <a-button>
+      <a-button @click="modelState.open = true">
         <Icon icon="FolderOpenOutlined" />
         所有简历
       </a-button>
     </div>
+    <a-modal
+      class="setting-modal"
+      v-model:open="modelState.open"
+      title="所有简历"
+      :footer="null"
+      style="border-radius: var(--border-radius); overflow: hidden"
+      :bodyStyle="{ padding: 0, overflow: 'auto' }"
+      destroyOnClose
+      centered
+    >
+      <a-list :loading="modelState.loading" item-layout="horizontal" :data-source="modelState.data">
+        <template #renderItem="{ item }">
+          <a-list-item>
+            <template #actions>
+              <a-button type="link">使用该简历</a-button>
+              <a-button type="link">删除简历</a-button>
+            </template>
+            <a-skeleton avatar :title="false" :loading="!!item.loading" active>
+              <a-list-item-meta
+                description="Ant Design, a design language for background applications, is refined by Ant UED Team"
+              >
+                <template #title>
+                  <a href="https://www.antdv.com/">{{ item.name.last }}</a>
+                </template>
+                <template #avatar>
+                  <a-image :width="200" :src="item.picture.large" />
+                </template>
+              </a-list-item-meta>
+            </a-skeleton>
+          </a-list-item>
+        </template>
+      </a-list>
+    </a-modal>
   </div>
 </template>
 
