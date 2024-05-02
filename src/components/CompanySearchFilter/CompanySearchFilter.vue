@@ -72,7 +72,7 @@ function handleCompanyTypeChange(value: number[]) {
       <a-select
         v-model:value="propsCompanyFilterData.jobNumSort"
         class="job-num-sort"
-        placeholder="按招聘者数量筛选"
+        placeholder="按岗位数量筛选"
         style="width: 200px"
       >
         <a-select-option v-for="(item, index) in CompanyJobNumSortEnum" :value="Number(index)"
@@ -82,7 +82,7 @@ function handleCompanyTypeChange(value: number[]) {
       <a-select
         v-model:value="propsCompanyFilterData.employeeNumSort"
         class="employee-num-sort"
-        placeholder="融资情况"
+        placeholder="按招聘者数量筛选"
         style="width: 200px"
       >
         <a-select-option v-for="(item, index) in CompanyEmployeeNumSortEnum" :value="Number(index)"
