@@ -18,7 +18,7 @@ const openType = computed(() => {
   return props.openInNewWindow
 })
 const href = computed(() => {
-  return router.resolve(props.to).href
+  return router.resolve(props.to).href.replace(/^\//, '')
 })
 </script>
 

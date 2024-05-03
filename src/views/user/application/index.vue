@@ -9,6 +9,7 @@ import type {
   WorkExpInfoFormType,
 } from '@/apis/application'
 import type { UserInfoType } from '@/apis/user'
+import INavigator from '@/components/INavigator/INavigator.vue'
 
 const userStore = useUserStore()
 const userInfo = computed<UserInfoType>(() => userStore.userInfo)
@@ -122,6 +123,10 @@ const applicationOptimizeList = ref([
     title: '简历内容不规范',
     description: '请检查简历内容是否符合规范',
   },
+  {
+    title: '简历页数',
+    description: '简历页数建议为一页',
+  },
 ])
 </script>
 
@@ -130,7 +135,11 @@ const applicationOptimizeList = ref([
     <div class="application-page-left">
       <user-panel :userInfo="userInfo">
         <template #float-top>
-          <a-button type="primary" @click="$router.push('/blank/user/previewApplication')">查看在线简历</a-button>
+          <a-button type="primary">
+            <i-navigator to="http://editor.eh.healwrap.cn/developer-concise-1" open-in-new-window
+              >查看在线简历
+            </i-navigator>
+          </a-button>
         </template>
         <template #float-bottom>
           <a-button type="text" @click="$router.push('/user/center')"> 编辑个人信息</a-button>

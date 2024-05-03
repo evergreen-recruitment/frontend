@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import type { UploadRequestOption } from 'ant-design-vue/es/vc-upload/interface'
-import { uploadApplicationApi } from '@/apis/common'
 import { message, type UploadChangeParam } from 'ant-design-vue'
 import { useVModel } from '@vueuse/core'
 import { onMounted, ref } from 'vue'
+import { type ApplicationListType, getApplicationListApi, uploadApplicationApi } from '@/apis/application'
 
 const emit = defineEmits(['update:fileList', 'update:loading'])
 const props = defineProps<{
@@ -12,10 +12,16 @@ const props = defineProps<{
 }>()
 const propsFileList = useVModel(props, 'fileList', emit)
 const propsLoading = useVModel(props, 'loading', emit)
-const modelState = ref({
+const modalState = ref({
   open: false,
   loading: true,
-  data: [],
+  data: [] as ApplicationListType[],
+  onClose: () => {
+    modalState.value.data = []
+    modalState.value.open = false
+    modalState.value.loading = true
+    console.log('close')
+  },
 })
 
 function handleChange(info: UploadChangeParam) {
@@ -45,15 +51,32 @@ async function customUploadApplication(e: UploadRequestOption) {
   e.onSuccess(res, e.file)
 }
 
-onMounted(() => {
-  const count = 5
-  const fakeDataUrl = `https://randomuser.me/api/?results=${count}&inc=name,gender,email,nat,picture&noinfo`
-  fetch(fakeDataUrl)
-    .then((res) => res.json())
-    .then((res) => {
-      modelState.value.loading = false
-      modelState.value.data = res.results
-    })
+async function getApplicationList() {
+  const res = await getApplicationListApi()
+  if (res === undefined) {
+    message.error('获取简历列表失败')
+    return
+  }
+  modalState.value.data = res
+}
+
+async function openApplicationModal() {
+  modalState.value.open = true
+  await getApplicationList()
+  setTimeout(() => {
+    modalState.value.loading = false
+  }, 500)
+}
+
+onMounted(async () => {
+  // const count = 5
+  // const fakeDataUrl = `https://randomuser.me/api/?results=${count}&inc=name,gender,email,nat,picture&noinfo`
+  // fetch(fakeDataUrl)
+  //   .then((res) => res.json())
+  //   .then((res) => {
+  //     modalState.value.loading = false
+  //     modalState.value.data = res.results
+  //   })
 })
 </script>
 
@@ -76,37 +99,42 @@ onMounted(() => {
       </a-upload>
     </div>
     <div class="list">
-      <a-button @click="modelState.open = true">
+      <a-button @click="openApplicationModal">
         <Icon icon="FolderOpenOutlined" />
         所有简历
       </a-button>
     </div>
     <a-modal
       class="setting-modal"
-      v-model:open="modelState.open"
+      v-model:open="modalState.open"
       title="所有简历"
       :footer="null"
       style="border-radius: var(--border-radius); overflow: hidden"
       :bodyStyle="{ padding: 0, overflow: 'auto' }"
+      @cancel="modalState.onClose"
       destroyOnClose
       centered
     >
-      <a-list :loading="modelState.loading" item-layout="horizontal" :data-source="modelState.data">
+      <a-list :loading="modalState.loading" item-layout="horizontal" :data-source="modalState.data">
         <template #renderItem="{ item }">
           <a-list-item>
             <template #actions>
               <a-button type="link">使用该简历</a-button>
-              <a-button type="link">删除简历</a-button>
+              <a-button v-if="item?.pdfUrl" type="link">
+                <a :href="item?.pdfUrl" :download="item?.pdfUrl.split('/').pop()">下载简历附件</a>
+              </a-button>
+              <a-button type="link" danger>删除简历</a-button>
             </template>
             <a-skeleton avatar :title="false" :loading="!!item.loading" active>
-              <a-list-item-meta
-                description="Ant Design, a design language for background applications, is refined by Ant UED Team"
-              >
-                <template #title>
-                  <a href="https://www.antdv.com/">{{ item.name.last }}</a>
-                </template>
+              <a-list-item-meta>
                 <template #avatar>
-                  <a-image :width="200" :src="item.picture.large" />
+                  <a-image :width="200" :src="item.imageUrl" />
+                </template>
+                <template #title>
+                  <div class="text-4xl">何嘉炜</div>
+                </template>
+                <template #description>
+                  <div class="text-2xl">Java后端开发（实习）</div>
                 </template>
               </a-list-item-meta>
             </a-skeleton>

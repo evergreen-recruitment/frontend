@@ -1,3 +1,5 @@
+import request from '@/utils/request'
+
 /**
  * 工作经历表单
  */
@@ -46,4 +48,39 @@ export type CertificateInfoFormType = {
  */
 export type SelfIntroductionFormType = {
   selfIntroduction: string // 自我介绍内容
+}
+
+export type ApplicationListType = {
+  id: string
+  pdfUrl?: string
+  imageUrl?: string
+}
+
+export function uploadApplicationApi(file: File) {
+  const formData = new FormData()
+  formData.append('file', file)
+  return request
+    .Post(
+      '/application/upload',
+      formData,
+      // @ts-ignore 这里不要自己添加Content-Type，会自动识别
+      { setTimeout: 60 * 10 }, // 设置十分钟超时
+    )
+    .send(true) as Promise<string>
+}
+
+export function getCurrentApplicationApi() {
+  return request.Get('/application/current').send(true) as Promise<ApplicationListType>
+}
+
+export function getApplicationListApi() {
+  return request.Get('/application/list').send(true) as Promise<ApplicationListType[]>
+}
+
+export function activeApplicationApi(id: string) {
+  return request.Post('/application/active', { id }).send(true) as Promise<boolean>
+}
+
+export function deleteApplicationApi(id: string) {
+  return request.Post('/application/delete', { id }).send(true) as Promise<boolean>
 }
