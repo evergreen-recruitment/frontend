@@ -146,6 +146,7 @@ async function customUploadImage(e: UploadRequestOption) {
                 </div>
                 <a-upload
                   v-model:file-list="fileList"
+                  accept=".jpg,.jpeg,.png"
                   :before-upload="beforeAvatarUpload"
                   :custom-request="customUploadImage"
                   :show-upload-list="false"

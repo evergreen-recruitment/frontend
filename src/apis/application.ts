@@ -54,6 +54,7 @@ export type ApplicationListType = {
   id: string
   pdfUrl?: string
   imageUrl?: string
+  active?: boolean
 }
 
 export function uploadApplicationApi(file: File) {
@@ -82,5 +83,5 @@ export function activeApplicationApi(id: string) {
 }
 
 export function deleteApplicationApi(id: string) {
-  return request.Post('/application/delete', { id }).send(true) as Promise<boolean>
+  return request.Get('/application/delete', { params: { id } }).send(true) as Promise<boolean>
 }

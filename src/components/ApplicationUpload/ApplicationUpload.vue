@@ -2,8 +2,14 @@
 import type { UploadRequestOption } from 'ant-design-vue/es/vc-upload/interface'
 import { message, type UploadChangeParam } from 'ant-design-vue'
 import { useVModel } from '@vueuse/core'
-import { onMounted, ref } from 'vue'
-import { type ApplicationListType, getApplicationListApi, uploadApplicationApi } from '@/apis/application'
+import { ref } from 'vue'
+import {
+  activeApplicationApi,
+  type ApplicationListType,
+  deleteApplicationApi,
+  getApplicationListApi,
+  uploadApplicationApi,
+} from '@/apis/application'
 
 const emit = defineEmits(['update:fileList', 'update:loading'])
 const props = defineProps<{
@@ -25,7 +31,6 @@ const modalState = ref({
 })
 
 function handleChange(info: UploadChangeParam) {
-  console.log(info)
   if (info.file.status === 'uploading') {
     propsLoading.value = true
     return
@@ -60,6 +65,25 @@ async function getApplicationList() {
   modalState.value.data = res
 }
 
+async function activeApplication(item: ApplicationListType) {
+  const res = await activeApplicationApi(item.id)
+  if (res !== true) {
+    message.error('激活简历失败')
+    return
+  }
+  message.success('已使用该简历')
+}
+
+async function deleteApplication(item: ApplicationListType) {
+  const res = await deleteApplicationApi(item.id)
+  if (res !== true) {
+    message.error('删除简历失败')
+    return
+  }
+  message.success('删除简历成功')
+  await getApplicationList()
+}
+
 async function openApplicationModal() {
   modalState.value.open = true
   await getApplicationList()
@@ -67,17 +91,6 @@ async function openApplicationModal() {
     modalState.value.loading = false
   }, 500)
 }
-
-onMounted(async () => {
-  // const count = 5
-  // const fakeDataUrl = `https://randomuser.me/api/?results=${count}&inc=name,gender,email,nat,picture&noinfo`
-  // fetch(fakeDataUrl)
-  //   .then((res) => res.json())
-  //   .then((res) => {
-  //     modalState.value.loading = false
-  //     modalState.value.data = res.results
-  //   })
-})
 </script>
 
 <template>
@@ -87,6 +100,7 @@ onMounted(async () => {
         v-model:file-list="propsFileList"
         :custom-request="customUploadApplication"
         :show-upload-list="false"
+        accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
         class="avatar-uploader"
         @change="handleChange"
       >
@@ -119,16 +133,24 @@ onMounted(async () => {
         <template #renderItem="{ item }">
           <a-list-item>
             <template #actions>
-              <a-button type="link">使用该简历</a-button>
+              <a-button type="link" @click="activeApplication(item)">使用该简历</a-button>
               <a-button v-if="item?.pdfUrl" type="link">
                 <a :href="item?.pdfUrl" :download="item?.pdfUrl.split('/').pop()">下载简历附件</a>
               </a-button>
-              <a-button type="link" danger>删除简历</a-button>
+              <a-button type="link" danger @click="deleteApplication(item)">删除简历</a-button>
             </template>
             <a-skeleton avatar :title="false" :loading="!!item.loading" active>
               <a-list-item-meta>
                 <template #avatar>
-                  <a-image :width="200" :src="item.imageUrl" />
+                  <a-watermark
+                    v-if="item?.active"
+                    content="使用中"
+                    :font="{ fontSize: 50, fontWeight: 700 }"
+                    :gap="[60, 250]"
+                  >
+                    <a-image :width="200" :src="item.imageUrl" />
+                  </a-watermark>
+                  <a-image v-else :width="200" :src="item.imageUrl" />
                 </template>
                 <template #title>
                   <div class="text-4xl">何嘉炜</div>
