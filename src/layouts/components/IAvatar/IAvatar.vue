@@ -24,7 +24,8 @@ const menuList = ref([
     icon: 'EyeOutlined',
     path: 'http://editor.eh.healwrap.cn/developer-concise-1',
     title: '预览在线简历',
-    outer: true,
+    isOuterLink: true,
+    selfOpen: true,
   },
   {
     id: 6,
@@ -84,7 +85,7 @@ const menuList = ref([
           </a-menu-item>
           <template v-if="appStore.screenWidth < 1200">
             <a-menu-item v-for="menu in menuList" :key="menu.id">
-              <i-navigator class="menu-btn" :to="menu.path" :open-in-new-window="menu?.outer">
+              <i-navigator class="menu-btn" :to="menu.path">
                 <Icon :icon="menu.icon" :size="16" />
                 {{ menu.title }}
               </i-navigator>
@@ -107,7 +108,7 @@ const menuList = ref([
         <template #title>
           <span>{{ menu.title }}</span>
         </template>
-        <i-navigator class="menu-btn" :to="menu.path" :open-in-new-window="menu?.outer">
+        <i-navigator class="menu-btn" :to="menu.path" :self-open="menu?.selfOpen" :is-outer-link="menu?.isOuterLink">
           <Icon :icon="menu.icon" :size="16" />
         </i-navigator>
       </a-tooltip>

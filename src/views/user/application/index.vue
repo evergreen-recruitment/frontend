@@ -136,8 +136,8 @@ const applicationOptimizeList = ref([
       <user-panel :userInfo="userInfo">
         <template #float-top>
           <a-button type="primary">
-            <i-navigator to="http://editor.eh.healwrap.cn/developer-concise-1" open-in-new-window
-              >查看在线简历
+            <i-navigator to="http://editor.eh.healwrap.cn/developer-concise-1" self-open is-outer-link>
+              查看在线简历
             </i-navigator>
           </a-button>
         </template>

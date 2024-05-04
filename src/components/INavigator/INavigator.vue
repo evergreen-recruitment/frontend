@@ -9,6 +9,8 @@ const appStore = useAppStore()
 const props = defineProps<{
   to: RouteLocationRaw
   openInNewWindow?: boolean | null | undefined
+  selfOpen?: boolean
+  isOuterLink?: boolean
 }>()
 
 const openType = computed(() => {
@@ -18,14 +20,20 @@ const openType = computed(() => {
   return props.openInNewWindow
 })
 const href = computed(() => {
-  return router.resolve(props.to).href.replace(/^\//, '')
+  if (props.isOuterLink) {
+    return props.to as string
+  }
+  return router.resolve(props.to).href
 })
 </script>
 
 <template>
-  <router-link v-if="!openType" :to="to" class="i-navigator" v-bind="$attrs">
+  <router-link v-if="!openType && !props.selfOpen" :to="to" class="i-navigator">
     <slot></slot>
   </router-link>
+  <a v-else-if="props.selfOpen" :href="href" class="i-navigator" target="_self">
+    <slot></slot>
+  </a>
   <a v-else :href="href" class="i-navigator" target="_blank">
     <slot></slot>
   </a>
