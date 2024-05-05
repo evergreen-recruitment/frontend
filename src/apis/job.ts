@@ -137,5 +137,9 @@ export function getNewJobsApi(pageParam: PageRequestType) {
       pageParam,
       { headers: { 'Content-Type': 'application/json' }, ignoreToken: true },
     )
-    .send(true) as Promise<any>
+    .send(true) as Promise<SimpleJobItemType[]>
+}
+
+export function getRecommendJobsApi(pageParam: PageRequestType) {
+  return request.Post('/job/Recommend', pageParam).send(true) as Promise<SimpleJobItemType[]>
 }

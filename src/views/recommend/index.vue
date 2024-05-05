@@ -11,7 +11,7 @@ import type { StepProps } from 'ant-design-vue'
 import { message } from 'ant-design-vue'
 import { useUserStore } from '@/stores'
 import router from '@/router'
-import { getNewJobsApi } from '@/apis/job'
+import { getRecommendJobsApi } from '@/apis/job'
 
 const userStore = useUserStore()
 const recommendJobList = ref()
@@ -62,9 +62,13 @@ onMounted(async () => {
   await userStore.getUserState()
   res.value = [userStore.userState.isLogin, userStore.userState.isCompleteInfo, userStore.userState.isUploadApplication]
 
-  recommendJobList.value = await getNewJobsApi({ current: 2, pageSize: 24 })
-  if (res.value[2] && recommendJobList.value) {
-    message.success('获取推荐岗位成功')
+  if (userStore.userState.isLogin && userStore.userState.isCompleteInfo && userStore.userState.isUploadApplication) {
+    recommendJobList.value = await getRecommendJobsApi({ current: 2, pageSize: 24 })
+    if (res.value[2] && recommendJobList.value) {
+      message.success('获取推荐岗位成功')
+    } else {
+      message.error('获取推荐岗位失败')
+    }
   }
 })
 </script>

@@ -315,16 +315,16 @@ nextTick(async () => {
             </i-card>
           </a-tab-pane>
           <a-tab-pane key="2" tab="最新岗位">
-            <div v-if="recommendJobList" class="job-list">
-              <job-card v-for="job in recommendJobList" :key="job.id" :job="job" />
+            <div v-if="newJobList" class="job-list">
+              <job-card v-for="job in newJobList" :key="job.id" :job="job" />
             </div>
             <i-card v-else>
               <a-skeleton :paragraph="{ rows: 6 }" active />
             </i-card>
           </a-tab-pane>
           <a-tab-pane key="3" tab="附近岗位">
-            <div v-if="recommendJobList" class="job-list">
-              <job-card v-for="job in recommendJobList" :key="job.id" :job="job" />
+            <div v-if="nearbyJobList" class="job-list">
+              <job-card v-for="job in nearbyJobList" :key="job.id" :job="job" />
             </div>
             <i-card v-else>
               <a-skeleton :paragraph="{ rows: 6 }" active />

@@ -4,7 +4,7 @@ import router from '@/router'
 import { useAppStore, useUserStore } from '@/stores'
 import { getJobDetailApi, type JobItemType, jobSearchApi, type SimpleJobItemType } from '@/apis/job'
 import { CompanyScaleEnum, CompanyStageEnum } from '@/apis/company'
-import { findFullIndustry, findFullJobTypeByName } from '@/utils/utils'
+import { findFullIndustry, findFullJobTypeByName, formatDateStr } from '@/utils/utils'
 import { message } from 'ant-design-vue'
 import Gaussian from 'gaussian'
 import { jobDetailGuideState } from '@/tours'
@@ -51,6 +51,43 @@ async function getJobDetailData() {
       )
     }
   }
+}
+
+const voteState = ref(0)
+
+function voteClick() {
+  if (voteState.value === 0 || voteState.value === 2) {
+    voteState.value = 1
+    message.success('感谢您的反馈，希望您喜欢这个工作')
+  } else {
+    voteState.value = 0
+  }
+}
+
+function disVoteClick() {
+  if (voteState.value === 0 || voteState.value === 1) {
+    voteState.value = 2
+    message.success('感谢您的反馈，我们会继续改进推荐效果的')
+  } else {
+    voteState.value = 0
+  }
+}
+
+const deliveryState = ref(0)
+
+function deliveryJob() {
+  if (deliveryState.value !== 0) {
+    return
+  }
+  if (userStateRef.value.isLogin === false) {
+    message.error('请先登录')
+    return
+  }
+  deliveryState.value = 1
+  setTimeout(() => {
+    deliveryState.value = 2
+    message.success('投递成功，请静待面试通知')
+  }, 1000)
 }
 
 // 监听路由变化
@@ -340,8 +377,15 @@ nextTick(async () => {
             <div class="job-address">{{ job?.cityName }} {{ job?.areaDistrict }}</div>
             <div v-for="label in job?.jobLabels" :key="label" class="job-labels">{{ label }}</div>
           </div>
-          <a-button class="apply-job" size="large" type="primary" @click="message.success('投递成功，请静待面试通知')">
-            立即投递
+          <a-button
+            class="apply-job"
+            size="large"
+            @click="deliveryJob"
+            :loading="deliveryState === 1"
+            :type="deliveryState === 2 ? 'default' : 'primary'"
+          >
+            <Icon v-if="deliveryState == 2" icon="CheckOutlined" />
+            {{ deliveryState === 2 ? '已投递' : '立即投递' }}
           </a-button>
         </div>
         <div class="job-detail__banner--right">
@@ -371,6 +415,10 @@ nextTick(async () => {
             <span
               >{{ job?.employeeVO?.realName || '招聘者' }}&nbsp;
               <span class="text-sm">{{ job?.employeeVO.position }}</span>
+            </span>
+            <span>
+              更新时间
+              <span class="text-sm">{{ formatDateStr(job?.updateTime!) }}</span>
             </span>
           </div>
         </div>
@@ -476,11 +524,11 @@ nextTick(async () => {
           <div class="job-detail__side--vote-main">
             <div class="desc">对该岗位的推荐效果评分<br />请选择好或者不好</div>
             <div class="btn-group">
-              <a-button @click="message.success('感谢您的反馈，希望您喜欢这个工作')">
+              <a-button @click="voteClick" :type="voteState === 1 ? 'primary' : 'default '">
                 <Icon icon="LikeOutlined" />
                 很好
               </a-button>
-              <a-button @click="message.success('感谢您的反馈，我们会继续改进推荐效果的')">
+              <a-button @click="disVoteClick" :type="voteState === 2 ? 'primary' : 'default '" danger>
                 <Icon icon="DislikeOutlined" />
                 不好
               </a-button>

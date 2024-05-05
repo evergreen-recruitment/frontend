@@ -18,10 +18,10 @@ const propsMenuCollapsed = useVModel(props, 'menuCollapsed', emit)
 </script>
 
 <template>
-  <a-layout-header class="i-header">
-    <div class="i-header__inner">
-      <div class="i-header__inner--left">
-        <div class="i-header__logo">
+  <a-layout-header class="i-emp-header">
+    <div class="i-emp-header__inner">
+      <div class="i-emp-header__inner--left">
+        <div class="i-emp-header__logo">
           <a href="/">
             <img
               :src="
@@ -43,7 +43,7 @@ const propsMenuCollapsed = useVModel(props, 'menuCollapsed', emit)
           <div class="title">{{ $t('app.title') }}</div>
         </div>
       </div>
-      <div class="i-header__inner--right">
+      <div class="i-emp-header__inner--right">
         <div class="lang">
           <a-dropdown :trigger="['click']">
             <a-button type="text">
@@ -93,21 +93,21 @@ const propsMenuCollapsed = useVModel(props, 'menuCollapsed', emit)
 <style lang="scss" scoped>
 @import '@/styles/theme.scss';
 
-.i-header {
+.i-emp-header {
   padding: 0 10px;
 
-  .i-header__inner {
+  .i-emp-header__inner {
     height: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
 
-    .i-header__inner--left {
+    .i-emp-header__inner--left {
       display: flex;
       align-items: center;
       justify-content: center;
 
-      .i-header__logo {
+      .i-emp-header__logo {
         height: 100%;
         //background: rgba(205, 205, 205, 0.3);
         //background: url('@/assets/images/logo1.png') no-repeat left center;
@@ -178,7 +178,7 @@ const propsMenuCollapsed = useVModel(props, 'menuCollapsed', emit)
       }
     }
 
-    .i-header__inner--right {
+    .i-emp-header__inner--right {
       display: flex;
       align-items: center;
 
