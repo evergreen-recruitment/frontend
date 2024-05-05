@@ -72,6 +72,10 @@ async function activeApplication(item: ApplicationListType) {
     return
   }
   message.success('已使用该简历')
+  // 查询简历列表
+  modalState.value.data.forEach((i) => {
+    i.active = i.id === item.id
+  })
 }
 
 async function deleteApplication(item: ApplicationListType) {
@@ -81,7 +85,12 @@ async function deleteApplication(item: ApplicationListType) {
     return
   }
   message.success('删除简历成功')
-  await getApplicationList()
+  // 查询简历列表 如果剩余最后一个简历，让其激活
+  const index = modalState.value.data.findIndex((i) => i.id === item.id)
+  modalState.value.data.splice(index, 1)
+  if (modalState.value.data.length === 1) {
+    modalState.value.data[0].active = true
+  }
 }
 
 async function openApplicationModal() {
@@ -100,7 +109,7 @@ async function openApplicationModal() {
         v-model:file-list="propsFileList"
         :custom-request="customUploadApplication"
         :show-upload-list="false"
-        accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
+        accept=".pdf,.jpg,.jpeg,.png"
         class="avatar-uploader"
         @change="handleChange"
       >
