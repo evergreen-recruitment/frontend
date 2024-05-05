@@ -143,3 +143,7 @@ export function getNewJobsApi(pageParam: PageRequestType) {
 export function getRecommendJobsApi(pageParam: PageRequestType) {
   return request.Post('/job/Recommend', pageParam).send(true) as Promise<SimpleJobItemType[]>
 }
+
+export function getNearbyJobsApi(pageParam: PageRequestType & { city: number }) {
+  return request.Post('/job/nearByJob', pageParam).send(true) as Promise<SimpleJobItemType[]>
+}

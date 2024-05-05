@@ -5,7 +5,7 @@ import { getHomeKnowledgeGraphApi, getHotSearchApi } from '@/apis/home'
 import type { SimpleCompanyType } from '@/apis/company'
 import { getHotCompanyApi } from '@/apis/company'
 import type { JobCategoryType } from '@/apis/job'
-import { getNewJobsApi } from '@/apis/job'
+import { getNearbyJobsApi, getNewJobsApi } from '@/apis/job'
 import tutorial from '@/assets/tutorial/tutorial'
 import { homePageGuideState } from '@/tours'
 import { getClientHeight, getScreenHeight, getScrollTop } from '@/utils/utils'
@@ -66,7 +66,7 @@ onMounted(async () => {
   hotCompanyList.value = await getHotCompanyApi()
   newJobList.value = await getNewJobsApi({ pageSize: 12 })
   recommendJobList.value = await getNewJobsApi({ current: 2, pageSize: 12 })
-  nearbyJobList.value = await getNewJobsApi({ current: 3, pageSize: 12 })
+  nearbyJobList.value = await getNearbyJobsApi({ current: 1, pageSize: 12, city: statusStore.city.code[1] })
   knowledgeGraphData.value = await getHomeKnowledgeGraphApi()
   category.value = statusStore.jobCategory
 
