@@ -31,7 +31,7 @@ onMounted(() => {})
 @import '@/styles/theme.scss';
 
 .job-card {
-  @apply rounded-[var(--border-radius)] cursor-pointer;
+  @apply rounded-[var(--border-radius)] shadow-lg cursor-pointer;
 
   @include useTheme {
     border: 1px solid getModeVar('borderColor');
