@@ -112,7 +112,7 @@ export function jobSearchApi(searchForm: JobSearchFormType) {
 }
 
 export function similarJobsApi(jobStandardId: string) {
-  return request.Get('/job/similarJobs', { params: { jobStandardId } }).send(true) as Promise<any>
+  return request.Get('/job/similarJobs', { params: { jobStandardId }, ignoreToken: true }).send(true) as Promise<any>
 }
 
 /**
@@ -145,5 +145,5 @@ export function getRecommendJobsApi(pageParam: PageRequestType) {
 }
 
 export function getNearbyJobsApi(pageParam: PageRequestType & { city: number }) {
-  return request.Post('/job/nearByJob', pageParam).send(true) as Promise<SimpleJobItemType[]>
+  return request.Post('/job/nearByJob', pageParam, { ignoreToken: true }).send(true) as Promise<SimpleJobItemType[]>
 }
