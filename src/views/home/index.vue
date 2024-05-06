@@ -129,7 +129,7 @@ nextTick(async () => {
           </div>
           <div class="sub-title">
             我们设计了优秀的推荐算法与多元化知识图谱分析，<br />
-            所使用数据库涵盖{{ 11300 }}+条岗位信息，为您推荐最适合的岗位
+            所使用数据库涵盖{{ 15840 }}+条岗位信息，为您推荐最适合的岗位
           </div>
           <div v-if="!userStateRef.isLogin" class="get-start">
             <button class="get-start-btn" @click="$router.push('/auth/login')">
