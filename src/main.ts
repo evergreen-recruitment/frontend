@@ -16,6 +16,7 @@ import i18n from '@/locales'
 // 自定义指令
 import VSlideIn from '@/directives/vSlideIn'
 import VLazyLoad from '@/directives/vLazyLoad'
+import VScroll from '@/directives/vScroll'
 // 过渡动画
 import VueTransitions from '@morev/vue-transitions'
 import '@morev/vue-transitions/styles'
@@ -54,4 +55,5 @@ Object.keys(Icons).forEach((key) => {
 })
 app.directive('slide-in', VSlideIn)
 app.directive('lazy-load', VLazyLoad)
+app.directive('scroll', VScroll)
 app.mount('#app')

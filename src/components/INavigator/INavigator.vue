@@ -28,13 +28,13 @@ const href = computed(() => {
 </script>
 
 <template>
-  <router-link v-if="!openType && !props.selfOpen" :to="to" class="i-navigator">
+  <router-link v-bind="$attrs" v-if="!openType && !props.selfOpen" :to="to" class="i-navigator">
     <slot></slot>
   </router-link>
-  <a v-else-if="props.selfOpen" :href="href" class="i-navigator" target="_self">
+  <a v-bind="$attrs" v-else-if="props.selfOpen" :href="href" class="i-navigator" target="_self">
     <slot></slot>
   </a>
-  <a v-else :href="href" class="i-navigator" target="_blank">
+  <a v-bind="$attrs" v-else :href="href" class="i-navigator" target="_blank">
     <slot></slot>
   </a>
 </template>
