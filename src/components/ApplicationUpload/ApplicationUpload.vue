@@ -154,7 +154,7 @@ async function openApplicationModal() {
                   <a-watermark
                     v-if="item?.active"
                     content="使用中"
-                    :font="{ fontSize: 50, fontWeight: 700 }"
+                    :font="{ fontSize: 50, fontWeight: 700, color: 'rgba(0, 0, 0, 0.25)' }"
                     :gap="[60, 250]"
                   >
                     <a-image :width="200" :src="item.imageUrl" />

@@ -1,19 +1,19 @@
-import { computed, defineComponent, onMounted, onUnmounted, ref } from 'vue'
 import './style.scss'
+import router from '@/router'
+import { computed, defineComponent, onMounted, onUnmounted, ref } from 'vue'
 import { homePageGuideState } from '@/tours'
 import { Image, Skeleton, Spin, TabPane, Tabs, Tour } from 'ant-design-vue'
 import { getAssetsFile, getClientHeight, getScreenHeight, getScrollTop } from '@/utils/utils'
-import router from '@/router'
-import { getHomeKnowledgeGraphApi, getHotSearchApi } from '@/apis/home'
 import { useStatusStore, useUserStore } from '@/stores'
+import { getHomeKnowledgeGraphApi, getHotSearchApi } from '@/apis/home'
+import { getNearbyJobsApi, getNewJobsApi, type SimpleJobItemType } from '@/apis/job'
+import { getHotCompanyApi, type SimpleCompanyType } from '@/apis/company'
 import Icon from '@/components/Icon/Icon.vue'
 import INavigator from '@/components/INavigator/INavigator.vue'
 import NotLoginTip from '@/components/NotLoginTip/NotLoginTip.vue'
 import KnowledgeGraph from '@/components/KnowledgeGraph/KnowledgeGraph.vue'
-import { getNearbyJobsApi, getNewJobsApi, type SimpleJobItemType } from '@/apis/job'
 import ICard from '@/components/ICard/ICard.vue'
 import JobCard from '@/components/JobCard/JobCard.vue'
-import { getHotCompanyApi, type SimpleCompanyType } from '@/apis/company'
 
 const userStore = useUserStore()
 const userStateRef = ref(userStore.userState)
@@ -119,6 +119,9 @@ const HomeDownArrow = () => {
   return (
     <div
       class="down-arrow"
+      style={
+        blurPercent.value === 0 ? { opacity: '1', pointerEvents: 'auto' } : { opacity: '0', pointerEvents: 'none' }
+      }
       onClick={() => {
         window.scrollTo({
           top: getScreenHeight(),
@@ -316,34 +319,38 @@ const HomeHotCompany = defineComponent({
       <div v-scroll={async () => (hotCompanyList.value = await getHotCompanyApi())} class="hot-company block-item">
         <div class="title">热门公司</div>
         <div class="sub-title">最热门的互联网公司</div>
-        <div class="hot-company-list">
-          <div class="line-odd">
-            {hotCompanyList.value.slice(0, hotCompanyList.value.length / 2).map((company) => {
-              return (
-                <INavigator
-                  class="company-item"
-                  key={company.id}
-                  to={{ name: 'companyDetail', query: { companyId: company.id } }}
-                >
-                  <img v-lazy-load={company?.logo} alt={company.name} />
-                </INavigator>
-              )
-            })}
+        {hotCompanyList.value.length === 0 ? (
+          <Spin size="large" tip={'获取数据中...'} />
+        ) : (
+          <div class="hot-company-list">
+            <div class="line-odd">
+              {hotCompanyList.value.slice(0, hotCompanyList.value.length / 2).map((company) => {
+                return (
+                  <INavigator
+                    class="company-item"
+                    key={company.id}
+                    to={{ name: 'companyDetail', query: { companyId: company.id } }}
+                  >
+                    <img v-lazy-load={company?.logo} alt={company.name} />
+                  </INavigator>
+                )
+              })}
+            </div>
+            <div class="line-even">
+              {hotCompanyList.value.slice(hotCompanyList.value.length / 2).map((company) => {
+                return (
+                  <INavigator
+                    class="company-item"
+                    key={company.id}
+                    to={{ name: 'companyDetail', query: { companyId: company.id } }}
+                  >
+                    <img v-lazy-load={company?.logo} alt={company.name} />
+                  </INavigator>
+                )
+              })}
+            </div>
           </div>
-          <div class="line-even">
-            {hotCompanyList.value.slice(hotCompanyList.value.length / 2).map((company) => {
-              return (
-                <INavigator
-                  class="company-item"
-                  key={company.id}
-                  to={{ name: 'companyDetail', query: { companyId: company.id } }}
-                >
-                  <img v-lazy-load={company?.logo} alt={company.name} />
-                </INavigator>
-              )
-            })}
-          </div>
-        </div>
+        )}
       </div>
     )
   },
@@ -369,6 +376,7 @@ export default defineComponent({
       opacityPercent.value = Number((scrollTop / clientHeight > 0.8 ? 0.8 : scrollTop / clientHeight).toFixed(2))
     }
 
+    handleScroll()
     onMounted(async () => {
       window.addEventListener('scroll', handleScroll)
       // 需要获取状态

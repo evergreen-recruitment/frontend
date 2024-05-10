@@ -239,38 +239,7 @@
         .user-action {
           @apply grid grid-cols-2 grid-rows-2 gap-4;
           .action-item {
-            @apply flex items-center justify-center w-24 h-10 mx-2 text-sm rounded-md cursor-pointer;
-            span {
-              @apply ml-2;
-            }
-          }
-        }
-      }
-
-      .user-aside-no-login {
-        @apply flex flex-col items-center justify-between mx-auto;
-        .user-info {
-          @apply flex flex-col items-center;
-          .avatar {
-            @apply w-28 h-28 rounded-full overflow-hidden;
-            img {
-              @apply w-full h-full object-cover;
-            }
-          }
-
-          .name {
-            @apply text-3xl font-bold ml-5 my-2;
-          }
-
-          .desc {
-            @apply text-gray-500;
-          }
-        }
-
-        .user-action {
-          @apply flex items-center;
-          .action-item {
-            @apply flex items-center justify-center w-20 h-10 mx-2 text-xl rounded-md cursor-pointer;
+            @apply flex items-center justify-center w-24 h-10 mx-2 text-base rounded-md cursor-pointer;
             span {
               @apply ml-2;
             }
