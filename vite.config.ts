@@ -39,12 +39,10 @@ export default defineConfig(({ command, mode }) => {
       // 配置自动导导入
       AutoImport({
         imports: ['vue', 'vue-router'],
-        include: [/\.vue$/],
         resolvers: [VueAmapResolver()],
       }),
       // 配置自动导入组件
       Components({
-        include: [/\.vue$/],
         resolvers: [
           VueAmapResolver(),
           AntDesignVueResolver({
