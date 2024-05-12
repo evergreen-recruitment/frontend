@@ -238,3 +238,65 @@ body {
   height: 100%;
   width: 100%;
 }
+
+// 菜单样式修改
+.ant-dropdown {
+  .ant-dropdown-menu {
+    @include useTheme {
+      background: rgba(getModeVar('cardBgColor'), 0.7);
+      backdrop-filter: blur(40px) saturate(180%);
+    }
+  }
+}
+
+// 下拉框样式修改
+.ant-select-dropdown {
+  @include useTheme {
+    background: rgba(getModeVar('cardBgColor'), 0.7);
+    backdrop-filter: blur(40px) saturate(180%);
+  }
+}
+
+// 弹出层样式修改
+.ant-popover {
+  .ant-popover-content {
+    .ant-popover-inner {
+      @include useTheme {
+        background: rgba(getModeVar('cardBgColor'), 0.7);
+        backdrop-filter: blur(40px) saturate(180%);
+      }
+    }
+  }
+}
+
+// 消息样式修改
+.ant-message {
+  .ant-message-notice-content {
+    @include useTheme {
+      background: rgba(getModeVar('cardBgColor'), 0.7);
+      backdrop-filter: blur(40px) saturate(180%);
+    }
+  }
+}
+
+// 通知样式修改
+.ant-notification {
+  .ant-notification-notice {
+    @include useTheme {
+      background: rgba(getModeVar('cardBgColor'), 0.7);
+      backdrop-filter: blur(40px) saturate(180%);
+    }
+  }
+}
+
+// 抽屉样式修改
+.ant-drawer {
+  .ant-drawer-content-wrapper {
+    .ant-drawer-content {
+      @include useTheme {
+        background: rgba(getModeVar('cardBgColor'), 0.7);
+        backdrop-filter: blur(40px) saturate(180%);
+      }
+    }
+  }
+}
