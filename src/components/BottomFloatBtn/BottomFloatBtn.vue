@@ -26,12 +26,12 @@ const minWidthMarks = ref({
 
 <template>
   <a-float-button-group shape="square" class="bottom-float-btn">
-    <a-float-button type="primary" @click="$router.push('#')">
+    <a-float-button @click="$router.push('#')">
       <template #icon>
         <Icon icon="VerticalAlignTopOutlined" />
       </template>
     </a-float-button>
-    <a-float-button type="primary" class="setting-btn" @click="modelState.open = !modelState.open">
+    <a-float-button class="setting-btn" @click="modelState.open = !modelState.open">
       <template #icon>
         <Icon icon="SettingOutlined" />
       </template>
