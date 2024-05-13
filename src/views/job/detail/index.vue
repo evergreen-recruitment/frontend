@@ -212,9 +212,8 @@ const data = (function () {
       return 100
     } else if (num < 0) {
       return 0
-    } else {
-      return Math.floor(num)
     }
+    return Math.floor(num)
   }
 
   function limitNum(num: number, max: number) {
@@ -222,9 +221,8 @@ const data = (function () {
       return max - 1
     } else if (num < 0) {
       return 0
-    } else {
-      return num
     }
+    return num
   }
 
   let min = 0 // 最小值

@@ -39,7 +39,9 @@ const typeConfigs = {
 
 // @ts-ignore
 props.data.nodes.forEach((node: NodeConfig) => {
-  if (!node.type) return
+  if (!node.type) {
+    return
+  }
   // @ts-ignore
   node = Object.assign(node, { ...typeConfigs[node.type] })
 })
@@ -93,7 +95,7 @@ onMounted(() => {
         label: '最合适岗位',
         size: 20,
         order: 0,
-        ...typeConfigs['job'],
+        ...typeConfigs.job,
       },
       {
         id: 'similar-job',
@@ -107,7 +109,7 @@ onMounted(() => {
         label: '技术栈',
         size: 10,
         order: 2,
-        ...typeConfigs['stack'],
+        ...typeConfigs.stack,
       },
     ],
   }

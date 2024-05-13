@@ -47,9 +47,13 @@ export function executeAfterImagesLoaded(callback: () => void): void {
 }
 
 export function initSmoothScrolling() {
-  if (typeof window === 'undefined') return
+  if (typeof window === 'undefined') {
+    return
+  }
   // @ts-ignore
-  if (window.lenis) return
+  if (window.lenis) {
+    return
+  }
   // @ts-ignore
   window.lenis = new Lenis({
     lerp: 0.1,

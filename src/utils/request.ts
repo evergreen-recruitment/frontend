@@ -52,7 +52,6 @@ const request = createAlova({
     if (!userStore.token) {
       message.error('请先登录')
       router.push('/auth/login')
-      return
     }
   },
   // 全局的响应拦截器

@@ -50,7 +50,9 @@ async function getSearchResult() {
   searchState.value.city = searchCity.value[1]
   searchState.value = { ...searchState.value, ...jobFilterData.value }
   const res = await jobSearchApi(searchState.value)
-  if (!res) return
+  if (!res) {
+    return
+  }
   if (searchState.value.keyword || searchState.value.jobStandardId) {
     showKnowledgeGraph.value = true
   } else {
@@ -88,7 +90,9 @@ const jobFilterWatch = watch(
 const routerPathWatch = watch(
   () => router.currentRoute.value.query,
   async (newVal) => {
-    if (router.currentRoute.value.name !== 'jobSearch') return
+    if (router.currentRoute.value.name !== 'jobSearch') {
+      return
+    }
     if (newVal?.keyword) {
       searchState.value.keyword = newVal?.keyword as string
     }

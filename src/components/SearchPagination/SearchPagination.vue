@@ -9,7 +9,7 @@ const props = defineProps<{
   containerRef: HTMLElement
 }>()
 const current = useVModel(props, 'currentPage', emit)
-let formatter = ref<(val: string) => string>((val: string) => {
+let formatter = ref<(val: string) => string>((val) => {
   // TODO 为什么maxPage更新时不会执行到这
   return `${val}/${props.maxPage}页`
 })

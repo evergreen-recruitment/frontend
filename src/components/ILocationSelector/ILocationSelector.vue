@@ -35,9 +35,13 @@ const filter: ShowSearchType['filter'] = (inputValue, path) => {
 }
 
 function onChange(_value: any, selectedOptions: any) {
-  if (!selectedOptions) return
+  if (!selectedOptions) {
+    return
+  }
   propsText.value = selectedOptions.map((o: any) => o.name).join(', ')
-  if (props.change) props.change()
+  if (props.change) {
+    props.change()
+  }
 }
 </script>
 

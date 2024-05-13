@@ -33,7 +33,9 @@ async function getSearchResult() {
   searchState.value.city = searchCity.value[1]
   searchState.value = { ...searchState.value, ...companyFilterData.value }
   const res = await companySearchApi(searchState.value)
-  if (!res) return
+  if (!res) {
+    return
+  }
   searchCompanyList.value = res?.records || []
   maxPage.value = res.pages
 }
@@ -67,7 +69,9 @@ const companyFilterWatch = watch(
 const routerPathWatch = watch(
   () => router.currentRoute.value.query,
   async (newVal) => {
-    if (router.currentRoute.value.name !== 'companySearch') return
+    if (router.currentRoute.value.name !== 'companySearch') {
+      return
+    }
     if (newVal?.keyword) {
       searchState.value.keyword = newVal?.keyword as string
     }
