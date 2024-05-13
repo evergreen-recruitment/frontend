@@ -237,6 +237,7 @@ function submitSearch() {
       transition: 0.4s;
 
       &:hover {
+        color: white;
         transform: scale(1.05);
         @include useTheme {
           background: rgba(getColor('primary'), 0.6);
@@ -246,6 +247,7 @@ function submitSearch() {
     }
 
     .active-nav-item {
+      color: white;
       @include useTheme {
         background: rgba(getColor('primary'), 0.6);
       }
