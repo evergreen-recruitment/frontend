@@ -218,6 +218,13 @@ export const jobDetailGuideState: any = reactive({
       target: () => document.querySelector('.job-detail__main .job-detail__company-info') as HTMLElement,
     },
     {
+      title: '岗位位置',
+      description: '这里是该岗位的工作位置显示',
+      placement: 'top',
+      // mask: false,
+      target: () => document.querySelector('.job-detail__main .job-detail__address') as HTMLElement,
+    },
+    {
       title: '相似岗位',
       description: '这里是相似的其他岗位列表，根据您的需求再选择其他岗位',
       placement: 'left',
