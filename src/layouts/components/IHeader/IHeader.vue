@@ -156,6 +156,9 @@ function submitSearch() {
             searchBarState.hover ? 'search-bar-hover' : '',
           ]"
         >
+          <div class="left-icon" @click="$router.push({ name: 'jobMapSearch' })">
+            <img src="@/assets/images/mapIcon.svg" />
+          </div>
           <a-input
             v-model:value="searchBarState.value"
             placeholder="请输入职位关键词"
@@ -165,7 +168,7 @@ function submitSearch() {
             @mouseleave="searchBarState.hover = false"
             @press-enter="submitSearch"
           />
-          <div class="icon" @click="submitSearch">
+          <div class="right-icon" @click="submitSearch">
             <Icon icon="SearchOutlined" :size="22" />
           </div>
         </div>
@@ -195,8 +198,9 @@ function submitSearch() {
 
 .i-header {
   --shadow-opacity: 0.1;
-  @apply sticky top-0 w-full h-[55px] flex items-center justify-between px-4 backdrop-blur-xl z-10 box-border;
+  @apply sticky top-0 w-full h-[55px] flex items-center justify-between px-4 z-10 box-border;
   box-shadow: 0 2px 8px 0 rgba(0, 0, 0, var(--shadow-opacity));
+  backdrop-filter: var(--backdrop-blur);
 
   @media screen and (max-width: 768px) {
     @apply px-1;
@@ -316,7 +320,7 @@ function submitSearch() {
       }
 
       .i-header__inner-center--search-bar {
-        @apply flex pr-2 justify-between items-center;
+        @apply flex pl-2 pr-2 justify-between items-center;
         border-radius: calc(var(--border-radius) * 1.2);
         transition: 0.4s;
         @include useTheme {
@@ -328,7 +332,18 @@ function submitSearch() {
           @apply text-lg outline-none border-0 shadow-none font-medium;
         }
 
-        .icon {
+        .left-icon {
+          @apply flex items-center justify-center cursor-pointer;
+          img {
+            height: 1.5em;
+            width: 1.5em;
+            @include useTheme {
+              filter: brightness(0.8);
+            }
+          }
+        }
+
+        .right-icon {
           @apply flex items-center justify-center cursor-pointer;
           @include useTheme {
             color: rgba(getModeVar('textColor'), 0.5);

@@ -1,11 +1,18 @@
 <script setup lang="ts">
 import { onUnmounted } from 'vue'
-import { isEmpty } from '@/utils/utils'
 
-const props = defineProps<{
-  longitude: number
-  latitude: number
-}>()
+const props = withDefaults(
+  defineProps<{
+    longitude: number
+    latitude: number
+    viewMode: '2D' | '3D'
+  }>(),
+  {
+    longitude: 116.333926,
+    latitude: 39.997245,
+    viewMode: '3D',
+  },
+)
 
 let map: any = null
 
@@ -27,20 +34,16 @@ onUnmounted(() => {
 <template>
   <div class="i-map">
     <el-amap
-      :center="[isEmpty(longitude) ? 116.333926 : longitude, isEmpty(latitude) ? 39.997245 : latitude]"
+      :center="[longitude, latitude]"
       :zoom="18"
       :zooms="[12, 19]"
       :pitch="50"
       :rotation="-15"
-      view-mode="3D"
+      :view-mode="viewMode"
       terrain
       @init="init"
     >
-      <el-amap-marker
-        :position="[isEmpty(longitude) ? 116.333926 : longitude, isEmpty(latitude) ? 39.997245 : latitude]"
-        :offset="[-10, -34]"
-        @click="clickMarker"
-      >
+      <el-amap-marker :position="[longitude, latitude]" :offset="[-10, -34]" @click="clickMarker">
         <div class="custom-content-marker">
           <img src="https://a.amap.com/jsapi/static/image/plugin/marker_red.png" />
         </div>

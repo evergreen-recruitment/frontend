@@ -241,6 +241,7 @@ const menuList = ref([
     @apply flex items-center space-x-2;
     .menu-btn {
       @apply flex items-center justify-center w-[35px] h-[35px] rounded-full cursor-pointer;
+      transition: transform 0.4s;
       @include useTheme {
         background: rgba(getColor('primary'), 0.4);
         box-shadow: 0 0 10px rgba(getColor('primary'), 0.4);
@@ -248,6 +249,9 @@ const menuList = ref([
           color: getColor('primary');
         } @else {
           color: #fff;
+        }
+        &:hover {
+          transform: scale(1.15);
         }
       }
     }

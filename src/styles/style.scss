@@ -2,6 +2,8 @@
 
 :root {
   --border-radius: 0px;
+  --blur-px: 40px;
+  --backdrop-blur: blur(var(--blur-px)) saturate(180%);
   --screen-width: 1280px;
   --min-screen-width: 1280px;
   --show-border-op: 0.5;
@@ -121,7 +123,8 @@ body {
   border-radius: var(--border-radius);
   @include useTheme {
     border: 2px solid rgba(getColor('primary'), var(--show-border-op));
-    background-color: getModeVar('cardBgColor');
+    background-color: rgba(getModeVar('cardBgColor'), 0.8);
+    backdrop-filter: var(--backdrop-blur);
     color: getModeVar('textColor');
     box-shadow: 0 0 10px 0 rgba(getColor('primary'), 0.6);
   }
@@ -130,7 +133,7 @@ body {
 // 对模态框进行通用设置
 .ant-modal-root {
   .i-page-header {
-    backdrop-filter: blur(10px) saturate(180%) !important;
+    backdrop-filter: var(--backdrop-blur) !important;
     background: transparent !important;
     border: none !important;
   }
@@ -147,7 +150,7 @@ body {
     @include useTheme {
       outline: 3px solid rgba(getModeVar('borderColor'), 0.9);
       background: rgba(getModeVar('cardBgColor'), 0.7);
-      backdrop-filter: blur(40px) saturate(180%);
+      backdrop-filter: var(--backdrop-blur);
       box-shadow:
         0 0 rgba(0, 0, 0, 0),
         0 0 rgba(0, 0, 0, 0),
@@ -244,7 +247,7 @@ body {
   .ant-dropdown-menu {
     @include useTheme {
       background: rgba(getModeVar('cardBgColor'), 0.7);
-      backdrop-filter: blur(40px) saturate(180%);
+      backdrop-filter: var(--backdrop-blur);
     }
   }
 }
@@ -253,7 +256,7 @@ body {
 .ant-select-dropdown {
   @include useTheme {
     background: rgba(getModeVar('cardBgColor'), 0.7);
-    backdrop-filter: blur(40px) saturate(180%);
+    backdrop-filter: var(--backdrop-blur);
   }
 }
 
@@ -263,7 +266,7 @@ body {
     .ant-popover-inner {
       @include useTheme {
         background: rgba(getModeVar('cardBgColor'), 0.7);
-        backdrop-filter: blur(40px) saturate(180%);
+        backdrop-filter: var(--backdrop-blur);
       }
     }
   }
@@ -274,7 +277,7 @@ body {
   .ant-message-notice-content {
     @include useTheme {
       background: rgba(getModeVar('cardBgColor'), 0.7);
-      backdrop-filter: blur(40px) saturate(180%);
+      backdrop-filter: var(--backdrop-blur);
     }
   }
 }
@@ -282,10 +285,6 @@ body {
 // 通知样式修改
 .ant-notification {
   .ant-notification-notice {
-    @include useTheme {
-      background: rgba(getModeVar('cardBgColor'), 0.7);
-      backdrop-filter: blur(40px) saturate(180%);
-    }
   }
 }
 
@@ -295,8 +294,36 @@ body {
     .ant-drawer-content {
       @include useTheme {
         background: rgba(getModeVar('cardBgColor'), 0.7);
-        backdrop-filter: blur(40px) saturate(180%);
+        backdrop-filter: var(--backdrop-blur);
       }
+    }
+  }
+}
+
+// 悬浮按钮样式修改
+.ant-float-btn-group {
+  @include useTheme {
+    @if (getMode() == 'dark') {
+      @apply text-white;
+      background: rgba((adjust-hue(hsl(0, 100%, 20%), hue(getColor('primary')))), 0.8);
+    } @else {
+      @apply text-gray-800;
+      background: rgba((adjust-hue(hsl(0, 100%, 70%), hue(getColor('primary')))), 0.8);
+    }
+    backdrop-filter: var(--backdrop-blur);
+  }
+
+  // 数字输入
+  .ant-input-number {
+    background: transparent;
+  }
+
+  // 按钮
+  .ant-float-btn {
+    background: transparent;
+
+    .ant-float-btn-body {
+      background: transparent;
     }
   }
 }

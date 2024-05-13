@@ -38,8 +38,8 @@ export default defineConfig(({ command, mode }) => {
       }),
       // 配置自动导导入
       AutoImport({
-        imports: ['vue', 'vue-router'],
-        resolvers: [VueAmapResolver()],
+        // imports: ['vue', 'vue-router'],
+        // resolvers: [VueAmapResolver()],
       }),
       // 配置自动导入组件
       Components({

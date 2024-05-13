@@ -242,6 +242,16 @@ export function getAsyncRouterMap(): IRouter[] {
       component: () => import('@/views/job/search/index.vue'),
     },
     {
+      name: 'jobMapSearch',
+      path: '/job/mapSearch',
+      meta: {
+        icon: 'SearchOutlined',
+        title: '地图搜索',
+        width: '100%',
+      },
+      component: () => import('@/views/job/mapSearch/index.vue'),
+    },
+    {
       name: 'jobDetail',
       path: '/job/detail',
       meta: {
