@@ -239,7 +239,18 @@
         .user-action {
           @apply grid grid-cols-2 grid-rows-2 gap-4;
           .action-item {
-            @apply flex items-center justify-center w-24 h-10 mx-2 text-base rounded-md cursor-pointer;
+            @apply flex items-center justify-center w-28 h-10 mx-2 text-base rounded-md box-border cursor-pointer;
+            border: 2px transparent solid;
+            transition: 0.4s;
+
+            &:hover {
+              transform: scale(1.05);
+              @include useTheme {
+                background: rgba(getColor('primary'), 0.6);
+                border: 2px rgba(getColor('primary'), 1) solid;
+              }
+            }
+
             span {
               @apply ml-2;
             }
@@ -448,5 +459,17 @@
         }
       }
     }
+  }
+}
+
+.ant-btn {
+  transition: all 0.3s;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+
+  &:active {
+    transform: scale(0.95);
   }
 }
