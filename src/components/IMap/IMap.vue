@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { onUnmounted } from 'vue'
+import { useAppStore } from '@/stores'
 
 const props = withDefaults(
   defineProps<{
-    longitude: number
-    latitude: number
-    viewMode: '2D' | '3D'
+    longitude?: number
+    latitude?: number
+    viewMode?: '2D' | '3D'
   }>(),
   {
     longitude: 116.333926,
@@ -13,6 +14,8 @@ const props = withDefaults(
     viewMode: '3D',
   },
 )
+
+const appStore = useAppStore()
 
 let map: any = null
 
@@ -40,6 +43,7 @@ onUnmounted(() => {
       :pitch="50"
       :rotation="-15"
       :view-mode="viewMode"
+      :map-style="appStore.darkMode === 'dark' ? 'amap://styles/dark' : 'amap://styles/normal'"
       terrain
       @init="init"
     >
