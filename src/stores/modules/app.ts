@@ -134,7 +134,7 @@ export const useAppStore = defineStore(
         }
       }
       if (screenWidth.value < minScreenWidthComp.value) {
-        const zoomValue = (screenWidth.value / minScreenWidthComp.value) * 100
+        const zoomValue = screenWidth.value / minScreenWidthComp.value * 100
         // @ts-ignore
         // body.style.zoom = `${zoomValue}% `
         document.documentElement.style.setProperty('--zoom', zoomValue)

@@ -240,16 +240,16 @@ function submitSearch() {
         color: white;
         transform: scale(1.05);
         @include useTheme {
-          background: rgba(getColor('primary'), 0.6);
+          background: rgba(getColor('primary'), 0.9);
           border: 2px rgba(getColor('primary'), 1) solid;
         }
       }
     }
 
     .active-nav-item {
-      color: white;
+      color: white !important;
       @include useTheme {
-        background: rgba(getColor('primary'), 0.6);
+        background: rgba(getColor('primary'), 0.9);
       }
     }
 

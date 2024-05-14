@@ -33,7 +33,7 @@ const props = defineProps({
 const propsCode = useVModel(props, 'code', emit)
 
 const editorRef = shallowRef()
-const handleMount = (editor: HTMLElement) => (editorRef.value = editor)
+const handleMount = (editor: HTMLElement) => editorRef.value = editor
 
 /**
  * 格式化代码

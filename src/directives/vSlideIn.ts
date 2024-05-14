@@ -48,7 +48,7 @@ export default {
         {
           filter: 'blur(10px)',
           opacity: 0,
-          transform: `translateY(${(binding && binding.value && binding.value.distance) || DISTANCE}px)`,
+          transform: `translateY(${binding && binding.value && binding.value.distance || DISTANCE}px)`,
         },
         {
           filter: 'blur(0)',
@@ -57,7 +57,7 @@ export default {
         },
       ],
       {
-        duration: (binding && binding.value && binding.value.duration) || DURATION,
+        duration: binding && binding.value && binding.value.duration || DURATION,
         easing: 'ease-in-out',
       },
     )
@@ -66,7 +66,7 @@ export default {
         {
           filter: 'blur(10px)',
           opacity: 0,
-          transform: `translateY(${-((binding && binding.value && binding.value.distance) || DISTANCE)}px)`,
+          transform: `translateY(${-(binding && binding.value && binding.value.distance || DISTANCE)}px)`,
         },
         {
           filter: 'blur(0)',
@@ -75,7 +75,7 @@ export default {
         },
       ],
       {
-        duration: (binding && binding.value && binding.value.duration) || DURATION,
+        duration: binding && binding.value && binding.value.duration || DURATION,
         easing: 'ease-in-out',
       },
     )

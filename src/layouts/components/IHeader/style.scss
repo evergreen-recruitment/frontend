@@ -1,22 +1,24 @@
 .ant-popover-inner-content {
   @apply flex items-center justify-center;
   .nav-item {
-    @apply px-2 py-1 text-sm transition-colors rounded-[var(--border-radius)] cursor-pointer;
-
-    @media screen and (max-width: 768px) {
-      @apply text-xs;
-    }
+    @apply px-2 py-1 text-xs mx-0.5 transition-colors rounded-[var(--border-radius)] box-border cursor-pointer;
+    border: 2px transparent solid;
+    transition: 0.4s;
 
     &:hover {
+      color: white;
+      transform: scale(1.05);
       @include useTheme {
-        background: rgba(getModeVar('infoColor'), 0.1);
+        background: rgba(getColor('primary'), 0.9);
+        border: 2px rgba(getColor('primary'), 1) solid;
       }
     }
   }
 
   .active-nav-item {
+    color: white !important;
     @include useTheme {
-      color: getColor('primary');
+      background: rgba(getColor('primary'), 0.9);
     }
   }
 }

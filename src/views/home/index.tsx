@@ -61,7 +61,7 @@ const HomeLeftPanel = defineComponent({
     onUnmounted(() => {
       clearInterval(jobNameInterval)
     })
-    return () => (
+    return () =>
       <div class="left-panel">
         <div class="title-panel">
           <div class="title">
@@ -90,7 +90,7 @@ const HomeLeftPanel = defineComponent({
             <br />
             所使用数据库涵盖{15840}+条岗位信息，为您推荐最适合的岗位
           </div>
-          {!userStateRef.value.isLogin && (
+          {!userStateRef.value.isLogin &&
             <div class="get-start">
               <button class="get-start-btn" onClick={() => router.push('/recommend')}>
                 登录以获取详细推荐信息
@@ -99,19 +99,19 @@ const HomeLeftPanel = defineComponent({
                 </div>
               </button>
             </div>
-          )}
+          }
         </div>
       </div>
-    )
+
   },
 })
 const HomeRightPanel = defineComponent({
   setup() {
-    return () => (
+    return () =>
       <div class="right-panel">
         <img src={getAssetsFile('images/bg1.svg')} alt="" />
       </div>
-    )
+
   },
 })
 
@@ -167,22 +167,22 @@ const HomeUserPanel = defineComponent({
   setup() {
     const knowledgeGraphData = ref()
     const notLoginOrDelivered = computed(() => !userStateRef.value.isLogin || !userStateRef.value.isUploadApplication)
-    return () => (
+    return () =>
       <div class="user-panel block-item">
         <div class="user-aside-outer">
           <div class="user-aside">
             <div class="user-info">
               <div class="avatar">
-                {userStore.userInfo?.avatar && (
+                {userStore.userInfo?.avatar &&
                   <Image src={userStore.userInfo?.avatar || getAssetsFile('images/default_avatar.png')} />
-                )}
+                }
                 {!userStore.userInfo?.avatar && <img src={getAssetsFile('images/logo.png')} />}
               </div>
               <div class="name">{userStore.userInfo?.realName || '常青招聘'}</div>
               <div class="desc">{userStore.userInfo?.email || '大学生智慧招聘平台'}</div>
             </div>
             <div class="user-action">
-              {userStateRef.value.isLogin && (
+              {userStateRef.value.isLogin &&
                 <>
                   <INavigator class="action-item" to={'/user/center'}>
                     <Icon icon="UserOutlined" />
@@ -203,8 +203,8 @@ const HomeUserPanel = defineComponent({
                     </INavigator>
                   </div>
                 </>
-              )}
-              {!userStateRef.value.isLogin && (
+              }
+              {!userStateRef.value.isLogin &&
                 <>
                   <INavigator class="action-item" to={'/auth/loginByCaptcha'}>
                     <Icon icon="UserOutlined" />
@@ -215,7 +215,7 @@ const HomeUserPanel = defineComponent({
                     <span>注册</span>
                   </INavigator>
                 </>
-              )}
+              }
             </div>
           </div>
         </div>
@@ -228,17 +228,17 @@ const HomeUserPanel = defineComponent({
           <div class="title">你最有概率投递的岗位(知识图谱分析)</div>
           <div class="sub-title">根据大数据和算法分析得出</div>
           <div class="graph-cot card">
-            {notLoginOrDelivered.value ? (
+            {notLoginOrDelivered.value ?
               <NotLoginTip isLogin={userStateRef.value.isLogin} delivered={userStateRef.value.isUploadApplication} />
-            ) : knowledgeGraphData.value ? (
+             : knowledgeGraphData.value ?
               <KnowledgeGraph class={'graph'} data={knowledgeGraphData.value} show-legend show-minimap />
-            ) : (
+             :
               <Spin size="large" tip={'云端算法计算中...'} />
-            )}
+            }
           </div>
         </div>
       </div>
-    )
+
   },
 })
 
@@ -275,7 +275,7 @@ const HomeJobRecommend = defineComponent({
       }
     }
 
-    return () => (
+    return () =>
       <div class="job-recommend block-item">
         <div class="title">岗位推荐</div>
         <div class="sub-title">通过人工智能分析推荐最适合你的岗位</div>
@@ -290,24 +290,24 @@ const HomeJobRecommend = defineComponent({
           {jobList.value.map((item) => {
             return (
               <TabPane key={item.id} tab={item.label}>
-                {item.list.length > 0 && (
+                {item.list.length > 0 &&
                   <div class="job-list">
                     {item.list.map((job) => {
                       return <JobCard key={job.id} job={job} />
                     })}
                   </div>
-                )}
-                {item.list.length === 0 && (
+                }
+                {item.list.length === 0 &&
                   <ICard>
                     <Skeleton paragraph={{ rows: 9 }} active />
                   </ICard>
-                )}
+                }
               </TabPane>
             )
           })}
         </Tabs>
       </div>
-    )
+
   },
 })
 
@@ -315,13 +315,13 @@ const HomeHotCompany = defineComponent({
   setup() {
     const hotCompanyList = ref<SimpleCompanyType[]>([])
 
-    return () => (
-      <div v-scroll={async () => (hotCompanyList.value = await getHotCompanyApi())} class="hot-company block-item">
+    return () =>
+      <div v-scroll={async () => hotCompanyList.value = await getHotCompanyApi()} class="hot-company block-item">
         <div class="title">热门公司</div>
         <div class="sub-title">最热门的互联网公司</div>
-        {hotCompanyList.value.length === 0 ? (
+        {hotCompanyList.value.length === 0 ?
           <Spin size="large" tip={'获取数据中...'} />
-        ) : (
+         :
           <div class="hot-company-list">
             <div class="line-odd">
               {hotCompanyList.value.slice(0, hotCompanyList.value.length / 2).map((company) => {
@@ -350,20 +350,20 @@ const HomeHotCompany = defineComponent({
               })}
             </div>
           </div>
-        )}
+        }
       </div>
-    )
+
   },
 })
 const HomeBottom = defineComponent({
   setup() {
-    return () => (
+    return () =>
       <div class="home-page-bottom">
         <HomeUserPanel />
         <HomeJobRecommend />
         <HomeHotCompany />
       </div>
-    )
+
   },
 })
 
@@ -387,13 +387,13 @@ export default defineComponent({
       window.removeEventListener('scroll', handleScroll)
     })
 
-    return () => (
+    return () =>
       <div class="home-page">
         <HomeTour />
         <HomeBackground />
         <HomeMask />
         <HomeBottom />
       </div>
-    )
+
   },
 })
