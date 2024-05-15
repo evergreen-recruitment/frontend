@@ -38,7 +38,7 @@ const props = defineProps({
 const propsOriginalCode = useVModel(props, 'originalCode', emit)
 const propsModifiedCode = useVModel(props, 'modifiedCode', emit)
 const diffEditorRef = shallowRef()
-const handleMount = (diffEditor: HTMLElement) => diffEditorRef.value = diffEditor
+const handleMount = (diffEditor: HTMLElement) => (diffEditorRef.value = diffEditor)
 
 // get the original value
 function getOriginalValue() {

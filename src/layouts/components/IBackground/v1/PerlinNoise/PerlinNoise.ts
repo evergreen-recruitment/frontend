@@ -99,9 +99,9 @@ export default class PerlinNoise {
         const alpha = 255
         let particleColor
         let fadeRatio
-        fadeRatio = p.min(this.particles[i].life * 5 / this.maxLife, 1)
-        fadeRatio = p.min((this.maxLife - this.particles[i].life) * 5 / this.maxLife, fadeRatio)
-        const lifeRatioGrayscale = p.min(255, 255 * this.particles[i].life / this.maxLife + p.red(backgroundColor))
+        fadeRatio = p.min((this.particles[i].life * 5) / this.maxLife, 1)
+        fadeRatio = p.min(((this.maxLife - this.particles[i].life) * 5) / this.maxLife, fadeRatio)
+        const lifeRatioGrayscale = p.min(255, (255 * this.particles[i].life) / this.maxLife + p.red(backgroundColor))
 
         if (this.options.ColorMode === 'Normal') {
           if (i % 3 === 0) {
@@ -149,7 +149,7 @@ export default class PerlinNoise {
         }
 
         if (this.options.ColorMode === 'Splice') {
-          if (this.particles[i].pos.x >= p.width / 3 && this.particles[i].pos.x <= p.width / 3 * 2) {
+          if (this.particles[i].pos.x >= p.width / 3 && this.particles[i].pos.x <= (p.width / 3) * 2) {
             if (i % 3 === 0) {
               particleColor = this.options.Color1
             }
@@ -169,7 +169,7 @@ export default class PerlinNoise {
             if (i % 3 === 2) {
               particleColor = p.color(220)
             }
-          } else if (this.particles[i].pos.x > p.width / 3 * 2) {
+          } else if (this.particles[i].pos.x > (p.width / 3) * 2) {
             if (i % 3 === 0) {
               particleColor = p.color(
                 255 - p.red(this.options.Color1),

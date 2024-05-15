@@ -8,6 +8,7 @@ import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import eslintPlugin from 'vite-plugin-eslint'
 import viteCompression from 'vite-plugin-compression'
+import vueCssModule from 'vite-plugin-vue-css-module'
 // import vsharp from 'vite-plugin-vsharp'
 import tailwindcss from 'tailwindcss'
 import autoprefixer from 'autoprefixer'
@@ -19,6 +20,7 @@ export default defineConfig(({ command, mode }) => {
     plugins: [
       vue(),
       vueJsx(),
+      vueCssModule(),
       eslintPlugin(),
       // 图片压缩
       // vsharp(),

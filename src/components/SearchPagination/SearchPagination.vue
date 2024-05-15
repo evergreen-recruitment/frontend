@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import {nextTick, onUnmounted, ref} from 'vue'
-import {useVModel} from '@vueuse/core'
+import { nextTick, onUnmounted, ref } from 'vue'
+import { useVModel } from '@vueuse/core'
 
 const emit = defineEmits(['search', 'update:currentPage'])
 const props = defineProps<{
@@ -73,31 +73,31 @@ function updatePosition() {
 
 <template>
   <a-float-button-group
-      v-if="maxPage !== 0"
-      class="page-btn"
-      shape="square"
-      style="position: absolute; top: 35%; height: fit-content"
+    v-if="maxPage !== 0"
+    class="page-btn"
+    shape="square"
+    style="position: absolute; top: 35%; height: fit-content"
   >
     <a-float-button @click="onNavClick(-1)">
       <template #icon>
-        <UpOutlined/>
+        <UpOutlined />
       </template>
     </a-float-button>
 
     <a-input-number
-        :value="current"
-        :formatter="formatter"
-        :parser="(val: string) => Number(val.split('/')[0])"
-        :min="1"
-        :max="maxPage"
-        @change="onCurrentChange"
-        :controls="false"
-        style=""
+      :value="current"
+      :formatter="formatter"
+      :parser="(val: string) => Number(val.split('/')[0])"
+      :min="1"
+      :max="maxPage"
+      @change="onCurrentChange"
+      :controls="false"
+      style=""
     />
 
     <a-float-button @click="onNavClick(+1)">
       <template #icon>
-        <DownOutlined/>
+        <DownOutlined />
       </template>
     </a-float-button>
   </a-float-button-group>

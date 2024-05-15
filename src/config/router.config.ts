@@ -201,7 +201,7 @@ export function getAsyncRouterMap(): IRouter[] {
         title: '首页',
         width: '100%',
       },
-      component: () => import('@/views/home/index.tsx'),
+      component: () => import('@/views/home/index.vue'),
     },
     {
       name: 'recommend',

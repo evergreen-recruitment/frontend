@@ -10,7 +10,7 @@ NProgress.configure({ showSpinner: false }) // 进度条配置
 
 let userStore: any = null
 
-nextTick(() => userStore = useUserStore())
+nextTick(() => (userStore = useUserStore()))
 
 router.beforeEach((to: any, from: any, next: any) => {
   NProgress.start()

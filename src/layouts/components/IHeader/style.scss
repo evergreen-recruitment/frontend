@@ -1,7 +1,7 @@
 .ant-popover-inner-content {
   @apply flex items-center justify-center;
   .nav-item {
-    @apply px-2 py-1 text-xs mx-0.5 transition-colors rounded-[var(--border-radius)] box-border cursor-pointer;
+    @apply px-2 py-1 sm:text-sm text-xs mx-0.5 transition-colors rounded-[var(--border-radius)] box-border cursor-pointer;
     border: 2px transparent solid;
     transition: 0.4s;
 

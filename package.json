@@ -79,6 +79,7 @@
     "vite-plugin-compression": "^0.5.1",
     "vite-plugin-eslint": "^1.8.1",
     "vite-plugin-vsharp": "^1.7.3",
+    "vite-plugin-vue-css-module": "^2.0.0",
     "vue-tsc": "^1.8.27"
   }
 }
