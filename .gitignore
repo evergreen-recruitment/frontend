@@ -31,4 +31,5 @@ coverage
 
 components.d.ts
 auto-imports.d.ts
+env.d.ts
 data.csv

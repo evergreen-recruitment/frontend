@@ -77,6 +77,7 @@
     "unplugin-vue-components": "^0.25.2",
     "vite": "^5.2.10",
     "vite-plugin-compression": "^0.5.1",
+    "vite-plugin-env-parse": "^1.0.13",
     "vite-plugin-eslint": "^1.8.1",
     "vite-plugin-vsharp": "^1.7.3",
     "vite-plugin-vue-css-module": "^2.0.0",
