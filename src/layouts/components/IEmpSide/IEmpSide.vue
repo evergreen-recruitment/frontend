@@ -25,7 +25,13 @@ const propsCollapsed = useVModel(props, 'collapsed', emit)
     <div v-if="showLogo" class="i-side__logo">
       <a href="/">
         <img
-          :src="collapsed ? getAssetsFile('images/logo.png') : getAssetsFile('images/logo-white.png')"
+          :src="
+            collapsed
+              ? getAssetsFile('images/logo.png')
+              : appStore.darkMode === 'dark'
+                ? getAssetsFile('images/logo1-white.png')
+                : getAssetsFile('images/logo1-black.png')
+          "
           :style="{ height: collapsed ? '40px' : '64px' }"
           alt=""
         />

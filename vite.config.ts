@@ -21,7 +21,9 @@ export default defineConfig(({ command, mode }) => {
     plugins: [
       vue(),
       vueJsx(),
-      vueCssModule(),
+      vueCssModule({
+        attrName: 'class',
+      }),
       eslintPlugin(),
       envParse(),
       // 图片压缩

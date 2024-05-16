@@ -53,7 +53,7 @@ const minWidthMarks = ref({
           <i-page-header sub-title="设置系统的在白天和晚上的展现模式，或者跟随系统" title="暗亮色模式" />
           <div class="setting-page__inner--dark-mode__content setting-item__content">
             <a-radio-group v-model:value="appStore.darkMode">
-              <a-radio value="auto">跟随系统</a-radio>
+              <!--<a-radio value="auto">跟随系统</a-radio>-->
               <a-radio value="light">白天模式</a-radio>
               <a-radio value="dark">夜间模式</a-radio>
             </a-radio-group>

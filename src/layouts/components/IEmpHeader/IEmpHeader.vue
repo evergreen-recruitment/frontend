@@ -68,7 +68,7 @@ const propsMenuCollapsed = useVModel(props, 'menuCollapsed', emit)
             </a-button>
             <template #overlay>
               <a-menu>
-                <a-menu-item key="0" @click="appStore.darkMode = 'auto'">{{ $t(`setting.theme.auto`) }}</a-menu-item>
+                <!--<a-menu-item key="0" @click="appStore.darkMode = 'auto'">{{ $t(`setting.theme.auto`) }}</a-menu-item>-->
                 <a-menu-item key="1" @click="appStore.darkMode = 'dark'">{{ $t(`setting.theme.dark`) }}</a-menu-item>
                 <a-menu-item key="2" @click="appStore.darkMode = 'light'">{{ $t(`setting.theme.light`) }}</a-menu-item>
                 <!--更多颜色 TODO 废弃-->

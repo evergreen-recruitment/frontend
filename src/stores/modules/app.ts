@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { computed, ref, watch } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import { theme } from 'ant-design-vue'
 import type { primaryColorEnumType } from '@/config/theme.config'
 import variables from '@/styles/variables.module.scss'
@@ -29,39 +29,28 @@ export const useAppStore = defineStore(
       return locale.value
     })
     // 颜色模式
-    const darkModeRef = ref<'auto' | 'dark' | 'light'>('light')
+    const darkModeRef = ref<'dark' | 'light'>('light')
     const darkModeQuery = window.matchMedia('(prefers-color-scheme: dark)') as MediaQueryList
 
     function handleDarkModeChange() {
-      darkModeRef.value = darkModeQuery.matches ? 'dark' : 'light'
-      document.documentElement.setAttribute('data-dark', darkModeRef.value)
+      darkMode.value = darkModeQuery.matches ? 'dark' : 'light'
     }
 
+    onMounted(() => {
+      handleDarkModeChange()
+    })
+    darkModeQuery.addEventListener('change', handleDarkModeChange)
     const darkMode = computed({
       get() {
-        if (darkModeRef.value === 'auto') {
-          document.documentElement.setAttribute('data-darkMode', 'auto')
-          handleDarkModeChange()
-          darkModeQuery.addEventListener('change', handleDarkModeChange)
-        }
+        document.documentElement.setAttribute('data-dark', darkModeRef.value)
         return darkModeRef.value
       },
       set(val) {
         darkModeRef.value = val
-        if (darkModeRef.value === 'auto') {
-          document.documentElement.setAttribute('data-darkMode', 'auto')
-        } else {
-          document.documentElement.removeAttribute('data-darkMode')
-          document.documentElement.setAttribute('data-dark', darkModeRef.value)
-        }
-        if (document.documentElement.getAttribute('data-darkMode') === 'auto') {
-          handleDarkModeChange()
-          darkModeQuery.addEventListener('change', handleDarkModeChange)
-        } else {
-          darkModeQuery.removeEventListener('change', handleDarkModeChange)
-        }
+        document.documentElement.setAttribute('data-dark', darkModeRef.value)
       },
     })
+
     // 主题名称
     const themeName = ref<primaryColorEnumType>('blue')
     // 主题配置
@@ -77,7 +66,7 @@ export const useAppStore = defineStore(
           colorWarning: '#ffb302',
           colorError: '#cf4444',
           colorInfo: variables[themeName.value] || '#27ba9b',
-          colorBgContainer: darkMode.value === 'light' ? '#fffff' : '#232323',
+          colorBgContainer: darkMode.value === 'light' ? '#ffffff' : '#232323',
           wireframe: true,
           borderRadius: borderRadius, // 直角风格
         },

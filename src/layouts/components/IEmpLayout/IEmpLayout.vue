@@ -37,7 +37,6 @@ const tabConfig = reactive({
     },
   },
 })
-console.log(tabConfig)
 
 /**
  * 将菜单列表转换为数组
@@ -261,10 +260,11 @@ onMounted(() => {
       </a-layout>
     </a-layout>
 
-    <!--移动端侧边栏 a-drawer-->
+    <!--移动端侧边栏 a-drawer 这里单独使用一个破坏性设置样式，但未找到其他合适方式 TODO-->
     <a-drawer
+      class="mobile-menu"
       v-model:open="menuConfig.openDrawer"
-      :body-style="{ padding: 0 }"
+      :body-style="{ padding: 0, background: appStore.darkMode === 'light' ? '#fff' : '' }"
       :closable="false"
       :width="menuConfig.sideWidth"
       placement="left"

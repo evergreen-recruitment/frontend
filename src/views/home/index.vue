@@ -16,7 +16,6 @@ import ICard from '@/components/ICard/ICard.vue'
 import JobCard from '@/components/JobCard/JobCard.vue'
 
 const style = useCssModule()
-console.log(style)
 const userStore = useUserStore()
 const userStateRef = ref(userStore.userState)
 const statusStore = useStatusStore()
@@ -400,7 +399,7 @@ onUnmounted(() => {
 })
 </script>
 <template>
-  <div cls="home-page">
+  <div class="home-page">
     <HomeTour />
     <HomeBackground />
     <HomeMask />
