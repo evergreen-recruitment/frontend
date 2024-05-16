@@ -154,10 +154,10 @@ body {
       box-shadow:
         0 0 rgba(0, 0, 0, 0),
         0 0 rgba(0, 0, 0, 0),
-        0 34px 50px -20px rgb(getModeVar('textColor'), 0.16),
-        0 32px 45px -12px rgb(getModeVar('textColor'), 0.14),
-        0 30px 40px -8px rgb(getModeVar('textColor'), 0.12),
-        inset 0 0 8px rgba(getModeVar('textColor'), 0.06);
+        0 34px 50px -20px rgb(getModeVar('boxShadowColor'), 0.16),
+        0 32px 45px -12px rgb(getModeVar('boxShadowColor'), 0.14),
+        0 30px 40px -8px rgb(getModeVar('boxShadowColor'), 0.12),
+        inset 0 0 8px rgba(getModeVar('boxShadowColor'), 0.06);
     }
 
     .ant-modal-content {

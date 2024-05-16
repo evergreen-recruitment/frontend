@@ -17,6 +17,8 @@
 
 .i-empauth-layout {
   @apply h-screen flex justify-center items-center;
+  background: url('@/assets/images/emp-bg.svg') no-repeat center center;
+  background-size: cover;
 
   @media screen and (max-width: 1280px) {
     //height: 100%;
@@ -33,7 +35,7 @@
       background: getModeVar('cardBgColor');
     }
     @include useTheme {
-      box-shadow: 0 0 10px rgba(getModeVar('infoColor'), 0.1);
+      box-shadow: 0 0 10px rgba(getModeVar('boxShadowColor'), 0.1);
     }
 
     @media screen and (max-width: 1280px) {

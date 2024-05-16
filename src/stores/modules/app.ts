@@ -77,6 +77,7 @@ export const useAppStore = defineStore(
           colorWarning: '#ffb302',
           colorError: '#cf4444',
           colorInfo: variables[themeName.value] || '#27ba9b',
+          colorBgContainer: darkMode.value === 'light' ? '#fffff' : '#232323',
           wireframe: true,
           borderRadius: borderRadius, // 直角风格
         },
