@@ -190,6 +190,9 @@ devDependencies:
   vite-plugin-eslint:
     specifier: ^1.8.1
     version: 1.8.1(eslint@8.57.0)(vite@5.2.10)
+  vite-plugin-progress:
+    specifier: ^0.0.7
+    version: registry.npmmirror.com/vite-plugin-progress@0.0.7(vite@5.2.10)
   vite-plugin-vsharp:
     specifier: ^1.7.3
     version: 1.7.3(vite@5.2.10)
@@ -6581,6 +6584,12 @@ packages:
     dev: true
     optional: true
 
+  registry.npmmirror.com/@types/node@10.17.60:
+    resolution: {integrity: sha512-F0KIgDJfy2nA3zMLmWGKxcH2ZVEtCZXHHdOQs2gSaQ27+lNeEfGxzkIw90aXswATX7AZ33tahPbzy6KAfUreVw==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/node/-/node-10.17.60.tgz}
+    name: '@types/node'
+    version: 10.17.60
+    dev: true
+
   registry.npmmirror.com/@vue/compiler-core@3.4.23:
     resolution: {integrity: sha512-HAFmuVEwNqNdmk+w4VCQ2pkLk1Vw4XYiiyxEp3z/xvl14aLTUBw2OfVH3vBcx+FtGsynQLkkhK410Nah1N2yyQ==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@vue/compiler-core/-/compiler-core-3.4.23.tgz}
     name: '@vue/compiler-core'
@@ -7297,6 +7306,13 @@ packages:
       picocolors: registry.npmmirror.com/picocolors@1.0.0
       source-map-js: registry.npmmirror.com/source-map-js@1.2.0
 
+  registry.npmmirror.com/progress@2.0.3:
+    resolution: {integrity: sha512-7PiHtLll5LdnKIMw100I+8xJXR5gW2QwWYkT6iJva0bXitZKa/XMrSbdmg3r2Xnaidz9Qumd0VPaMrZlF9V9sA==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/progress/-/progress-2.0.3.tgz}
+    name: progress
+    version: 2.0.3
+    engines: {node: '>=0.4.0'}
+    dev: true
+
   registry.npmmirror.com/pug-attrs@2.0.4:
     resolution: {integrity: sha512-TaZ4Z2TWUPDJcV3wjU3RtUXMrd3kM4Wzjbe3EWnSsZPsJ3LDI0F3yCnf2/W7PPFF+edUFQ0HgDL1IoxSz5K8EQ==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/pug-attrs/-/pug-attrs-2.0.4.tgz}
     name: pug-attrs
@@ -7384,6 +7400,14 @@ packages:
     requiresBuild: true
     dev: true
     optional: true
+
+  registry.npmmirror.com/rd@2.0.1:
+    resolution: {integrity: sha512-/XdKU4UazUZTXFmI0dpABt8jSXPWcEyaGdk340KdHnsEOdkTctlX23aAK7ChQDn39YGNlAJr1M5uvaKt4QnpNw==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/rd/-/rd-2.0.1.tgz}
+    name: rd
+    version: 2.0.1
+    dependencies:
+      '@types/node': registry.npmmirror.com/@types/node@10.17.60
+    dev: true
 
   registry.npmmirror.com/readdirp@3.6.0:
     resolution: {integrity: sha512-hOS089on8RduqdbhvQ5Z37A0ESjsqz6qnRcffsMU3495FuTdqSm+7bhJ29JvIOsBDEEnan5DPu9t3To9VRlMzA==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/readdirp/-/readdirp-3.6.0.tgz}
@@ -7530,6 +7554,21 @@ packages:
     peerDependencies:
       vite: '*'
     dependencies:
+      vite: 5.2.10(@types/node@18.19.31)(sass@1.75.0)(terser@5.30.3)
+    dev: true
+
+  registry.npmmirror.com/vite-plugin-progress@0.0.7(vite@5.2.10):
+    resolution: {integrity: sha512-zyvKdcc/X+6hnw3J1HVV1TKrlFKC4Rh8GnDnWG/2qhRXjqytTcM++xZ+SAPnoDsSyWl8O93ymK0wZRgHAoglEQ==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/vite-plugin-progress/-/vite-plugin-progress-0.0.7.tgz}
+    id: registry.npmmirror.com/vite-plugin-progress/0.0.7
+    name: vite-plugin-progress
+    version: 0.0.7
+    engines: {node: '>=14', pnpm: '>=7.0.0'}
+    peerDependencies:
+      vite: '>2.0.0-0'
+    dependencies:
+      picocolors: registry.npmmirror.com/picocolors@1.0.0
+      progress: registry.npmmirror.com/progress@2.0.3
+      rd: registry.npmmirror.com/rd@2.0.1
       vite: 5.2.10(@types/node@18.19.31)(sass@1.75.0)(terser@5.30.3)
     dev: true
 

@@ -14,11 +14,13 @@ import { envParse } from 'vite-plugin-env-parse'
 import tailwindcss from 'tailwindcss'
 import autoprefixer from 'autoprefixer'
 import { VueAmapResolver } from '@vuemap/unplugin-resolver'
+import progress from 'vite-plugin-progress'
 // https://vitejs.dev/config/
 export default defineConfig(({ command, mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
   return {
     plugins: [
+      progress(),
       vue(),
       vueJsx(),
       vueCssModule({
