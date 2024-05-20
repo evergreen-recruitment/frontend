@@ -2,7 +2,7 @@
 import { useAppStore } from '@/stores'
 import variables from '@/styles/variables.module.scss'
 import type { SimpleJobItemType } from '@/apis/job'
-import { formatDateStr } from '../../utils/utils'
+import { formatDateStr } from '@/utils/utils'
 
 defineProps<{
   job: SimpleJobItemType

@@ -11,6 +11,11 @@ const statusStore = useStatusStore()
 const searchInputRef = ref()
 const searchCity = ref(statusStore.city.code)
 const maxPage = ref(0)
+const searchBarState = ref({
+  value: '',
+  focus: false,
+  hover: false,
+})
 const searchState = ref<CompanySearchFormType>({
   keyword: '',
   city: statusStore.city.code[1],
@@ -136,24 +141,53 @@ onUnmounted(() => {
   <div class="search-page">
     <div class="search-panel">
       <div class="search-panel__inner">
-        <div class="job-search-bar">
+        <div class="company-search-bar">
           <div class="title">搜索公司</div>
-          <div class="search">
-            <a-input-group compact size="large" style="display: flex">
+          <!--<div class="search">-->
+          <!--  <a-input-group compact size="large" style="display: flex">-->
+          <!--    <i-location-selector-->
+          <!--      class="location-selector"-->
+          <!--      v-model:value="searchCity"-->
+          <!--      :change="submit"-->
+          <!--      add-nationwide-->
+          <!--    />-->
+          <!--    <a-input-search-->
+          <!--      ref="searchInputRef"-->
+          <!--      v-model:value="searchState.keyword"-->
+          <!--      placeholder="请输入公司关键词"-->
+          <!--      enter-button="搜索"-->
+          <!--      @search="submit"-->
+          <!--    />-->
+          <!--  </a-input-group>-->
+          <!--</div>-->
+          <div
+            :class="[
+              'search-bar',
+              searchBarState.focus ? 'search-bar-focus' : '',
+              searchBarState.hover ? 'search-bar-hover' : '',
+            ]"
+          >
+            <div class="left-icon">
               <i-location-selector
                 class="location-selector"
                 v-model:value="searchCity"
                 :change="submit"
                 add-nationwide
               />
-              <a-input-search
-                ref="searchInputRef"
-                v-model:value="searchState.keyword"
-                placeholder="请输入公司关键词"
-                enter-button="搜索"
-                @search="submit"
-              />
-            </a-input-group>
+            </div>
+            <a-input
+              ref="searchInputRef"
+              v-model:value="searchState.keyword"
+              placeholder="请输入职位关键词"
+              @focus="searchBarState.focus = true"
+              @blur="searchBarState.focus = false"
+              @mouseenter="searchBarState.hover = true"
+              @mouseleave="searchBarState.hover = false"
+              @press-enter="submit"
+            />
+            <div class="right-icon" @click="submit">
+              <Icon icon="SearchOutlined" :size="22" />
+            </div>
           </div>
         </div>
         <div class="city-list">
@@ -203,7 +237,7 @@ onUnmounted(() => {
 
     .search-panel__inner {
       @apply max-w-[var(--min-screen-width)] w-full mx-auto;
-      .job-search-bar {
+      .company-search-bar {
         @apply w-full;
 
         .title {
@@ -213,8 +247,43 @@ onUnmounted(() => {
           }
         }
 
-        .search {
-          @apply w-full max-w-[var(--min-screen-width)] flex justify-center items-center;
+        @include useTheme {
+          .search-bar-hover {
+            box-shadow: 0 0 0 0.15vw rgba(getColor('primary'), 0.186) !important;
+          }
+
+          .search-bar-focus {
+            box-shadow: 0 0 0 0.15vw getColor('primary') !important;
+            transform: scale(1.01);
+          }
+        }
+
+        .search-bar {
+          @apply flex pl-2 pr-2 justify-between items-center;
+          border-radius: calc(var(--border-radius) * 1.2);
+          transition: 0.4s;
+          @include useTheme {
+            box-shadow: 0 0 0 0.1vw rgba(getModeVar('textColor'), 0.186);
+            background-color: getModeVar('cardBgColor');
+          }
+
+          .ant-input {
+            @apply text-lg outline-none border-0 shadow-none font-medium;
+          }
+
+          .left-icon {
+            @apply flex items-center justify-center cursor-pointer;
+            :deep(.ant-select-selector) {
+              border: none;
+            }
+          }
+
+          .right-icon {
+            @apply flex items-center justify-center cursor-pointer;
+            @include useTheme {
+              color: rgba(getModeVar('textColor'), 0.5);
+            }
+          }
         }
       }
 
