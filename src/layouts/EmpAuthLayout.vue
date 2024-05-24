@@ -17,7 +17,7 @@
 
 .i-empauth-layout {
   @apply h-screen flex justify-center items-center;
-  background: url('@/assets/images/emp-bg.svg') no-repeat center center;
+  background: url('@/assets/images/emp-login-bg.png') no-repeat center center;
   background-size: cover;
 
   @media screen and (max-width: 1280px) {
