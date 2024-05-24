@@ -10,7 +10,8 @@ const props = defineProps<{
 }>()
 
 const appStore = useAppStore()
-onMounted(() => {})
+onMounted(() => {
+})
 </script>
 
 <template>
@@ -31,7 +32,7 @@ onMounted(() => {})
 @import '@/styles/theme.scss';
 
 .job-card {
-  @apply rounded-[var(--border-radius)] shadow-lg cursor-pointer;
+  @apply rounded-[var(--border-radius)] shadow-lg cursor-pointer min-w-[240px] max-w-[350px];
 
   @include useTheme {
     border: 1px solid getModeVar('borderColor');
