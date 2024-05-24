@@ -143,23 +143,6 @@ onUnmounted(() => {
       <div class="search-panel__inner">
         <div class="company-search-bar">
           <div class="title">搜索公司</div>
-          <!--<div class="search">-->
-          <!--  <a-input-group compact size="large" style="display: flex">-->
-          <!--    <i-location-selector-->
-          <!--      class="location-selector"-->
-          <!--      v-model:value="searchCity"-->
-          <!--      :change="submit"-->
-          <!--      add-nationwide-->
-          <!--    />-->
-          <!--    <a-input-search-->
-          <!--      ref="searchInputRef"-->
-          <!--      v-model:value="searchState.keyword"-->
-          <!--      placeholder="请输入公司关键词"-->
-          <!--      enter-button="搜索"-->
-          <!--      @search="submit"-->
-          <!--    />-->
-          <!--  </a-input-group>-->
-          <!--</div>-->
           <div
             :class="[
               'search-bar',

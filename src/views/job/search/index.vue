@@ -131,11 +131,27 @@ const routerPathWatch = watch(
     immediate: true,
   },
 )
+
+function collapseSearchPanel() {
+  // 当页面滚动超过55px时将job-detail__banner固定在顶部 添加collapse-banner类名 当页面滚动小于55px时移除collapse-banner类名
+  const searchPanel = document.querySelector('.search-panel') as HTMLElement
+  if (searchPanel) {
+    if (window.scrollY > 55) {
+      searchPanel.classList.add('collapse-search-panel')
+    } else {
+      searchPanel.classList.remove('collapse-search-panel')
+    }
+  }
+}
+
 onMounted(async () => {
+  window.addEventListener('scroll', collapseSearchPanel)
   knowledgeGraphData.value = await getHomeKnowledgeGraphApi()
   hotCities.value = statusStore.hotCities
 })
+
 onUnmounted(() => {
+  window.removeEventListener('scroll', collapseSearchPanel)
   jobFilterWatch()
   routerPathWatch()
 })
@@ -151,46 +167,53 @@ onUnmounted(() => {
       @close="jobSearchPageGuideState.open = false"
     />
     <div class="search-panel card">
-      <div class="job-search-bar">
-        <div class="title">搜索岗位</div>
-        <div
-          :class="[
-            'search-bar',
-            searchBarState.focus ? 'search-bar-focus' : '',
-            searchBarState.hover ? 'search-bar-hover' : '',
-          ]"
-        >
-          <div class="left-icon">
-            <i-location-selector class="location-selector" v-model:value="searchCity" :change="submit" add-nationwide />
-          </div>
-          <a-input
-            ref="searchInputRef"
-            v-model:value="searchState.keyword"
-            placeholder="请输入职位关键词"
-            @focus="searchBarState.focus = true"
-            @blur="searchBarState.focus = false"
-            @mouseenter="searchBarState.hover = true"
-            @mouseleave="searchBarState.hover = false"
-            @press-enter="submit"
-          />
-          <div class="right-icon" @click="submit">
-            <Icon icon="SearchOutlined" :size="22" />
+      <div class="search-panel__inner">
+        <div class="job-search-bar">
+          <div class="title">搜索岗位</div>
+          <div
+            :class="[
+              'search-bar',
+              searchBarState.focus ? 'search-bar-focus' : '',
+              searchBarState.hover ? 'search-bar-hover' : '',
+            ]"
+          >
+            <div class="left-icon">
+              <i-location-selector
+                class="location-selector"
+                v-model:value="searchCity"
+                :change="submit"
+                add-nationwide
+              />
+            </div>
+            <a-input
+              ref="searchInputRef"
+              v-model:value="searchState.keyword"
+              placeholder="请输入职位关键词"
+              @focus="searchBarState.focus = true"
+              @blur="searchBarState.focus = false"
+              @mouseenter="searchBarState.hover = true"
+              @mouseleave="searchBarState.hover = false"
+              @press-enter="submit"
+            />
+            <div class="right-icon" @click="submit">
+              <Icon icon="SearchOutlined" :size="22" />
+            </div>
           </div>
         </div>
-      </div>
-      <div class="city-list">
-        <router-link
-          v-for="c in hotCities"
-          :key="c.code"
-          :to="{ name: 'jobSearch', query: { ...$router.currentRoute.value.query, city: c.code } }"
-          class="city"
-        >
-          {{ c.name }}
-        </router-link>
-        <router-link class="city" to="/job/search">其他城市</router-link>
-      </div>
-      <div class="filter-panel block-item">
-        <job-search-filter v-model:job-filter-data="jobFilterData" />
+        <div class="city-list">
+          <router-link
+            v-for="c in hotCities"
+            :key="c.code"
+            :to="{ name: 'jobSearch', query: { ...$router.currentRoute.value.query, city: c.code } }"
+            class="city"
+          >
+            {{ c.name }}
+          </router-link>
+          <router-link class="city" to="/job/search">其他城市</router-link>
+        </div>
+        <div class="filter-panel block-item">
+          <job-search-filter v-model:job-filter-data="jobFilterData" />
+        </div>
       </div>
     </div>
 
@@ -245,67 +268,75 @@ onUnmounted(() => {
     @apply text-lg font-bold;
   }
 
-  .search-panel {
-    @apply mt-10 mx-auto p-5 pb-10 rounded-[var(--border-radius)] shadow-lg;
+  .collapse-search-panel {
+    @apply sticky w-full z-10;
+    top: 0 !important;
+  }
 
+  .search-panel {
+    @apply sticky top-[55px] w-full mx-auto p-5 pb-10 z-10 box-border;
+    transition: top 0.3s;
     @include useTheme {
       background-color: getModeVar('cardBgColor');
     }
 
-    .job-search-bar {
-      @apply w-full;
+    .search-panel__inner {
+      @apply max-w-[var(--min-screen-width)] w-full mx-auto;
+      .job-search-bar {
+        @apply w-full;
 
-      .title {
-        @apply text-white text-3xl font-bold text-center mb-5;
-        @include useTheme {
-          color: getModeVar('textColor');
-        }
-      }
-
-      @include useTheme {
-        .search-bar-hover {
-          box-shadow: 0 0 0 0.15vw rgba(getColor('primary'), 0.186) !important;
-        }
-
-        .search-bar-focus {
-          box-shadow: 0 0 0 0.15vw getColor('primary') !important;
-          transform: scale(1.01);
-        }
-      }
-
-      .search-bar {
-        @apply flex pl-2 pr-2 justify-between items-center;
-        border-radius: calc(var(--border-radius) * 1.2);
-        transition: 0.4s;
-        @include useTheme {
-          box-shadow: 0 0 0 0.1vw rgba(getModeVar('textColor'), 0.186);
-          background-color: getModeVar('cardBgColor');
-        }
-
-        .ant-input {
-          @apply text-lg outline-none border-0 shadow-none font-medium;
-        }
-
-        .left-icon {
-          @apply flex items-center justify-center cursor-pointer;
-          :deep(.ant-select-selector) {
-            border: none;
-          }
-        }
-
-        .right-icon {
-          @apply flex items-center justify-center cursor-pointer;
+        .title {
+          @apply text-white text-3xl font-bold text-center mb-5;
           @include useTheme {
-            color: rgba(getModeVar('textColor'), 0.5);
+            color: getModeVar('textColor');
+          }
+        }
+
+        @include useTheme {
+          .search-bar-hover {
+            box-shadow: 0 0 0 0.15vw rgba(getColor('primary'), 0.186) !important;
+          }
+
+          .search-bar-focus {
+            box-shadow: 0 0 0 0.15vw getColor('primary') !important;
+            transform: scale(1.01);
+          }
+        }
+
+        .search-bar {
+          @apply flex pl-2 pr-2 justify-between items-center;
+          border-radius: calc(var(--border-radius) * 1.2);
+          transition: 0.4s;
+          @include useTheme {
+            box-shadow: 0 0 0 0.1vw rgba(getModeVar('textColor'), 0.186);
+            background-color: getModeVar('cardBgColor');
+          }
+
+          .ant-input {
+            @apply text-lg outline-none border-0 shadow-none font-medium;
+          }
+
+          .left-icon {
+            @apply flex items-center justify-center cursor-pointer;
+            :deep(.ant-select-selector) {
+              border: none;
+            }
+          }
+
+          .right-icon {
+            @apply flex items-center justify-center cursor-pointer;
+            @include useTheme {
+              color: rgba(getModeVar('textColor'), 0.5);
+            }
           }
         }
       }
-    }
 
-    .city-list {
-      @apply my-5 flex items-center justify-items-start;
-      .city {
-        @apply mx-2;
+      .city-list {
+        @apply my-5 flex items-center justify-items-start;
+        .city {
+          @apply mx-2;
+        }
       }
     }
   }
@@ -315,7 +346,8 @@ onUnmounted(() => {
   }
 
   .job {
-    @apply flex;
+    @apply flex justify-between w-full max-w-[min(100%,var(--min-screen-width))] mx-auto mt-1;
+
     .graph-cot {
       @apply w-full h-[300px] mb-7 rounded-[var(--border-radius)] shadow-md;
 

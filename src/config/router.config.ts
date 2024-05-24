@@ -237,7 +237,8 @@ export function getAsyncRouterMap(): IRouter[] {
       path: '/job/search',
       meta: {
         icon: 'SearchOutlined',
-        title: '搜索',
+        width: '100%',
+        title: '岗位搜索',
       },
       component: () => import('@/views/job/search/index.vue'),
     },
