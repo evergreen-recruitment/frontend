@@ -10,8 +10,7 @@ const props = defineProps<{
 }>()
 
 const appStore = useAppStore()
-onMounted(() => {
-})
+onMounted(() => {})
 </script>
 
 <template>
