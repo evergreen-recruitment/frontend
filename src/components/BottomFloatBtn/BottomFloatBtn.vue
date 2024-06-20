@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup lang="tsx">
 import { ref } from 'vue'
 import { useAppStore } from '@/stores'
 
@@ -10,9 +10,9 @@ const appStore = useAppStore()
 
 const radiusMarks = ref({
   0: '0px',
+  4: '4px',
   7: '7px',
-  14: '14px',
-  20: '20px',
+  12: '12px',
 })
 
 const max = ref(1400)
@@ -62,7 +62,7 @@ const minWidthMarks = ref({
         <div class="setting-page__inner--radius">
           <i-page-header sub-title="设置系统的圆角大小" title="圆角设置" />
           <div class="setting-page__inner--radius__content setting-item__content">
-            <a-slider v-model:value="appStore.borderRadius" :marks="radiusMarks" :max="20" :min="0" />
+            <a-slider v-model:value="appStore.borderRadius" :marks="radiusMarks" :max="12" :min="0" />
           </div>
         </div>
         <div class="setting-page__inner--animation">
