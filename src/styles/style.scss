@@ -3,7 +3,7 @@
 :root {
   --border-radius: 0px;
   --blur-px: 40px;
-  --backdrop-blur: blur(var(--blur-px)) saturate(180%);
+  --backdrop-blur: blur(var(--blur-px)) saturate(180%) brightness(0.7);
   --screen-width: 1280px;
   --min-screen-width: 1280px;
   --show-border-op: 0.5;
