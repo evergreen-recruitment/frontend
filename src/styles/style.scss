@@ -3,7 +3,7 @@
 :root {
   --border-radius: 0px;
   --blur-px: 40px;
-  --backdrop-blur: blur(var(--blur-px)) saturate(180%) brightness(0.7);
+  --backdrop-blur: blur(var(--blur-px)) saturate(180%);
   --screen-width: 1280px;
   --min-screen-width: 1280px;
   --show-border-op: 0.5;
@@ -31,9 +31,8 @@ body {
 body {
   @apply relative overflow-x-hidden;
   width: 100%;
-  transition:
-    background-color 0.3s,
-    color 0.3s;
+  transition: background-color 0.3s,
+  color 0.3s;
   //transform-style: preserve-3d; // 不能设置这个 否则导致 fixed 定位失效
   //perspective: 1000px;
   @include useTheme {
@@ -149,22 +148,24 @@ body {
   .ant-modal {
     @include useTheme {
       outline: 3px solid rgba(getModeVar('borderColor'), 0.9);
-      background: rgba(getModeVar('cardBgColor'), 0.7);
+      background: rgba(getModeVar('modalBgColor'), 0.7);
       backdrop-filter: var(--backdrop-blur);
-      box-shadow:
-        0 0 rgba(0, 0, 0, 0),
-        0 0 rgba(0, 0, 0, 0),
-        0 34px 50px -20px rgb(getModeVar('boxShadowColor'), 0.16),
-        0 32px 45px -12px rgb(getModeVar('boxShadowColor'), 0.14),
-        0 30px 40px -8px rgb(getModeVar('boxShadowColor'), 0.12),
-        inset 0 0 8px rgba(getModeVar('boxShadowColor'), 0.06);
+      box-shadow: 0 0 rgba(0, 0, 0, 0),
+      0 0 rgba(0, 0, 0, 0),
+      0 34px 50px -20px rgb(getModeVar('boxShadowColor'), 0.16),
+      0 32px 45px -12px rgb(getModeVar('boxShadowColor'), 0.14),
+      0 30px 40px -8px rgb(getModeVar('boxShadowColor'), 0.12),
+      inset 0 0 8px rgba(getModeVar('boxShadowColor'), 0.06);
     }
 
     .ant-modal-content {
       background: transparent;
 
       .ant-modal-header {
-        background: transparent;
+        @apply absolute top-0 z-10 w-full;
+        @include useTheme {
+          background: linear-gradient(getModeVar('modalBgColor') 20px, transparent 100%);
+        }
         border: none;
 
         .ant-modal-title {
@@ -221,13 +222,14 @@ body {
   }
 
   .ant-modal-content {
+    position: relative;
     border-radius: calc(var(--border-radius) * 2.2) !important;
     @media screen and (max-width: 768px) {
       border-radius: 0 !important;
     }
 
     .ant-modal-body {
-      height: 80vh !important;
+      height: 85vh !important;
 
       @media screen and (max-width: 768px) {
         height: 100vh !important;

@@ -206,7 +206,7 @@ const minWidthMarks = ref({
 
     .ant-list {
       @include useTheme {
-        background: getModeVar('cardBgColor');
+        background: rgba(getModeVar('cardBgColor'), 0.7);
       }
 
       :deep(.ant-list-item-action) {
