@@ -172,7 +172,9 @@ body {
           @apply text-2xl;
         }
       }
-
+      .ant-modal-body {
+        padding: 45px 0 0 0 !important;
+      }
       .ant-page-header-heading-title {
         @apply text-base;
       }
